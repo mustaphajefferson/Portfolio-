@@ -6,7 +6,7 @@
 <title>Portfolio spirale</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap">
 <style>
 /* Layout : scène 3D plein écran ; interface fixée aux quatre coins + centre haut ; menu qui naît du bouton */
 /* Deux couleurs : crème #f8f3e3 et charbon (noir à 85 % sur la crème = #252422). Les projets portent la couleur. */
@@ -217,7 +217,7 @@ a{color:inherit;text-decoration:none}
 .ab-me__right{display:flex;flex-direction:column;gap:22px;align-items:flex-start;min-width:0}
 .ab-me__right .ab-phrase{display:flex;flex-direction:column;gap:.75em;font-size:clamp(19px,1.85vw,31px);line-height:1.26;letter-spacing:-.025em;max-width:none}
 .ab-me__right .ab-phrase p{margin:0}
-.ab-phrase .w.k{font-weight:600}
+.ab-phrase .w.k{font-weight:700;letter-spacing:-.03em}
 @media (max-width:760px){
   .ab-me{height:auto}
   .ab-me__sticky{position:static;height:auto;grid-template-columns:1fr;padding-block:calc(var(--top) + 90px) 40px}
@@ -300,7 +300,50 @@ a{color:inherit;text-decoration:none}
 .chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
 .chips li{font-size:15px;font-weight:500;padding:9px 16px;border-radius:999px;border:1px solid var(--line-strong)}
 
-.ab-soft{padding-block:110px 40px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(20px,4vw,60px);align-items:start}
+.ab-soft{padding-block:110px 40px;display:flex;flex-direction:column;gap:28px}
+.apps{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:14px}
+.apps li{display:flex;flex-direction:column;align-items:center;gap:10px;width:96px;cursor:default}
+.app{width:72px;height:72px;border-radius:18px;background:var(--fg);color:var(--bg);display:grid;place-items:center;font-size:26px;font-weight:600;letter-spacing:-.03em;transition:translate .5s var(--ease-out),rotate .5s var(--ease-out),border-radius .5s var(--ease-out);box-shadow:0 10px 24px var(--shadow)}
+.apps li:nth-child(odd):hover .app{translate:0 -8px;rotate:-6deg}
+.apps li:nth-child(even):hover .app{translate:0 -8px;rotate:6deg}
+.apps li:hover .app{border-radius:24px}
+.app__n{font-size:13px;font-weight:500;text-align:center}
+.layers{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,3vw,40px);align-items:stretch}
+.layers__panel{background:var(--pill);color:var(--ink);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.layers__head{display:flex;justify-content:space-between;align-items:center;padding:4px 6px 8px;font-size:11.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim)}
+.layers__head button{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim);transition:color .25s}
+.layers__head button:hover{color:var(--ink)}
+.layers__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.ly-row{display:grid;grid-template-columns:32px 26px minmax(0,1fr);align-items:center;gap:6px;padding:10px 8px;border-radius:10px;cursor:pointer;transition:background .25s,opacity .3s}
+.ly-row:hover,.ly-row.is-cur{background:var(--soft)}
+.ly-row.is-off{opacity:.42}
+.ly-eye{width:28px;height:28px;border-radius:8px;display:grid;place-items:center}
+.ly-eye svg{width:18px;height:18px;fill:none;stroke:var(--ink);stroke-width:1.6}
+.ly-row.is-off .ly-eye .pupil{opacity:0}
+.ly-row.is-off .ly-eye .slash{opacity:1}
+.ly-eye .slash{opacity:0}
+.ly-num{font-size:12px;color:var(--ink-dim);font-variant-numeric:tabular-nums}
+.ly-name{font-size:15px;font-weight:500;letter-spacing:-.01em;line-height:1.3}
+.layers__view{display:flex;flex-direction:column;gap:14px}
+.comp{position:relative;aspect-ratio:1;border-radius:18px;background:var(--tint);overflow:hidden}
+.ly{position:absolute;transition:opacity .45s var(--ease-out),scale .6s var(--ease-out),translate .6s var(--ease-out)}
+.ly.is-off{opacity:0;scale:.85}
+.ly0{inset:8%;border-radius:14px;background:var(--fg);opacity:.08}
+.ly0.is-off{opacity:0}
+.ly1{left:16%;top:14%;width:46%;aspect-ratio:1;border-radius:50%;background:var(--fg)}
+.ly2{left:-5%;right:-5%;top:58%;height:9%;background:var(--fg);rotate:-8deg}
+.ly3{right:16%;top:22%;width:18%;aspect-ratio:1;border:2px solid var(--fg);border-radius:4px}
+.ly4{right:20%;bottom:12%;width:22%;aspect-ratio:1;background:var(--fg);clip-path:polygon(50% 0,100% 100%,0 100%)}
+.ly5{left:16%;bottom:14%;width:40%;display:flex;flex-direction:column;gap:7px}
+.ly5 i{display:block;height:6px;border-radius:3px;background:var(--fg)}
+.ly5 i:nth-child(2){width:80%}
+.ly5 i:nth-child(3){width:55%}
+.ly6{left:46%;top:36%;width:30%;aspect-ratio:1;border-radius:50%;border:2px dashed var(--fg)}
+.ly.is-cur{animation:lyPulse 1.2s var(--ease-out)}
+@keyframes lyPulse{0%{scale:1}35%{scale:1.06}100%{scale:1}}
+.layers__cap{margin:0;min-height:3em;font-size:16px;line-height:1.5}
+.layers__cap b{font-weight:600}
+@media (max-width:760px){ .layers{grid-template-columns:1fr} .comp{max-width:340px} }
 .soft{list-style:none;margin:0;padding:0;border-top:1px solid var(--line-strong)}
 .soft li{font-size:clamp(18px,1.6vw,24px);letter-spacing:-.02em;padding-block:12px;border-bottom:1px solid var(--line-strong)}
 .ab-reco{padding-block:110px 40px;display:flex;flex-direction:column;gap:28px}
@@ -387,7 +430,7 @@ a{color:inherit;text-decoration:none}
 .ab-reveal{opacity:0;translate:0 26px;transition:opacity .9s var(--ease-out),translate 1.1s var(--ease-out)}
 .ab-reveal.is-in{opacity:1;translate:0 0}
 
-.ab-tl{position:relative;height:360vh}
+.ab-tl{position:relative;height:620vh}
 .ab-tl__sticky{position:sticky;top:0;height:100vh;height:100dvh;display:flex;flex-direction:column;justify-content:center;gap:clamp(20px,4vh,40px);overflow:hidden}
 .ab-tl__top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
 .ab-tl__title{margin:6px 0 0;font-size:clamp(28px,3.4vw,52px);font-weight:500;letter-spacing:-.04em;line-height:1}
@@ -404,7 +447,7 @@ a{color:inherit;text-decoration:none}
 .ab-tick.is-major{height:12px;background:var(--dim)}
 .ab-tick span{position:absolute;bottom:14px;left:4px;font-size:10.5px;color:var(--dim);white-space:nowrap;font-variant-numeric:tabular-nums}
 .ab-track{position:relative;height:60px;border-top:1px solid var(--line-strong)}
-.ab-clip{position:absolute;top:9px;bottom:9px;border-radius:8px;background:var(--tint);border:1px solid var(--line-strong);padding:0 12px;display:flex;align-items:center;font-size:13px;font-weight:500;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:background .35s,color .35s,border-color .35s}
+.ab-clip{box-sizing:border-box;position:absolute;top:9px;bottom:9px;border-radius:8px;background:var(--tint);border:1px solid var(--line-strong);padding:0 12px;display:flex;align-items:center;font-size:13px;font-weight:500;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:background .35s,color .35s,border-color .35s}
 .ab-clip.is-on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
 .ab-clip--audio{background-image:repeating-linear-gradient(90deg,transparent 0 3px,var(--line-strong) 3px 4px);background-size:100% 40%;background-repeat:no-repeat;background-position:0 85%}
 .ab-clip--audio.is-on{background-image:repeating-linear-gradient(90deg,transparent 0 3px,rgba(248,243,227,.25) 3px 4px)}
@@ -415,9 +458,15 @@ a{color:inherit;text-decoration:none}
 .ab-detail{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;min-height:150px}
 .ab-card{border-radius:14px;padding:16px 18px;background:var(--tint);display:flex;flex-direction:column;gap:6px;min-width:0;transition:background .4s,opacity .4s}
 .ab-card.is-empty{opacity:.45}
-.ab-card__tr{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+.ab-card__tr{align-self:flex-start;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--bg);background:var(--fg);border-radius:5px;padding:3px 7px}
 .ab-card__t{margin:0;font-size:18px;font-weight:500;letter-spacing:-.02em;line-height:1.2}
-.ab-card__p{margin:0;font-size:13px;color:var(--dim)}
+.ab-card__p{margin:0;font-size:14px;font-weight:500;color:var(--fg);line-height:1.35}
+.ab-card__d{margin:0;font-size:13px;font-weight:600;color:var(--fg);font-variant-numeric:tabular-nums}
+.ab-card--next{grid-column:1/-1;flex-direction:row;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.ab-card--next .ab-card__t{font-size:clamp(24px,2.6vw,38px)}
+.ab-clip--next{background:transparent;border:1.5px dashed var(--fg);color:var(--fg);opacity:.75}
+.ab-sq{box-sizing:border-box;position:absolute;top:9px;bottom:9px;aspect-ratio:1;border:1.5px dashed var(--line-strong);border-radius:8px}
+.ab-suivre{position:absolute;bottom:12px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;color:var(--fg)}
 .ab-card__x{margin:0;font-size:14px;line-height:1.45}
 .ab-note{margin:0;font-size:12px;color:var(--dim)}
 
@@ -644,7 +693,7 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
           <div class="ab-heads" aria-hidden="true">
             <div class="ab-head"><b>V2</b><span>pro</span></div>
             <div class="ab-head"><b>V1</b><span>études</span></div>
-            <div class="ab-head"><b>A1</b><span>perso</span></div>
+            <div class="ab-head"><b>A1</b><span>lieux</span></div>
           </div>
           <div class="ab-strip-clip">
             <div class="ab-strip" id="strip">
@@ -669,10 +718,10 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
     </section>
 
     <section class="ab-sk" id="abSk" aria-label="compétences">
-      <div class="ab-reveal"><p class="ab-eyebrow">compétences</p><h2 class="ab-tl__title">Ce que je sais faire</h2><p class="ab-note sk-hint">Survolez une ligne : chaque animation montre la compétence en action, et les images clés en dessous sont celles de l'animation.</p></div>
+      <div class="ab-reveal"><p class="ab-eyebrow">compétences</p><h2 class="ab-tl__title">Compétences</h2><p class="ab-note sk-hint">Survolez une ligne pour lancer son animation.</p></div>
       <ul class="sk-list">
         <li class="sk sk--motion ab-reveal" tabindex="0">
-          <div class="sk__txt"><h3 class="sk__n">Motion design</h3><p class="sk__d">Le mouvement juste. Au survol, le trajet linéaire passe en easy ease : la balle accélère et freine comme un objet réel.</p></div>
+          <div class="sk__txt"><h3 class="sk__n">Motion design</h3><p class="sk__d">Animation de typographies, de formes et d'illustrations dans After Effects, pour les réseaux sociaux et l'éditorial. Rythme, courbes et timing au service du message, jamais l'inverse.</p></div>
           <div class="sk__right" aria-hidden="true">
             <div class="sk__stage">
               <span class="sk-tag"><span class="a">linéaire</span><span class="b">easy ease · F9</span></span>
@@ -683,7 +732,7 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
           </div>
         </li>
         <li class="sk sk--edit ab-reveal" tabindex="0">
-          <div class="sk__txt"><h3 class="sk__n">Montage vidéo</h3><p class="sk__d">Couper ce qui ne sert pas. Au survol, le plan en trop saute et la séquence se resserre : un ripple delete.</p></div>
+          <div class="sk__txt"><h3 class="sk__n">Montage vidéo</h3><p class="sk__d">Reels, interviews et vidéos éditoriales dans Premiere Pro : dérushage, rythme, sous-titres et déclinaisons aux formats de chaque plateforme. Couper tout ce qui ne sert pas l'histoire.</p></div>
           <div class="sk__right" aria-hidden="true">
             <div class="sk__stage">
               <span class="sk-tag"><span class="a">séquence</span><span class="b">ripple delete</span></span>
@@ -694,7 +743,7 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
           </div>
         </li>
         <li class="sk sk--story ab-reveal" tabindex="0">
-          <div class="sk__txt"><h3 class="sk__n">Storytelling</h3><p class="sk__d">Un début, une péripétie, une chute. Au repos, rien ne se passe. Au survol, un obstacle surgit et le personnage doit sauter.</p></div>
+          <div class="sk__txt"><h3 class="sk__n">Storytelling</h3><p class="sk__d">Trouver l'angle, la phrase d'accroche et l'enchaînement qui donnent envie de lire un carrousel ou de regarder une vidéo jusqu'au bout, en quelques secondes seulement.</p></div>
           <div class="sk__right" aria-hidden="true">
             <div class="sk__stage">
               <div class="sk-panels"><span data-c="début"></span><span data-c="péripétie"></span><span data-c="chute"></span></div>
@@ -705,7 +754,7 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
           </div>
         </li>
         <li class="sk sk--brand ab-reveal" tabindex="0">
-          <div class="sk__txt"><h3 class="sk__n">Direction artistique</h3><p class="sk__d">De la cohérence. Au survol, les formes éparpillées trouvent leur grille : c'est ça, une identité.</p></div>
+          <div class="sk__txt"><h3 class="sk__n">Direction artistique</h3><p class="sk__d">Définir et tenir une identité visuelle : grilles, typographies, couleurs et templates, pour que chaque contenu soit reconnaissable au premier coup d'œil.</p></div>
           <div class="sk__right" aria-hidden="true">
             <div class="sk__stage">
               <span class="sk-tag"><span class="a">chaos</span><span class="b">système</span></span>
@@ -721,26 +770,35 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
         </li>
       </ul>
       <div class="sk-tools ab-reveal">
-        <p class="ab-eyebrow">outils</p>
-        <ul class="chips"><li>After Effects</li><li>Premiere Pro</li><li>Figma</li><li>Blender</li><li>InDesign</li></ul>
+        <p class="ab-eyebrow">logiciels</p>
+        <ul class="apps">
+          <li style="--i:0"><span class="app">Ae</span><span class="app__n">After Effects</span></li>
+          <li style="--i:1"><span class="app">Pr</span><span class="app__n">Premiere Pro</span></li>
+          <li style="--i:2"><span class="app">Fg</span><span class="app__n">Figma</span></li>
+          <li style="--i:3"><span class="app">Ps</span><span class="app__n">Photoshop</span></li>
+          <li style="--i:4"><span class="app">Ai</span><span class="app__n">Illustrator</span></li>
+        </ul>
       </div>
     </section>
 
     <section class="ab-soft" aria-label="soft skills">
-      <div class="ab-reveal"><p class="ab-eyebrow">soft skills</p><h2 class="ab-tl__title">Comment je travaille</h2></div>
-      <ul class="soft ab-reveal">
-        <li>Travail en équipe et collaboration avec des équipes communication</li>
-        <li>Adaptabilité</li>
-        <li>Résolution créative de problèmes</li>
-        <li>Sens de la narration et cohérence visuelle</li>
-        <li>Rigueur technique</li>
-        <li>Sensibilité à la communication innovante</li>
-        <li>Approche du design guidée par l'empathie</li>
-      </ul>
+      <div class="ab-reveal"><p class="ab-eyebrow">soft skills</p><h2 class="ab-tl__title">Les calques</h2><p class="ab-note sk-hint">Chaque qualité est un calque. Cliquez sur l'œil pour l'afficher ou le masquer : ensemble, ils font la composition.</p></div>
+      <div class="layers ab-reveal">
+        <div class="layers__panel" role="group" aria-label="calques">
+          <div class="layers__head"><span>calques</span><button type="button" id="lyAll">tout afficher</button></div>
+          <ol class="layers__list" id="lyList"></ol>
+        </div>
+        <div class="layers__view">
+          <div class="comp" id="comp" aria-hidden="true">
+            <span class="ly ly0"></span><span class="ly ly1"></span><span class="ly ly2"></span><span class="ly ly3"></span><span class="ly ly4"></span><span class="ly ly5"><i></i><i></i><i></i></span><span class="ly ly6"></span>
+          </div>
+          <p class="layers__cap" id="lyCap"></p>
+        </div>
+      </div>
     </section>
 
     <section class="ab-reco" aria-label="recommandations">
-      <div class="ab-reveal"><p class="ab-eyebrow">recommandations</p><h2 class="ab-tl__title">Ils en parlent</h2></div>
+      <div class="ab-reveal"><h2 class="ab-tl__title">Recommandations</h2></div>
       <div class="reco-grid">
         <figure class="reco ab-reveal"><blockquote>“Achille has a rare ability to structure ideas visually. He doesn't just execute — he understands the intention behind a message and transforms it into impactful, coherent design.”</blockquote><figcaption><b>Ray Santana</b>Artistic Director, AFP</figcaption></figure>
         <figure class="reco ab-reveal"><blockquote>« Achille a su mettre sa créativité et sa rigueur au service de la communication de l'AFP. Son sens de la narration visuelle, sa maîtrise technique et sa capacité à travailler en équipe ont largement contribué à la qualité et à l'impact de nos projets. »</blockquote><figcaption><b>Coline Sallois</b>Directrice de la communication, AFP</figcaption></figure>
@@ -1431,31 +1489,51 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
   /* ---------- Page à propos ---------- */
   const portrait = $('#portrait'), pImg = portrait.querySelector('.ab-photo__img');
   const about = $('#about'), strip = $('#strip'), ruler = $('#ruler'), ph = $('#ph'), tcEl = $('#tc'), detail = $('#detail'), tl = $('#tl');
-  /* Mois comptés depuis janvier 2016 */
-  const M = (y, mo) => (y - 2016) * 12 + (mo - 1);
-  const NOW = M(2026, 11) + 1;
-  const TL_MONTHS = M(2027, 7) + 1;
+  /* Mois comptés depuis janvier 2003. La timeline s'arrête en juillet 2026, puis « affaire à suivre ». */
+  const M = (y, mo) => (y - 2003) * 12 + (mo - 1);
+  const T0 = M(2003, 3);
+  const TL_END = M(2026, 7) + 1;
+  const TAIL = 16;
+  const TL_MONTHS = TL_END + TAIL;
+  const PLAY_END = TL_END + 9;
   const MONTHS_FR = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
-  const TRACK_NAMES = { v2: 'V2 — pro', v1: 'V1 — études', a1: 'A1 — perso' };
+  const TRACK_NAMES = { v2: 'V2 — pro', v1: 'V1 — études', a1: 'A1 — lieux' };
   const CLIPS = [
-    { tr: 'v2', s: M(2024, 4), e: M(2024, 7) + 1, t: 'AFP', p: 'Graphiste · Agence France-Presse [EN] · Paris', d: 'avr. — juil. 2024',
-      x: "Création graphique au service de la communication de l'AFP, en anglais." },
-    { tr: 'v2', s: M(2024, 12), e: M(2025, 7) + 1, t: 'ParisianVibe', p: 'Monteur vidéo · ParisianVibe [EN] · Paris', d: 'déc. 2024 — juil. 2025',
-      x: 'Montage vidéo et storytelling visuel pour la marque, en anglais.' },
-    { tr: 'v2', s: M(2025, 8), e: NOW, t: 'Radio Classique', p: 'Motion designer / monteur vidéo · Radio Classique [FR] · Paris', d: "août 2025 — aujourd'hui",
-      x: 'Motion design et montage pour les réseaux sociaux de la station : carrousels, reels et vidéos éditoriales.' },
-    { tr: 'v1', s: M(2016, 9), e: M(2021, 7) + 1, t: 'Lycée Denis Diderot', p: 'Baccalauréat SES et Géopolitique · Nairobi, Kenya', d: '2016 — 2021',
-      x: 'Baccalauréat Sciences Économiques et Sociales et Géopolitique.' },
-    { tr: 'v1', s: M(2021, 9), e: M(2022, 7) + 1, t: 'Université Paris Est', p: 'Licence en Relations Internationales · Créteil', d: '2021 — 2022',
-      x: 'Licence en Relations Internationales.' },
-    { tr: 'v1', s: M(2022, 9), e: M(2025, 7) + 1, t: 'IIM Digital School', p: 'Bachelor en Design Graphique · Nanterre', d: '2022 — 2025',
-      x: 'Bachelor en Design Graphique.' },
-    { tr: 'v1', s: M(2025, 9), e: M(2027, 7) + 1, t: 'LISAA', p: "Master Direction Artistique · L'Institut Supérieur des Arts Appliqués · Paris", d: '2025 — 2027',
-      x: 'Master Direction Artistique, en cours.' },
-    { tr: 'a1', s: 0, e: M(2021, 8), t: 'Nairobi, Kenya', p: "Une grande partie de ma vie à l'étranger", d: "jusqu'en 2021",
-      x: "Des années au Kenya, jusqu'au baccalauréat au lycée Denis Diderot." },
-    { tr: 'a1', s: M(2021, 8), e: TL_MONTHS, t: 'Paris', p: "Études et vie professionnelle", d: 'depuis 2021',
-      x: "Paris, où j'étudie et travaille depuis 2021." }
+    /* V2 — expérience */
+    { tr: 'v2', s: M(2024, 4), e: M(2024, 8), t: 'AFP', p: 'Graphiste — Agence France-Presse · Paris', d: 'avril — juillet 2024',
+      x: "Création graphique pour la direction de la communication de l'AFP, en anglais, aux côtés de Ray Santana, directeur artistique, et de Coline Sallois, directrice de la communication." },
+    { tr: 'v2', s: M(2024, 8), e: M(2025, 8), t: 'ParisianVibe', p: 'Monteur vidéo — ParisianVibe · Paris', d: 'décembre 2024 — juillet 2025',
+      x: "Montage vidéo et storytelling visuel des contenus de la marque, en anglais, en lien direct avec sa fondatrice et directrice artistique, Viktoria De Chevron Villette." },
+    { tr: 'v2', s: M(2025, 8), e: TL_END, next: true, t: 'Radio Classique', p: 'Motion designer / monteur vidéo — Radio Classique · Paris', d: "depuis août 2025",
+      x: "Carrousels, reels et vidéos éditoriales pour les réseaux sociaux de la station : musique classique, littérature et histoire. Écriture des accroches, montage, sous-titrage et motion design." },
+    /* V1 — études */
+    { tr: 'v1', s: M(2008, 9), e: M(2012, 8), t: 'École Saint-Exupéry', p: 'École française · Ouagadougou, Burkina Faso', d: '2008 — 2012',
+      x: "Les premières années d'école, dans une école française à Ouagadougou." },
+    { tr: 'v1', s: M(2012, 9), e: M(2014, 8), t: 'École Tito', p: 'CM1 — CM2 · Paris 11e', d: '2012 — 2014',
+      x: "Retour à Paris, dans le 11e arrondissement, pour le CM1 et le CM2." },
+    { tr: 'v1', s: M(2014, 9), e: M(2016, 8), t: 'Collège Jean-François Oeben', p: '6e — 5e · Paris 11e', d: '2014 — 2016',
+      x: "La 6e et la 5e au collège Jean-François Oeben, dans le 11e arrondissement." },
+    { tr: 'v1', s: M(2016, 9), e: M(2021, 8), t: 'Lycée Denis Diderot', p: 'De la 4e au baccalauréat · Nairobi, Kenya', d: '2016 — 2021',
+      x: "Arrivée au Kenya en 4e, jusqu'au baccalauréat Sciences Économiques et Sociales et Géopolitique en 2021." },
+    { tr: 'v1', s: M(2021, 9), e: M(2022, 8), t: 'Université Paris-Est Créteil', p: 'Licence en Relations Internationales · Créteil', d: '2021 — 2022',
+      x: "Une année de licence en Relations Internationales, avant de choisir le design." },
+    { tr: 'v1', s: M(2022, 9), e: M(2025, 8), t: 'IIM Digital School', p: 'Bachelor en Design Graphique · Nanterre', d: '2022 — 2025',
+      x: "Bachelor Création et Design, spécialité design graphique : identité de marque, motion design et storytelling visuel." },
+    { tr: 'v1', s: M(2025, 9), e: TL_END, next: true, t: 'LISAA', p: "Master Direction Artistique — L'Institut Supérieur des Arts Appliqués · Paris", d: '2025 — 2027',
+      x: "Master Direction Artistique, en parallèle de Radio Classique. Diplôme prévu en 2027." },
+    /* A1 — lieux */
+    { tr: 'a1', s: T0, e: M(2006, 3), t: 'Tanzanie', p: 'Morogoro et Dar es Salaam', d: 'mars 2003 — 2006',
+      x: "Naissance en Tanzanie en mars 2003. Les trois premières années entre Morogoro et Dar es Salaam." },
+    { tr: 'a1', s: M(2006, 3), e: M(2008, 9), t: 'Clichy', p: 'Hauts-de-Seine, France', d: '2006 — 2008',
+      x: "Un premier passage en France, à Clichy." },
+    { tr: 'a1', s: M(2008, 9), e: M(2012, 9), t: 'Ouagadougou', p: 'Burkina Faso', d: '2008 — 2012',
+      x: "Quatre années au Burkina Faso, à Ouagadougou." },
+    { tr: 'a1', s: M(2012, 9), e: M(2016, 9), t: 'Paris 11e', p: 'Paris, France', d: '2012 — 2016',
+      x: "Le 11e arrondissement de Paris, de l'école Tito au collège Jean-François Oeben." },
+    { tr: 'a1', s: M(2016, 9), e: M(2021, 9), t: 'Nairobi', p: 'Kenya', d: '2016 — 2021',
+      x: "Cinq années à Nairobi, de la 4e au baccalauréat." },
+    { tr: 'a1', s: M(2021, 9), e: TL_END, next: true, t: 'Paris', p: 'Paris, France', d: 'depuis 2021',
+      x: "Retour à Paris pour les études supérieures, puis la vie professionnelle." }
   ];
   CLIPS.forEach((c) => { c.long = c.x; });
   let ppm = 30, aboutT = 0, aboutC = 0, ownAbout = false, lastT = -1, aboutHideTimer = 0;
@@ -1466,27 +1544,51 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
     return `00:${String(mm).padStart(2, '0')}:${String(ss).padStart(2, '0')}:${String(fr).padStart(2, '0')}`;
   };
   function buildTimeline() {
-    ppm = window.innerWidth < 760 ? 12 : 24;
+    ppm = window.innerWidth < 760 ? 7 : 14;
     strip.style.width = `${TL_MONTHS * ppm + window.innerWidth}px`;
     ruler.innerHTML = '';
     for (let m = 0; m <= TL_MONTHS; m++) {
+      if (m % 3) continue;
       const t = document.createElement('span');
-      t.className = 'ab-tick' + (m % 6 === 0 ? ' is-major' : '');
+      t.className = 'ab-tick' + (m % 12 === 0 ? ' is-major' : '');
       t.style.left = `${m * ppm}px`;
-      if (m % 12 === 0) { const l = document.createElement('span'); l.textContent = String(2016 + m / 12); t.appendChild(l); }
+      if (m % 12 === 0 && m < TL_END) { const l = document.createElement('span'); l.textContent = String(2003 + m / 12); t.appendChild(l); }
       ruler.appendChild(t);
     }
+    const lbl = document.createElement('span');
+    lbl.className = 'ab-suivre'; lbl.style.left = `${(TL_END + 1) * ppm}px`; lbl.textContent = 'affaire à suivre…';
+    ruler.appendChild(lbl);
     strip.querySelectorAll('.ab-track').forEach((tr) => { tr.innerHTML = ''; });
     clipEls.length = 0;
+    const GAP = 5;
     CLIPS.forEach((c) => {
       const el = document.createElement('div');
       el.className = 'ab-clip' + (c.tr === 'a1' ? ' ab-clip--audio' : '');
       el.style.left = `${c.s * ppm}px`;
-      el.style.width = `${(c.e - c.s) * ppm - 4}px`;
+      el.style.width = `${Math.max(6, (c.e - c.s) * ppm - GAP)}px`;
       el.textContent = c.t;
+      el.title = c.t;
       el.style.setProperty('--n', clipEls.length);
-      strip.querySelector(`[data-tr="${c.tr}"]`).appendChild(el);
+      const track = strip.querySelector(`[data-tr="${c.tr}"]`);
+      track.appendChild(el);
       clipEls.push(el);
+      if (c.next) {
+        const nx = document.createElement('div');
+        nx.className = 'ab-clip ab-clip--next';
+        nx.style.left = `${TL_END * ppm}px`;
+        nx.style.width = `${5 * ppm - GAP}px`;
+        nx.textContent = '…';
+        track.appendChild(nx);
+      }
+    });
+    /* Carrés vides pour la suite */
+    strip.querySelectorAll('.ab-track').forEach((track) => {
+      for (let k = 0; k < 3; k++) {
+        const sq = document.createElement('span');
+        sq.className = 'ab-sq';
+        sq.style.left = `${(TL_END + 6) * ppm + k * 52}px`;
+        track.appendChild(sq);
+      }
     });
     lastT = -1;
   }
@@ -1494,10 +1596,20 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
   window.addEventListener('resize', buildTimeline);
 
   function renderDetail(t) {
-    const order = ['v2', 'v1', 'a1'];
     detail.innerHTML = '';
-    order.forEach((tr) => {
-      const c = CLIPS.find((k) => k.tr === tr && t >= k.s && t <= k.e);
+    if (t >= TL_END) {
+      const card = document.createElement('article');
+      card.className = 'ab-card ab-card--next';
+      card.innerHTML = '<div><span class="ab-card__tr">la suite</span><p class="ab-card__t" style="margin-top:10px">Affaire à suivre…</p><p class="ab-card__x" style="margin-top:6px">La prochaine étape s’écrit maintenant. Un poste, un projet, une collaboration ? Parlons-en.</p></div>';
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'ab-back'; b.textContent = 'me contacter';
+      b.addEventListener('click', () => { aboutT = clamp($('#abContact').offsetTop, 0, about.scrollHeight - about.clientHeight); });
+      card.appendChild(b);
+      detail.appendChild(card);
+      return;
+    }
+    ['v2', 'v1', 'a1'].forEach((tr) => {
+      const c = CLIPS.find((k) => k.tr === tr && t >= k.s && t < k.e);
       const card = document.createElement('article');
       card.className = 'ab-card' + (c ? '' : ' is-empty');
       const h = document.createElement('span'); h.className = 'ab-card__tr'; h.textContent = TRACK_NAMES[tr];
@@ -1505,8 +1617,9 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
       card.append(h, ti);
       if (c) {
         const pp = document.createElement('p'); pp.className = 'ab-card__p'; pp.textContent = c.p;
+        const dd = document.createElement('p'); dd.className = 'ab-card__d'; dd.textContent = c.d;
         const xx = document.createElement('p'); xx.className = 'ab-card__x'; xx.textContent = c.x;
-        card.append(pp, xx);
+        card.append(pp, dd, xx);
       }
       detail.appendChild(card);
     });
@@ -1540,7 +1653,7 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
   $('#toContact').addEventListener('click', () => { const y = $('#abContact').offsetTop; aboutT = clamp(y, 0, about.scrollHeight - about.clientHeight); });
 
   /* Parcours en liste classique */
-  const GROUPS = [['v2', 'expérience'], ['v1', 'études'], ['a1', 'ailleurs']];
+  const GROUPS = [['v2', 'expérience'], ['v1', 'formation'], ['a1', 'lieux de vie']];
   const cvGroups = $('#cvGroups');
   GROUPS.forEach(([tr, label]) => {
     const g = document.createElement('div'); g.className = 'cv-group';
@@ -1605,18 +1718,18 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
     if (tl.hidden) return;
     const start = tl.offsetTop, span = tl.offsetHeight - vh;
     const prog = clamp((y - start) / Math.max(1, span), 0, 1);
-    const t = prog * TL_MONTHS;
+    const t = T0 + prog * (PLAY_END - T0);
     if (Math.abs(t - lastT) < 0.005) return;
     lastT = t;
     const viewW = strip.parentElement.clientWidth;
     const phX = Math.round(viewW * 0.32);
     ph.style.left = `${phX}px`;
     strip.style.transform = `translate3d(${phX - t * ppm}px,0,0)`;
-    tcEl.textContent = tc(t);
-    const mi = Math.min(Math.floor(t), TL_MONTHS - 1);
-    tcDate.textContent = `${MONTHS_FR[mi % 12]} ${2016 + Math.floor(mi / 12)}`;
-    let key = '';
-    CLIPS.forEach((c, i) => { const on = t >= c.s && t <= c.e; clipEls[i].classList.toggle('is-on', on); if (on) key += i; });
+    tcEl.textContent = tc(Math.max(0, t - T0));
+    if (t >= TL_END) tcDate.textContent = 'à suivre…';
+    else { const mi = Math.floor(t); tcDate.textContent = `${MONTHS_FR[mi % 12]} ${2003 + Math.floor(mi / 12)}`; }
+    let key = t >= TL_END ? 'next' : '';
+    CLIPS.forEach((c, i) => { const on = t >= c.s && t < c.e; clipEls[i].classList.toggle('is-on', on); if (on) key += i + ','; });
     if (key !== lastKey) { lastKey = key; renderDetail(t); }
   }
   about.addEventListener('wheel', (e) => {
@@ -1642,6 +1755,47 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
     li.addEventListener('click', () => { if (matchMedia('(hover: none)').matches) li.classList.toggle('is-on'); });
     li.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); li.classList.toggle('is-on'); } });
   });
+
+  /* Soft skills : panneau de calques */
+  const SOFT = [
+    ['Travail en équipe', "Habitué à travailler avec les équipes communication et éditoriales : brief, allers-retours, validation."],
+    ['Adaptabilité', "Passer d'un média à l'autre, du français à l'anglais, d'un carrousel carré à un reel vertical."],
+    ['Résolution créative de problèmes', "Trouver une solution visuelle quand le temps, la matière ou le format manquent."],
+    ['Narration et cohérence visuelle', "Chaque contenu raconte quelque chose, et reste fidèle à l'identité de la marque."],
+    ['Rigueur technique', "Formats, exports, sous-titres, fichiers propres : le détail qui fait la différence."],
+    ['Communication innovante', "Curieux des nouveaux formats et des nouvelles écritures visuelles."],
+    ["Design guidé par l'empathie", "Partir de celui qui regarde : ce qu'il comprend, ce qu'il ressent, ce qu'il retient."]
+  ];
+  const lyList = $('#lyList'), lyCap = $('#lyCap'), lyShapes = [...document.querySelectorAll('#comp .ly')];
+  const EYE = '<svg viewBox="0 0 24 24"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12Z"/><circle class="pupil" cx="12" cy="12" r="3"/><path class="slash" d="M4 20 20 4"/></svg>';
+  const lyRows = SOFT.map(([n, d], i) => {
+    const li = document.createElement('li');
+    li.className = 'ly-row'; li.tabIndex = 0; li.setAttribute('role', 'switch'); li.setAttribute('aria-checked', 'true');
+    li.innerHTML = `<span class="ly-eye">${EYE}</span><span class="ly-num">${String(i + 1).padStart(2, '0')}</span><span class="ly-name"></span>`;
+    li.querySelector('.ly-name').textContent = n;
+    const show = () => {
+      lyRows.forEach((r) => r.classList.remove('is-cur'));
+      li.classList.add('is-cur');
+      lyCap.innerHTML = '';
+      const b = document.createElement('b'); b.textContent = n + ' — ';
+      lyCap.append(b, document.createTextNode(d));
+      const sh = lyShapes[i]; sh.classList.remove('is-cur'); void sh.offsetWidth; sh.classList.add('is-cur');
+    };
+    const toggle = () => {
+      const off = !li.classList.contains('is-off');
+      li.classList.toggle('is-off', off); li.setAttribute('aria-checked', String(!off));
+      lyShapes[i].classList.toggle('is-off', off);
+      show(); sfx.play('toggle');
+    };
+    li.addEventListener('pointerenter', show);
+    li.addEventListener('focus', show);
+    li.addEventListener('click', toggle);
+    li.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+    lyList.appendChild(li);
+    return li;
+  });
+  $('#lyAll').addEventListener('click', () => { lyRows.forEach((r, i) => { r.classList.remove('is-off'); r.setAttribute('aria-checked', 'true'); lyShapes[i].classList.remove('is-off'); }); });
+  lyCap.innerHTML = '<b>7 calques</b> — survolez-en un pour lire, cliquez sur l’œil pour le masquer.';
 
   /* Portrait qui suit le curseur */
   portrait.addEventListener('pointermove', (e) => {
