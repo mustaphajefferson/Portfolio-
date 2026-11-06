@@ -197,6 +197,41 @@ a{color:inherit;text-decoration:none}
 
 .note{position:fixed;left:50%;top:50%;translate:-50% -50%;z-index:4;max-width:320px;text-align:center;color:var(--dim);font-size:14px;line-height:1.5}
 
+.fx-btn{position:fixed;right:calc(var(--right) + 56px);bottom:calc(var(--bottom) + 1px);z-index:8;height:44px;display:flex;align-items:center;gap:9px;padding:0 17px 0 19px;border-radius:999px;background:var(--pill);color:var(--ink);font-size:15px;font-weight:500;letter-spacing:-.01em;transition:scale .25s var(--ease-out),background .35s var(--ease-io),color .35s var(--ease-io),opacity .9s var(--ease-out) var(--d,0ms),translate 1s var(--ease-out) var(--d,0ms)}
+.fx-btn:active{scale:.95}
+.fx-btn__icon{display:flex;flex-direction:column;gap:3px;width:12px}
+.fx-btn__icon i{display:block;height:1.5px;background:currentColor;border-radius:2px;position:relative}
+.fx-btn__icon i::after{content:"";position:absolute;top:50%;width:5px;height:5px;border-radius:50%;background:currentColor;translate:-50% -50%;left:var(--k);transition:left .5s var(--ease-io)}
+.fx-btn:hover .fx-btn__icon i:nth-child(1)::after{left:75%}
+.fx-btn:hover .fx-btn__icon i:nth-child(2)::after{left:20%}
+.fx-btn:hover .fx-btn__icon i:nth-child(3)::after{left:60%}
+.fx-open .fx-btn{background:var(--ink);color:var(--pill);box-shadow:inset 0 0 0 1px var(--pill)}
+.fx{position:fixed;right:var(--right);bottom:calc(var(--bottom) + 58px);z-index:7;width:min(300px,calc(100vw - 2 * var(--edge)));background:var(--pill);color:var(--ink);border-radius:20px;padding:16px 18px 18px;display:flex;flex-direction:column;gap:14px;opacity:0;translate:0 12px;scale:.97;transform-origin:bottom right;visibility:hidden;transition:opacity .25s,translate .45s var(--ease-out),scale .45s var(--ease-out),visibility 0s .45s}
+.fx-open .fx{opacity:1;translate:0 0;scale:1;visibility:visible;transition:opacity .3s,translate .55s var(--ease-out),scale .55s var(--ease-out),visibility 0s}
+.fx :focus-visible{outline-color:var(--ink)}
+.fx__head{display:flex;justify-content:space-between;align-items:baseline}
+.fx__title,.fx__reset{font-size:11.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim)}
+.fx__reset{transition:color .25s}
+.fx__reset:hover{color:var(--ink)}
+.fx__row{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:baseline}
+.fx__row label{font-size:14px;font-weight:500;letter-spacing:-.01em}
+.fx__val{font-size:13px;color:var(--ink-dim);font-variant-numeric:tabular-nums}
+.fx__row input{grid-column:1/-1}
+.fx input[type="range"]{-webkit-appearance:none;appearance:none;width:100%;height:18px;margin:0;background:transparent;cursor:pointer}
+.fx input[type="range"]::-webkit-slider-runnable-track{height:2px;border-radius:2px;background:linear-gradient(to right,var(--ink) var(--pct,50%),var(--rule) var(--pct,50%))}
+.fx input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;margin-top:-6px;border-radius:50%;background:var(--ink);border:0;transition:scale .2s var(--ease-out)}
+.fx input[type="range"]:active::-webkit-slider-thumb{scale:1.25}
+.fx input[type="range"]::-moz-range-track{height:2px;border-radius:2px;background:var(--rule)}
+.fx input[type="range"]::-moz-range-progress{height:2px;border-radius:2px;background:var(--ink)}
+.fx input[type="range"]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--ink);border:0}
+.fx__surprise{margin-top:2px;height:42px;border-radius:999px;background:var(--ink);color:var(--pill);font-size:14px;font-weight:500;letter-spacing:-.01em;display:flex;align-items:center;justify-content:center;gap:9px;transition:scale .25s var(--ease-out)}
+.fx__surprise:active{scale:.96}
+.fx__dice{display:inline-block;width:14px;height:14px;border:1.5px solid currentColor;border-radius:4px;position:relative;transition:rotate .6s var(--ease-io)}
+.fx__dice::before,.fx__dice::after{content:"";position:absolute;width:3px;height:3px;border-radius:50%;background:currentColor}
+.fx__dice::before{left:2px;top:2px}
+.fx__dice::after{right:2px;bottom:2px}
+.fx__surprise:hover .fx__dice{rotate:180deg}
+
 @media (max-width:640px){
   :root{--edge:16px}
   .orb--logo{width:44px}
@@ -208,6 +243,8 @@ a{color:inherit;text-decoration:none}
   .reel__thumb{inset:23px;border-radius:11px}
   .reel__ring text{font-size:11.5px}
   .sound{width:42px;height:42px}
+  .fx-btn{right:calc(var(--right) + 52px);bottom:var(--bottom);height:42px;padding:0 14px 0 16px;font-size:14px}
+  .fx{bottom:calc(var(--bottom) + 54px)}
   .tag{bottom:calc(92px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 2 * var(--edge))}
 }
 @media (prefers-reduced-motion:reduce){
@@ -250,6 +287,18 @@ a{color:inherit;text-decoration:none}
   </svg>
   <span class="reel__thumb"><span class="reel__play"></span></span>
 </button>
+
+<button class="fx-btn ui ui--bottom" id="fxBtn" type="button" aria-expanded="false" aria-controls="fx" style="--d:400ms">
+  <span class="fx-btn__icon" aria-hidden="true"><i style="--k:30%"></i><i style="--k:70%"></i><i style="--k:45%"></i></span><span>réglages</span>
+</button>
+<section class="fx" id="fx" aria-label="réglages de la spirale">
+  <div class="fx__head"><span class="fx__title">spirale — réglages</span><button class="fx__reset" id="fxReset" type="button">reset</button></div>
+  <div class="fx__row"><label for="fx-width">largeur</label><span class="fx__val" id="fx-width-v"></span><input type="range" id="fx-width" data-k="width" min="0.25" max="1.7" step="0.01"></div>
+  <div class="fx__row"><label for="fx-twist">torsion</label><span class="fx__val" id="fx-twist-v"></span><input type="range" id="fx-twist" data-k="twist" min="0.12" max="1.7" step="0.01"></div>
+  <div class="fx__row"><label for="fx-speed">vitesse</label><span class="fx__val" id="fx-speed-v"></span><input type="range" id="fx-speed" data-k="speed" min="0" max="3" step="0.01"></div>
+  <div class="fx__row"><label for="fx-warp">déformation</label><span class="fx__val" id="fx-warp-v"></span><input type="range" id="fx-warp" data-k="warp" min="0" max="3" step="0.01"></div>
+  <button class="fx__surprise" id="fxSurprise" type="button"><span class="fx__dice" aria-hidden="true"></span>surprends-moi</button>
+</section>
 
 <button class="sound ui ui--bottom" id="soundBtn" type="button" aria-pressed="true" aria-label="couper le son" style="--d:450ms">
   <span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
@@ -427,7 +476,10 @@ a{color:inherit;text-decoration:none}
   const webgl = !!renderer;
 
   /* Hélice verticale : les cartes tournent autour d'un axe presque vertical et montent / descendent au scroll, sans fin */
-  const ANG = 0.75, PITCH = 0.5;
+  const PITCH = 0.5;
+  /* Réglages : valeurs cibles (curseurs) et valeurs lissées (ce que la spirale affiche) */
+  const FX_DEF = { width: 1, twist: 0.75, speed: 1, warp: 1 };
+  const fx = { ...FX_DEF }, fxC = { ...FX_DEF };
   const layout = { R: 2.75, cam: 7.6, tx: 0.04, oy: 0, s: 1 };
   let scene, camera, helix, cards = [], ray, ndc;
   let scrollT = -5, scrollC = -5, velS = 0, introStart = -1, modeA = 1, modeT = 1;
@@ -550,7 +602,7 @@ a{color:inherit;text-decoration:none}
     const hits = ray.intersectObjects(cards.map((c) => c.mesh));
     for (const h of hits) {
       const c = cards[h.object.userData.index];
-      if (c.mat.uniforms.uOpacity.value > 0.5 && Math.cos(wrapP(c.mesh.userData.index) * ANG) > 0.2) return c;
+      if (c.mat.uniforms.uOpacity.value > 0.5 && Math.cos(wrapP(c.mesh.userData.index) * fxC.twist) > 0.2) return c;
     }
     return null;
   }
@@ -579,14 +631,16 @@ a{color:inherit;text-decoration:none}
 
     if (webgl) {
       const idleOn = !reduce && state.entered && state.mode === 'spiral' && !state.menu && !hovered && !drag && (now - lastInput > IDLE_DELAY);
-      idleV += ((idleOn ? -IDLE_SPEED : 0) - idleV) * damp(0.025, dt);
+      for (const k in fx) fxC[k] += (fx[k] - fxC[k]) * damp(0.06, dt);
+      idleV += ((idleOn ? -IDLE_SPEED * fxC.speed : 0) - idleV) * damp(0.025, dt);
       if (Math.abs(idleV) > 0.0005) { scrollT += idleV * dt; clearTimeout(snapTimer); }
 
       const prevC = scrollC;
       scrollC += (scrollT - scrollC) * damp(0.085, dt);
       const vRaw = dt > 0 ? (scrollC - prevC) / dt : 0;
       velS += (vRaw - velS) * damp(0.15, dt);
-      const warp = reduce ? 0 : clamp(velS * 0.09, -0.45, 0.45);
+      const warp = reduce ? 0 : clamp(velS * 0.09 * fxC.warp, -0.7, 0.7);
+      const RR = layout.R * fxC.width;
       modeA += (modeT - modeA) * damp(0.08, dt);
       mxs += (mx - mxs) * damp(0.05, dt);
       mys += (my - mys) * damp(0.05, dt);
@@ -598,13 +652,13 @@ a{color:inherit;text-decoration:none}
       for (let i = 0; i < cards.length; i++) {
         const c = cards[i];
         const p = wrapP(i);
-        const th = p * ANG;
+        const th = p * fxC.twist;
         let ia = 0;
         if (introStart >= 0) ia = easeOutExpo(clamp((now - introStart - c.order * 75) / 1400, 0, 1));
 
-        const x = Math.sin(th) * layout.R;
+        const x = Math.sin(th) * RR;
         const y = -p * PITCH + (1 - ia) * -0.6;
-        const z = Math.cos(th) * layout.R - layout.R + (1 - ia) * -6 + (1 - modeA) * -3;
+        const z = Math.cos(th) * RR - RR + (1 - ia) * -6 + (1 - modeA) * -3;
         c.mesh.position.set(x, y, z);
         c.mesh.rotation.set(0, th + (1 - ia) * 0.9, 0);
 
@@ -643,12 +697,13 @@ a{color:inherit;text-decoration:none}
 
   window.addEventListener('wheel', (e) => {
     if (!state.entered || state.menu || state.mode !== 'spiral' || !webgl) return;
+    if (e.target.closest && e.target.closest('.fx')) return;
     e.preventDefault();
     /* Molette : haut / bas. Pavé tactile : glisser vers la droite fait descendre la spirale */
     const horiz = Math.abs(e.deltaX) > Math.abs(e.deltaY);
     let d = horiz ? -e.deltaX : e.deltaY;
     if (e.deltaMode === 1) d *= 33;
-    scrollT += clamp(d, -120, 120) * 0.0042;
+    scrollT += clamp(d, -120, 120) * 0.0042 * (0.35 + 0.65 * fx.speed);
     lastInput = performance.now(); idleV = 0;
     scheduleSnap();
   }, { passive: false });
@@ -680,6 +735,7 @@ a{color:inherit;text-decoration:none}
 
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && state.menu) { setMenu(false); return; }
+    if (e.key === 'Escape' && state.fx) { setFx(false); fxBtn.focus({ preventScroll: true }); return; }
     if (!state.entered || state.menu || state.mode !== 'spiral') return;
     lastInput = performance.now(); idleV = 0;
     if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown') { scrollT = Math.round(scrollT) + 1; e.preventDefault(); }
@@ -835,7 +891,7 @@ a{color:inherit;text-decoration:none}
     menuBtn.setAttribute('aria-expanded', String(open));
     menuBtn.setAttribute('aria-label', open ? 'fermer le menu' : 'ouvrir le menu');
     measureMenu();
-    if (open) { setHovered(null); setTimeout(() => panel.querySelector('.pl').focus({ preventScroll: true }), 350); }
+    if (open) { setFx(false); setHovered(null); setTimeout(() => panel.querySelector('.pl').focus({ preventScroll: true }), 350); }
     sfx.play(open ? 'open' : 'close');
   }
   menuBtn.addEventListener('click', () => setMenu(!state.menu));
@@ -872,6 +928,7 @@ a{color:inherit;text-decoration:none}
 
   /* ---------- Mise à jour à chaud : garde l'état quand la page est republiée ---------- */
   function instantEnter(data) {
+    if (data.fx) { Object.assign(fx, data.fx); Object.assign(fxC, data.fx); syncFx(); }
     state.entered = true;
     setSound(data.sound !== false);
     gate.hidden = true;
@@ -884,7 +941,49 @@ a{color:inherit;text-decoration:none}
     }
     if (data.mode === 'list' || !webgl) setMode('list');
   }
-  window.claude?.hot?.snapshot?.(() => ({ entered: state.entered, sound: state.sound, mode: state.mode, scroll: scrollT }));
+  /* ---------- Panneau de réglages ---------- */
+  const fxBtn = $('#fxBtn'), fxPanel = $('#fx');
+  const fxInputs = [...fxPanel.querySelectorAll('input[type="range"]')];
+  const fmt2 = {
+    width: (v) => `${Math.round(v * 100)} %`,
+    twist: (v) => `${Math.round(v * 180 / Math.PI)}°`,
+    speed: (v) => `${v.toFixed(1)}×`,
+    warp: (v) => `${Math.round(v * 100)} %`
+  };
+  function syncFx() {
+    fxInputs.forEach((inp) => {
+      const k = inp.dataset.k;
+      inp.value = fx[k];
+      const pct = ((fx[k] - inp.min) / (inp.max - inp.min)) * 100;
+      inp.style.setProperty('--pct', `${pct}%`);
+      $(`#${inp.id}-v`).textContent = fmt2[k](fx[k]);
+    });
+  }
+  function setFx(open) {
+    if (open === !!state.fx) return;
+    state.fx = open;
+    document.body.classList.toggle('fx-open', open);
+    fxBtn.setAttribute('aria-expanded', String(open));
+    sfx.play(open ? 'open' : 'close');
+  }
+  fxBtn.addEventListener('click', () => { if (state.menu) setMenu(false); setFx(!state.fx); });
+  fxInputs.forEach((inp) => inp.addEventListener('input', () => { fx[inp.dataset.k] = parseFloat(inp.value); syncFx(); }));
+  $('#fxReset').addEventListener('click', () => { Object.assign(fx, FX_DEF); syncFx(); sfx.play('reset'); });
+  $('#fxSurprise').addEventListener('click', () => {
+    const rnd = (a, b) => a + Math.random() * (b - a);
+    let tries = 0, next;
+    do {
+      next = { width: rnd(0.3, 1.7), twist: rnd(0.12, 1.7), speed: rnd(0.3, 2.6), warp: rnd(0.2, 3) };
+      tries++;
+    } while (tries < 8 && Math.abs(next.width - fx.width) + Math.abs(next.twist - fx.twist) < 0.6);
+    Object.assign(fx, next);
+    syncFx();
+    scrollT += 1.5; lastInput = performance.now() - IDLE_DELAY;
+    sfx.play('surprise');
+  });
+  syncFx();
+
+  window.claude?.hot?.snapshot?.(() => ({ entered: state.entered, sound: state.sound, mode: state.mode, scroll: scrollT, fx: { ...fx } }));
   const start = (data) => { if (data && data.entered) instantEnter(data); };
   window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
 })();
