@@ -100,7 +100,15 @@ a{color:inherit;text-decoration:none}
 .modes[data-mode="list"] .modes__dot{translate:3px 0}
 .modes[data-mode="spiral"] .modes__dot{translate:-3px 0}
 
-.menu-btn{position:fixed;top:calc(var(--top) + 4px);right:var(--right);z-index:12;height:44px;display:flex;align-items:center;gap:9px;padding:0 17px 0 19px;border-radius:999px;background:var(--pill);color:var(--ink);font-size:15px;font-weight:500;letter-spacing:-.01em;transition:background .45s var(--ease-io),color .45s var(--ease-io),scale .25s var(--ease-out)}
+/* Fermeture : le bouton attend que le panneau se soit presque refermé avant de reprendre sa taille et sa couleur */
+.menu-btn{position:fixed;top:calc(var(--top) + 4px);right:var(--right);z-index:12;height:44px;display:flex;align-items:center;gap:9px;padding:0 17px 0 19px;border-radius:999px;background:var(--pill);color:var(--ink);font-size:15px;font-weight:500;letter-spacing:-.01em;transition:background .4s var(--ease-io) .38s,color .4s var(--ease-io) .38s,scale .25s var(--ease-out),opacity .9s var(--ease-out) var(--d,0ms),translate 1s var(--ease-out) var(--d,0ms)}
+.menu-open .menu-btn{transition-delay:0s,0s,0s,0s,0s}
+.menu-btn__labels{display:grid;align-items:center;height:1.3em;overflow:hidden;width:var(--lw,auto);transition:width .45s var(--ease-io) .38s}
+.mb-l{grid-area:1/1;justify-self:start;white-space:nowrap;transition:transform .45s var(--ease-io) .38s,opacity .3s .38s}
+.mb-l--close{transform:translateY(110%);opacity:0}
+.menu-open .mb-l--menu{transform:translateY(-110%);opacity:0}
+.menu-open .mb-l--close{transform:none;opacity:1}
+.menu-open .menu-btn__labels,.menu-open .mb-l{transition-delay:0s}
 .menu-btn:active{scale:.95}
 .menu-btn__dot{width:6px;height:6px;border-radius:50%;background:currentColor;transition:scale .5s var(--ease-io)}
 .menu-btn:hover .menu-btn__dot{scale:1.5}
@@ -153,7 +161,7 @@ a{color:inherit;text-decoration:none}
 .backdrop{position:fixed;inset:0;z-index:8;background:rgba(8,8,10,.45);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);opacity:0;pointer-events:none;transition:opacity .6s var(--ease-io)}
 .menu-open .backdrop{opacity:1;pointer-events:auto}
 .panel{position:fixed;top:calc(var(--top) + 4px);right:var(--right);z-index:11;width:min(390px,calc(100vw - 2 * var(--edge)));max-height:calc(100% - var(--top) - var(--bottom));overflow:auto;background:var(--pill);color:var(--ink);border-radius:24px;padding:84px 28px 24px;display:flex;flex-direction:column;gap:30px;
-  clip-path:inset(0 0 calc(100% - 44px) calc(100% - 104px) round 22px);visibility:hidden;transition:clip-path .75s var(--ease-io),visibility 0s .75s}
+  clip-path:inset(0 0 calc(100% - var(--bh,44px)) calc(100% - var(--bw,92px)) round 22px);visibility:hidden;transition:clip-path .75s var(--ease-io),visibility 0s .75s}
 .menu-open .panel{clip-path:inset(0 0 0 0 round 24px);visibility:visible;transition:clip-path .75s var(--ease-io),visibility 0s}
 .panel :focus-visible{outline-color:var(--ink)}
 .panel > *{opacity:0;translate:0 16px;transition:opacity .3s,translate .3s}
@@ -224,7 +232,7 @@ a{color:inherit;text-decoration:none}
 </div>
 
 <button class="menu-btn ui ui--top" id="menuBtn" type="button" aria-expanded="false" aria-controls="panel" style="--d:250ms">
-  <span id="menuLabel">menu</span><span class="menu-btn__dot" aria-hidden="true"></span>
+  <span class="menu-btn__labels" id="menuLabels"><span class="mb-l mb-l--menu">menu</span><span class="mb-l mb-l--close" aria-hidden="true">fermer</span></span><span class="menu-btn__dot" aria-hidden="true"></span>
 </button>
 
 <button class="reel ui ui--bottom" id="reel" type="button" aria-label="showreel (bientôt)" style="--d:350ms">
@@ -401,8 +409,6 @@ a{color:inherit;text-decoration:none}
     document.documentElement.style.setProperty('--noise', `url(${c.toDataURL()})`);
   })();
 
-  /* ---------- Changement de libellé (animation de texte à définir plus tard) ---------- */
-  function setLabel(el, text) { if (el) el.textContent = text; }
 
   /* ---------- Scène 3D ---------- */
   const canvas = $('#scene');
@@ -417,6 +423,9 @@ a{color:inherit;text-decoration:none}
   const layout = { R: 2.75, cam: 7.6, tx: 0.04, oy: 0, s: 1 };
   let scene, camera, helix, cards = [], ray, ndc;
   let scrollT = -5, scrollC = -5, velS = 0, introStart = -1, modeA = 1, modeT = 1;
+  /* Défilement automatique au repos : la spirale descend doucement après 2,2 s sans action */
+  let lastInput = performance.now(), idleV = 0;
+  const IDLE_SPEED = 0.22, IDLE_DELAY = 2200;
   let mx = 0, my = 0, mxs = 0, mys = 0, px = 0, py = 0, inside = false;
   let hovered = null;
 
@@ -556,6 +565,10 @@ a{color:inherit;text-decoration:none}
     const dt = Math.min(0.05, (now - last) / 1000); last = now;
 
     if (webgl) {
+      const idleOn = !reduce && state.entered && state.mode === 'spiral' && !state.menu && !hovered && !drag && (now - lastInput > IDLE_DELAY);
+      idleV += ((idleOn ? -IDLE_SPEED : 0) - idleV) * damp(0.025, dt);
+      if (Math.abs(idleV) > 0.0005) { scrollT += idleV * dt; clearTimeout(snapTimer); }
+
       const prevC = scrollC;
       scrollC += (scrollT - scrollC) * damp(0.085, dt);
       const vRaw = dt > 0 ? (scrollC - prevC) / dt : 0;
@@ -621,6 +634,7 @@ a{color:inherit;text-decoration:none}
     let d = horiz ? -e.deltaX : e.deltaY;
     if (e.deltaMode === 1) d *= 33;
     scrollT += clamp(d, -120, 120) * 0.0042;
+    lastInput = performance.now(); idleV = 0;
     scheduleSnap();
   }, { passive: false });
 
@@ -642,6 +656,7 @@ a{color:inherit;text-decoration:none}
       /* Mobile : glisser le doigt vers la droite fait descendre la spirale */
       const dx = e.clientX - drag.x; drag.x = e.clientX; drag.moved += Math.abs(dx);
       scrollT += dx * 0.012; scheduleSnap();
+      lastInput = performance.now(); idleV = 0;
     }
   });
   canvas.addEventListener('pointerup', (e) => { if (drag && drag.moved < 8) { px = e.clientX; py = e.clientY; inside = true; } drag = null; });
@@ -651,6 +666,7 @@ a{color:inherit;text-decoration:none}
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && state.menu) { setMenu(false); return; }
     if (!state.entered || state.menu || state.mode !== 'spiral') return;
+    lastInput = performance.now(); idleV = 0;
     if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown') { scrollT = Math.round(scrollT) + 1; e.preventDefault(); }
     if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') { scrollT = Math.round(scrollT) - 1; e.preventDefault(); }
   });
@@ -714,6 +730,7 @@ a{color:inherit;text-decoration:none}
     if (webgl) {
       setOrders();
       introStart = performance.now() + (reduce ? 0 : 300);
+      lastInput = performance.now();
       scrollT = 0;
     } else {
       setMode('list');
@@ -780,13 +797,29 @@ a{color:inherit;text-decoration:none}
   logo.addEventListener('click', (e) => { e.preventDefault(); setMenu(false); setMode('spiral'); });
 
   /* ---------- Menu ---------- */
-  const menuBtn = $('#menuBtn'), menuLabel = $('#menuLabel'), panel = $('#panel'), backdrop = $('#backdrop');
+  const menuBtn = $('#menuBtn'), menuLabels = $('#menuLabels'), panel = $('#panel'), backdrop = $('#backdrop');
+  const lblMenu = menuLabels.querySelector('.mb-l--menu'), lblClose = menuLabels.querySelector('.mb-l--close');
+  /* Largeur du libellé animée entre « menu » et « fermer » ; le panneau se referme exactement sur la taille du bouton */
+  function measureMenu() {
+    menuLabels.style.setProperty('--lw', `${(state.menu ? lblClose : lblMenu).offsetWidth}px`);
+    if (!state.menu) {
+      const r = menuBtn.getBoundingClientRect();
+      const closedW = r.width - menuLabels.offsetWidth + lblMenu.offsetWidth;
+      panel.style.setProperty('--bw', `${closedW}px`);
+      panel.style.setProperty('--bh', `${r.height}px`);
+    }
+  }
+  measureMenu();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureMenu);
+  window.addEventListener('resize', measureMenu);
+
   function setMenu(open) {
     if (open === state.menu) return;
     state.menu = open;
     document.body.classList.toggle('menu-open', open);
     menuBtn.setAttribute('aria-expanded', String(open));
-    setLabel(menuLabel, open ? 'fermer' : 'menu');
+    menuBtn.setAttribute('aria-label', open ? 'fermer le menu' : 'ouvrir le menu');
+    measureMenu();
     if (open) { setHovered(null); setTimeout(() => panel.querySelector('.pl').focus({ preventScroll: true }), 350); }
     sfx.play(open ? 'open' : 'close');
   }
