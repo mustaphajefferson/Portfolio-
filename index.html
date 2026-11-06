@@ -198,6 +198,51 @@ a{color:inherit;text-decoration:none}
 .panel__foot{margin:0;display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-dim);font-variant-numeric:tabular-nums;padding-top:14px;border-top:1px solid var(--rule)}
 
 /* ---------- Page à propos ---------- */
+.ab-words{position:relative;height:270vh}
+.ab-words__sticky{position:sticky;top:0;height:100vh;height:100dvh;display:flex;flex-direction:column;justify-content:center;gap:28px}
+.ab-phrase{margin:0;max-width:1180px;font-size:clamp(30px,4.5vw,70px);font-weight:500;line-height:1.08;letter-spacing:-.035em}
+.ab-phrase .w{display:inline-block;opacity:.16;translate:0 .14em;will-change:opacity,translate}
+.ab-hint{margin:0;font-size:12.5px;color:var(--dim)}
+.ab-id{position:relative;height:230vh}
+.ab-id__sticky{position:sticky;top:0;height:100vh;height:100dvh;display:grid;grid-template-columns:minmax(220px,34vw) minmax(0,1fr);align-items:center;gap:clamp(24px,5vw,90px)}
+.ab-photo{margin:0;display:flex;flex-direction:column;gap:10px;perspective:900px;max-height:80vh}
+.ab-photo__img{display:block;aspect-ratio:4/5;max-height:72vh;border-radius:16px;background:
+  radial-gradient(circle at 46% 34%,#e9dcc2 0 15%,transparent 16%),
+  radial-gradient(ellipse 36% 42% at 46% 80%,#cdbb9b 0 98%,transparent 100%),
+  linear-gradient(160deg,#c9a27a,#6f7f8f);
+  clip-path:inset(var(--ci,45%) round 16px);filter:grayscale(var(--g,1));
+  transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) scale(calc(var(--ps,1.2) * var(--hs,1)));transition:transform .5s var(--ease-out)}
+.ab-photo figcaption{font-size:12px;color:var(--dim);opacity:var(--to,0)}
+.ab-id__text{display:flex;flex-direction:column;gap:20px;min-width:0}
+.ab-name{margin:0;display:flex;overflow:hidden;font-size:clamp(96px,17vw,300px);font-weight:500;line-height:.86;letter-spacing:-.065em;padding-bottom:.05em}
+.ab-name span{display:inline-block;translate:0 var(--y,110%);will-change:translate}
+.ab-role,.ab-short{margin:0;opacity:var(--to,0);translate:0 calc((1 - var(--to,0)) * 16px)}
+.ab-role{font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase}
+.ab-short{font-size:clamp(17px,1.5vw,21px);line-height:1.5;max-width:42ch}
+.ab-pv-head{padding-block:120px 40px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.ab-pv-switch{display:flex;align-items:center;gap:12px;font-size:16px;letter-spacing:-.01em}
+.ab-pv-switch button{color:var(--dim);transition:color .3s;padding:6px 2px}
+.ab-pv-switch button:hover,.ab-pv-switch button[aria-selected="true"]{color:var(--fg)}
+.ab-tl__meta{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.ab-link{font-size:14px;font-weight:500;border-bottom:1px solid currentColor;padding-bottom:1px}
+.ab-cv{padding-bottom:40px}
+.ab-cv__bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding-bottom:24px}
+.ab-pdf{font-size:13px;font-weight:500;padding:9px 16px;border-radius:999px;border:1px solid var(--line-strong);color:var(--dim)}
+.cv-group{display:grid;grid-template-columns:minmax(140px,1fr) minmax(0,3fr);gap:24px;padding-block:28px;border-top:1px solid var(--line-strong)}
+.cv-group h3{margin:0;font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+.cv-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:34px}
+.cv-item{display:grid;grid-template-columns:minmax(120px,190px) minmax(0,1fr);gap:20px}
+.cv-d{margin:0;font-size:14px;color:var(--dim);font-variant-numeric:tabular-nums;padding-top:4px}
+.cv-t{margin:0;font-size:clamp(22px,2.2vw,30px);font-weight:500;letter-spacing:-.03em;line-height:1.1}
+.cv-r{margin:6px 0 0;font-size:14px;font-weight:500}
+.cv-x{margin:12px 0 0;font-size:16px;line-height:1.55;max-width:62ch}
+@media (max-width:760px){
+  .ab-id__sticky{grid-template-columns:1fr;align-content:center;gap:18px;padding-top:calc(var(--top) + 40px)}
+  .ab-photo{max-width:min(240px,58vw)}
+  .ab-photo__img{max-height:40vh}
+  .ab-name{font-size:clamp(84px,26vw,140px)}
+  .cv-group,.cv-item{grid-template-columns:1fr;gap:10px}
+}
 .about{position:fixed;inset:0;z-index:4;background:var(--bg);overflow-y:auto;overflow-x:hidden;scrollbar-width:none;clip-path:inset(100% 0 0 0);transition:clip-path 1s var(--ease-io)}
 .about::-webkit-scrollbar{display:none}
 .about.is-open{clip-path:inset(0 0 0 0)}
@@ -440,27 +485,42 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
 <!-- Page à propos -->
 <section class="about" id="about" hidden aria-label="à propos">
   <div class="about__inner">
-    <header class="ab-hero">
-      <p class="ab-eyebrow">à propos</p>
-      <h1 class="ab-title"><span class="ab-line"><span>Je fabrique des images</span></span><span class="ab-line"><span>qui bougent.</span></span></h1>
-      <div class="ab-intro">
-        <figure class="ab-portrait ab-reveal" id="portrait">
-          <span class="ab-portrait__img"></span>
+    <section class="ab-words" id="abWords" aria-label="introduction">
+      <div class="ab-words__sticky">
+        <p class="ab-eyebrow">à propos</p>
+        <p class="ab-phrase" id="phrase">Je fabrique des images qui bougent pour des médias qui ont quelque chose à raconter : carrousels, reels, motion design et montage. Entre Nairobi et Paris, j'ai appris qu'une image doit parler avant même qu'on lise la légende.</p>
+        <p class="ab-hint" id="abHint">continuez à scroller ↓</p>
+      </div>
+    </section>
+
+    <section class="ab-id" id="abId" aria-label="présentation">
+      <div class="ab-id__sticky">
+        <figure class="ab-photo" id="portrait">
+          <span class="ab-photo__img"></span>
           <figcaption>portrait — à remplacer</figcaption>
         </figure>
-        <div class="ab-bio ab-reveal">
-          <p>Graphisme, direction artistique et montage vidéo, entre Paris et le reste du monde.</p>
-          <p>Je conçois les carrousels, les reels et le motion design de Radio Classique, où j'occupe le premier poste créatif de la maison. Je prépare en parallèle un Mastère Direction Artistique à LISAA.</p>
-          <p>J'ai passé une grande partie de ma vie à l'étranger, notamment à Nairobi. Ce texte est un brouillon : réécrivez-le avec vos mots.</p>
+        <div class="ab-id__text">
+          <p class="ab-name" id="abName" aria-label="Goat">Goat</p>
+          <p class="ab-role" id="abRole">graphisme · direction artistique · montage vidéo — paris</p>
+          <p class="ab-short" id="abShort">Premier poste créatif de Radio Classique, en Mastère Direction Artistique à LISAA. Ce texte est un brouillon : réécrivez-le avec vos mots.</p>
         </div>
+      </div>
+    </section>
+
+    <header class="ab-pv-head" id="pvHead">
+      <div><p class="ab-eyebrow">parcours</p><h2 class="ab-tl__title">Le parcours</h2></div>
+      <div class="ab-pv-switch" role="tablist" aria-label="affichage du parcours">
+        <button type="button" role="tab" aria-selected="true" data-pv="timeline">timeline</button>
+        <span aria-hidden="true">•</span>
+        <button type="button" role="tab" aria-selected="false" data-pv="list">liste</button>
       </div>
     </header>
 
     <section class="ab-tl" id="tl" aria-label="parcours">
       <div class="ab-tl__sticky">
         <div class="ab-tl__top">
-          <div><p class="ab-eyebrow">parcours</p><h2 class="ab-tl__title">La timeline</h2></div>
-          <p class="ab-tc" aria-live="off"><span id="tc">00:00:00:00</span><small>1 seconde = 1 mois</small></p>
+          <div class="ab-tl__meta"><p class="ab-eyebrow">timeline — 1 seconde = 1 mois</p><button type="button" class="ab-link" data-pv="list">voir en liste →</button></div>
+          <p class="ab-tc" aria-live="off"><span id="tc">00:00:00:00</span></p>
         </div>
         <div class="ab-tl__view">
           <div class="ab-heads" aria-hidden="true">
@@ -481,6 +541,14 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
         <div class="ab-detail" id="detail"></div>
         <p class="ab-note">Positions et durées provisoires : envoyez vos dates et je les cale.</p>
       </div>
+    </section>
+
+    <section class="ab-cv" id="cv" hidden aria-label="parcours en liste">
+      <div class="ab-cv__bar">
+        <p class="ab-note">Version classique, pour une lecture rapide.</p>
+        <span class="ab-pdf" aria-disabled="true">CV en PDF — à ajouter</span>
+      </div>
+      <div id="cvGroups"></div>
     </section>
 
     <section class="ab-tools" aria-label="outils">
@@ -1174,18 +1242,20 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
   syncFx();
 
   /* ---------- Page à propos ---------- */
+  const portrait = $('#portrait'), pImg = portrait.querySelector('.ab-photo__img');
   const about = $('#about'), strip = $('#strip'), ruler = $('#ruler'), ph = $('#ph'), tcEl = $('#tc'), detail = $('#detail'), tl = $('#tl');
   const TL_MONTHS = 60;
   const TRACK_NAMES = { v2: 'V2 — pro', v1: 'V1 — études', a1: 'A1 — perso' };
   /* Contenu provisoire : les durées d'AFP (4 mois) et de ParisianVibe (près d'un an) sont réelles, le reste est à caler */
   const CLIPS = [
-    { tr: 'v2', s: 26, e: 30, t: 'AFP', p: 'stage — 4 mois', x: "Stage de quatre mois à l'Agence France-Presse. Rôle à préciser." },
-    { tr: 'v2', s: 31, e: 42, t: 'ParisianVibe', p: "près d'un an", x: 'Près d’une année chez ParisianVibe. Missions à préciser.' },
-    { tr: 'v2', s: 44, e: 60, t: 'Radio Classique', p: 'graphisme, motion & montage — en cours', x: 'Premier poste créatif de la maison : carrousels, reels, motion design et montage pour les réseaux sociaux.' },
-    { tr: 'v1', s: 4, e: 24, t: 'Formation', p: 'école — à compléter', x: 'Votre parcours avant LISAA.' },
-    { tr: 'v1', s: 36, e: 60, t: 'LISAA', p: 'Mastère Direction Artistique — en cours', x: 'Mastère en direction artistique.' },
-    { tr: 'a1', s: 0, e: 22, t: 'Nairobi, Kenya', p: "une vie à l'étranger", x: "Une grande partie de ma vie passée hors de France, notamment à Nairobi." },
-    { tr: 'a1', s: 23, e: 60, t: 'Paris', p: "aujourd'hui", x: "Paris, où je vis et travaille aujourd'hui." }
+    { tr: 'v2', s: 26, e: 30, t: 'AFP', p: 'stage — 4 mois', d: '[dates] · 4 mois', x: "Stage de quatre mois à l'Agence France-Presse. Rôle à préciser.",
+      long: "Stage de quatre mois à l'Agence France-Presse. [À compléter : service, missions, ce que vous y avez appris.]" },
+    { tr: 'v2', s: 31, e: 42, t: 'ParisianVibe', p: "près d'un an", d: "[dates] · près d'un an", long: "Près d'une année chez ParisianVibe. [À compléter : poste, missions, réalisations.]", x: 'Près d’une année chez ParisianVibe. Missions à préciser.' },
+    { tr: 'v2', s: 44, e: 60, t: 'Radio Classique', p: 'graphisme, motion & montage — en cours', d: "[début] — aujourd'hui", long: "Premier poste créatif de la station. Je conçois et produis les contenus des réseaux sociaux : carrousels éditoriaux, reels, motion design et montage, de la recherche iconographique jusqu'à la publication. [À compléter : chiffres, formats, exemples marquants.]", x: 'Premier poste créatif de la maison : carrousels, reels, motion design et montage pour les réseaux sociaux.' },
+    { tr: 'v1', s: 4, e: 24, t: 'Formation', p: 'école — à compléter', d: '[dates]', long: "[À compléter : école, diplôme, spécialité.]", x: 'Votre parcours avant LISAA.' },
+    { tr: 'v1', s: 36, e: 60, t: 'LISAA', p: 'Mastère Direction Artistique — en cours', d: '[début] — en cours', long: "Mastère Direction Artistique. [À compléter : spécialisation, projets, mémoire.]", x: 'Mastère en direction artistique.' },
+    { tr: 'a1', s: 0, e: 22, t: 'Nairobi, Kenya', p: "une vie à l'étranger", d: '[années]', long: "J'ai passé une grande partie de ma vie à l'étranger, notamment à Nairobi, au Kenya. [À compléter : ce que ça a changé dans votre regard.]", x: "Une grande partie de ma vie passée hors de France, notamment à Nairobi." },
+    { tr: 'a1', s: 23, e: 60, t: 'Paris', p: "aujourd'hui", d: 'depuis [année]', long: "Paris, où je vis et travaille aujourd'hui.", x: "Paris, où je vis et travaille aujourd'hui." }
   ];
   let ppm = 30, aboutT = 0, aboutC = 0, ownAbout = false, lastT = -1, aboutHideTimer = 0;
   const clipEls = [];
@@ -1239,12 +1309,89 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
       detail.appendChild(card);
     });
   }
+  const wordsSec = $('#abWords'), idSec = $('#abId'), hint = $('#abHint'), phrase = $('#phrase'), cv = $('#cv'), pvHead = $('#pvHead');
+  let lastWp = -1, lastIp = -1;
+  /* Découpe la phrase en mots et le nom en lettres */
+  const words = [];
+  (() => {
+    const full = phrase.textContent.trim();
+    const txt = full.split(/\s+/);
+    phrase.setAttribute('aria-label', full);
+    phrase.textContent = '';
+    txt.forEach((w, i) => {
+      const sp = document.createElement('span'); sp.className = 'w'; sp.textContent = w; sp.setAttribute('aria-hidden', 'true');
+      phrase.appendChild(sp); words.push(sp);
+      if (i < txt.length - 1) phrase.appendChild(document.createTextNode(' '));
+    });
+    const nm = $('#abName'), letters = nm.textContent.trim();
+    nm.textContent = '';
+    [...letters].forEach((ch) => { const sp = document.createElement('span'); sp.textContent = ch; sp.setAttribute('aria-hidden', 'true'); nm.appendChild(sp); });
+  })();
+  const nameLetters = [...document.querySelectorAll('#abName span')];
+
+  /* Parcours en liste classique */
+  const GROUPS = [['v2', 'expérience'], ['v1', 'études'], ['a1', 'ailleurs']];
+  const cvGroups = $('#cvGroups');
+  GROUPS.forEach(([tr, label]) => {
+    const g = document.createElement('div'); g.className = 'cv-group';
+    const h = document.createElement('h3'); h.textContent = label;
+    const ol = document.createElement('ol'); ol.className = 'cv-list';
+    CLIPS.filter((c) => c.tr === tr).sort((a, b) => b.s - a.s).forEach((c) => {
+      const li = document.createElement('li'); li.className = 'cv-item ab-reveal';
+      const d = document.createElement('p'); d.className = 'cv-d'; d.textContent = c.d;
+      const box = document.createElement('div');
+      const t = document.createElement('h4'); t.className = 'cv-t'; t.textContent = c.t;
+      const r = document.createElement('p'); r.className = 'cv-r'; r.textContent = c.p;
+      const x = document.createElement('p'); x.className = 'cv-x'; x.textContent = c.long;
+      box.append(t, r, x); li.append(d, box); ol.appendChild(li);
+    });
+    g.append(h, ol); cvGroups.appendChild(g);
+  });
+
+  function setPv(m) {
+    tl.hidden = m !== 'timeline';
+    cv.hidden = m !== 'list';
+    about.querySelectorAll('[data-pv]').forEach((b) => { if (b.getAttribute('role') === 'tab') b.setAttribute('aria-selected', String(b.dataset.pv === m)); });
+    const top = Math.max(0, pvHead.offsetTop - 60);
+    about.scrollTop = top; aboutT = aboutC = top; lastT = -1; lastKey = '';
+    if (m === 'list') cv.querySelectorAll('.ab-reveal').forEach((el) => { if (io) io.observe(el); else el.classList.add('is-in'); });
+    sfx.play('mode');
+  }
+  about.addEventListener('click', (e) => { const b = e.target.closest('[data-pv]'); if (b) setPv(b.dataset.pv); });
+
   let lastKey = '';
   function aboutTick(dt) {
     aboutC += (aboutT - aboutC) * damp(0.085, dt);
     if (Math.abs(aboutT - aboutC) > 0.2) { ownAbout = true; about.scrollTop = aboutC; }
-    const y = about.scrollTop;
-    const start = tl.offsetTop, span = tl.offsetHeight - about.clientHeight;
+    const y = about.scrollTop, vh = about.clientHeight;
+
+    /* Phrase : les mots s'allument un à un au scroll */
+    const wp = clamp((y - wordsSec.offsetTop) / Math.max(1, wordsSec.offsetHeight - vh), 0, 1);
+    if (Math.abs(wp - lastWp) > 0.0008) {
+      lastWp = wp;
+      const head = wp * (words.length + 3);
+      for (let i = 0; i < words.length; i++) {
+        const k = Math.round(clamp(head - i, 0, 1) * 100) / 100;
+        const w = words[i];
+        if (w._k !== k) { w._k = k; w.style.opacity = 0.16 + 0.84 * k; w.style.translate = `0 ${(1 - k) * 0.14}em`; }
+      }
+      hint.style.opacity = String(1 - smooth(0, 0.06, wp));
+    }
+
+    /* Photo + nom */
+    const ip = clamp((y - (idSec.offsetTop - vh * 0.55)) / Math.max(1, idSec.offsetHeight - vh * 0.45), 0, 1);
+    if (Math.abs(ip - lastIp) > 0.0008) {
+      lastIp = ip;
+      const ph1 = easeOutExpo(smooth(0, 0.5, ip));
+      pImg.style.setProperty('--ci', `${(1 - ph1) * 45}%`);
+      pImg.style.setProperty('--ps', String(1.2 - 0.2 * ph1));
+      pImg.style.setProperty('--g', String(1 - smooth(0.55, 0.9, ip)));
+      nameLetters.forEach((l, i) => { l.style.setProperty('--y', `${(1 - smooth(0.22 + i * 0.07, 0.55 + i * 0.07, ip)) * 110}%`); });
+      idSec.style.setProperty('--to', String(smooth(0.6, 0.85, ip)));
+    }
+
+    if (tl.hidden) return;
+    const start = tl.offsetTop, span = tl.offsetHeight - vh;
     const prog = clamp((y - start) / Math.max(1, span), 0, 1);
     const t = prog * TL_MONTHS;
     if (Math.abs(t - lastT) < 0.005) return;
@@ -1273,13 +1420,12 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
   about.querySelectorAll('.ab-reveal').forEach((el) => { if (io) io.observe(el); else el.classList.add('is-in'); });
 
   /* Portrait qui suit le curseur */
-  const portrait = $('#portrait'), pImg = portrait.querySelector('.ab-portrait__img');
   portrait.addEventListener('pointermove', (e) => {
     const r = pImg.getBoundingClientRect();
     const nx = (e.clientX - r.left) / r.width - 0.5, ny = (e.clientY - r.top) / r.height - 0.5;
-    pImg.style.setProperty('--ry', `${nx * 14}deg`); pImg.style.setProperty('--rx', `${-ny * 14}deg`); pImg.style.setProperty('--sc', '1.03');
+    pImg.style.setProperty('--ry', `${nx * 12}deg`); pImg.style.setProperty('--rx', `${-ny * 12}deg`); pImg.style.setProperty('--hs', '1.03');
   });
-  portrait.addEventListener('pointerleave', () => { pImg.style.setProperty('--ry', '0deg'); pImg.style.setProperty('--rx', '0deg'); pImg.style.setProperty('--sc', '1'); });
+  portrait.addEventListener('pointerleave', () => { pImg.style.setProperty('--ry', '0deg'); pImg.style.setProperty('--rx', '0deg'); pImg.style.setProperty('--hs', '1'); });
 
   function setView(v) {
     if (v === state.view) return;
@@ -1289,7 +1435,7 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
       setFx(false); setHovered(null);
       modeT = 0;
       about.hidden = false;
-      about.scrollTop = 0; aboutT = aboutC = 0; lastT = -1; lastKey = '';
+      about.scrollTop = 0; aboutT = aboutC = 0; lastT = -1; lastKey = ''; lastWp = -1; lastIp = -1;
       document.body.classList.add('view-about');
       requestAnimationFrame(() => requestAnimationFrame(() => about.classList.add('is-open')));
       if (location.hash !== '#a-propos') history.replaceState(null, '', '#a-propos');
