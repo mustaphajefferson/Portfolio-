@@ -521,7 +521,66 @@ a{color:inherit;text-decoration:none}
 .ab-back{height:44px;padding:0 20px;border-radius:999px;background:var(--pill);color:var(--ink);font-size:15px;font-weight:500;transition:scale .25s var(--ease-out)}
 .ab-back:active{scale:.95}
 
-body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-about .fx{opacity:0;pointer-events:none;visibility:hidden}
+body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-about .fx,
+body.view-project .modes,body.view-project .fx-btn,body.view-project .reel,body.view-project .fx{opacity:0;pointer-events:none;visibility:hidden}
+
+/* ---------- Pages projet ---------- */
+.pj-back{position:fixed;top:calc(var(--top) + 4px);left:50%;translate:-50% 0;z-index:12;height:44px;padding:0 18px;border-radius:999px;background:var(--pill);color:var(--ink);font-size:15px;font-weight:500;letter-spacing:-.01em;display:flex;align-items:center;gap:8px;opacity:0;pointer-events:none;transition:opacity .5s var(--ease-out),scale .25s var(--ease-out)}
+.pj-back span{transition:translate .4s var(--ease-out)}
+.pj-back:hover span{translate:-4px 0}
+.pj-back:active{scale:.95}
+body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s}
+.pj__inner{position:relative;padding-inline:max(16px,6vw,env(safe-area-inset-left,0px)) max(16px,6vw,env(safe-area-inset-right,0px));transition:opacity .35s}
+.pj__inner.is-swap{opacity:0}
+.pj-hero{padding-top:calc(var(--top) + 120px);display:flex;flex-direction:column;gap:var(--tgap)}
+.pj-kicker{display:flex;gap:10px;align-items:center}
+.pj-kicker b{display:inline-grid;place-items:center;min-width:28px;height:22px;padding:0 6px;border-radius:5px;background:var(--fg);color:var(--bg);font-size:11px;font-weight:600}
+.pj-hero .ab-h{font-size:clamp(56px,11vw,190px)}
+.pj-meta{margin:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;border-top:1px solid var(--line-strong);padding-top:18px}
+.pj-meta div{min-width:0}
+.pj-meta dt{font-size:11.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);margin-bottom:6px}
+.pj-meta dd{margin:0;font-size:15px;font-weight:500;line-height:1.35}
+.pj-cover{margin-top:var(--tgap)}
+.ph{position:relative;aspect-ratio:var(--ar,16/9);border-radius:16px;background:var(--tint);background-size:cover;background-position:center;overflow:hidden;display:grid;place-items:center}
+.ph__l{position:absolute;left:14px;top:12px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--dim);background:var(--bg);padding:4px 8px;border-radius:6px}
+.ph__play{width:64px;height:64px;border-radius:50%;background:var(--fg);display:grid;place-items:center;transition:scale .4s var(--ease-out)}
+.ph__play::after{content:"";margin-left:5px;border-style:solid;border-width:10px 0 10px 16px;border-color:transparent transparent transparent var(--bg)}
+.pj-media:hover .ph__play{scale:1.1}
+.pj-cover .ph{background-size:100% auto;background-position:50% var(--pp,50%)}
+.pj-media{margin:0;display:flex;flex-direction:column;gap:10px;min-width:0}
+.pj-media .ph{clip-path:inset(7% 7% 7% 7% round 16px);transition:clip-path 1.3s var(--ease-io)}
+.pj-media.is-in .ph,.pj-cover .ph{clip-path:inset(0 round 16px)}
+.pj-media figcaption{font-size:13px;color:var(--dim);line-height:1.4}
+.pj-cols{padding-top:var(--sec);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,44px)}
+.pj-col{display:flex;flex-direction:column;gap:14px;min-width:0}
+.pj-col h3{margin:0;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding-bottom:12px;border-bottom:1px solid var(--line-strong)}
+.pj-col p,.pj-text p{margin:0;font-size:16px;line-height:1.6;letter-spacing:-.005em}
+.pj-col b,.pj-text b{font-weight:700}
+.pj-stats{padding-top:var(--sec);display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:14px}
+.pj-stat{border-top:1.5px solid var(--fg);padding-top:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.pj-big{font-size:clamp(40px,4.1vw,80px);font-weight:500;letter-spacing:-.05em;line-height:.95;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pj-big small{font-size:.42em;letter-spacing:-.02em;margin-left:.12em}
+.pj-stat p{margin:0;font-size:14px;line-height:1.4;max-width:30ch}
+.pj-stat.is-ph .pj-big{color:var(--dim)}
+.pj-gallery{padding-top:var(--sec);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(14px,2vw,26px);align-items:start}
+.pj-gallery > *{grid-column:span 12}
+.pj-gallery .s8{grid-column:span 8}
+.pj-gallery .s6{grid-column:span 6}
+.pj-gallery .s4{grid-column:span 4}
+.pj-text{display:flex;flex-direction:column;gap:16px;align-self:center}
+.pj-next{display:flex;flex-direction:column;gap:12px;align-items:flex-start;padding-block:var(--sec) calc(var(--bottom) + var(--sec));margin-top:var(--sec);border-top:1px solid var(--line-strong);text-align:left;width:100%}
+.pj-next__t{font-size:clamp(48px,9vw,150px);font-weight:500;letter-spacing:-.055em;line-height:.92;display:flex;align-items:center;gap:.2em;transition:translate .6s var(--ease-out)}
+.pj-next__t i{font-style:normal;font-size:.5em;transition:translate .6s var(--ease-out)}
+.pj-next:hover .pj-next__t{translate:12px 0}
+.pj-next:hover .pj-next__t i{translate:10px 0}
+@media (max-width:760px){
+  .pj-meta{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pj-cols{grid-template-columns:1fr}
+  .pj-stats{grid-template-columns:1fr}
+  .pj-gallery .s8,.pj-gallery .s6,.pj-gallery .s4{grid-column:span 12}
+  .pj-back{top:auto;bottom:var(--bottom);height:42px}
+  .pj-big{font-size:clamp(44px,13vw,72px)}
+}
 
 @media (max-width:760px){
   .ab-intro{grid-template-columns:1fr}
@@ -855,6 +914,13 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
   </div>
 </section>
 
+<!-- Pages projet -->
+<section class="about pj" id="pj" hidden aria-label="projet">
+  <div class="about__bg" aria-hidden="true"></div>
+  <div class="pj__inner" id="pjInner"></div>
+</section>
+<button class="pj-back" id="pjBack" type="button"><span>←</span>projets</button>
+
 <div class="grain" aria-hidden="true"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -875,7 +941,7 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
 
   /* ---------- Projets (placeholders) ---------- */
   const N = 12;
-  const CATS = ['motion design', 'direction artistique', 'montage', 'identité visuelle', 'social media', '3d'];
+  const CATS = ['motion design & montage', 'montage vidéo', 'design graphique', 'identité visuelle', 'social media', '3d'];
   const PALETTES = [
     ['#2b2bff', '#00e0c6', '#ffde3b'], ['#ff5e3a', '#ffd1c2', '#2a1a5e'], ['#c8ff2e', '#1a6b4f', '#0f0f2e'],
     ['#ff3ea5', '#5b2bff', '#ffe3f3'], ['#00b3ff', '#002a5c', '#ff9f1c'], ['#f4f0e6', '#ff4b2b', '#1b1b1b'],
@@ -884,7 +950,8 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
   ];
   const PORTRAIT = new Set([3, 8]);
   const projects = Array.from({ length: N }, (_, i) => ({
-    title: 'Projet ' + String(i + 1).padStart(2, '0'),
+    title: ['Radio Classique', 'ParisianVibe', 'AFP'][i] || 'Projet ' + String(i + 1).padStart(2, '0'),
+    slug: ['radio-classique', 'parisianvibe', 'afp'][i] || null,
     cat: CATS[i % CATS.length],
     portrait: PORTRAIT.has(i)
   }));
@@ -1158,7 +1225,7 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
     }
 
     /* Sur la page à propos, la spirale cesse d'être calculée une fois sortie de l'écran */
-    const asleep = state.view === 'about' && modeT === 0 && modeA < 0.01;
+    const asleep = state.view !== 'home' && modeT === 0 && modeA < 0.01;
     if (webgl && !asleep) {
       const idleOn = !reduce && state.entered && state.view === 'home' && state.mode === 'spiral' && !state.menu && !hovered && !drag && (now - lastInput > IDLE_DELAY);
       for (const k in fx) fxC[k] += (fx[k] - fxC[k]) * damp(0.06, dt);
@@ -1220,6 +1287,7 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
       preview.style.transform = `translate(${pvx}px, ${pvy}px) translate(-50%, -50%) rotate(${rot}deg)`;
     }
     if (state.view === 'about') aboutTick(dt);
+    if (state.view === 'project') pjTick(dt);
     requestAnimationFrame(tick);
   }
   requestAnimationFrame(tick);
@@ -1264,10 +1332,11 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
   });
   canvas.addEventListener('pointerup', (e) => { if (drag && drag.moved < 8) { px = e.clientX; py = e.clientY; inside = true; } drag = null; });
   canvas.addEventListener('pointerleave', () => { inside = false; if (!drag) setHovered(null); });
-  canvas.addEventListener('click', () => { if (hovered) sfx.play('click'); });
+  canvas.addEventListener('click', () => { if (!hovered) return; sfx.play('click'); if (hovered.project.slug) setView('project', hovered.project.slug); });
 
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && state.menu) { setMenu(false); return; }
+    if (e.key === 'Escape' && state.view === 'project') { setView('home'); return; }
     if (e.key === 'Escape' && state.fx) { setFx(false); fxBtn.focus({ preventScroll: true }); return; }
     if (!state.entered || state.menu || state.view !== 'home' || state.mode !== 'spiral') return;
     lastInput = performance.now(); idleV = 0;
@@ -1340,7 +1409,8 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
       setMode('list');
       $('#modes').hidden = true;
     }
-    if (location.hash === '#a-propos') setTimeout(() => setView('about'), reduce ? 0 : 900);
+    const hv = routeOf(location.hash);
+    if (hv.v !== 'home') setTimeout(() => setView(hv.v, hv.slug), reduce ? 0 : 900);
   }
   enterBtn.addEventListener('click', () => enter(true));
   quietBtn.addEventListener('click', () => enter(false));
@@ -1385,6 +1455,7 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
       sfx.play('hover');
     };
     b.addEventListener('pointerenter', show);
+    b.addEventListener('click', () => { if (p.slug) setView('project', p.slug); });
     b.addEventListener('focus', () => { const r = b.getBoundingClientRect(); pvtx = r.left + r.width / 2; pvty = r.top + r.height / 2; show(); });
     b.addEventListener('pointerleave', () => preview.classList.remove('is-on'));
     b.addEventListener('blur', () => preview.classList.remove('is-on'));
@@ -1489,7 +1560,8 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
       introStart = performance.now() - 10000;
     }
     if (data.mode === 'list' || !webgl) setMode('list');
-    if (data.view === 'about' || location.hash === '#a-propos') setView('about');
+    const hv = data.view && data.view !== 'home' ? { v: data.view, slug: data.slug } : routeOf(location.hash);
+    if (hv.v !== 'home') setView(hv.v, hv.slug);
   }
   /* ---------- Panneau de réglages ---------- */
   const fxBtn = $('#fxBtn'), fxPanel = $('#fx');
@@ -1871,33 +1943,209 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
   });
   portrait.addEventListener('pointerleave', () => { pImg.style.setProperty('--ry', '0deg'); pImg.style.setProperty('--rx', '0deg'); pImg.style.setProperty('--hs', '1'); });
 
-  function setView(v) {
-    if (v === state.view) return;
-    state.view = v;
+  function openAbout() {
     clearTimeout(aboutHideTimer);
-    if (v === 'about') {
-      setFx(false); setHovered(null);
-      modeT = 0;
-      about.hidden = false;
-      about.scrollTop = 0; aboutT = aboutC = 0; lastT = -1; lastKey = ''; lastWp = -1;
-      document.body.classList.add('view-about');
-      requestAnimationFrame(() => requestAnimationFrame(() => about.classList.add('is-open')));
-      if (location.hash !== '#a-propos') history.replaceState(null, '', '#a-propos');
-    } else {
+    about.hidden = false;
+    about.scrollTop = 0; aboutT = aboutC = 0; lastT = -1; lastKey = ''; lastWp = -1;
+    document.body.classList.add('view-about');
+    requestAnimationFrame(() => requestAnimationFrame(() => about.classList.add('is-open')));
+    if (location.hash !== '#a-propos') history.replaceState(null, '', '#a-propos');
+  }
+  function closeAbout() {
+    about.classList.remove('is-open');
+    document.body.classList.remove('view-about');
+    about.querySelectorAll('.ab-reveal, .ab-h').forEach((el) => { el.classList.remove('is-in'); if (io) io.observe(el); });
+    aboutHideTimer = setTimeout(() => { if (state.view !== 'about') about.hidden = true; }, 1000);
+  }
+  /* Vues : 'home' (spirale / liste), 'about', 'project' (avec son identifiant) */
+  function setView(v, slug) {
+    if (v === 'project' && !PROJECTS[slug]) return;
+    if (v === state.view && (v !== 'project' || slug === pjCur)) return;
+    const prev = state.view;
+    state.view = v;
+    setFx(false); setHovered(null);
+    if (prev === 'about' && v !== 'about') closeAbout();
+    if (prev === 'project' && v !== 'project') closeProject();
+    if (v === 'about') { modeT = 0; openAbout(); }
+    else if (v === 'project') { modeT = 0; openProject(slug, prev === 'project'); }
+    else {
       modeT = state.mode === 'list' ? 0 : 1;
-      about.classList.remove('is-open');
-      document.body.classList.remove('view-about');
-      about.querySelectorAll('.ab-reveal, .ab-h').forEach((el) => { el.classList.remove('is-in'); if (io) io.observe(el); });
-      aboutHideTimer = setTimeout(() => { if (state.view === 'home') about.hidden = true; }, 1000);
       if (location.hash) history.replaceState(null, '', location.pathname + location.search);
       lastInput = performance.now();
     }
     sfx.play('view');
   }
   $('#abBack').addEventListener('click', () => { setView('home'); setMode('spiral'); });
-  window.addEventListener('hashchange', () => { if (!state.entered) return; setView(location.hash === '#a-propos' ? 'about' : 'home'); });
+  window.addEventListener('hashchange', () => { if (!state.entered) return; const hv = routeOf(location.hash); setView(hv.v, hv.slug); });
 
-  window.claude?.hot?.snapshot?.(() => ({ entered: state.entered, sound: state.sound, mode: state.mode, scroll: scrollT, fx: { ...fx }, view: state.view }));
+  /* ---------- Pages projet ---------- */
+  const PROJECTS = {
+    'radio-classique': {
+      title: 'Radio Classique', kicker: 'motion design & montage',
+      meta: [['rôle', 'Motion designer & monteur vidéo'], ['contrat', 'Alternance — 2 ans'], ['équipe', 'Service communication'], ['dates', "Depuis août 2025"], ['lieu', 'Paris']],
+      cols: [
+        ['Alternance de 2 ans', "En rejoignant **Radio Classique** en tant que Motion Designer et Monteur Vidéo, j'ai intégré l'univers exigeant d'un média de **référence** pour y insuffler une dynamique visuelle **contemporaine**. Cette mission m'a permis de traduire **l'élégance** et la **profondeur** de la programmation classique en contenus **animés**, tout en respectant l'identité **forte** et la rigueur **institutionnelle** qui définissent la marque."],
+        ['Monteur vidéo & motion designer', "Mon travail s'est concentré sur la création de contenus **engageants** destinés aux **réseaux sociaux**, où l'enjeu était de **capter** l'attention tout en préservant la **justesse** du ton. J'ai mis **à profit** ma **maîtrise** du motion design et du montage pour **donner vie** aux formats courts, en veillant à ce que chaque mouvement et chaque coupe rythmique soient en parfaite **harmonie** avec l'exigence sonore du média. C'est un exercice de **précision** où le visuel vient **magnifier** l'écoute."],
+        ['Service communication', "Au-delà de l'aspect purement **technique**, cette **immersion** m'a permis **d'affiner** mon **adaptabilité** au sein d'une équipe de communication **dynamique**. J'ai pu démontrer ma capacité à **produire** des contenus **fluides** et **cohérents** dans des délais **serrés**, tout en apportant une touche de **modernité graphique**. Cette expérience a **renforcé** ma conviction : le design est le pont **essentiel** pour rendre la **culture** et l'information **accessibles** et **vibrantes** à l'ère du **numérique**."]
+      ],
+      stats: [
+        { to: 2, suf: 'ans', lbl: "d'alternance au service communication" },
+        { ph: true, lbl: 'À compléter : abonnés gagnés, vues ou taux d’engagement' },
+        { ph: true, lbl: 'À compléter : nombre de reels ou de carrousels publiés' }
+      ],
+      media: [
+        { kind: 'vidéo', ar: '16/9', cls: '', cap: 'Reel — à remplacer' },
+        { kind: 'vidéo', ar: '9/16', cls: 's4', cap: 'Reel vertical — à remplacer' },
+        { kind: 'vidéo', ar: '9/16', cls: 's4', cap: 'Reel vertical — à remplacer' },
+        { kind: 'vidéo', ar: '9/16', cls: 's4', cap: 'Reel vertical — à remplacer' },
+        { kind: 'image', ar: '4/5', cls: 's6', cap: 'Carrousel — à remplacer' },
+        { kind: 'image', ar: '4/5', cls: 's6', cap: 'Carrousel — à remplacer' }
+      ]
+    },
+    'parisianvibe': {
+      title: 'ParisianVibe', kicker: 'montage vidéo',
+      meta: [['rôle', 'Monteur vidéo'], ['contrat', 'Alternance — 1 an'], ['équipe', 'Équipe de production'], ['dates', 'Déc. 2024 — juil. 2025'], ['lieu', 'Paris']],
+      cols: [
+        ['Alternance de 1 an', "Chez **ParisianVibe**, j'ai travaillé en tant que **monteur vidéo**, une expérience **immersive** qui m'a placé au **cœur** de la création de contenu pour l'univers exigeant du **luxe** et de **la mode**. Dans ce rôle, ma **mission** était de traduire l'identité **forte** de la marque en **séquences visuelles** dynamiques, en veillant à ce que **chaque** montage serve une narration **cohérente**. Cette opportunité m'a permis de **perfectionner** ma maîtrise du **rythme** et de **l'esthétique**, en collaborant **étroitement** avec la direction artistique afin d'assurer une cohérence visuelle **irréprochable** sur **l'ensemble** des plateformes de diffusion."],
+        ['Monteur vidéo', "Au-delà des aspects **techniques**, cette collaboration m'a permis **d'affiner** mon approche **stratégique** du design. Comme l'a souligné Viktoria De Chevron Villette, fondatrice et directrice artistique, mon travail a su conjuguer **créativité** et **réflexion** stratégique. J'y ai appris non seulement à **monter** des images, mais à **structurer** une intention narrative **précise**, capable de captiver un public **exigeant**. Cette **rigueur** dans la conception m'a permis d'apporter une touche **d'originalité** tout en respectant **scrupuleusement** les codes et les valeurs de la maison ParisianVibe."],
+        ['Équipe de production', "Cette immersion au sein de **l'écosystème** de la marque a constitué un moteur **essentiel** de mon évolution professionnelle. En conjuguant ma **sensibilité** visuelle à une rigueur technique **exigeante**, j'ai activement contribué à renforcer le **storytelling** de la marque. Cette expérience a **consolidé** mon ambition de concevoir des projets où direction artistique et montage vidéo **fusionnent** pour créer un impact **durable** — une expertise que je **continue** d'approfondir aujourd'hui dans le cadre de mon Master en Direction Artistique."]
+      ],
+      stats: [
+        { to: 150000, pre: '+', lbl: 'abonnés' },
+        { to: 3040000, pre: '+', lbl: 'vues sur une période de 8 mois' },
+        { to: 488000, lbl: 'vues pour « In the Bag of Parisian Girls », épisode 7' }
+      ],
+      media: [
+        { kind: 'vidéo', ar: '16/9', cls: '', cap: '24 Hours in Madrid — Spain Edition, with Clara Diez' },
+        { kind: 'vidéo', ar: '16/9', cls: 's8', cap: 'Dans les sacs de 3 filles parisiennes — In the Bag of Parisian Girls, ép. 7 · 488 000 vues' },
+        { text: true, cls: 's4', paras: [
+          "Mon approche créative repose sur une synergie entre une maîtrise technique **exigeante** et une vision **stratégique** claire. En tant que **graphiste** et **monteur vidéo**, j'associe une expertise pointue en post-production — du motion design au sound design — à un sens aigu du storytelling afin de concevoir des identités visuelles percutantes.",
+          "Guidé par **l'empathie** et une rigueur technique **constante**, mon travail vise à créer des contenus qui ne se contentent pas de **captiver**, mais qui établissent également une véritable **connexion** avec le public. Habitué à **évoluer** au sein d'équipes **pluridisciplinaires**, je conjugue **adaptabilité** et **résolution créative** de problèmes pour transformer chaque concept en une communication **innovante**, **cohérente** et parfaitement **alignée** avec les **exigences** des marques de luxe et corporate."
+        ] }
+      ]
+    },
+    'afp': {
+      title: 'AFP', kicker: 'design graphique',
+      meta: [['rôle', 'Designer graphique'], ['contrat', 'Stage — 4 mois'], ['équipe', 'Service communication'], ['dates', 'Avr. — juil. 2024'], ['lieu', 'Paris']],
+      cols: [
+        ['Stage de 4 mois', "Mon objectif **principal** était de **traduire** des enjeux de communication **institutionnelle complexes** en supports visuels **percutants**. Dans un environnement où la **précision** et la **rapidité** sont **essentielles**, j'ai appris à **adapter** mon **processus créatif** pour répondre aux **standards d'excellence** d'une agence de presse mondiale, tout en renforçant la **cohérence visuelle** de son image de marque."],
+        ['Designer graphique', "Mon approche s'est **articulée** autour d'une narration **visuelle rigoureuse** où chaque élément graphique est pensé pour **servir** le message. Comme l'ont relevé mes collaborateurs, ma **valeur ajoutée** a résidé dans ma capacité à **structurer** les idées : je ne me suis pas contenté **d'exécuter** des briefs, j'ai cherché à **comprendre** l'intention profonde de chaque projet. Cette **méthode** m'a permis de **transformer** des concepts parfois **abstraits** en réalisations graphiques **cohérentes** et **impactantes**, consolidant ainsi la **qualité** du storytelling visuel au sein des équipes communication."],
+        ['Service communication', "Cette expérience a été un véritable **catalyseur** pour mon **développement professionnel**, me permettant **d'affiner** ma maîtrise technique tout en renforçant mes soft skills, notamment la **collaboration** au sein d'équipes **exigeantes**. En alliant **rigueur** et **créativité**, j'ai pu **contribuer** activement au rayonnement de l'agence, tout en confirmant mon ambition : créer un design qui, au-delà de l'esthétique, guide **l'empathie** et crée du **lien**. Ce passage à l'AFP a définitivement **ancré** ma volonté de mettre mon expertise au service d'une communication **innovante** et **inspirante**."]
+      ],
+      stats: [
+        { to: 4, suf: 'mois', lbl: 'de stage au service communication' },
+        { to: 80, suf: 'ans', lbl: "de l'agence, célébrés lors d'une soirée au siège" },
+        { to: 3, lbl: 'photographes suivis pour les Jeux olympiques de Paris 2024' }
+      ],
+      media: [
+        { kind: 'vidéo', ar: '16/9', cls: 's8', cap: 'Jeux olympiques 2024 : Paris, capitale des sports vue par trois photographes de l’AFP' },
+        { kind: 'image', ar: '3/4', cls: 's4', cap: 'Visuel promotionnel d’un événement en interne' },
+        { text: true, cls: 's8', paras: [
+          "Ma pratique s'est **appuyée** sur un socle technique **robuste**, alliant la maîtrise **avancée** des outils de **post-production** — du **motion design** au **sound design**, en passant par **l'étalonnage** et les **effets visuels** — à une rigueur d'exécution **constante**. Au-delà de la simple **technicité**, j'ai développé une approche **pragmatique** de la **résolution créative** de problèmes : j'ai **systématiquement** anticipé les **contraintes techniques** dès la phase de **conception** pour garantir une **fluidité optimale** dans la chaîne de production.",
+          "Cette **agilité** m'a permis de **naviguer** avec **aisance** entre la création de contenus **dynamiques** pour les réseaux sociaux et la gestion de **projets complexes**, tout en assurant une qualité de **finition exemplaire** sur l'ensemble des supports de diffusion."
+        ] },
+        { kind: 'image', ar: '4/5', cls: 's4', cap: 'Image — à remplacer' }
+      ]
+    }
+  };
+  const PJ_ORDER = ['radio-classique', 'parisianvibe', 'afp'];
+  function routeOf(hash) {
+    const h = (hash || '').replace('#', '');
+    if (h === 'a-propos') return { v: 'about' };
+    if (PROJECTS[h]) return { v: 'project', slug: h };
+    return { v: 'home' };
+  }
+  const pj = $('#pj'), pjInner = $('#pjInner');
+  let pjCur = null, pjT = 0, pjC = 0, pjOwn = false, pjHideTimer = 0, pjLastSt = -1;
+  const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const md = (t) => esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+  const fmtN = (v) => Math.round(v).toLocaleString('fr-FR');
+
+  const pjIO = 'IntersectionObserver' in window ? new IntersectionObserver((ents) => ents.forEach((en) => {
+    if (!en.isIntersecting) return;
+    en.target.classList.add('is-in');
+    if (en.target.classList.contains('pj-stat')) countUp(en.target);
+    pjIO.unobserve(en.target);
+  }), { root: pj, threshold: 0.2 }) : null;
+
+  /* Chiffres : comptent de 0 à leur valeur quand ils entrent dans l'écran */
+  function countUp(el) {
+    const n = el.querySelector('.pj-n'); if (!n || n.dataset.to === undefined) return;
+    const to = parseFloat(n.dataset.to);
+    if (reduce) { n.textContent = fmtN(to); return; }
+    const t0 = performance.now(), dur = 1700;
+    const step = (now) => { const k = Math.min(1, (now - t0) / dur); n.textContent = fmtN(to * easeOutExpo(k)); if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }
+
+  function renderProject(slug) {
+    const P = PROJECTS[slug], idx = PJ_ORDER.indexOf(slug);
+    const nextSlug = PJ_ORDER[(idx + 1) % PJ_ORDER.length], N = PROJECTS[nextSlug];
+    const card = projects.find((q) => q.slug === slug);
+    const ph = (m, cover) => `<div class="ph" style="--ar:${m.ar}${cover && card ? `;background-image:url(${card.thumb})` : ''}"><span class="ph__l">${esc(m.kind)} · ${esc(m.ar.replace('/', ':'))} — à remplacer</span>${m.kind === 'vidéo' ? '<span class="ph__play"></span>' : ''}</div>`;
+    let h = '';
+    h += `<header class="pj-hero"><p class="ab-eyebrow pj-kicker"><b>${String(idx + 1).padStart(2, '0')}</b>${esc(P.kicker)}</p>`;
+    h += `<h1 class="ab-h">${esc(P.title)}</h1>`;
+    h += `<dl class="pj-meta ab-reveal">${P.meta.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl></header>`;
+    h += `<figure class="pj-media pj-cover is-in" style="margin:var(--tgap) 0 0">${ph({ kind: 'image', ar: '16/9' }, true)}<figcaption>Image de couverture — à remplacer</figcaption></figure>`;
+    h += `<section class="pj-cols">${P.cols.map(([t, x]) => `<div class="pj-col ab-reveal"><h3>${esc(t)}</h3><p>${md(x)}</p></div>`).join('')}</section>`;
+    h += `<section class="pj-stats" style="--n:${P.stats.length}">${P.stats.map((st) => st.ph
+      ? `<div class="pj-stat is-ph ab-reveal"><span class="pj-big">00</span><p>${esc(st.lbl)}</p></div>`
+      : `<div class="pj-stat ab-reveal"><span class="pj-big">${st.pre ? esc(st.pre) : ''}<span class="pj-n" data-to="${st.to}">0</span>${st.suf ? `<small>${esc(st.suf)}</small>` : ''}</span><p>${esc(st.lbl)}</p></div>`).join('')}</section>`;
+    h += `<section class="pj-gallery">${P.media.map((m) => m.text
+      ? `<div class="pj-text ab-reveal ${m.cls}">${m.paras.map((x) => `<p>${md(x)}</p>`).join('')}</div>`
+      : `<figure class="pj-media ${m.cls}">${ph(m)}<figcaption>${esc(m.cap)}</figcaption></figure>`).join('')}</section>`;
+    h += `<button type="button" class="pj-next" data-next="${nextSlug}"><span class="ab-eyebrow">projet suivant</span><span class="pj-next__t">${esc(N.title)}<i>→</i></span></button>`;
+    pjInner.innerHTML = h;
+    pjInner.querySelectorAll('.ab-h').forEach((el) => {
+      const txt = el.textContent.trim(); el.setAttribute('aria-label', txt); el.textContent = '';
+      txt.split(/\s+/).forEach((w, k, arr) => {
+        const o = document.createElement('span'); o.className = 'hw'; o.setAttribute('aria-hidden', 'true'); o.style.setProperty('--k', k);
+        const i = document.createElement('span'); i.textContent = w; o.appendChild(i); el.appendChild(o);
+        if (k < arr.length - 1) el.appendChild(document.createTextNode(' '));
+      });
+    });
+    pjInner.querySelectorAll('.ab-reveal, .ab-h, .pj-media:not(.pj-cover), .pj-stat').forEach((el) => { if (pjIO) pjIO.observe(el); else { el.classList.add('is-in'); if (el.classList.contains('pj-stat')) countUp(el); } });
+    pjInner.querySelector('.pj-next').addEventListener('click', () => setView('project', nextSlug));
+    pjCur = slug;
+  }
+
+  function openProject(slug, swap) {
+    clearTimeout(pjHideTimer);
+    const go = () => {
+      renderProject(slug);
+      pj.scrollTop = 0; pjT = pjC = 0;
+      pjInner.classList.remove('is-swap');
+    };
+    if (swap) { pjInner.classList.add('is-swap'); setTimeout(go, reduce ? 0 : 350); }
+    else { go(); pj.hidden = false; document.body.classList.add('view-project'); requestAnimationFrame(() => requestAnimationFrame(() => pj.classList.add('is-open'))); }
+    if (location.hash !== '#' + slug) history.replaceState(null, '', '#' + slug);
+  }
+  function closeProject() {
+    pj.classList.remove('is-open');
+    document.body.classList.remove('view-project');
+    pjHideTimer = setTimeout(() => { if (state.view !== 'project') { pj.hidden = true; pjCur = null; } }, 1000);
+  }
+  function pjTick(dt) {
+    pjC += (pjT - pjC) * damp(0.085, dt);
+    if (Math.abs(pjT - pjC) > 0.2) { pjOwn = true; pj.scrollTop = pjC; }
+    const st = pj.scrollTop;
+    if (st !== pjLastSt) {
+      pjLastSt = st;
+      const cov = pjInner.querySelector('.pj-cover .ph');
+      if (cov && st < 1400) cov.style.setProperty('--pp', `${(50 + Math.min(40, st * 0.05)).toFixed(1)}%`);
+    }
+  }
+  pj.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    let d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? -e.deltaX : e.deltaY;
+    if (e.deltaMode === 1) d *= 33;
+    pjT = clamp(pjT + d, 0, pj.scrollHeight - pj.clientHeight);
+  }, { passive: false });
+  pj.addEventListener('scroll', () => { if (pjOwn) { pjOwn = false; return; } pjT = pjC = pj.scrollTop; }, { passive: true });
+  $('#pjBack').addEventListener('click', () => setView('home'));
+
+  window.claude?.hot?.snapshot?.(() => ({ entered: state.entered, sound: state.sound, mode: state.mode, scroll: scrollT, fx: { ...fx }, view: state.view, slug: pjCur }));
   const start = (data) => { if (data && data.entered) instantEnter(data); };
   window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {});
 })();
