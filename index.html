@@ -206,13 +206,9 @@ a{color:inherit;text-decoration:none}
 .ab-me__left .ab-photo__img{--ps:1;aspect-ratio:4/5;clip-path:none;filter:grayscale(1);transition:transform .5s var(--ease-out),filter .6s;height:min(60vh,600px);width:auto;max-width:100%;max-height:none}
 .ab-me__left .ab-photo:hover .ab-photo__img{filter:grayscale(0)}
 .ab-me__left .ab-photo figcaption{opacity:1}
-.ab-me__left .ab-name{font-size:clamp(56px,6.4vw,120px)}
-.ab-me__left .ab-name span{translate:0 110%;transition:translate 1.1s var(--ease-out)}
-.about.is-open .ab-me__left .ab-name span{translate:0 0}
-.about.is-open .ab-me__left .ab-name span:nth-child(1){transition-delay:.5s}
-.about.is-open .ab-me__left .ab-name span:nth-child(2){transition-delay:.56s}
-.about.is-open .ab-me__left .ab-name span:nth-child(3){transition-delay:.62s}
-.about.is-open .ab-me__left .ab-name span:nth-child(4){transition-delay:.68s}
+.ab-me__left .ab-name{font-size:clamp(46px,5.2vw,96px)}
+.ab-me__left .ab-name .nl{translate:0 110%;transition:translate 1.1s var(--ease-out)}
+.about.is-open .ab-me__left .ab-name .nl{translate:0 0;transition-delay:calc(.45s + var(--li) * 35ms)}
 .ab-me__left .ab-role{opacity:1;translate:0 0}
 .ab-me__right{display:flex;flex-direction:column;gap:22px;align-items:flex-start;min-width:0}
 .ab-me__right .ab-phrase{display:flex;flex-direction:column;gap:.75em;font-size:clamp(19px,1.85vw,31px);line-height:1.26;letter-spacing:-.025em;max-width:none}
@@ -223,7 +219,7 @@ a{color:inherit;text-decoration:none}
   .ab-me__sticky{position:static;height:auto;grid-template-columns:1fr;padding-block:calc(var(--top) + 90px) 40px}
   .ab-me__left .ab-photo{max-width:min(320px,78vw)}
   .ab-me__left .ab-photo__img{height:auto;width:100%;aspect-ratio:4/5}
-  .ab-me__left .ab-name{font-size:clamp(80px,24vw,130px)}
+  .ab-me__left .ab-name{font-size:clamp(56px,17vw,96px)}
 }
 
 /* Bascule timeline / liste */
@@ -401,8 +397,9 @@ a{color:inherit;text-decoration:none}
   transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) scale(calc(var(--ps,1.2) * var(--hs,1)));transition:transform .5s var(--ease-out)}
 .ab-photo figcaption{font-size:12px;color:var(--dim);opacity:var(--to,0)}
 .ab-id__text{display:flex;flex-direction:column;gap:20px;min-width:0}
-.ab-name{margin:0;display:flex;overflow:hidden;font-size:clamp(96px,17vw,300px);font-weight:500;line-height:.86;letter-spacing:-.065em;padding:0 .12em .2em 0;margin-bottom:-.15em}
-.ab-name span{display:inline-block;translate:0 var(--y,110%);will-change:translate}
+.ab-name{margin:0;display:flex;flex-wrap:wrap;column-gap:.22em;font-size:clamp(96px,17vw,300px);font-weight:500;line-height:.9;letter-spacing:-.06em}
+.ab-name .nw{display:inline-flex;overflow:hidden;padding:0 .1em .16em 0;margin:0 -.1em -.16em 0}
+.ab-name .nl{display:inline-block;will-change:translate}
 .ab-role,.ab-short{margin:0;opacity:var(--to,0);translate:0 calc((1 - var(--to,0)) * 16px)}
 .ab-role{font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase}
 .ab-short{font-size:clamp(17px,1.5vw,21px);line-height:1.5;max-width:42ch}
@@ -431,10 +428,11 @@ a{color:inherit;text-decoration:none}
   .cv-group,.cv-item{grid-template-columns:1fr;gap:10px}
 }
 /* Espacements communs : --sec entre deux sections, --tgap entre un titre et son contenu, --row pour les lignes */
-.about{--sec:clamp(88px,11vh,120px);--tgap:clamp(28px,3.6vh,40px);--row:26px;position:fixed;inset:0;z-index:4;background-color:var(--bg);background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;background-position:center top;background-attachment:local;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;clip-path:inset(100% 0 0 0);transition:clip-path 1s var(--ease-io)}
+.about{--sec:clamp(88px,11vh,120px);--tgap:clamp(28px,3.6vh,40px);--row:26px;position:fixed;inset:0;z-index:4;background-color:var(--bg);overflow-y:auto;overflow-x:hidden;scrollbar-width:none;clip-path:inset(100% 0 0 0);transition:clip-path 1s var(--ease-io)}
 .about::-webkit-scrollbar{display:none}
 .about.is-open{clip-path:inset(0 0 0 0)}
-.about__inner{padding-inline:max(16px,6vw,env(safe-area-inset-left,0px)) max(16px,6vw,env(safe-area-inset-right,0px))}
+.about__bg{position:sticky;top:0;height:100vh;height:100dvh;margin-bottom:-100vh;margin-bottom:-100dvh;pointer-events:none;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;background-position:center;-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 15%,transparent 78%);mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 15%,transparent 78%)}
+.about__inner{position:relative;padding-inline:max(16px,6vw,env(safe-area-inset-left,0px)) max(16px,6vw,env(safe-area-inset-right,0px))}
 .ab-eyebrow{margin:0;font-size:11.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
 .ab-hero{padding-block:calc(var(--top) + 120px) 120px;display:flex;flex-direction:column;gap:48px}
 .ab-title{margin:0;font-size:clamp(46px,8.4vw,136px);font-weight:500;line-height:.94;letter-spacing:-.05em;text-wrap:balance}
@@ -685,6 +683,7 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
 
 <!-- Page à propos -->
 <section class="about" id="about" hidden aria-label="à propos">
+  <div class="about__bg" aria-hidden="true"></div>
   <div class="about__inner">
     <section class="ab-me" id="abMe" aria-label="profil">
       <div class="ab-me__sticky">
@@ -693,7 +692,7 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
             <span class="ab-photo__img"></span>
             <figcaption>portrait — à remplacer</figcaption>
           </figure>
-          <p class="ab-name" id="abName">Goat</p>
+          <p class="ab-name" id="abName">Achille Valleur</p>
           <p class="ab-role">graphisme · motion design · montage vidéo — paris</p>
         </div>
         <div class="ab-me__right">
@@ -1668,7 +1667,12 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
     const nm = $('#abName'), letters = nm.textContent.trim();
     nm.setAttribute('aria-label', letters);
     nm.textContent = '';
-    [...letters].forEach((ch) => { const sp = document.createElement('span'); sp.textContent = ch; sp.setAttribute('aria-hidden', 'true'); nm.appendChild(sp); });
+    let li = 0;
+    letters.split(/\s+/).forEach((word) => {
+      const w = document.createElement('span'); w.className = 'nw'; w.setAttribute('aria-hidden', 'true');
+      [...word].forEach((ch) => { const sp = document.createElement('span'); sp.className = 'nl'; sp.textContent = ch; sp.style.setProperty('--li', li++); w.appendChild(sp); });
+      nm.appendChild(w);
+    });
   })();
   $('#toContact').addEventListener('click', () => { const y = $('#abContact').offsetTop; aboutT = clamp(y, 0, about.scrollHeight - about.clientHeight); });
 
