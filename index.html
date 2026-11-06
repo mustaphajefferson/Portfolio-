@@ -9,22 +9,22 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap">
 <style>
 /* Layout : scène 3D plein écran ; interface fixée aux quatre coins + centre haut ; menu qui naît du bouton */
-/* Deux couleurs : crème #feffee et charbon (noir à 85 % sur la crème = #262624). Les projets portent la couleur. */
+/* Deux couleurs : crème #f8f3e3 et charbon (noir à 85 % sur la crème = #252422). Les projets portent la couleur. */
 :root{
-  --cream:#feffee;
-  --coal:#262624;
+  --cream:#f8f3e3;
+  --coal:#252422;
   --bg:var(--cream);
   --fg:var(--coal);
   --dim:rgba(0,0,0,.32);
   --line:rgba(0,0,0,.055);
   --pill:var(--coal);
   --ink:var(--cream);
-  --ink-dim:rgba(254,255,238,.55);
-  --veil:rgba(254,255,238,.55);
-  --soft:rgba(254,255,238,.08);
-  --soft-strong:rgba(254,255,238,.22);
-  --rule:rgba(254,255,238,.14);
-  --shadow:rgba(38,38,36,.18);
+  --ink-dim:rgba(248,243,227,.55);
+  --veil:rgba(248,243,227,.55);
+  --soft:rgba(248,243,227,.08);
+  --soft-strong:rgba(248,243,227,.22);
+  --rule:rgba(248,243,227,.14);
+  --shadow:rgba(37,36,34,.18);
   --sans:"Instrument Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
   --edge:24px;
   --top:calc(var(--edge) + env(safe-area-inset-top,0px));
@@ -469,6 +469,7 @@ a{color:inherit;text-decoration:none}
       uniform float uRadius;
       uniform float uBlur;
       uniform vec3 uBg;
+      uniform float uSat;
       uniform vec2 uSize;
       varying vec2 vUv;
       void main(){
@@ -486,6 +487,9 @@ a{color:inherit;text-decoration:none}
         } else {
           col = texture2D(uTex, uv).rgb;
         }
+        /* Noir et blanc, sauf les cartes de devant qui reprennent leurs couleurs */
+        float lum = dot(col, vec3(0.299, 0.587, 0.114));
+        col = mix(vec3(lum), col, max(uSat, uHover));
         col = mix(uBg, col, mix(uShade, 1.0, uHover));
         col = col * (1.0 + uHover * 0.12) + uHover * 0.025;
         vec2 halfS = uSize * 0.5;
@@ -508,7 +512,7 @@ a{color:inherit;text-decoration:none}
       tex.generateMipmaps = false; tex.minFilter = THREE.LinearFilter;
       const mat = new THREE.ShaderMaterial({
         uniforms: {
-          uTex: { value: tex }, uHover: { value: 0 }, uOpacity: { value: 0 }, uShade: { value: 1 }, uBlur: { value: 0 }, uWarp: { value: 0 }, uBg: { value: new THREE.Color(0xfeffee) },
+          uTex: { value: tex }, uHover: { value: 0 }, uOpacity: { value: 0 }, uShade: { value: 1 }, uBlur: { value: 0 }, uWarp: { value: 0 }, uBg: { value: new THREE.Color(0xf8f3e3) }, uSat: { value: 1 },
           uSize: { value: new THREE.Vector2(w, h) }, uRadius: { value: 0.035 }
         },
         vertexShader: vert, fragmentShader: frag, transparent: true, depthWrite: false, side: THREE.DoubleSide
@@ -617,6 +621,8 @@ a{color:inherit;text-decoration:none}
         c.mat.uniforms.uOpacity.value = edgeF * ia * modeA;
         c.mat.uniforms.uHover.value = c.hover;
         c.mat.uniforms.uWarp.value = warp;
+        /* Couleur : pleine pour la carte de face et ses deux voisines, puis disparaît en tournant */
+        c.mat.uniforms.uSat.value = smooth(0.2, 0.7, Math.cos(th));
       }
       renderer.render(scene, camera);
     }
