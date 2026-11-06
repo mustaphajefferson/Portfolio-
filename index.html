@@ -45,7 +45,7 @@ a{color:inherit;text-decoration:none}
 :focus-visible{outline:2px solid var(--fg);outline-offset:3px;border-radius:6px}
 
 /* Fond : grille + grain */
-.bg{position:fixed;inset:0;z-index:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;background-position:center;-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 15%,transparent 78%);mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 15%,transparent 78%)}
+.bg{position:fixed;inset:0;z-index:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;background-position:calc(50% + var(--gx,0px)) calc(50% + var(--gy,0px));-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 15%,transparent 78%);mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 15%,transparent 78%)}
 .grain{position:fixed;left:-50%;top:-50%;width:200%;height:200%;pointer-events:none;z-index:40;opacity:.055;background-image:var(--noise);animation:grain 1s steps(6) infinite}
 @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-4%)}60%{transform:translate(-4%,1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}}
 
@@ -431,7 +431,7 @@ a{color:inherit;text-decoration:none}
 .about{--sec:clamp(88px,11vh,120px);--tgap:clamp(28px,3.6vh,40px);--row:26px;position:fixed;inset:0;z-index:4;background-color:var(--bg);overflow-y:auto;overflow-x:hidden;scrollbar-width:none;clip-path:inset(100% 0 0 0);transition:clip-path 1s var(--ease-io)}
 .about::-webkit-scrollbar{display:none}
 .about.is-open{clip-path:inset(0 0 0 0)}
-.about__bg{position:sticky;top:0;height:100vh;height:100dvh;margin-bottom:-100vh;margin-bottom:-100dvh;pointer-events:none;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;background-position:center;-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 15%,transparent 78%);mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 15%,transparent 78%)}
+.about__bg{position:sticky;top:0;height:100vh;height:100dvh;margin-bottom:-100vh;margin-bottom:-100dvh;pointer-events:none;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;background-position:calc(50% + var(--gx,0px)) calc(50% + var(--gy,0px));-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 15%,transparent 78%);mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,#000 15%,transparent 78%)}
 .about__inner{position:relative;padding-inline:max(16px,6vw,env(safe-area-inset-left,0px)) max(16px,6vw,env(safe-area-inset-right,0px))}
 .ab-eyebrow{margin:0;font-size:11.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
 .ab-hero{padding-block:calc(var(--top) + 120px) 120px;display:flex;flex-direction:column;gap:48px}
@@ -1143,9 +1143,19 @@ body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-a
   const preview = $('#preview');
   let pvx = window.innerWidth / 2, pvy = window.innerHeight / 2, pvtx = pvx, pvty = pvy;
 
-  let last = performance.now();
+  let last = performance.now(), gxs = 0, gys = 0;
   function tick(now) {
     const dt = Math.min(0.05, (now - last) / 1000); last = now;
+
+    /* Grille de fond : léger suivi de la souris */
+    if (!reduce) {
+      const ngx = gxs + (mx - gxs) * damp(0.04, dt), ngy = gys + (my - gys) * damp(0.04, dt);
+      if (Math.abs(ngx - gxs) + Math.abs(ngy - gys) > 0.0004) {
+        gxs = ngx; gys = ngy;
+        document.documentElement.style.setProperty('--gx', `${(-gxs * 14).toFixed(2)}px`);
+        document.documentElement.style.setProperty('--gy', `${(-gys * 14).toFixed(2)}px`);
+      }
+    }
 
     /* Sur la page à propos, la spirale cesse d'être calculée une fois sortie de l'écran */
     const asleep = state.view === 'about' && modeT === 0 && modeA < 0.01;
