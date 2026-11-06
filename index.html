@@ -637,7 +637,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 /* Agrandissement d'une slide */
 .lb{position:fixed;inset:0;z-index:30;background:rgba(37,36,34,.9);display:grid;place-items:center;opacity:0;transition:opacity .3s}
 .lb.is-on{opacity:1}
-.lb__stage{width:min(88vw,calc(78vh * .8));}
+.lb__stage{width:min(88vw,calc(70vh * .8));}
 .lb__stage .ph,.lb__stage img{width:100%;aspect-ratio:4/5;border-radius:16px;object-fit:cover;display:block}
 .lb__stage .ph{background-color:var(--bg)}
 .lb__x{position:fixed;top:calc(var(--top) + 4px);right:var(--right);height:44px;padding:0 18px;border-radius:999px;background:var(--bg);color:var(--fg);font-size:15px;font-weight:500}
@@ -648,27 +648,29 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .cr__slide{cursor:zoom-in}
 
 .cr{grid-column:span 12;display:flex;flex-direction:column;gap:18px;min-width:0}
-.cr__bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.cr__bar{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.sec-hd{display:flex;flex-direction:column;gap:10px;max-width:62ch}
+.sec-intro{margin:0;font-size:15px;line-height:1.5;color:var(--fg)}
 .cr__h{margin:0;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
-.cr__tabs{display:flex;gap:6px;flex-wrap:wrap;flex:1}
-.cr__tabs button{font-size:14px;font-weight:500;padding:8px 14px;border-radius:999px;border:1px solid var(--line-strong);transition:background .3s,color .3s,border-color .3s}
-.cr__tabs button:hover{border-color:var(--fg)}
-.cr__tabs button[aria-selected="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
 .cr__nav{display:flex;align-items:center;gap:8px}
 .cr__count{font-size:14px;font-weight:500;font-variant-numeric:tabular-nums;margin-right:6px}
 .cr__btn{width:44px;height:44px;border-radius:50%;background:var(--pill);color:var(--ink);font-size:18px;display:grid;place-items:center;transition:scale .25s var(--ease-out)}
 .cr__btn:hover{scale:1.08}
 .cr__btn:active{scale:.94}
-.cr__track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;cursor:grab;transition:opacity .25s;padding-bottom:2px}
-.cr__track::-webkit-scrollbar{display:none}
-.cr__track.is-drag{cursor:grabbing;scroll-snap-type:none;user-select:none}
-.cr__track.is-swap{opacity:0}
-.cr__slide{flex:0 0 clamp(240px,30vw,420px);scroll-snap-align:start}
-.cr__slide img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:16px;pointer-events:none}
+.cr__view{overflow:hidden;touch-action:pan-y;cursor:grab;outline:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent);mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent)}
+.cr__view.is-drag{cursor:grabbing;user-select:none}
+.cr__track{display:flex;gap:clamp(10px,1.4vw,18px);width:max-content;will-change:transform}
+.cr__slide{flex:0 0 clamp(220px,22vw,320px);margin:0;display:flex;flex-direction:column;gap:12px;cursor:zoom-in}
+.cr__img{border-radius:16px;overflow:hidden}
+.cr__img > *{width:100%;aspect-ratio:4/5;pointer-events:none;transition:scale .6s var(--ease-out)}
+.cr__img > img{display:block;object-fit:cover}
+.cr__slide:hover .cr__img > *{scale:1.035}
+.cr__slide .rl{display:flex;flex-direction:column;gap:3px;color:var(--fg)}
 .cr__num{font-size:clamp(48px,6vw,96px);font-weight:500;letter-spacing:-.05em;color:var(--line-strong)}
-.cr__dots{display:flex;gap:6px}
-.cr__dots i{flex:1;max-width:48px;height:3px;border-radius:2px;background:var(--line-strong);transition:background .3s}
-.cr__dots i.is-on{background:var(--fg)}
+.cr__prog{height:3px;border-radius:2px;background:var(--line-strong);overflow:hidden}
+.cr__prog i{display:block;height:100%;background:var(--fg);transform-origin:0 50%;transform:scaleX(0)}
+.lb__t{margin:14px 0 0;color:var(--bg);font-size:14px;line-height:1.45}
+.lb__t b{font-weight:600}
 .pj-media figcaption.rl{display:flex;flex-direction:column;gap:3px;color:var(--fg)}
 .rl b{font-size:15px;font-weight:600;letter-spacing:-.015em;line-height:1.25}
 .rl__s{font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--fg)}
@@ -676,7 +678,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .pj-row-wrap{grid-column:span 12;display:flex;flex-direction:column;gap:18px;min-width:0}
 .pj-row{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:clamp(10px,1.4vw,18px)}
 @media (max-width:760px){
-  .cr__slide{flex-basis:78vw}
+  .cr__slide{flex-basis:62vw}
   .pj-row{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
   .pj-row::-webkit-scrollbar{display:none}
   .pj-row .pj-media{flex:0 0 62vw;scroll-snap-align:start}
@@ -2103,15 +2105,41 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
       ],
       media: [
         /* Chaque vidéo est un exemple tiré d'une série */
-        { row: true, title: 'Reels', kind: 'vidéo', ar: '9/16', items: [
+        { row: true, title: 'Reels', kind: 'vidéo', ar: '9/16', intro: "Texte de présentation des reels, à remplacer. Deux ou trois phrases pour expliquer le principe des séries et ce que vous y avez fait.", items: [
           { t: 'Esther Abrami', s: 'Showreel motion design', d: "Série de reels qui mettent en image sa chronique à l’antenne. Ici, les passages en motion design." },
           { t: 'Conférence de rentrée', s: 'Micro-trottoir', d: "Les coulisses de la radio : des contenus autour de l’antenne et de ceux qui la font." },
           { t: 'Le Journal imprévisible', s: 'Marc Bourreau · motion design', d: "Un reel en motion design qui illustre la chronique." },
           { t: 'Showreel animations', s: 'Motion design', d: "Une sélection des différentes animations réalisées pour la station." },
           { t: 'L’invité de la Matinale', s: 'Gad Elmaleh · montage', d: "Extrait de la série d’interviews de la Matinale, le plus souvent avec des personnalités politiques." }
         ] },
-        /* Carrousels : une seule suite d'images qui défile toute seule. Remplacez n par imgs: ['rc/c-01.jpg', …] */
-        { carousel: true, title: 'Carrousels', sets: [{ t: 'Carrousels', n: 16 }] },
+        /* Carrousels : une bande qui glisse doucement vers la gauche, en boucle.
+           Pour chaque slide : img = chemin de l'image (ex. 'rc/c-01.jpg'), t = titre, d = petit texte. */
+        { carousel: true, title: 'Carrousels', intro: "Texte de présentation des carrousels, à remplacer. Deux ou trois phrases pour expliquer le principe et ce que vous y avez fait.", items: [
+          { img: '', t: 'Carrousel 01', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 02', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 03', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 04', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 05', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 06', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 07', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 08', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 09', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 10', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 11', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 12', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 13', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 14', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 15', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 16', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 17', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 18', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 19', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 20', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 21', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 22', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 23', d: 'Petit texte à remplacer.' },
+          { img: '', t: 'Carrousel 24', d: 'Petit texte à remplacer.' }
+        ] },
         { kind: 'vidéo', ar: '16/9', cls: 'mid', cap: 'Vidéo horizontale — à remplacer' }
       ]
     },
@@ -2216,10 +2244,13 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
       : `<div class="pj-stat ab-reveal"><span class="pj-big">${st.pre ? esc(st.pre) : ''}<span class="pj-n" data-to="${st.to}">0</span>${st.suf ? `<small>${esc(st.suf)}</small>` : ''}</span><p>${esc(st.lbl)}</p></div>`).join('')}</section>`;
     const item = (m) => {
       if (m.text) return `<div class="pj-text ab-reveal ${m.cls}">${m.paras.map((x) => `<p>${md(x)}</p>`).join('')}</div>`;
-      if (m.carousel) return `<div class="cr ab-reveal" data-cr><div class="cr__bar"><h3 class="cr__h">${esc(m.title)}</h3><div class="cr__tabs" role="tablist">${m.sets.length > 1 ? m.sets.map((st, i) => `<button type="button" role="tab" aria-selected="${i === 0}" data-set="${i}">${esc(st.t)}</button>`).join('') : ''}</div><div class="cr__nav"><span class="cr__count" aria-live="polite"></span><button type="button" class="cr__btn" data-dir="-1" aria-label="slide précédente">←</button><button type="button" class="cr__btn" data-dir="1" aria-label="slide suivante">→</button></div></div><div class="cr__track" tabindex="0" aria-label="slides du carrousel"></div><div class="cr__dots" aria-hidden="true"></div></div>`;
+      if (m.carousel) {
+        const sl = (it, i, dup) => `<figure class="cr__slide" data-i="${i}"${dup ? ' aria-hidden="true"' : ''}><div class="cr__img">${crMedia(it, i)}</div><figcaption class="rl"><b>${esc(it.t)}</b>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`;
+        return `<div class="cr ab-reveal" data-cr><div class="cr__bar"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div><div class="cr__nav"><span class="cr__count" aria-live="polite"></span><button type="button" class="cr__btn" data-dir="-1" aria-label="slide précédente">←</button><button type="button" class="cr__btn" data-dir="1" aria-label="slide suivante">→</button></div></div><div class="cr__view" tabindex="0" aria-label="carrousels : glisser, ou flèches du clavier"><div class="cr__track">${m.items.map((it, i) => sl(it, i)).join('')}${m.items.map((it, i) => sl(it, i, true)).join('')}</div></div><div class="cr__prog" aria-hidden="true"><i></i></div></div>`;
+      }
       if (m.row) {
         const its = m.items || Array.from({ length: m.n }, (_, i) => ({ t: `${m.cap} ${String(i + 1).padStart(2, '0')}`, s: 'à remplacer' }));
-        return `<div class="pj-row-wrap"><h3 class="cr__h">${esc(m.title)}</h3><div class="pj-row" style="--n:${its.length}">${its.map((it) => `<figure class="pj-media">${ph(m)}<figcaption class="rl"><b>${esc(it.t)}</b><span class="rl__s">${esc(it.s)}</span>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`).join('')}</div></div>`;
+        return `<div class="pj-row-wrap"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div><div class="pj-row" style="--n:${its.length}">${its.map((it) => `<figure class="pj-media">${ph(m)}<figcaption class="rl"><b>${esc(it.t)}</b><span class="rl__s">${esc(it.s)}</span>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`).join('')}</div></div>`;
       }
       return `<figure class="pj-media ${m.cls}">${ph(m)}<figcaption>${esc(m.cap)}</figcaption></figure>`;
     };
@@ -2236,7 +2267,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     });
     pjInner.querySelectorAll('.ab-reveal, .ab-h, .pj-media:not(.pj-cover), .pj-stat').forEach((el) => { if (pjIO) pjIO.observe(el); else { el.classList.add('is-in'); if (el.classList.contains('pj-stat')) countUp(el); } });
     pjInner.querySelector('.pj-next').addEventListener('click', () => setView('project', nextSlug));
-    pjInner.querySelectorAll('[data-cr]').forEach((el) => initCarousel(el, P.media.find((m) => m.carousel).sets));
+    pjInner.querySelectorAll('[data-cr]').forEach((el) => initCarousel(el, P.media.find((m) => m.carousel)));
     pjInner.querySelectorAll('.ph--video').forEach((el) => el.addEventListener('click', () => playFacade(el)));
     const fxr = pjInner.querySelector('.pj-cover.fx-radio .rd');
     if (fxr) initRadio(fxr);
@@ -2412,61 +2443,89 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     if (e.key === 'ArrowLeft') showLb(lb._i - 1);
   }, true);
 
-  function initCarousel(root, sets) {
-    const track = root.querySelector('.cr__track'), dots = root.querySelector('.cr__dots'), count = root.querySelector('.cr__count');
-    let cur = 0;
-    const slides = () => [...track.children];
-    const fill = (si) => {
-      const st = sets[si], n = st.imgs ? st.imgs.length : st.n;
-      track.innerHTML = Array.from({ length: n }, (_, i) => st.imgs
-        ? `<div class="cr__slide"><img src="${esc(st.imgs[i])}" alt="${esc(st.t)} — slide ${i + 1}" loading="lazy" draggable="false"></div>`
-        : `<div class="cr__slide" role="button" tabindex="-1" aria-label="agrandir la slide ${i + 1}"><div class="ph" style="--ar:4/5"><span class="ph__l">slide ${i + 1} · 4:5 — à remplacer</span><span class="cr__num">${String(i + 1).padStart(2, '0')}</span></div></div>`).join('');
-      dots.innerHTML = Array.from({ length: n }, () => '<i></i>').join('');
-      track.scrollLeft = 0; cur = 0; update();
+  const pad2 = (k) => String(k).padStart(2, '0');
+  function crMedia(it, i) {
+    return it.img
+      ? `<img src="${esc(it.img)}" alt="${esc(it.t)}" loading="lazy" decoding="async" draggable="false">`
+      : `<div class="ph" style="--ar:4/5"><span class="ph__l">carrousel ${pad2(i + 1)} · 4:5 — à remplacer</span><span class="cr__num">${pad2(i + 1)}</span></div>`;
+  }
+  /* Bande de carrousels : glisse doucement vers la gauche en boucle (la suite est doublée pour boucler sans saut).
+     Ralentit puis s'arrête au survol ; glisser à la souris ou au doigt, flèches, clavier ; clic = agrandir.
+     L'animation ne tourne que quand la bande est à l'écran, et s'endort dès qu'elle est immobile. */
+  function initCarousel(root, m) {
+    const view = root.querySelector('.cr__view'), track = root.querySelector('.cr__track'), count = root.querySelector('.cr__count'), bar = root.querySelector('.cr__prog i');
+    const n = m.items.length, SPEED = 32;
+    let x = 0, v = 0, tgt = null, half = 1, step = 1, visible = false, hover = false, focus = false, raf = 0, last = 0, drag = null, dragged = false, lastCur = -1, wheelT = 0;
+    const measure = () => { const c = track.children; if (c.length > n) { half = c[n].offsetLeft - c[0].offsetLeft || 1; step = c[1].offsetLeft - c[0].offsetLeft || 1; } };
+    const render = () => {
+      const xm = ((x % half) + half) % half;
+      track.style.transform = `translate3d(${(-xm).toFixed(2)}px,0,0)`;
+      const cur = Math.round(xm / step) % n;
+      if (cur !== lastCur) { lastCur = cur; count.textContent = `${pad2(cur + 1)} / ${pad2(n)}`; }
+      bar.style.transform = `scaleX(${Math.min(1, (xm + step) / half).toFixed(4)})`;
     };
-    const update = () => {
-      const ss = slides(); if (!ss.length) return;
-      const w = ss[0].offsetWidth + parseFloat(getComputedStyle(track).columnGap || 14);
-      cur = clamp(Math.round(track.scrollLeft / w), 0, ss.length - 1);
-      count.textContent = `${String(cur + 1).padStart(2, '0')} / ${String(ss.length).padStart(2, '0')}`;
-      [...dots.children].forEach((d, i) => d.classList.toggle('is-on', i === cur));
+    const tick = (t) => {
+      raf = 0;
+      if (!root.isConnected) return;
+      const dt = last ? Math.min(0.05, (t - last) / 1000) : 0.016; last = t;
+      const run = !reduce && !hover && !focus && !drag && tgt === null && state.view === 'project';
+      v += ((run ? SPEED : 0) - v) * Math.min(1, dt * 2.5);
+      if (tgt !== null) { x += (tgt - x) * Math.min(1, dt * 9); if (Math.abs(tgt - x) < 0.4) { x = tgt; tgt = null; } }
+      else if (!drag) x += v * dt;
+      render();
+      const idle = !run && tgt === null && !drag && v < 0.05;
+      if (visible && !idle) raf = requestAnimationFrame(tick);
     };
-    const go = (i) => { const ss = slides(); if (!ss.length) return; i = ((i % ss.length) + ss.length) % ss.length; const t = ss[i]; track.scrollTo({ left: t.offsetLeft - ss[0].offsetLeft, behavior: reduce ? 'auto' : 'smooth' }); };
-    /* Défilement automatique : une slide toutes les 2,6 s, en pause au survol, au toucher et hors de l'écran */
-    let paused = false, visible = false;
-    const auto = setInterval(() => { if (!root.isConnected) { clearInterval(auto); return; } if (!paused && visible && !reduce && state.view === 'project') go(cur + 1); }, 2600);
-    if ('IntersectionObserver' in window) new IntersectionObserver((en) => { visible = en[0].isIntersecting; }, { root: pj, threshold: 0.4 }).observe(root);
-    root.addEventListener('pointerenter', () => { paused = true; });
-    root.addEventListener('pointerleave', () => { paused = false; });
-    root.addEventListener('focusin', () => { paused = true; });
-    root.addEventListener('focusout', () => { paused = false; });
-    /* Cliquer une slide l'agrandit */
-    track.addEventListener('click', (e) => {
-      if (track._dragged) { track._dragged = false; return; }
-      const sl = e.target.closest('.cr__slide'); if (!sl) return;
-      const ss = slides();
-      openLightbox(ss.map((x) => x.innerHTML), ss.indexOf(sl));
-    });
-    track.addEventListener('scroll', update, { passive: true });
-    root.querySelectorAll('.cr__btn').forEach((b) => b.addEventListener('click', () => { go(cur + Number(b.dataset.dir)); sfx.play('click'); }));
-    track.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); } if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); } });
-    root.querySelectorAll('[data-set]').forEach((b) => b.addEventListener('click', () => {
-      root.querySelectorAll('[data-set]').forEach((x) => x.setAttribute('aria-selected', String(x === b)));
-      track.classList.add('is-swap');
-      setTimeout(() => { fill(Number(b.dataset.set)); track.classList.remove('is-swap'); }, reduce ? 0 : 250);
-    }));
-    /* Glisser à la souris */
-    let drag = null;
-    track.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') return; drag = { x: e.clientX, sl: track.scrollLeft, moved: 0, id: e.pointerId, cap: false }; });
-    track.addEventListener('pointermove', (e) => {
+    const wake = () => { if (!raf && visible) { last = 0; raf = requestAnimationFrame(tick); } };
+    const snap = (from) => Math.round(from / step) * step;
+    const go = (d) => {
+      tgt = snap(tgt ?? x) + d * step;
+      if (reduce) { x = tgt; tgt = null; render(); return; }
+      wake();
+    };
+    if ('IntersectionObserver' in window) new IntersectionObserver((en) => { visible = en[0].isIntersecting; if (visible) wake(); }, { root: pj, threshold: 0 }).observe(root);
+    else visible = true;
+    if ('ResizeObserver' in window) new ResizeObserver(() => { measure(); render(); }).observe(track);
+    view.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') hover = true; });
+    view.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') { hover = false; wake(); } });
+    view.addEventListener('focusin', () => { focus = true; });
+    view.addEventListener('focusout', () => { focus = false; wake(); });
+    /* Glisser (souris, doigt) : on ne prend la main que si le geste est horizontal */
+    view.addEventListener('pointerdown', (e) => { if (e.button) return; drag = { sx: e.clientX, sy: e.clientY, x0: x, id: e.pointerId, on: false, lx: e.clientX, lt: performance.now(), vel: 0 }; tgt = null; wake(); });
+    view.addEventListener('pointermove', (e) => {
       if (!drag) return;
-      const dx = e.clientX - drag.x; drag.moved = Math.abs(dx);
-      if (!drag.cap && drag.moved > 4) { drag.cap = true; track.classList.add('is-drag'); track.setPointerCapture(drag.id); }
-      if (drag.cap) track.scrollLeft = drag.sl - dx;
+      const dx = e.clientX - drag.sx;
+      if (!drag.on) {
+        if (Math.abs(dx) > 5 && Math.abs(dx) > Math.abs(e.clientY - drag.sy)) { drag.on = true; view.classList.add('is-drag'); view.setPointerCapture(drag.id); }
+        else return;
+      }
+      x = drag.x0 - dx;
+      const now = performance.now();
+      drag.vel = drag.vel * 0.6 + ((drag.lx - e.clientX) / Math.max(1, now - drag.lt) * 1000) * 0.4;
+      drag.lx = e.clientX; drag.lt = now;
     });
-    const end = () => { if (!drag) return; const mv = drag.moved; drag = null; track.classList.remove('is-drag'); if (mv > 5) { track._dragged = true; go(cur); } };
-    track.addEventListener('pointerup', end); track.addEventListener('pointercancel', end);
-    fill(0);
+    const end = () => {
+      if (!drag) return;
+      if (drag.on) { dragged = true; view.classList.remove('is-drag'); tgt = snap(x + clamp(drag.vel, -2400, 2400) * 0.22); }
+      drag = null; wake();
+    };
+    view.addEventListener('pointerup', end); view.addEventListener('pointercancel', end);
+    /* Pavé tactile : glisser à deux doigts vers la gauche ou la droite */
+    view.addEventListener('wheel', (e) => {
+      if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      e.preventDefault();
+      x += e.deltaX * (e.deltaMode === 1 ? 33 : 1); tgt = null; wake();
+      clearTimeout(wheelT); wheelT = setTimeout(() => { tgt = snap(x); wake(); }, 160);
+    }, { passive: false });
+    view.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') { e.preventDefault(); go(1); } if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); } });
+    root.querySelectorAll('.cr__btn').forEach((b) => b.addEventListener('click', () => { go(Number(b.dataset.dir)); sfx.play('click'); }));
+    /* Cliquer une slide l'agrandit, avec son texte */
+    view.addEventListener('click', (e) => {
+      if (dragged) { dragged = false; return; }
+      const sl = e.target.closest('.cr__slide'); if (!sl) return;
+      openLightbox(m.items.map((it, i) => `${crMedia(it, i)}<p class="lb__t"><b>${esc(it.t)}</b>${it.d ? ` ${esc(it.d)}` : ''}</p>`), Number(sl.dataset.i));
+    });
+    requestAnimationFrame(() => { measure(); render(); });
   }
 
   function openProject(slug, swap) {
