@@ -28,7 +28,7 @@
   color-scheme:dark;
 }
 [hidden]{display:none!important}
-html,body{height:100%;overflow:hidden}
+html,body{height:100%;overflow:hidden;overscroll-behavior:none}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
 a{color:inherit;text-decoration:none}
@@ -401,25 +401,8 @@ a{color:inherit;text-decoration:none}
     document.documentElement.style.setProperty('--noise', `url(${c.toDataURL()})`);
   })();
 
-  /* ---------- Texte brouillé ---------- */
-  const GLYPHS = 'abcdefghijklmnopqrstuvwxyz*#%&+=?';
-  function scramble(el, text, dur = 420) {
-    if (!el) return;
-    cancelAnimationFrame(el._scr || 0);
-    if (reduce) { el.textContent = text; return; }
-    const start = performance.now(), L = text.length;
-    const step = (now) => {
-      const t = Math.min(1, (now - start) / dur);
-      let out = '';
-      for (let i = 0; i < L; i++) {
-        const ch = text[i];
-        out += (ch === ' ' || t >= 0.2 + 0.8 * (i / L)) ? ch : GLYPHS[(Math.random() * GLYPHS.length) | 0];
-      }
-      el.textContent = out;
-      if (t < 1) el._scr = requestAnimationFrame(step); else el.textContent = text;
-    };
-    el._scr = requestAnimationFrame(step);
-  }
+  /* ---------- Changement de libellé (animation de texte à définir plus tard) ---------- */
+  function setLabel(el, text) { if (el) el.textContent = text; }
 
   /* ---------- Scène 3D ---------- */
   const canvas = $('#scene');
@@ -433,7 +416,7 @@ a{color:inherit;text-decoration:none}
   const ANG = 0.75, PITCH = 0.5;
   const layout = { R: 2.0, cam: 7.2, tx: 0.08, tz: -0.14, oy: 0.05, s: 1 };
   let scene, camera, helix, cards = [], ray, ndc;
-  let scrollT = -5, scrollC = -5, introStart = -1, modeA = 1, modeT = 1;
+  let scrollT = -5, scrollC = -5, velS = 0, introStart = -1, modeA = 1, modeT = 1;
   let mx = 0, my = 0, mxs = 0, mys = 0, px = 0, py = 0, inside = false;
   let hovered = null;
 
@@ -447,6 +430,7 @@ a{color:inherit;text-decoration:none}
 
     const vert = `
       uniform float uHover;
+      uniform float uWarp;
       uniform vec2 uSize;
       varying vec2 vUv;
       void main(){
@@ -454,6 +438,10 @@ a{color:inherit;text-decoration:none}
         vec3 p = position;
         vec2 n = p.xy / (uSize * 0.5);
         p.z += uHover * 0.13 * (n.x * n.x * 0.9 + n.y * n.y * 0.35);
+        /* Déformation pendant la rotation : les coins partent en arrière, avec un léger vrillage dans le sens du mouvement */
+        float w = abs(uWarp);
+        p.z -= w * (n.x * n.x * 0.75 + n.y * n.y * 0.35);
+        p.z += uWarp * 0.35 * n.x * n.y;
         gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
       }`;
     const frag = `
@@ -502,7 +490,7 @@ a{color:inherit;text-decoration:none}
       tex.generateMipmaps = false; tex.minFilter = THREE.LinearFilter;
       const mat = new THREE.ShaderMaterial({
         uniforms: {
-          uTex: { value: tex }, uHover: { value: 0 }, uOpacity: { value: 0 }, uShade: { value: 1 }, uBlur: { value: 0 },
+          uTex: { value: tex }, uHover: { value: 0 }, uOpacity: { value: 0 }, uShade: { value: 1 }, uBlur: { value: 0 }, uWarp: { value: 0 },
           uSize: { value: new THREE.Vector2(w, h) }, uRadius: { value: 0.035 }
         },
         vertexShader: vert, fragmentShader: frag, transparent: true, depthWrite: false, side: THREE.DoubleSide
@@ -568,7 +556,11 @@ a{color:inherit;text-decoration:none}
     const dt = Math.min(0.05, (now - last) / 1000); last = now;
 
     if (webgl) {
+      const prevC = scrollC;
       scrollC += (scrollT - scrollC) * damp(0.085, dt);
+      const vRaw = dt > 0 ? (scrollC - prevC) / dt : 0;
+      velS += (vRaw - velS) * damp(0.15, dt);
+      const warp = reduce ? 0 : clamp(velS * 0.09, -0.45, 0.45);
       modeA += (modeT - modeA) * damp(0.08, dt);
       mxs += (mx - mxs) * damp(0.05, dt);
       mys += (my - mys) * damp(0.05, dt);
@@ -601,6 +593,7 @@ a{color:inherit;text-decoration:none}
         c.mat.uniforms.uBlur.value = smooth(0.25, 0.9, back);
         c.mat.uniforms.uOpacity.value = edgeF * ia * modeA;
         c.mat.uniforms.uHover.value = c.hover;
+        c.mat.uniforms.uWarp.value = warp;
       }
       renderer.render(scene, camera);
     }
@@ -622,7 +615,10 @@ a{color:inherit;text-decoration:none}
   window.addEventListener('wheel', (e) => {
     if (!state.entered || state.menu || state.mode !== 'spiral' || !webgl) return;
     e.preventDefault();
-    const d = e.deltaMode === 1 ? e.deltaY * 33 : e.deltaY;
+    /* Molette : haut / bas. Pavé tactile : glisser vers la droite fait descendre la spirale */
+    const horiz = Math.abs(e.deltaX) > Math.abs(e.deltaY);
+    let d = horiz ? -e.deltaX : e.deltaY;
+    if (e.deltaMode === 1) d *= 33;
     scrollT += clamp(d, -120, 120) * 0.0042;
     scheduleSnap();
   }, { passive: false });
@@ -636,14 +632,15 @@ a{color:inherit;text-decoration:none}
   let drag = null;
   canvas.addEventListener('pointerdown', (e) => {
     if (e.pointerType === 'mouse') return;
-    drag = { y: e.clientY, moved: 0 };
+    drag = { x: e.clientX, moved: 0 };
     canvas.setPointerCapture(e.pointerId);
   });
   canvas.addEventListener('pointermove', (e) => {
     px = e.clientX; py = e.clientY; inside = true;
     if (drag && state.entered && state.mode === 'spiral') {
-      const dy = e.clientY - drag.y; drag.y = e.clientY; drag.moved += Math.abs(dy);
-      scrollT -= dy * 0.012; scheduleSnap();
+      /* Mobile : glisser le doigt vers la droite fait descendre la spirale */
+      const dx = e.clientX - drag.x; drag.x = e.clientX; drag.moved += Math.abs(dx);
+      scrollT += dx * 0.012; scheduleSnap();
     }
   });
   canvas.addEventListener('pointerup', (e) => { if (drag && drag.moved < 8) { px = e.clientX; py = e.clientY; inside = true; } drag = null; });
@@ -665,7 +662,6 @@ a{color:inherit;text-decoration:none}
     const r = enterBtn.getBoundingClientRect();
     enterBtn.style.setProperty('--x', `${e.clientX - r.left}px`);
     enterBtn.style.setProperty('--y', `${e.clientY - r.top}px`);
-    scramble(enterLabel, 'entrer avec le son');
     sfx.play('hover');
   });
   enterBtn.addEventListener('pointerleave', (e) => {
@@ -673,7 +669,6 @@ a{color:inherit;text-decoration:none}
     enterBtn.style.setProperty('--x', `${e.clientX - r.left}px`);
     enterBtn.style.setProperty('--y', `${e.clientY - r.top}px`);
   });
-  quietBtn.addEventListener('pointerenter', () => scramble(quietBtn, 'entrer sans le son', 360));
 
   /* Bouton aimanté */
   let mag = { x: 0, y: 0, tx: 0, ty: 0 };
@@ -790,7 +785,7 @@ a{color:inherit;text-decoration:none}
     state.menu = open;
     document.body.classList.toggle('menu-open', open);
     menuBtn.setAttribute('aria-expanded', String(open));
-    scramble(menuLabel, open ? 'fermer' : 'menu', 380);
+    setLabel(menuLabel, open ? 'fermer' : 'menu');
     if (open) { setHovered(null); setTimeout(() => panel.querySelector('.pl').focus({ preventScroll: true }), 350); }
     sfx.play(open ? 'open' : 'close');
   }
@@ -798,9 +793,6 @@ a{color:inherit;text-decoration:none}
   backdrop.addEventListener('click', () => setMenu(false));
 
   panel.querySelectorAll('.pl').forEach((b) => {
-    const label = b.querySelector('span');
-    const text = label.textContent;
-    b.addEventListener('pointerenter', () => { if (b.getAttribute('aria-disabled') !== 'true') scramble(label, text, 360); });
     b.addEventListener('click', () => {
       const go = b.dataset.go;
       if (go === 'works') { setMenu(false); setMode('spiral'); menuBtn.focus({ preventScroll: true }); }
