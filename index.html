@@ -573,6 +573,53 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .pj-next__t i{font-style:normal;font-size:.5em;transition:translate .6s var(--ease-out)}
 .pj-next:hover .pj-next__t{translate:12px 0}
 .pj-next:hover .pj-next__t i{translate:10px 0}
+/* Façade vidéo */
+.ph--video{cursor:pointer}
+.ph__play{border:0;cursor:pointer;position:relative;z-index:1}
+.ph iframe,.ph video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000;object-fit:cover}
+.ph.is-playing .ph__play,.ph.is-playing .ph__l{display:none}
+.ph.is-nudge .ph__play{animation:nudge .5s var(--ease-out)}
+@keyframes nudge{0%,100%{translate:0}25%{translate:-6px 0}50%{translate:6px 0}75%{translate:-3px 0}}
+
+/* Cadran FM sur la couverture Radio Classique */
+.pj-cover.fx-radio{position:relative}
+.fm{position:absolute;left:0;right:0;top:0;aspect-ratio:16/9;border-radius:16px;overflow:hidden;pointer-events:none}
+.fm__noise{position:absolute;inset:-50%;background-image:var(--noise);opacity:.32;mix-blend-mode:multiply;animation:grain .6s steps(5) infinite;transition:opacity .9s var(--ease-out)}
+.fx-radio.is-tuned .fm__noise{opacity:0}
+.fm__bar{position:absolute;left:14px;right:14px;bottom:14px;height:62px;border-radius:12px;background:var(--pill);color:var(--ink);display:flex;align-items:center;gap:14px;padding:0 16px;box-shadow:0 10px 30px var(--shadow)}
+.fm__band{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--ink-dim)}
+.fm__win{position:relative;flex:1;height:100%;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent)}
+.fm__scale{position:absolute;left:0;top:0;bottom:0;transition-property:transform;transition-timing-function:cubic-bezier(.3,1.35,.5,1);will-change:transform}
+.fm__scale i{position:absolute;bottom:14px;width:1px;height:8px;background:var(--ink-dim)}
+.fm__scale i.mj{height:16px;background:var(--ink)}
+.fm__scale em{position:absolute;bottom:20px;left:50%;translate:-50% 0;font-style:normal;font-size:10px;font-weight:600;color:var(--ink-dim);font-variant-numeric:tabular-nums}
+.fm__needle{position:absolute;left:50%;top:10px;bottom:8px;width:2px;translate:-50% 0;background:var(--ink);border-radius:2px}
+.fm__needle::before{content:"";position:absolute;top:-4px;left:50%;translate:-50% 0;width:8px;height:8px;border-radius:50%;background:var(--ink)}
+.fm__freq{display:flex;align-items:baseline;gap:8px;font-size:13px;font-weight:500;white-space:nowrap}
+.fm__freq b{font-size:22px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;min-width:3.2ch;text-align:right}
+.fm__eq{display:flex;align-items:flex-end;gap:2px;height:18px;width:20px}
+.fm__eq i{flex:1;height:100%;background:var(--ink);border-radius:1px;transform-origin:bottom;scale:1 .15;transition:scale .4s}
+.fx-radio.is-tuned .fm__eq i{animation:eq .9s ease-in-out infinite}
+.fx-radio.is-tuned .fm__eq i:nth-child(2){animation-duration:1.1s;animation-delay:-.3s}
+.fx-radio.is-tuned .fm__eq i:nth-child(3){animation-duration:.8s;animation-delay:-.5s}
+.fx-radio.is-tuned .fm__eq i:nth-child(4){animation-duration:1.2s;animation-delay:-.2s}
+.fx-radio.is-tuned .fm__eq i:nth-child(5){animation-duration:.95s;animation-delay:-.7s}
+.ab-sk.is-paused .fm__eq i{animation-play-state:paused}
+
+/* Agrandissement d'une slide */
+.lb{position:fixed;inset:0;z-index:30;background:rgba(37,36,34,.9);display:grid;place-items:center;opacity:0;transition:opacity .3s}
+.lb.is-on{opacity:1}
+.lb__stage{width:min(88vw,calc(78vh * .8));}
+.lb__stage .ph,.lb__stage img{width:100%;aspect-ratio:4/5;border-radius:16px;object-fit:cover;display:block}
+.lb__stage .ph{background-color:var(--bg)}
+.lb__x{position:fixed;top:calc(var(--top) + 4px);right:var(--right);height:44px;padding:0 18px;border-radius:999px;background:var(--bg);color:var(--fg);font-size:15px;font-weight:500}
+.lb .cr__btn{position:fixed;top:50%;translate:0 -50%;background:var(--bg);color:var(--fg)}
+.lb__p{left:var(--left)}
+.lb__n{right:var(--right)}
+.lb__c{position:fixed;bottom:var(--bottom);left:50%;translate:-50% 0;color:var(--bg);font-size:14px;font-weight:500;font-variant-numeric:tabular-nums}
+.cr__slide{cursor:zoom-in}
+@media (max-width:760px){ .fm__bar{height:52px;gap:10px;padding:0 12px} .fm__freq{font-size:0} .fm__freq b{font-size:18px} .fm__band{display:none} }
+
 .cr{grid-column:span 12;display:flex;flex-direction:column;gap:18px;min-width:0}
 .cr__bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
 .cr__h{margin:0;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
@@ -2011,7 +2058,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
   /* ---------- Pages projet ---------- */
   const PROJECTS = {
     'radio-classique': {
-      title: 'Radio Classique', kicker: 'motion design & montage',
+      title: 'Radio Classique', kicker: 'motion design & montage', coverFx: 'radio',
       meta: [['rôle', 'Motion designer & monteur vidéo'], ['contrat', 'Alternance — 2 ans'], ['équipe', 'Service communication'], ['dates', "Depuis août 2025"], ['lieu', 'Paris']],
       cols: [
         ['Alternance de 2 ans', "En rejoignant **Radio Classique** en tant que Motion Designer et Monteur Vidéo, j'ai intégré l'univers exigeant d'un média de **référence** pour y insuffler une dynamique visuelle **contemporaine**. Cette mission m'a permis de traduire **l'élégance** et la **profondeur** de la programmation classique en contenus **animés**, tout en respectant l'identité **forte** et la rigueur **institutionnelle** qui définissent la marque."],
@@ -2024,13 +2071,10 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
         { ph: true, lbl: 'À compléter : nombre de reels ou de carrousels publiés' }
       ],
       media: [
-        { carousel: true, title: 'Carrousels', sets: [
-          { t: 'Carrousel 01', n: 8 },
-          { t: 'Carrousel 02', n: 6 },
-          { t: 'Carrousel 03', n: 10 }
-        ] },
-        { kind: 'vidéo', ar: '16/9', cls: '', cap: 'Vidéo horizontale — à remplacer' },
-        { row: true, title: 'Reels', n: 5, kind: 'vidéo', ar: '9/16', cap: 'Reel' }
+        { row: true, title: 'Reels', n: 5, kind: 'vidéo', ar: '9/16', cap: 'Reel' },
+        /* Carrousels : une seule suite d'images qui défile toute seule. Remplacez n par imgs: ['rc/c-01.jpg', …] */
+        { carousel: true, title: 'Carrousels', sets: [{ t: 'Carrousels', n: 16 }] },
+        { kind: 'vidéo', ar: '16/9', cls: '', cap: 'Vidéo horizontale — à remplacer' }
       ]
     },
     'parisianvibe': {
@@ -2113,19 +2157,26 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     const P = PROJECTS[slug], idx = PJ_ORDER.indexOf(slug);
     const nextSlug = PJ_ORDER[(idx + 1) % PJ_ORDER.length], N = PROJECTS[nextSlug];
     const card = projects.find((q) => q.slug === slug);
-    const ph = (m, cover) => `<div class="ph" style="--ar:${m.ar}${cover && card ? `;background-image:url(${card.thumb})` : ''}"><span class="ph__l">${esc(m.kind)} · ${esc(m.ar.replace('/', ':'))} — à remplacer</span>${m.kind === 'vidéo' ? '<span class="ph__play"></span>' : ''}</div>`;
+    /* Une vidéo n'est jamais chargée d'avance : on affiche une image et un bouton play, la vidéo ne se charge qu'au clic.
+       Pour brancher une vidéo : ajoutez yt: 'identifiant YouTube' ou mp4: 'chemin/video.mp4' (et poster: 'image.jpg') */
+    const ph = (m, cover) => {
+      const src = m.yt ? ` data-yt="${esc(m.yt)}"` : m.mp4 ? ` data-mp4="${esc(m.mp4)}"` : '';
+      const bg = cover && card ? `;background-image:url(${card.thumb})` : m.poster ? `;background-image:url(${esc(m.poster)})` : '';
+      const label = (m.yt || m.mp4 || m.poster) ? '' : `<span class="ph__l">${esc(m.kind)} · ${esc(m.ar.replace('/', ':'))} — à remplacer</span>`;
+      return `<div class="ph${m.kind === 'vidéo' ? ' ph--video' : ''}" style="--ar:${m.ar}${bg}"${src}>${label}${m.kind === 'vidéo' ? '<button type="button" class="ph__play" aria-label="lire la vidéo"></button>' : ''}</div>`;
+    };
     let h = '';
     h += `<header class="pj-hero"><p class="ab-eyebrow pj-kicker"><b>${String(idx + 1).padStart(2, '0')}</b>${esc(P.kicker)}</p>`;
     h += `<h1 class="ab-h">${esc(P.title)}</h1>`;
     h += `<dl class="pj-meta ab-reveal">${P.meta.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl></header>`;
-    h += `<figure class="pj-media pj-cover is-in" style="margin:var(--tgap) 0 0">${ph({ kind: 'image', ar: '16/9' }, true)}<figcaption>Image de couverture — à remplacer</figcaption></figure>`;
+    h += `<figure class="pj-media pj-cover is-in${P.coverFx ? ' fx-' + P.coverFx : ''}" style="margin:var(--tgap) 0 0">${ph({ kind: 'image', ar: '16/9' }, true)}${P.coverFx === 'radio' ? RADIO_HTML : ''}<figcaption>Image de couverture — à remplacer${P.coverFx === 'radio' ? ' · survolez-la' : ''}</figcaption></figure>`;
     h += `<section class="pj-cols">${P.cols.map(([t, x]) => `<div class="pj-col ab-reveal"><h3>${esc(t)}</h3><p>${md(x)}</p></div>`).join('')}</section>`;
     h += `<section class="pj-stats" style="--n:${P.stats.length}">${P.stats.map((st) => st.ph
       ? `<div class="pj-stat is-ph ab-reveal"><span class="pj-big">00</span><p>${esc(st.lbl)}</p></div>`
       : `<div class="pj-stat ab-reveal"><span class="pj-big">${st.pre ? esc(st.pre) : ''}<span class="pj-n" data-to="${st.to}">0</span>${st.suf ? `<small>${esc(st.suf)}</small>` : ''}</span><p>${esc(st.lbl)}</p></div>`).join('')}</section>`;
     const item = (m) => {
       if (m.text) return `<div class="pj-text ab-reveal ${m.cls}">${m.paras.map((x) => `<p>${md(x)}</p>`).join('')}</div>`;
-      if (m.carousel) return `<div class="cr ab-reveal" data-cr><div class="cr__bar"><h3 class="cr__h">${esc(m.title)}</h3><div class="cr__tabs" role="tablist">${m.sets.map((st, i) => `<button type="button" role="tab" aria-selected="${i === 0}" data-set="${i}">${esc(st.t)}</button>`).join('')}</div><div class="cr__nav"><span class="cr__count" aria-live="polite"></span><button type="button" class="cr__btn" data-dir="-1" aria-label="slide précédente">←</button><button type="button" class="cr__btn" data-dir="1" aria-label="slide suivante">→</button></div></div><div class="cr__track" tabindex="0" aria-label="slides du carrousel"></div><div class="cr__dots" aria-hidden="true"></div></div>`;
+      if (m.carousel) return `<div class="cr ab-reveal" data-cr><div class="cr__bar"><h3 class="cr__h">${esc(m.title)}</h3><div class="cr__tabs" role="tablist">${m.sets.length > 1 ? m.sets.map((st, i) => `<button type="button" role="tab" aria-selected="${i === 0}" data-set="${i}">${esc(st.t)}</button>`).join('') : ''}</div><div class="cr__nav"><span class="cr__count" aria-live="polite"></span><button type="button" class="cr__btn" data-dir="-1" aria-label="slide précédente">←</button><button type="button" class="cr__btn" data-dir="1" aria-label="slide suivante">→</button></div></div><div class="cr__track" tabindex="0" aria-label="slides du carrousel"></div><div class="cr__dots" aria-hidden="true"></div></div>`;
       if (m.row) return `<div class="pj-row-wrap"><h3 class="cr__h">${esc(m.title)}</h3><div class="pj-row" style="--n:${m.n}">${Array.from({ length: m.n }, (_, i) => `<figure class="pj-media">${ph(m)}<figcaption>${esc(m.cap)} ${String(i + 1).padStart(2, '0')} — à remplacer</figcaption></figure>`).join('')}</div></div>`;
       return `<figure class="pj-media ${m.cls}">${ph(m)}<figcaption>${esc(m.cap)}</figcaption></figure>`;
     };
@@ -2143,11 +2194,83 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     pjInner.querySelectorAll('.ab-reveal, .ab-h, .pj-media:not(.pj-cover), .pj-stat').forEach((el) => { if (pjIO) pjIO.observe(el); else { el.classList.add('is-in'); if (el.classList.contains('pj-stat')) countUp(el); } });
     pjInner.querySelector('.pj-next').addEventListener('click', () => setView('project', nextSlug));
     pjInner.querySelectorAll('[data-cr]').forEach((el) => initCarousel(el, P.media.find((m) => m.carousel).sets));
+    pjInner.querySelectorAll('.ph--video').forEach((el) => el.addEventListener('click', () => playFacade(el)));
+    const fxr = pjInner.querySelector('.pj-cover.fx-radio');
+    if (fxr) initRadio(fxr);
     pjCur = slug;
   }
 
   /* Carrousel : glisser (souris, doigt ou pavé), flèches, clavier ; onglets pour changer de carrousel.
      Pour mettre vos images : remplacez n par la liste des fichiers, ex. { t: 'Victor Hugo', imgs: ['rc/hugo-1.jpg', …] } */
+  function playFacade(el) {
+    if (el.classList.contains('is-playing')) return;
+    let media = '';
+    if (el.dataset.yt) media = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(el.dataset.yt)}?autoplay=1&rel=0&modestbranding=1" title="vidéo" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+    else if (el.dataset.mp4) media = `<video src="${esc(el.dataset.mp4)}" controls autoplay playsinline></video>`;
+    else { el.classList.remove('is-nudge'); void el.offsetWidth; el.classList.add('is-nudge'); return; }
+    el.classList.add('is-playing');
+    el.insertAdjacentHTML('beforeend', media);
+  }
+
+  /* Couverture Radio Classique : un cadran FM qui s'accorde sur 101.1 ; le grésillement disparaît quand le signal est trouvé */
+  const RADIO_HTML = `<div class="fm" aria-hidden="true"><span class="fm__noise"></span><div class="fm__bar"><span class="fm__band">FM</span><div class="fm__win"><div class="fm__scale"></div><span class="fm__needle"></span></div><span class="fm__freq"><b>101.1</b> Radio Classique</span><span class="fm__eq"><i></i><i></i><i></i><i></i><i></i></span></div></div>`;
+  function initRadio(fig) {
+    const scale = fig.querySelector('.fm__scale'), win = fig.querySelector('.fm__win'), freq = fig.querySelector('.fm__freq b');
+    const PX = 46, F0 = 87.5, F1 = 108;
+    let marks = '';
+    for (let f = F0; f <= F1 + 0.001; f += 0.2) {
+      const r = Math.round(f * 10) / 10, major = Math.abs(r - Math.round(r)) < 0.01;
+      marks += `<i class="${major ? 'mj' : ''}" style="left:${((r - F0) * PX).toFixed(1)}px">${major && Math.round(r) % 2 === 0 ? `<em>${Math.round(r)}</em>` : ''}</i>`;
+    }
+    scale.innerHTML = marks; scale.style.width = `${(F1 - F0) * PX}px`;
+    let curF = 88.6, raf = 0;
+    const place = (f, dur) => {
+      const x = win.clientWidth / 2 - (f - F0) * PX;
+      scale.style.transitionDuration = `${dur}ms`;
+      scale.style.transform = `translateX(${x.toFixed(1)}px)`;
+      cancelAnimationFrame(raf);
+      const from = curF, t0 = performance.now();
+      const step = (now) => { const k = Math.min(1, (now - t0) / Math.max(1, dur)); const v = from + (f - from) * easeOutExpo(k); freq.textContent = v.toFixed(1); if (k < 1) raf = requestAnimationFrame(step); };
+      raf = requestAnimationFrame(step);
+      curF = f;
+    };
+    const tune = () => { fig.classList.add('is-tuned'); place(101.1, reduce ? 0 : 1600); };
+    const detune = () => { fig.classList.remove('is-tuned'); place(94 + Math.random() * 3, reduce ? 0 : 1200); };
+    place(curF, 0);
+    setTimeout(tune, 900);
+    fig.addEventListener('pointerenter', () => { fig.classList.remove('is-tuned'); place(88 + Math.random() * 2, 260); setTimeout(tune, 280); });
+    fig.addEventListener('pointerleave', detune);
+  }
+
+  /* Agrandissement d'une slide */
+  let lb = null;
+  function openLightbox(items, i) {
+    if (!lb) {
+      lb = document.createElement('div');
+      lb.className = 'lb'; lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-label', 'slide agrandie');
+      lb.innerHTML = '<div class="lb__stage"></div><button type="button" class="lb__x" aria-label="fermer">fermer</button><button type="button" class="cr__btn lb__p" aria-label="précédente">←</button><button type="button" class="cr__btn lb__n" aria-label="suivante">→</button><span class="lb__c"></span>';
+      document.body.appendChild(lb);
+      lb.addEventListener('click', (e) => { if (e.target === lb || e.target.classList.contains('lb__x')) closeLightbox(); });
+      lb.querySelector('.lb__p').addEventListener('click', () => showLb(lb._i - 1));
+      lb.querySelector('.lb__n').addEventListener('click', () => showLb(lb._i + 1));
+    }
+    lb._items = items; lb.hidden = false;
+    requestAnimationFrame(() => lb.classList.add('is-on'));
+    showLb(i);
+  }
+  function showLb(i) {
+    const n = lb._items.length; i = (i + n) % n; lb._i = i;
+    lb.querySelector('.lb__stage').innerHTML = lb._items[i];
+    lb.querySelector('.lb__c').textContent = `${String(i + 1).padStart(2, '0')} / ${String(n).padStart(2, '0')}`;
+  }
+  function closeLightbox() { if (!lb || lb.hidden) return false; lb.classList.remove('is-on'); setTimeout(() => { lb.hidden = true; }, 300); return true; }
+  window.addEventListener('keydown', (e) => {
+    if (!lb || lb.hidden) return;
+    if (e.key === 'Escape') { e.stopImmediatePropagation(); closeLightbox(); }
+    if (e.key === 'ArrowRight') showLb(lb._i + 1);
+    if (e.key === 'ArrowLeft') showLb(lb._i - 1);
+  }, true);
+
   function initCarousel(root, sets) {
     const track = root.querySelector('.cr__track'), dots = root.querySelector('.cr__dots'), count = root.querySelector('.cr__count');
     let cur = 0;
@@ -2156,7 +2279,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
       const st = sets[si], n = st.imgs ? st.imgs.length : st.n;
       track.innerHTML = Array.from({ length: n }, (_, i) => st.imgs
         ? `<div class="cr__slide"><img src="${esc(st.imgs[i])}" alt="${esc(st.t)} — slide ${i + 1}" loading="lazy" draggable="false"></div>`
-        : `<div class="cr__slide"><div class="ph" style="--ar:4/5"><span class="ph__l">slide ${i + 1} · 4:5 — à remplacer</span><span class="cr__num">${String(i + 1).padStart(2, '0')}</span></div></div>`).join('');
+        : `<div class="cr__slide" role="button" tabindex="-1" aria-label="agrandir la slide ${i + 1}"><div class="ph" style="--ar:4/5"><span class="ph__l">slide ${i + 1} · 4:5 — à remplacer</span><span class="cr__num">${String(i + 1).padStart(2, '0')}</span></div></div>`).join('');
       dots.innerHTML = Array.from({ length: n }, () => '<i></i>').join('');
       track.scrollLeft = 0; cur = 0; update();
     };
@@ -2167,7 +2290,22 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
       count.textContent = `${String(cur + 1).padStart(2, '0')} / ${String(ss.length).padStart(2, '0')}`;
       [...dots.children].forEach((d, i) => d.classList.toggle('is-on', i === cur));
     };
-    const go = (i) => { const ss = slides(); const t = ss[clamp(i, 0, ss.length - 1)]; if (t) track.scrollTo({ left: t.offsetLeft - ss[0].offsetLeft, behavior: reduce ? 'auto' : 'smooth' }); };
+    const go = (i) => { const ss = slides(); if (!ss.length) return; i = ((i % ss.length) + ss.length) % ss.length; const t = ss[i]; track.scrollTo({ left: t.offsetLeft - ss[0].offsetLeft, behavior: reduce ? 'auto' : 'smooth' }); };
+    /* Défilement automatique : une slide toutes les 2,6 s, en pause au survol, au toucher et hors de l'écran */
+    let paused = false, visible = false;
+    const auto = setInterval(() => { if (!root.isConnected) { clearInterval(auto); return; } if (!paused && visible && !reduce && state.view === 'project') go(cur + 1); }, 2600);
+    if ('IntersectionObserver' in window) new IntersectionObserver((en) => { visible = en[0].isIntersecting; }, { root: pj, threshold: 0.4 }).observe(root);
+    root.addEventListener('pointerenter', () => { paused = true; });
+    root.addEventListener('pointerleave', () => { paused = false; });
+    root.addEventListener('focusin', () => { paused = true; });
+    root.addEventListener('focusout', () => { paused = false; });
+    /* Cliquer une slide l'agrandit */
+    track.addEventListener('click', (e) => {
+      if (track._dragged) { track._dragged = false; return; }
+      const sl = e.target.closest('.cr__slide'); if (!sl) return;
+      const ss = slides();
+      openLightbox(ss.map((x) => x.innerHTML), ss.indexOf(sl));
+    });
     track.addEventListener('scroll', update, { passive: true });
     root.querySelectorAll('.cr__btn').forEach((b) => b.addEventListener('click', () => { go(cur + Number(b.dataset.dir)); sfx.play('click'); }));
     track.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); } if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); } });
@@ -2178,9 +2316,14 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     }));
     /* Glisser à la souris */
     let drag = null;
-    track.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') return; drag = { x: e.clientX, sl: track.scrollLeft, moved: 0 }; track.classList.add('is-drag'); track.setPointerCapture(e.pointerId); });
-    track.addEventListener('pointermove', (e) => { if (!drag) return; const dx = e.clientX - drag.x; drag.moved = Math.abs(dx); track.scrollLeft = drag.sl - dx; });
-    const end = () => { if (!drag) return; const mv = drag.moved; drag = null; track.classList.remove('is-drag'); if (mv > 5) go(cur); };
+    track.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') return; drag = { x: e.clientX, sl: track.scrollLeft, moved: 0, id: e.pointerId, cap: false }; });
+    track.addEventListener('pointermove', (e) => {
+      if (!drag) return;
+      const dx = e.clientX - drag.x; drag.moved = Math.abs(dx);
+      if (!drag.cap && drag.moved > 4) { drag.cap = true; track.classList.add('is-drag'); track.setPointerCapture(drag.id); }
+      if (drag.cap) track.scrollLeft = drag.sl - dx;
+    });
+    const end = () => { if (!drag) return; const mv = drag.moved; drag = null; track.classList.remove('is-drag'); if (mv > 5) { track._dragged = true; go(cur); } };
     track.addEventListener('pointerup', end); track.addEventListener('pointercancel', end);
     fill(0);
   }
