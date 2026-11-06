@@ -671,51 +671,88 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .cr__prog i{display:block;height:100%;background:var(--fg);transform-origin:0 50%;transform:scaleX(0)}
 .lb__t{margin:14px 0 0;color:var(--bg);font-size:14px;line-height:1.45}
 .lb__t b{font-weight:600}
-/* ParisianVibe · couverture : banc de montage */
-.tl{position:relative;height:clamp(400px,60vh,580px);box-sizing:border-box;border-radius:16px;background:var(--tint);color:var(--fg);overflow:hidden;display:flex;flex-direction:column;gap:12px;padding:clamp(12px,1.6vw,18px);cursor:ew-resize;touch-action:pan-y;user-select:none;-webkit-user-select:none}
-.tl__mon{position:relative;flex:1;min-height:0;border-radius:10px;background:var(--coal);color:var(--cream);overflow:hidden;display:grid;place-items:center}
-.tl__hud{position:absolute;left:16px;right:16px;top:14px;display:flex;justify-content:space-between;gap:12px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim);font-variant-numeric:tabular-nums;pointer-events:none}
-.tl__tc{color:var(--cream);font-size:13px;letter-spacing:.04em}
-.tl__rec{display:flex;align-items:center;gap:7px}
-.tl__rec i{width:7px;height:7px;border-radius:50%;background:var(--cream);animation:tlBlink 1.6s steps(2,jump-none) infinite}
-@keyframes tlBlink{50%{opacity:.25}}
-.tl__safe{position:absolute;inset:14% 9%;border:1px solid rgba(248,243,227,.1);border-radius:3px;pointer-events:none}
-.tl__safe::before,.tl__safe::after{content:"";position:absolute;left:50%;top:50%;background:rgba(248,243,227,.16)}
-.tl__safe::before{width:18px;height:1px;translate:-50% 0}
-.tl__safe::after{width:1px;height:18px;translate:0 -50%}
-.tl__card{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;padding:0 10%;pointer-events:none}
-.tl__k{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim)}
-.tl__t{font-size:clamp(34px,5.4vw,92px);font-weight:500;letter-spacing:-.045em;line-height:.95}
-.tl__card.is-cut .tl__t{animation:tlIn .6s var(--ease-out)}
-.tl__card.is-cut .tl__k{animation:tlIn .6s var(--ease-out) .05s backwards}
-@keyframes tlIn{from{opacity:0;translate:0 .4em}}
-.tl__flash{position:absolute;inset:0;background:var(--cream);opacity:0;pointer-events:none}
-.tl__flash.is-on{animation:tlFlash .35s ease-out}
-@keyframes tlFlash{from{opacity:.2}to{opacity:0}}
-.tl__ed{position:relative;flex:none;display:flex;flex-direction:column;gap:3px}
-.tl__ruler{position:relative;height:18px;margin-left:30px;background:repeating-linear-gradient(90deg,var(--line-strong) 0 1px,transparent 1px calc(100% / 48)) 0 100% / 100% 5px no-repeat}
-.tl__ruler em{position:absolute;top:0;font-style:normal;font-size:10px;font-weight:600;color:var(--dim);font-variant-numeric:tabular-nums;translate:-50% 0}
-.tl__ruler em:first-child{translate:0 0}
-.tl__ruler em::after{content:"";position:absolute;left:50%;top:13px;width:1px;height:5px;background:var(--dim)}
-.tl__ruler em:first-child::after{left:0}
-.tl__ruler em:last-child{translate:-100% 0}
-.tl__ruler em:last-child::after{left:auto;right:0}
-.tl__tr{display:flex;align-items:stretch;height:30px}
-.tl__tr b{flex:0 0 30px;font-size:10px;font-weight:600;letter-spacing:.06em;color:var(--dim);display:flex;align-items:center}
-.tl__lane{position:relative;flex:1;min-width:0}
-.tl__clip{position:absolute;top:2px;bottom:2px;box-sizing:border-box;border-radius:5px;background:rgba(0,0,0,.075);border:1px solid var(--line-strong);padding:0 8px;font-size:11px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;transition:background .3s,color .3s,border-color .3s}
-.tl__clip.is-on{background:var(--coal);color:var(--cream);border-color:var(--coal)}
-.tl__v2 .tl__clip{background:transparent;border-style:dashed;font-size:10px;letter-spacing:.04em;color:var(--dim)}
-.tl__v2 .tl__clip.is-on{background:transparent;color:var(--fg);border-color:var(--fg)}
-.tl__a1 canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.tl__cut{position:absolute;top:0;bottom:0;width:3px;margin-left:-1.5px;background:var(--bg);pointer-events:none;animation:tlCut .45s var(--ease-out)}
-@keyframes tlCut{from{scale:1 0}}
-.tl__ph{position:absolute;top:0;bottom:0;left:0;width:2px;margin-left:-1px;background:var(--fg);border-radius:2px;pointer-events:none;will-change:transform}
-.tl__ph::before{content:"";position:absolute;top:0;left:50%;translate:-50% 0;width:11px;height:12px;border-radius:2px 2px 6px 6px;background:var(--fg)}
-.tl__foot{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:22px;font-size:12px;font-weight:500;color:var(--dim)}
-.tl__foot span{display:flex;align-items:center;gap:10px}
-.tl__clr{font-size:12px;font-weight:500;color:var(--fg);padding:3px 10px;border-radius:999px;border:1px solid var(--line-strong);transition:border-color .25s}
-.tl__clr:hover{border-color:var(--fg)}
+.lb.is-video .lb__stage{width:min(90vw,calc(76vh * 16 / 9))}
+.lb__vid{aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+.lb__vid iframe{display:block;width:100%;height:100%;border:0}
+/* ParisianVibe · couverture : habiller la Parisienne selon l'occasion, puis filmer ou prendre la photo */
+.lk{position:relative;height:clamp(440px,64vh,600px);box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(300px,1fr);gap:clamp(12px,1.4vw,18px);padding:clamp(12px,1.4vw,18px);border-radius:16px;background:var(--tint);color:var(--fg)}
+.lk__vf{position:relative;min-height:0;border-radius:10px;overflow:hidden;background:var(--bg)}
+.lk__svg{position:absolute;left:0;right:0;top:0;bottom:58px;width:100%;height:calc(100% - 58px);display:block}
+.lk svg .k{fill:#252422}.lk svg .w{fill:#f8f3e3}.lk svg .g{fill:#c9c3b5}.lk svg .d{fill:#7d796f}.lk svg .t{fill:#dcd5c3}
+.lk svg .o{stroke:#252422;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round}
+.lk svg .l{fill:none;stroke:#252422;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+.lk svg .ln{fill:none;stroke:#f8f3e3;stroke-width:1.2;stroke-linecap:round;opacity:.7}
+.lk svg .bgl{fill:none;stroke:#252422;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round;opacity:.3}
+.lk__bg{transition:opacity .35s}
+.lk__bg.is-swap{opacity:0}
+.lk__fig{transform-box:view-box;transform-origin:200px 404px;animation:lkSway 5.5s ease-in-out infinite}
+@keyframes lkSway{0%,100%{rotate:-.7deg}50%{rotate:.7deg}}
+.lk [data-g].is-pop{animation:lkPop .45s var(--ease-out)}
+@keyframes lkPop{from{opacity:0;translate:0 6px}}
+.lk .snow{animation:lkFall var(--d,4s) linear var(--dl,0s) infinite}
+@keyframes lkFall{from{translate:0 -20px}to{translate:var(--x,0) 220px}}
+.lk .leaf{animation:lkLeaf var(--d,6s) ease-in-out var(--dl,0s) infinite;opacity:0}
+@keyframes lkLeaf{0%{translate:0 0;opacity:0}10%{opacity:.5}90%{opacity:.5}100%{translate:var(--x,40px) 230px;opacity:0}}
+.lk .spk{animation:lkTw var(--d,2.4s) ease-in-out var(--dl,0s) infinite}
+@keyframes lkTw{0%,100%{opacity:.08}50%{opacity:.55}}
+.lk.is-hold *,.lk.is-off *{animation-play-state:paused!important}
+.lk__br{position:absolute;inset:12px;pointer-events:none;opacity:.55;--c:var(--fg);background:linear-gradient(var(--c),var(--c)) 0 0/20px 1.5px,linear-gradient(var(--c),var(--c)) 0 0/1.5px 20px,linear-gradient(var(--c),var(--c)) 100% 0/20px 1.5px,linear-gradient(var(--c),var(--c)) 100% 0/1.5px 20px,linear-gradient(var(--c),var(--c)) 0 100%/20px 1.5px,linear-gradient(var(--c),var(--c)) 0 100%/1.5px 20px,linear-gradient(var(--c),var(--c)) 100% 100%/20px 1.5px,linear-gradient(var(--c),var(--c)) 100% 100%/1.5px 20px;background-repeat:no-repeat}
+.lk__hud{position:absolute;left:26px;right:26px;top:22px;display:flex;justify-content:space-between;align-items:flex-start;gap:14px;pointer-events:none}
+.lk__scn{display:flex;flex-direction:column;gap:4px}
+.lk__st{font-size:clamp(20px,2.1vw,30px);font-weight:600;letter-spacing:-.03em;line-height:1}
+.lk__ss{font-size:12px;font-weight:500}
+.lk__scn.is-in .lk__st,.lk__scn.is-in .lk__ss{animation:lkPop .5s var(--ease-out) backwards}
+.lk__scn.is-in .lk__ss{animation-delay:.06s}
+.lk__rec{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-variant-numeric:tabular-nums;white-space:nowrap}
+.lk__rec i{width:8px;height:8px;border-radius:50%;border:1.5px solid var(--fg);box-sizing:border-box}
+.lk.is-rec .lk__rec i{background:var(--fg);animation:lkBlink 1.2s steps(2,jump-none) infinite}
+@keyframes lkBlink{50%{opacity:.2}}
+.lk__ctl{position:absolute;left:50%;bottom:16px;translate:-50% 0;display:flex;gap:4px;padding:5px;border-radius:999px;background:var(--pill);color:var(--ink)}
+.lk__b{display:flex;align-items:center;gap:7px;height:34px;padding:0 14px 0 11px;border-radius:999px;font-size:13px;font-weight:500;white-space:nowrap;transition:background .25s}
+.lk__b:hover{background:var(--soft)}
+.lk__b svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.lk__b .dot{width:10px;height:10px;border-radius:50%;border:1.6px solid currentColor;box-sizing:border-box}
+.lk__b[data-a="rec"][aria-pressed="true"] .dot{background:currentColor}
+.lk__b[data-a="pause"] .ic-play{display:none}
+.lk__b[data-a="pause"][aria-pressed="true"] .ic-play{display:inline}
+.lk__b[data-a="pause"][aria-pressed="true"] .ic-pause{display:none}
+.lk__flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+.lk__flash.is-on{animation:lkFlash .5s ease-out}
+@keyframes lkFlash{from{opacity:.95}to{opacity:0}}
+.lk__pn{display:flex;flex-direction:column;gap:14px;min-height:0;overflow:auto;scrollbar-width:none;padding:2px}
+.lk__pn::-webkit-scrollbar{display:none}
+.lk__lbl{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase}
+.lk__scenes,.lk__opts{display:flex;flex-wrap:wrap;gap:5px}
+.lk__scenes button{font-size:14px;font-weight:500;padding:8px 14px;border-radius:999px;border:1px solid var(--line-strong);transition:background .3s,color .3s,border-color .3s}
+.lk__opts button{font-size:13px;font-weight:500;padding:6px 11px;border-radius:999px;border:1px solid var(--line-strong);transition:background .3s,color .3s,border-color .3s}
+.lk__scenes button:hover,.lk__opts button:hover{border-color:var(--fg)}
+.lk__scenes button[aria-pressed="true"],.lk__opts button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.lk__cats{display:flex;flex-direction:column;gap:10px}
+.lk__cat{display:flex;flex-direction:column;gap:6px}
+.lk__ver{display:flex;flex-direction:column;gap:7px;padding-top:12px;border-top:1px solid var(--line-strong)}
+.lk__vh{display:flex;justify-content:space-between;align-items:baseline}
+.lk__vh b{font-size:22px;font-weight:500;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.lk__vb{height:3px;border-radius:2px;background:var(--line-strong);overflow:hidden}
+.lk__vb i{display:block;height:100%;background:var(--fg);transform-origin:0 50%;transition:transform .6s var(--ease-out)}
+.lk__vt{margin:0;font-size:13px;line-height:1.4}
+.lk__foot{display:flex;align-items:center;gap:12px;margin-top:auto}
+.lk__rand{flex:none;font-size:13px;font-weight:500;padding:8px 14px;border-radius:999px;background:var(--pill);color:var(--ink);transition:scale .25s var(--ease-out)}
+.lk__rand:hover{scale:1.04}
+.lk__film{display:flex;gap:6px;min-width:0;overflow:hidden;align-items:flex-end}
+.lk__film:empty::before{content:"vos photos apparaîtront ici";font-size:12px;color:var(--dim)}
+.lk__pol{margin:0;flex:none;width:54px;padding:3px 3px 12px;background:#fff;border-radius:2px;box-shadow:0 1px 3px rgba(0,0,0,.14);position:relative;animation:lkDrop .6s var(--ease-out)}
+.lk__pol:nth-child(odd){rotate:-3deg}.lk__pol:nth-child(even){rotate:2.5deg}
+.lk__pol svg{display:block;width:100%;aspect-ratio:400/420;background:var(--bg)}
+.lk__pol figcaption{position:absolute;left:0;right:0;bottom:1px;text-align:center;font-size:7.5px;font-weight:600;letter-spacing:.02em;white-space:nowrap;overflow:hidden}
+.lk__pol svg *{animation:none!important}
+@keyframes lkDrop{from{opacity:0;translate:0 -14px;scale:1.25}}
+@media (max-width:760px){
+  .lk{height:auto;grid-template-columns:1fr}
+  .lk__vf{height:min(62vh,480px);min-height:340px}
+  .lk__svg{top:70px;height:calc(100% - 128px)}
+  .lk__b span.lbl{display:none}
+  .lk__b{padding:0 11px}
+}
 
 /* ParisianVibe · bibliothèque de vidéos : thèmes, curseurs, tri */
 .vl{grid-column:span 12;display:flex;flex-direction:column;gap:22px;min-width:0}
@@ -742,30 +779,29 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .vl__stats b{font-size:clamp(30px,3.2vw,54px);font-weight:500;letter-spacing:-.045em;line-height:1;font-variant-numeric:tabular-nums}
 .vl__stats b small{font-size:.42em;letter-spacing:-.01em;margin-left:.2em;color:var(--dim)}
 .vl__stats p{margin:0;font-size:13px;font-weight:500}
-.vl__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(22px,2.6vw,34px) clamp(14px,2vw,26px)}
-.vc{margin:0;display:flex;flex-direction:column;gap:12px;min-width:0}
-.vc__th{transition:filter .6s,opacity .6s}
-.vc__th:not(.is-playing){background-color:var(--tint)}
-.vc__dur{position:absolute;right:10px;bottom:10px;font-size:11.5px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--cream);background:rgba(37,36,34,.82);padding:3px 7px;border-radius:6px}
-.vc .ph__play{scale:.8;transition:scale .4s var(--ease-out)}
-.vc:hover .ph__play{scale:.9}
+.vl__grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:22px clamp(10px,1.2vw,16px)}
+.vc{margin:0;display:flex;flex-direction:column;gap:9px;min-width:0}
+.vc__th{width:100%;padding:0;border:0;border-radius:10px;cursor:pointer;transition:filter .6s,opacity .6s}
+.vc__th img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:scale .6s var(--ease-out)}
+.vc:hover .vc__th img{scale:1.04}
+.vc__th .ph__l{left:8px;top:8px;font-size:9.5px;padding:3px 6px}
+.vc__dur{position:absolute;right:6px;bottom:6px;font-size:10.5px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--cream);background:rgba(37,36,34,.82);padding:2px 5px;border-radius:5px}
+.vc .ph__play{width:40px;height:40px;opacity:0;scale:.8;transition:opacity .3s,scale .4s var(--ease-out)}
+.vc:hover .ph__play,.vc__th:focus-visible .ph__play,.vc__th.is-nudge .ph__play{opacity:1;scale:1}
 .vc.is-off .vc__th{filter:grayscale(1);opacity:.42}
-.vc figcaption{display:flex;flex-direction:column;gap:4px;transition:opacity .6s}
+.vc figcaption{display:flex;flex-direction:column;gap:3px;transition:opacity .6s}
 .vc.is-off figcaption{opacity:.35}
-.vc__s{font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
-.vc figcaption b{font-size:15px;font-weight:600;letter-spacing:-.015em;line-height:1.3}
-.vc__m{font-size:13px;font-variant-numeric:tabular-nums}
-.vc__bar{height:2px;border-radius:2px;background:var(--line-strong);overflow:hidden;margin-top:4px}
+.vc__s{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.vc figcaption b{font-size:13px;font-weight:600;letter-spacing:-.01em;line-height:1.28;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.vc__m{font-size:11.5px;font-variant-numeric:tabular-nums}
+.vc__bar{height:2px;border-radius:2px;background:var(--line-strong);overflow:hidden;margin-top:3px}
 .vc__bar i{display:block;height:100%;width:calc(var(--w) * 100%);background:var(--fg)}
-@media (max-width:900px){ .vl__grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:1200px){ .vl__grid{grid-template-columns:repeat(4,minmax(0,1fr))} }
+@media (max-width:900px){ .vl__grid{grid-template-columns:repeat(3,minmax(0,1fr))} }
 @media (max-width:760px){
-  .tl{height:clamp(440px,74vh,580px)}
-  .tl__seq{display:none}
-  .tl__ruler em:nth-child(even){display:none}
-  .tl__v2 .tl__clip{font-size:0;padding:0}
   .vl__ctl{grid-template-columns:1fr}
   .vl__sl{grid-template-columns:1fr}
-  .vl__grid{grid-template-columns:1fr}
+  .vl__grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .vl__stats{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 .pj-media figcaption.rl{display:flex;flex-direction:column;gap:3px;color:var(--fg)}
@@ -2241,7 +2277,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
       ]
     },
     'parisianvibe': {
-      title: 'ParisianVibe', kicker: 'montage vidéo', coverFx: 'edit',
+      title: 'ParisianVibe', kicker: 'montage vidéo', coverFx: 'look',
       meta: [['rôle', 'Monteur vidéo'], ['contrat', 'Alternance — 1 an'], ['équipe', 'Équipe de production'], ['dates', 'Déc. 2024 — juil. 2025'], ['lieu', 'Paris']],
       cols: [
         ['Alternance de 1 an', "Chez **ParisianVibe**, j'ai travaillé en tant que **monteur vidéo**, une expérience **immersive** qui m'a placé au **cœur** de la création de contenu pour l'univers exigeant du **luxe** et de **la mode**. Dans ce rôle, ma **mission** était de traduire l'identité **forte** de la marque en **séquences visuelles** dynamiques, en veillant à ce que **chaque** montage serve une narration **cohérente**. Cette opportunité m'a permis de **perfectionner** ma maîtrise du **rythme** et de **l'esthétique**, en collaborant **étroitement** avec la direction artistique afin d'assurer une cohérence visuelle **irréprochable** sur **l'ensemble** des plateformes de diffusion."],
@@ -2257,10 +2293,13 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
         /* Vidéo à la une : ajoutez yt: 'identifiant' (la partie après watch?v= dans le lien YouTube) */
         { kind: 'vidéo', ar: '16/9', cls: 'mid', cap: 'Vidéo à la une — à remplacer' },
         /* Bibliothèque YouTube. Pour chaque vidéo : yt = identifiant YouTube (la miniature s'affiche toute seule),
-           t = titre, s = thème (un de la liste themes), dur = durée, v = vues, h = heures de montage (facultatif) */
+           t = titre, s = thème (un de la liste themes), dur = durée, v = vues (null = réservée aux membres), h = heures de montage (facultatif) */
         { library: true, title: 'Vidéos YouTube', intro: "Texte de présentation des vidéos, à remplacer. Deux ou trois phrases sur les séries montées pendant l’alternance.",
-          themes: ['In the Bag', 'At Home', 'Les Filles à Paris', 'Voyages'],
+          themes: ['In the Bag', 'At Home', 'Les Filles à Paris', 'Guides mode', 'Art & culture', 'Voyages'],
           items: [
+            { yt: '', t: 'Elegant Occasionwear Dresses Guide: Wedding Guest Edition', s: 'Guides mode', dur: '21:23', v: 95000 },
+            { yt: '', t: 'At Home in Paris: Meticulously Designed Apartment of an Architect Couple, 55 sqm', s: 'At Home', dur: '17:17', v: 294000 },
+            { yt: '', t: 'At Home in Paris: A Modern Minimalist Apartment of an Architect, 28 sqm', s: 'At Home', dur: '12:01', v: 47000 },
             { yt: '', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E14', s: 'In the Bag', dur: '17:19', v: 107000 },
             { yt: '', t: 'At Home in Paris: A Playful Artist Apartment Full of Color and Craft', s: 'At Home', dur: '13:41', v: 122000 },
             { yt: '', t: 'Magical Italy: Design, Food & Culture in the South', s: 'Voyages', dur: '19:17', v: 82000 },
@@ -2269,7 +2308,31 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
             { yt: '', t: 'Chic Summer Wardrobe — 24 Hours in Provence', s: 'Voyages', dur: '10:03', v: 46000 },
             { yt: '', t: 'Les Filles à Paris: Summer Wardrobe Diary', s: 'Les Filles à Paris', dur: '9:11', v: 58000 },
             { yt: '', t: 'At Home in France: Extraordinary French Countryside Family House', s: 'At Home', dur: '30:00', v: 823000 },
-            { yt: '', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E12', s: 'In the Bag', dur: '15:49', v: 363000 }
+            { yt: '', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E12', s: 'In the Bag', dur: '15:49', v: 363000 },
+            { yt: '', t: 'Parisian Vibe Travels: Madrid — A Day of Cheese, Culture & Beauty with Clara Diez', s: 'Voyages', dur: '8:35', v: 42000 },
+            { yt: '', t: '5 Elegant and Effortless Summer Hairstyles | Alexandre de Paris', s: 'Guides mode', dur: '12:22', v: 54000 },
+            { yt: '', t: 'Art to Fashion: Spring Inspiration and Colour Moodboard', s: 'Art & culture', dur: '16:09', v: 20000 },
+            { yt: '', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E11', s: 'In the Bag', dur: '20:38', v: 224000 },
+            { yt: '', t: 'Parisian Guide to Chic Spring Capsule Wardrobe Essentials', s: 'Guides mode', dur: '10:55', v: 215000 },
+            { yt: '', t: 'The Timeless Elegance of Carolyn Bessette-Kennedy: Spring Wardrobe Inspiration', s: 'Guides mode', dur: '18:01', v: 296000 },
+            { yt: '', t: 'Spring Wardrobe: Elegant and Boho-Chic Outfits from Paris', s: 'Les Filles à Paris', dur: '13:17', v: 142000 },
+            { yt: '', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E10', s: 'In the Bag', dur: '17:08', v: 229000 },
+            { yt: '', t: 'How to Style Brown: Effortlessly Chic Wardrobe from Paris', s: 'Les Filles à Paris', dur: '10:08', v: 125000 },
+            { yt: '', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E09', s: 'In the Bag', dur: '17:03', v: 259000 },
+            { yt: '', t: 'Parisian Wardrobe Tour | Inside a Colourful & Playful Personal Style', s: 'Guides mode', dur: '11:31', v: 82000 },
+            { yt: '', t: 'Chic and Unique Parisian Style for Men', s: 'Guides mode', dur: '8:19', v: 23000 },
+            { yt: '', t: 'Louvre Couture: A Historic Fashion Exhibition and Gala in Paris', s: 'Art & culture', dur: '13:12', v: 17000 },
+            { yt: '', t: 'At Home in Paris: The Vibrant and Unique Apartment of a Fashion Enthusiast, 35 sqm', s: 'At Home', dur: '16:32', v: null },
+            { yt: '', t: 'French Girl’s Accessories Guide: Elegant Ways to Elevate Your Look', s: 'Guides mode', dur: '14:51', v: 179000 },
+            { yt: '', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E08', s: 'In the Bag', dur: '16:39', v: 700000 },
+            { yt: '', t: 'Art meets Fashion: Winter Inspirations', s: 'Art & culture', dur: '24:10', v: 69000 },
+            { yt: '', t: 'At Home in Paris: Modern French Family Cozy Apartment With a Garden', s: 'At Home', dur: '7:38', v: null },
+            { yt: '', t: 'Book Club: Uncover Your Potential — 5 Books That Inspire and Empower 2025', s: 'Art & culture', dur: '11:29', v: 25000 },
+            { yt: '', t: 'Dans les sacs de 3 filles parisiennes : leurs essentiels préférés E7', s: 'In the Bag', dur: '13:05', v: 481000 },
+            { yt: '', t: 'Manteaux parisiens 2025 : comment se construire une garde-robe intemporelle', s: 'Les Filles à Paris', dur: '10:30', v: 119000 },
+            { yt: '', t: '7 Elegant and Fun Ways to Tie a Scarf: A Complete Guide to a Classy Outfit', s: 'Guides mode', dur: '21:27', v: 624000 },
+            { yt: '', t: 'Christmas in Paris 2024 | Noël à Paris — Discover the Rare & Extraordinary!', s: 'Voyages', dur: '8:45', v: 42000 },
+            { yt: '', t: 'Bag Girl’s Guide: A Conversation With Christie’s', s: 'Guides mode', dur: '13:15', v: 23000 }
           ] },
         { row: true, title: 'Images', kind: 'image', ar: '4/5', intro: "Petit texte de présentation des images, à remplacer.", items: [
           { t: 'Image 01', s: 'à remplacer' }, { t: 'Image 02', s: 'à remplacer' }, { t: 'Image 03', s: 'à remplacer' }
@@ -2352,8 +2415,8 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     h += `<dl class="pj-meta ab-reveal">${P.meta.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl></header>`;
     h += P.coverFx === 'radio'
       ? `<figure class="pj-media pj-cover is-in fx-radio" style="margin:var(--tgap) 0 0">${RADIO_HTML}</figure>`
-      : P.coverFx === 'edit'
-      ? `<figure class="pj-media pj-cover is-in fx-edit" style="margin:var(--tgap) 0 0">${EDIT_HTML}</figure>`
+      : P.coverFx === 'look'
+      ? `<figure class="pj-media pj-cover is-in fx-look" style="margin:var(--tgap) 0 0">${LOOK_HTML()}</figure>`
       : `<figure class="pj-media pj-cover is-in" style="margin:var(--tgap) 0 0">${ph({ kind: 'image', ar: '16/9' }, true)}<figcaption>Image de couverture — à remplacer</figcaption></figure>`;
     h += `<section class="pj-cols">${P.cols.map(([t, x]) => `<div class="pj-col ab-reveal"><h3>${esc(t)}</h3><p>${md(x)}</p></div>`).join('')}</section>`;
     h += `<section class="pj-stats" style="--n:${P.stats.length}">${P.stats.map((st) => st.ph
@@ -2389,8 +2452,8 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     pjInner.querySelectorAll('.ph--video').forEach((el) => el.addEventListener('click', () => playFacade(el)));
     const fxr = pjInner.querySelector('.pj-cover.fx-radio .rd');
     if (fxr) initRadio(fxr);
-    const fxe = pjInner.querySelector('.pj-cover.fx-edit .tl');
-    if (fxe) initEdit(fxe);
+    const fxl = pjInner.querySelector('.pj-cover.fx-look .lk');
+    if (fxl) initLook(fxl);
     pjInner.querySelectorAll('[data-vl]').forEach((el) => initLibrary(el, P.media.find((m) => m.library)));
     pjCur = slug;
   }
@@ -2537,7 +2600,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 
   /* Agrandissement d'une slide */
   let lb = null;
-  function openLightbox(items, i) {
+  function openLightbox(items, i, mode) {
     if (!lb) {
       lb = document.createElement('div');
       lb.className = 'lb'; lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-label', 'slide agrandie');
@@ -2547,16 +2610,19 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
       lb.querySelector('.lb__p').addEventListener('click', () => showLb(lb._i - 1));
       lb.querySelector('.lb__n').addEventListener('click', () => showLb(lb._i + 1));
     }
-    lb._items = items; lb.hidden = false;
+    lb._items = items; lb.hidden = false; lb.classList.toggle('is-video', mode === 'video');
     requestAnimationFrame(() => lb.classList.add('is-on'));
     showLb(i);
   }
   function showLb(i) {
     const n = lb._items.length; i = (i + n) % n; lb._i = i;
-    lb.querySelector('.lb__stage').innerHTML = lb._items[i];
+    const stage = lb.querySelector('.lb__stage');
+    stage.innerHTML = lb._items[i];
+    const v = stage.querySelector('.lb__vid[data-yt]');
+    if (v) v.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.dataset.yt)}?autoplay=1&rel=0&modestbranding=1" title="vidéo" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
     lb.querySelector('.lb__c').textContent = `${String(i + 1).padStart(2, '0')} / ${String(n).padStart(2, '0')}`;
   }
-  function closeLightbox() { if (!lb || lb.hidden) return false; lb.classList.remove('is-on'); setTimeout(() => { lb.hidden = true; }, 300); return true; }
+  function closeLightbox() { if (!lb || lb.hidden) return false; lb.classList.remove('is-on'); setTimeout(() => { lb.hidden = true; if (lb.classList.contains('is-video')) lb.querySelector('.lb__stage').innerHTML = ''; }, 300); return true; }
   window.addEventListener('keydown', (e) => {
     if (!lb || lb.hidden) return;
     if (e.key === 'Escape') { e.stopImmediatePropagation(); closeLightbox(); }
@@ -2649,125 +2715,160 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     requestAnimationFrame(() => { measure(); render(); });
   }
 
-  /* Couverture ParisianVibe : un banc de montage.
-     La tête de lecture suit la souris (ou le doigt) ; l'écran affiche la série sous la tête de lecture.
-     Clic = une coupe dans la piste V1. Sans souris, la séquence se lit toute seule. Rien ne tourne hors de l'écran. */
-  const EDIT_SEQ = [
-    { t: 'In the Bag', k: 'of a Parisian · série mode', w: 1.3 },
-    { t: 'At Home in Paris', k: 'intérieurs · série', w: 1.1 },
-    { t: 'Les Filles à Paris', k: 'mode · série', w: 0.9 },
-    { t: '24 Hours in Madrid', k: 'voyage · épisode', w: 1 },
-    { t: 'Magical Italy', k: 'voyage · épisode', w: 1.1 },
-    { t: 'At Home in France', k: 'intérieurs · épisode', w: 1.2 },
-    { t: 'Summer Wardrobe', k: 'mode · épisode', w: 0.8 }
-  ];
-  const EDIT_HTML = `<div class="tl" role="img" aria-label="Banc de montage des séries ParisianVibe : déplacez la souris pour parcourir la séquence, cliquez pour couper">
-    <div class="tl__mon"><div class="tl__hud"><span class="tl__tc">00:00:00:00</span><span class="tl__rec"><span class="tl__seq">séquence ParisianVibe · 25 i/s</span><i></i></span></div><span class="tl__safe"></span><div class="tl__card"><span class="tl__k"></span><span class="tl__t"></span></div><span class="tl__flash"></span></div>
-    <div class="tl__ed"><div class="tl__ruler"></div><div class="tl__tr"><b>V2</b><div class="tl__lane tl__v2"></div></div><div class="tl__tr"><b>V1</b><div class="tl__lane tl__v1"></div></div><div class="tl__tr"><b>A1</b><div class="tl__lane tl__a1"><canvas></canvas></div></div><span class="tl__ph"></span></div>
-    <div class="tl__foot"><span class="tl__hint">déplacez la souris pour parcourir le montage · cliquez pour couper</span><span><span class="tl__cuts"></span><button type="button" class="tl__clr" hidden>effacer</button></span></div></div>`;
-  function initEdit(el) {
-    const card = el.querySelector('.tl__card'), tT = el.querySelector('.tl__t'), tK = el.querySelector('.tl__k'), tc = el.querySelector('.tl__tc'), flash = el.querySelector('.tl__flash');
-    const ed = el.querySelector('.tl__ed'), v1 = el.querySelector('.tl__v1'), v2 = el.querySelector('.tl__v2'), a1 = el.querySelector('.tl__a1'), cv = a1.querySelector('canvas'), ctx = cv.getContext('2d');
-    const ph = el.querySelector('.tl__ph'), cutsEl = el.querySelector('.tl__cuts'), clr = el.querySelector('.tl__clr');
-    const TOTAL = 720, FPS = 25, AUTO = 1 / 50;
-    let seed = 11; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-    const sum = EDIT_SEQ.reduce((a, s) => a + s.w, 0);
-    let acc = 0;
-    const segs = EDIT_SEQ.map((s) => { const a = acc / sum; acc += s.w; return { ...s, a, b: acc / sum }; });
-    const shots = []; let h1 = '', h2 = '';
-    const box = (a, b) => `left:calc(${(a * 100).toFixed(3)}% + 1px);width:calc(${((b - a) * 100).toFixed(3)}% - 2px)`;
-    segs.forEach((s, si) => {
-      const n = 2 + Math.floor(rnd() * 3), c = [s.a];
-      for (let k = 1; k < n; k++) c.push(s.a + (s.b - s.a) * (k + (rnd() - 0.5) * 0.4) / n);
-      c.push(s.b);
-      for (let k = 0; k < n; k++) { shots.push({ a: c[k], b: c[k + 1], si, k }); h1 += `<span class="tl__clip" style="${box(c[k], c[k + 1])}">${k === 0 ? esc(s.t) : ''}</span>`; }
-      h2 += `<span class="tl__clip" style="${box(s.a, s.a + (s.b - s.a) * 0.3)}">titre</span>`;
+  /* Couverture ParisianVibe : « Le look du jour ».
+     On choisit une occasion, on habille la Parisienne pièce par pièce ; le parisien-mètre réagit.
+     Dans le viseur : pause, enregistrement (REC + timecode) et photo (flash, la photo tombe dans la pellicule).
+     Tout est dessiné en vectoriel : aucune image à charger, et rien ne bouge quand le bloc n'est pas à l'écran. */
+  const LK_C = 'class="w o"', LK_S = 'fill="url(#lkStripe)" class="o"';
+  const LK_TORSO = 'M94 92 Q120 86 146 92 L142 140 L138 180 L102 180 L98 140 Z';
+  const LK_SLV = ['M94 93 C86 120 82 160 84 198 L97 199 C97 165 100 130 104 110 Z', 'M146 93 C154 120 158 160 156 198 L143 199 C143 165 140 130 136 110 Z'];
+  const lkTop = (attr) => `<path ${attr} d="${LK_TORSO}"/><path ${attr} d="${LK_SLV[0]}"/><path ${attr} d="${LK_SLV[1]}"/>`;
+  const LK_COAT = (cls, y, lap) => `<path class="${cls} o" d="M93 92 C83 120 80 160 82 212 L97 213 C97 165 100 130 106 112 Z"/><path class="${cls} o" d="M147 92 C157 120 160 160 158 212 L143 213 C143 165 140 130 134 112 Z"/><path class="${cls} o" d="M93 90 Q104 86 116 95 L113 ${y} L84 ${y - 4} L88 150 Z"/><path class="${cls} o" d="M147 90 Q136 86 124 95 L127 ${y} L156 ${y - 4} L152 150 Z"/><path class="${lap}" d="M116 95 L105 132 L113 142 M124 95 L135 132 L127 142"/>`;
+  const LOOK = {
+    skin: `<path class="k" d="M99 52 C97 22 143 22 141 52 L143 80 Q120 86 97 80 Z"/><rect ${LK_C} x="113" y="66" width="14" height="26" rx="5"/><path ${LK_C} d="M96 92 Q120 86 144 92 L140 140 L136 170 L142 200 L98 200 L104 170 L100 140 Z"/><path ${LK_C} d="M94 96 C86 120 82 160 84 200 L86 232 Q90 238 94 232 L96 200 C96 165 100 130 104 110 Z"/><path ${LK_C} d="M146 96 C154 120 158 160 156 200 L154 232 Q150 238 146 232 L144 200 C144 165 140 130 136 110 Z"/><path ${LK_C} d="M102 196 L100 300 L104 384 L114 384 L116 300 L119 205 Z"/><path ${LK_C} d="M138 196 L140 300 L136 384 L126 384 L124 300 L121 205 Z"/><ellipse ${LK_C} cx="120" cy="52" rx="16" ry="20"/><path class="k" d="M103 48 C104 28 136 28 137 48 C129 41 111 41 103 48 Z"/>`,
+    top: {
+      mariniere: lkTop(LK_S) + '<path class="l" d="M104 91 Q120 97 136 91"/>',
+      colroule: lkTop('class="k"') + '<rect class="k" x="110" y="72" width="20" height="22" rx="7"/>',
+      chemise: lkTop(LK_C) + `<path ${LK_C} d="M109 86 L120 101 L131 86 L127 83 L120 94 L113 83 Z"/><path class="l" d="M120 101 V178"/><circle class="k" cx="120" cy="118" r="1.3"/><circle class="k" cx="120" cy="138" r="1.3"/><circle class="k" cx="120" cy="158" r="1.3"/>`,
+      bustier: '<path class="k" d="M101 106 Q110 99 120 108 Q130 99 139 106 L138 180 L102 180 Z"/><path class="ln" d="M110 122 Q113 150 108 176"/>'
+    },
+    bottom: {
+      large: '<path class="k" d="M100 174 L140 174 L148 386 L124 386 L120 226 L116 386 L92 386 Z"/><path class="ln" d="M108 236 L104 384 M132 236 L136 384"/>',
+      longue: '<path class="g o" d="M101 174 L139 174 L156 388 L84 388 Z"/><path class="l" d="M113 182 L105 386 M120 182 V386 M127 182 L135 386" opacity=".45"/>',
+      jean: '<path class="d o" d="M101 174 L139 174 L141 382 L123 382 L120 218 L117 382 L99 382 Z"/><path class="ln" d="M106 186 Q112 194 114 184 M134 186 Q128 194 126 184"/>'
+    },
+    coat: {
+      none: '',
+      trench: LK_COAT('t', 306, 'l') + '<path class="l" d="M86 190 L112 193 M154 190 L128 193 M108 193 L103 226 M132 193 L137 226" stroke-width="2"/>',
+      long: LK_COAT('k', 344, 'ln')
+    },
+    shoes: {
+      mocassins: '<path class="k" d="M98 382 L116 382 L118 394 Q106 397 94 394 Z"/><path class="k" d="M142 382 L124 382 L122 394 Q134 397 146 394 Z"/>',
+      escarpins: '<path class="k" d="M100 381 L116 379 L117 395 L91 396 Z M113 395 L114 403 L117 403 L117 395 Z"/><path class="k" d="M140 381 L124 379 L123 395 L149 396 Z M127 395 L126 403 L123 403 L123 395 Z"/>',
+      bottes: '<path class="k" d="M99 316 L117 316 L117 395 L93 396 Q94 388 99 384 Z"/><path class="k" d="M141 316 L123 316 L123 395 L147 396 Q146 388 141 384 Z"/>'
+    },
+    acc: {
+      none: '',
+      beret: '<ellipse class="k" cx="117" cy="33" rx="23" ry="8" transform="rotate(-8 117 33)"/><rect class="k" x="117" y="22" width="3" height="6" rx="1"/>',
+      sac: '<path class="l" d="M138 94 L160 196"/><rect class="k" x="148" y="192" width="27" height="21" rx="4"/><path class="ln" d="M148 200 H175"/>',
+      echarpe: '<path class="g o" d="M105 82 Q120 93 135 82 L137 95 Q120 106 103 95 Z"/><path class="g o" d="M126 96 L133 152 L122 154 L118 99 Z"/><path class="l" d="M124 154 L124 160 M128 153 L129 159 M132 152 L133 158"/>'
+    },
+    cats: [
+      { k: 'top', t: 'haut', o: [['mariniere', 'marinière'], ['colroule', 'col roulé'], ['chemise', 'chemise'], ['bustier', 'bustier']] },
+      { k: 'bottom', t: 'bas', o: [['large', 'pantalon large'], ['longue', 'jupe longue'], ['jean', 'jean droit']] },
+      { k: 'coat', t: 'manteau', o: [['none', 'aucun'], ['trench', 'trench'], ['long', 'manteau long']] },
+      { k: 'shoes', t: 'chaussures', o: [['mocassins', 'mocassins'], ['escarpins', 'escarpins'], ['bottes', 'bottes']] },
+      { k: 'acc', t: 'accessoire', o: [['none', 'aucun'], ['beret', 'béret'], ['sac', 'sac'], ['echarpe', 'écharpe']] }
+    ],
+    scenes: [
+      { id: 'opera', t: 'Soirée à l’opéra', s: 'Paris 9e · 20 h 30', short: 'Opéra',
+        want: { top: { bustier: 2, chemise: 1 }, bottom: { longue: 2, large: 1 }, coat: { long: 2, none: 1 }, shoes: { escarpins: 2 }, acc: { sac: 2, none: 1 } },
+        bg: '<g class="bgl"><path d="M0 410 H400"/><path d="M14 410 V178 Q64 112 114 178 V410"/><path d="M286 410 V178 Q336 112 386 178 V410"/><path d="M134 410 V150 Q200 66 266 150 V410" opacity=".55"/><path d="M14 124 Q64 144 114 124 M286 124 Q336 144 386 124"/><path d="M200 0 V28"/><ellipse cx="200" cy="40" rx="32" ry="9"/><path d="M172 43 L176 58 M186 47 L188 64 M200 49 V70 M214 47 L212 64 M228 43 L224 58"/><path d="M40 410 V330 M88 410 V330 M312 410 V330 M360 410 V330" opacity=".6"/></g><g>' +
+          [[176, 60], [188, 66], [200, 72], [212, 66], [224, 60], [160, 30], [240, 28], [200, 18]].map(([x, y], i) => `<circle class="k spk" cx="${x}" cy="${y}" r="2" style="--d:${(1.8 + (i % 3) * 0.6).toFixed(1)}s;--dl:-${(i * 0.37).toFixed(2)}s"/>`).join('') + '</g>' },
+      { id: 'bar', t: 'Un bar en hiver', s: 'Le Marais · 18 h 45 · 2 °C', short: 'Bar',
+        want: { top: { colroule: 2, mariniere: 1 }, bottom: { jean: 2, large: 1 }, coat: { long: 2, trench: 1 }, shoes: { bottes: 2, mocassins: 1 }, acc: { echarpe: 2, beret: 1 } },
+        bg: '<g class="bgl"><path d="M0 410 H400"/><rect x="16" y="64" width="112" height="206" rx="4"/><path d="M72 64 V270 M16 168 H128"/><path d="M330 0 V58"/><path d="M312 76 Q330 50 348 76 Z"/><path d="M246 300 H400 M246 316 H400 M258 316 V410"/><path d="M300 300 L296 276 H312 L308 300 M352 300 V286 Q352 274 360 272 Q368 274 368 286 V300"/><path d="M262 334 H300 M270 334 L266 410 M292 334 L296 410 M268 374 H294"/></g><clipPath id="lkWin"><rect x="17" y="65" width="110" height="204"/></clipPath><g clip-path="url(#lkWin)">' +
+          Array.from({ length: 16 }, (_, i) => `<circle class="k snow" cx="${20 + ((i * 37) % 104)}" cy="${60 + ((i * 53) % 40)}" r="${(1.2 + (i % 3) * 0.5).toFixed(1)}" opacity=".35" style="--d:${(3.6 + (i % 5) * 0.7).toFixed(1)}s;--dl:-${(i * 0.61).toFixed(2)}s;--x:${(i % 2 ? 8 : -6)}px"/>`).join('') + '</g>' },
+      { id: 'parc', t: 'Lire au parc', s: 'Jardin du Luxembourg · 15 h 10', short: 'Parc',
+        want: { top: { mariniere: 2, chemise: 2 }, bottom: { jean: 2, longue: 1 }, coat: { trench: 2, none: 1 }, shoes: { mocassins: 2 }, acc: { beret: 2, sac: 1 } },
+        bg: '<g class="bgl"><path d="M0 410 H400"/><path d="M66 410 V232 M66 286 L44 262 M66 266 L88 246"/><circle cx="66" cy="176" r="64"/><circle cx="118" cy="214" r="36" opacity=".6"/><path d="M262 354 H374 M262 338 H374 M262 322 H374 M270 354 V410 M366 354 V410 M262 372 H374"/><path d="M338 300 L351 186 L364 300 M342 270 H360 M346 240 H356 M351 186 V172" opacity=".6"/></g><g>' +
+          Array.from({ length: 7 }, (_, i) => `<ellipse class="k leaf" cx="${30 + i * 16}" cy="${150 + (i % 3) * 14}" rx="3.2" ry="1.6" style="--d:${(6 + (i % 3)).toFixed(1)}s;--dl:-${(i * 1.1).toFixed(2)}s;--x:${30 + (i % 4) * 14}px"/>`).join('') + '</g>' }
+    ]
+  };
+  const LOOK_HTML = () => `<div class="lk" aria-label="Le look du jour : choisissez une occasion et habillez la Parisienne, puis prenez la photo">
+    <div class="lk__vf"><svg class="lk__svg" viewBox="0 0 400 420" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><defs><pattern id="lkStripe" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#f8f3e3"/><rect width="8" height="3.2" fill="#252422"/></pattern></defs><g class="lk__bg"></g><g class="lk__fig"><g transform="translate(80 6)"><g data-g="skin">${LOOK.skin}</g><g data-g="shoesA"></g><g data-g="bottom"></g><g data-g="shoes"></g><g data-g="top"></g><g data-g="coat"></g><g data-g="acc"></g></g></g></svg>
+      <span class="lk__br"></span>
+      <div class="lk__hud"><div class="lk__scn"><b class="lk__st"></b><span class="lk__ss"></span></div><div class="lk__rec"><i></i><span class="lk__rl">stby</span><span class="lk__tc">00:00:00</span></div></div>
+      <div class="lk__ctl"><button type="button" class="lk__b" data-a="pause" aria-pressed="false"><svg class="ic-pause" viewBox="0 0 16 16"><path d="M5 3v10M11 3v10"/></svg><svg class="ic-play" viewBox="0 0 16 16"><path d="M5 3l8 5-8 5z"/></svg><span class="lbl">pause</span></button><button type="button" class="lk__b" data-a="rec" aria-pressed="false"><span class="dot"></span><span class="lbl">rec</span></button><button type="button" class="lk__b" data-a="shot"><svg viewBox="0 0 16 16"><path d="M2 5.5h2.5L6 3.5h4l1.5 2H14v7H2z"/><circle cx="8" cy="9" r="2.4"/></svg><span class="lbl">photo</span></button></div>
+      <span class="lk__flash"></span></div>
+    <div class="lk__pn">
+      <div class="lk__cat"><span class="lk__lbl">l’occasion</span><div class="lk__scenes">${LOOK.scenes.map((s, i) => `<button type="button" data-sc="${i}" aria-pressed="${i === 0}">${esc(s.t)}</button>`).join('')}</div></div>
+      <div class="lk__cats">${LOOK.cats.map((c) => `<div class="lk__cat"><span class="lk__lbl">${esc(c.t)}</span><div class="lk__opts" data-c="${c.k}">${c.o.map(([v, l]) => `<button type="button" data-v="${v}" aria-pressed="false">${esc(l)}</button>`).join('')}</div></div>`).join('')}</div>
+      <div class="lk__ver"><div class="lk__vh"><span class="lk__lbl">parisien-mètre</span><b class="lk__pc">0 %</b></div><div class="lk__vb"><i></i></div><p class="lk__vt"></p></div>
+      <div class="lk__foot"><button type="button" class="lk__rand">au hasard</button><div class="lk__film" aria-label="pellicule"></div></div>
+    </div></div>`;
+  function initLook(el) {
+    const svg = el.querySelector('.lk__svg'), bg = el.querySelector('.lk__bg'), g = {};
+    el.querySelectorAll('[data-g]').forEach((n) => { g[n.dataset.g] = n; });
+    const scn = el.querySelector('.lk__scn'), st = el.querySelector('.lk__st'), ss = el.querySelector('.lk__ss');
+    const rl = el.querySelector('.lk__rl'), tc = el.querySelector('.lk__tc'), flash = el.querySelector('.lk__flash'), film = el.querySelector('.lk__film');
+    const pc = el.querySelector('.lk__pc'), vb = el.querySelector('.lk__vb i'), vt = el.querySelector('.lk__vt');
+    const bPause = el.querySelector('[data-a="pause"]'), bRec = el.querySelector('[data-a="rec"]');
+    const look = { top: 'chemise', bottom: 'large', coat: 'none', shoes: 'mocassins', acc: 'none' };
+    let sc = 0, paused = false, rec = false, recT = 0, recLast = 0, visible = false, timer = 0, shown = 0, pcAnim = 0;
+    const restart = (n, c) => { n.classList.remove(c); void n.getBoundingClientRect(); n.classList.add(c); };
+    const wear = (k, pop) => {
+      if (k === 'shoes' || k === 'bottom') {
+        /* sous un pantalon large, les chaussures passent dessous ; sinon par-dessus (jean dans les bottes) */
+        const under = look.bottom === 'large';
+        g.shoesA.innerHTML = under ? LOOK.shoes[look.shoes] : '';
+        g.shoes.innerHTML = under ? '' : LOOK.shoes[look.shoes];
+        g.bottom.innerHTML = LOOK.bottom[look.bottom];
+        if (pop) restart(k === 'shoes' ? (under ? g.shoesA : g.shoes) : g.bottom, 'is-pop');
+      } else { g[k].innerHTML = LOOK[k][look[k]]; if (pop) restart(g[k], 'is-pop'); }
+      el.querySelectorAll(`[data-c="${k}"] button`).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.v === look[k])));
+    };
+    const verdict = () => {
+      const S = LOOK.scenes[sc];
+      let pts = 0, max = 0;
+      LOOK.cats.forEach((c) => { const w = S.want[c.k] || {}; max += Math.max(0, ...Object.values(w)); pts += w[look[c.k]] || 0; });
+      const p = Math.round(pts / max * 100);
+      vb.style.transform = `scaleX(${(p / 100).toFixed(3)})`;
+      let msg = p >= 90 ? 'Impeccable. Très parisien.' : p >= 70 ? 'Très réussi, rien à redire.' : p >= 45 ? 'Pas mal, il manque un détail.' : 'Audacieux pour l’occasion…';
+      if (S.id === 'bar' && look.coat === 'none') msg = 'Un peu frais pour un bar en hiver…';
+      if (S.id === 'opera' && look.shoes === 'bottes') msg = 'Des bottes à l’opéra ? Osé.';
+      if (S.id === 'parc' && look.top === 'bustier') msg = 'Un bustier pour lire au parc ? Très soirée.';
+      vt.textContent = msg;
+      const from = shown, t0 = performance.now();
+      cancelAnimationFrame(pcAnim);
+      const step = (now) => { const q = reduce ? 1 : Math.min(1, (now - t0) / 600); shown = from + (p - from) * easeOutExpo(q); pc.textContent = `${Math.round(shown)} %`; if (q < 1) pcAnim = requestAnimationFrame(step); };
+      pcAnim = requestAnimationFrame(step);
+    };
+    const scene = (i, anim) => {
+      sc = i; const S = LOOK.scenes[i];
+      el.querySelectorAll('[data-sc]').forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.sc) === i)));
+      const set = () => { bg.innerHTML = S.bg; bg.classList.remove('is-swap'); st.textContent = S.t; ss.textContent = S.s; if (anim) restart(scn, 'is-in'); };
+      if (anim && !reduce) { bg.classList.add('is-swap'); setTimeout(set, 300); } else set();
+      verdict();
+    };
+    el.querySelectorAll('[data-sc]').forEach((b) => b.addEventListener('click', () => { if (Number(b.dataset.sc) !== sc) { scene(Number(b.dataset.sc), true); sfx.play('click'); } }));
+    el.querySelectorAll('.lk__opts').forEach((o) => o.addEventListener('click', (e) => {
+      const b = e.target.closest('button'); if (!b) return;
+      const k = o.dataset.c; if (look[k] === b.dataset.v) return;
+      look[k] = b.dataset.v; wear(k, !reduce); verdict(); sfx.play('click');
+    }));
+    el.querySelector('.lk__rand').addEventListener('click', () => {
+      LOOK.cats.forEach((c, i) => setTimeout(() => { look[c.k] = c.o[Math.floor(Math.random() * c.o.length)][0]; wear(c.k, !reduce); if (i === LOOK.cats.length - 1) verdict(); }, reduce ? 0 : i * 90));
+      sfx.play('click');
     });
-    v1.innerHTML = h1; v2.innerHTML = h2;
-    const c1 = [...v1.children], c2 = [...v2.children];
-    el.querySelector('.tl__ruler').innerHTML = Array.from({ length: 7 }, (_, i) => `<em style="left:${(i / 6 * 100).toFixed(2)}%">${pad2(i * 2)}:00</em>`).join('');
-    /* Forme d'onde : calculée une fois, redessinée seulement quand la tête de lecture bouge */
-    const AMP = new Float32Array(640);
-    for (let i = 0; i < AMP.length; i++) {
-      const x = i / AMP.length;
-      let a = 0.42 + 0.22 * Math.sin(x * 41) + 0.16 * Math.sin(x * 113 + 1.3) + 0.28 * (rnd() - 0.4);
-      segs.forEach((s) => { const d = Math.abs(x - s.a) * AMP.length; if (d < 7) a *= 0.25 + (d / 7) * 0.75; });
-      AMP[i] = clamp(a, 0.05, 1);
-    }
-    let cw = 1, ch = 1, dpr = 1, off = 0, col = '#252422';
-    const size = () => {
-      const r = a1.getBoundingClientRect(), re = ed.getBoundingClientRect();
-      if (!r.width) return;
-      dpr = Math.min(2, window.devicePixelRatio || 1); cw = r.width; ch = r.height; off = r.left - re.left;
-      cv.width = Math.round(cw * dpr); cv.height = Math.round(ch * dpr);
-      col = getComputedStyle(el).color;
+    /* Viseur : pause, enregistrement, photo */
+    const hold = () => el.classList.toggle('is-hold', paused);
+    const fmtTc = (s) => `${pad2(Math.floor(s / 3600))}:${pad2(Math.floor(s / 60) % 60)}:${pad2(Math.floor(s) % 60)}`;
+    const recUi = () => { el.classList.toggle('is-rec', rec && !paused); rl.textContent = rec ? (paused ? 'pause' : 'rec') : 'stby'; };
+    const runTimer = () => {
+      clearInterval(timer); timer = 0;
+      if (rec && !paused && visible) { recLast = performance.now(); timer = setInterval(() => { if (!el.isConnected) { clearInterval(timer); return; } const n = performance.now(); recT += (n - recLast) / 1000; recLast = n; tc.textContent = fmtTc(recT); }, 250); }
     };
-    const draw = (p) => {
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, cw, ch); ctx.fillStyle = col;
-      const bw = 2, st = 3.5, n = Math.floor(cw / st), px = p * cw;
-      for (let pass = 0; pass < 2; pass++) {
-        ctx.globalAlpha = pass ? 0.78 : 0.2;
-        for (let i = 0; i < n; i++) {
-          const x = i * st; if ((x < px) !== !!pass) continue;
-          const hh = Math.max(1.5, AMP[Math.floor(i / n * AMP.length)] * (ch - 6));
-          ctx.fillRect(x, (ch - hh) / 2, bw, hh);
-        }
-      }
-      ctx.globalAlpha = 1;
-    };
-    let p = 0, pt = 0, hover = false, visible = false, raf = 0, last = 0, lastSeg = -1, lastShot = -1, lastX = -9, cuts = 0, down = null;
-    const restart = (node, cls) => { node.classList.remove(cls); void node.offsetWidth; node.classList.add(cls); };
-    const apply = () => {
-      ph.style.transform = `translate3d(${(off + p * cw).toFixed(1)}px,0,0)`;
-      const sec = p * TOTAL;
-      tc.textContent = `00:${pad2(Math.floor(sec / 60))}:${pad2(Math.floor(sec % 60))}:${pad2(Math.floor((sec % 1) * FPS))}`;
-      let sh = shots.findIndex((s) => p < s.b); if (sh < 0) sh = shots.length - 1;
-      if (sh !== lastShot) {
-        const si = shots[sh].si;
-        if (si !== lastSeg) { lastSeg = si; tT.textContent = segs[si].t; c2.forEach((c, i) => c.classList.toggle('is-on', i === si)); if (lastShot >= 0 && !reduce) restart(card, 'is-cut'); }
-        if (lastShot >= 0 && !reduce) restart(flash, 'is-on');
-        lastShot = sh; c1.forEach((c, i) => c.classList.toggle('is-on', i === sh));
-        tK.textContent = `${segs[si].k} · plan ${pad2(shots[sh].k + 1)}`;
-      }
-      if (Math.abs(p * cw - lastX) > 0.5) { lastX = p * cw; draw(p); }
-    };
-    const auto = () => !hover && !down && !reduce && state.view === 'project';
-    const tick = (t) => {
-      raf = 0; if (!el.isConnected) return;
-      const dt = last ? Math.min(0.05, (t - last) / 1000) : 0.016; last = t;
-      if (auto()) { pt += AUTO * dt; if (pt >= 1) { pt -= 1; p = pt; } p = pt; }
-      else p += (pt - p) * Math.min(1, dt * 12);
-      apply();
-      if (visible && (auto() || Math.abs(pt - p) > 0.0001)) raf = requestAnimationFrame(tick);
-    };
-    const wake = () => { if (!raf && visible) { last = 0; raf = requestAnimationFrame(tick); } };
-    const at = (x) => { const r = a1.getBoundingClientRect(); return clamp((x - r.left) / r.width, 0, 0.9999); };
-    el.addEventListener('pointermove', (e) => {
-      if (e.pointerType === 'mouse') { hover = true; pt = at(e.clientX); wake(); return; }
-      if (!down) return;
-      if (!down.on) { const dx = Math.abs(e.clientX - down.x); if (dx > 6 && dx > Math.abs(e.clientY - down.y)) down.on = true; else return; }
-      pt = at(e.clientX); wake();
+    bPause.addEventListener('click', () => { paused = !paused; bPause.setAttribute('aria-pressed', String(paused)); bPause.querySelector('.lbl').textContent = paused ? 'lecture' : 'pause'; hold(); recUi(); runTimer(); sfx.play('click'); });
+    bRec.addEventListener('click', () => { rec = !rec; if (rec) { recT = 0; tc.textContent = fmtTc(0); } bRec.setAttribute('aria-pressed', String(rec)); recUi(); runTimer(); sfx.play('click'); });
+    el.querySelector('[data-a="shot"]').addEventListener('click', () => {
+      restart(flash, 'is-on'); sfx.play('shutter');
+      const S = LOOK.scenes[sc], d = new Date();
+      const f = document.createElement('figure'); f.className = 'lk__pol';
+      const copy = svg.cloneNode(true); copy.removeAttribute('class'); copy.querySelectorAll('.snow,.leaf,.spk').forEach((n) => n.remove());
+      f.appendChild(copy);
+      const cap = document.createElement('figcaption'); cap.textContent = `${S.short} · ${pad2(d.getHours())}:${pad2(d.getMinutes())}`; f.appendChild(cap);
+      film.prepend(f);
+      while (film.children.length > 4) film.lastElementChild.remove();
     });
-    el.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') { hover = false; wake(); } });
-    el.addEventListener('pointerdown', (e) => { if (e.button) return; down = { x: e.clientX, y: e.clientY, on: false }; });
-    const cut = () => {
-      const i = document.createElement('i'); i.className = 'tl__cut'; i.style.left = `${(p * 100).toFixed(3)}%`; v1.appendChild(i);
-      const all = v1.querySelectorAll('.tl__cut'); if (all.length > 40) all[0].remove();
-      cuts++; cutsEl.textContent = `${cuts} coupe${cuts > 1 ? 's' : ''}`; clr.hidden = false;
-      restart(flash, 'is-on'); sfx.play('cut');
-    };
-    const up = (e) => {
-      const d = down; down = null;
-      if (d && !d.on && e.type === 'pointerup' && !e.target.closest('button') && Math.abs(e.clientX - d.x) < 6) { if (e.pointerType !== 'mouse') { pt = p = at(e.clientX); apply(); } cut(); }
-      wake();
-    };
-    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
-    clr.addEventListener('click', () => { v1.querySelectorAll('.tl__cut').forEach((c) => c.remove()); cuts = 0; cutsEl.textContent = ''; clr.hidden = true; });
-    if ('IntersectionObserver' in window) new IntersectionObserver((en) => { visible = en[0].isIntersecting; if (visible) wake(); }, { root: pj, threshold: 0 }).observe(el);
+    if ('IntersectionObserver' in window) new IntersectionObserver((en) => { visible = en[0].isIntersecting; el.classList.toggle('is-off', !visible); runTimer(); }, { root: pj, threshold: 0 }).observe(el);
     else visible = true;
-    if ('ResizeObserver' in window) new ResizeObserver(() => { size(); lastX = -9; apply(); }).observe(a1);
-    if (matchMedia('(hover: none)').matches) el.querySelector('.tl__hint').textContent = 'glissez le doigt pour parcourir le montage · touchez pour couper';
-    size(); apply();
+    /* Sur un écran étroit, on cadre plus serré sur la silhouette */
+    const mq = matchMedia('(max-width:760px)');
+    const frame = () => svg.setAttribute('preserveAspectRatio', mq.matches ? 'xMidYMax slice' : 'xMidYMax meet');
+    frame(); if (mq.addEventListener) mq.addEventListener('change', frame);
+    LOOK.cats.forEach((c) => wear(c.k, false));
+    scene(0, false);
   }
 
   /* Bibliothèque de vidéos : boutons de thème, curseurs (vues, durée) et tri.
@@ -2780,14 +2881,13 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     const maxD = Math.max(...items.map((it) => toSec(it.dur)));
     const hasH = items.some((it) => it.h);
     const card = (it, i) => {
-      const yt = it.yt ? ` data-yt="${esc(it.yt)}"` : '';
-      const bg = it.yt ? `;background-image:url(https://i.ytimg.com/vi/${encodeURIComponent(it.yt)}/hqdefault.jpg)` : '';
-      return `<figure class="vc" data-i="${i}"><div class="ph ph--video vc__th" style="--ar:16/9${bg}"${yt}>${it.yt ? '' : '<span class="ph__l">vidéo · 16:9 — à remplacer</span>'}<button type="button" class="ph__play" aria-label="lire la vidéo"></button><span class="vc__dur">${esc(it.dur)}</span></div><figcaption><span class="vc__s">${esc(it.s)}</span><b>${esc(it.t)}</b><span class="vc__m">${fmtK(it.v)} vues · ${fmtDur(toSec(it.dur))}${it.h ? ` · ${it.h} h de montage` : ''}</span><span class="vc__bar" aria-hidden="true"><i style="--w:${(toSec(it.dur) / maxD).toFixed(3)}"></i></span></figcaption></figure>`;
+      const img = it.yt ? `<img src="https://i.ytimg.com/vi/${encodeURIComponent(it.yt)}/mqdefault.jpg" alt="" loading="lazy" decoding="async">` : '<span class="ph__l">à remplacer</span>';
+      return `<figure class="vc" data-i="${i}"><button type="button" class="ph vc__th" style="--ar:16/9" aria-label="lire : ${esc(it.t)}">${img}<span class="ph__play" aria-hidden="true"></span><span class="vc__dur">${esc(it.dur)}</span></button><figcaption><span class="vc__s">${esc(it.s)}</span><b>${esc(it.t)}</b><span class="vc__m">${it.v ? `${fmtK(it.v)} vues` : 'réservée aux membres'} · ${fmtDur(toSec(it.dur))}${it.h ? ` · ${it.h} h` : ''}</span><span class="vc__bar" aria-hidden="true"><i style="--w:${(toSec(it.dur) / maxD).toFixed(3)}"></i></span></figcaption></figure>`;
     };
     return `<section class="vl ab-reveal" data-vl><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div>
       <div class="vl__ctl"><div class="vl__tags" role="group" aria-label="thèmes"><button type="button" aria-pressed="true" data-th="">Tout<sup>${items.length}</sup></button>${themes.map((t) => `<button type="button" aria-pressed="false" data-th="${esc(t)}">${esc(t)}<sup>${items.filter((it) => it.s === t).length}</sup></button>`).join('')}</div>
       <div class="vl__sort" role="group" aria-label="trier"><span>trier</span><button type="button" aria-pressed="true" data-sort="">récentes</button><button type="button" aria-pressed="false" data-sort="v">vues</button><button type="button" aria-pressed="false" data-sort="d">durée</button></div>
-      <div class="vl__sl"><label><span>vues minimum</span><output data-o="v">toutes</output><input type="range" data-k="v" min="0" max="${Math.ceil(Math.max(...items.map((it) => it.v)) / 50000) * 50000}" step="10000" value="0"></label><label><span>durée minimum</span><output data-o="d">toutes</output><input type="range" data-k="d" min="0" max="${Math.ceil(maxD / 60)}" step="1" value="0"></label></div></div>
+      <div class="vl__sl"><label><span>vues minimum</span><output data-o="v">toutes</output><input type="range" data-k="v" min="0" max="${Math.floor(Math.max(...items.map((it) => it.v || 0)) / 1000) * 1000}" step="1000" value="0"></label><label><span>durée minimum</span><output data-o="d">toutes</output><input type="range" data-k="d" min="0" max="${Math.ceil(maxD / 60)}" step="1" value="0"></label></div></div>
       <div class="vl__stats" style="--n:${hasH ? 4 : 3}"><div><b><span data-s="n">${items.length}</span><small>/ ${items.length}</small></b><p>vidéos sélectionnées</p></div><div><b data-s="v">0</b><p>vues cumulées</p></div><div><b data-s="d">0</b><p>de vidéo montée</p></div>${hasH ? '<div><b data-s="h">0</b><p>heures de montage</p></div>' : ''}</div>
       <div class="vl__grid">${items.map(card).join('')}</div></section>`;
   }
@@ -2798,7 +2898,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
        (les vidéos ne bougent pas dans la page, une vidéo en lecture continue), avec un glissement doux. */
     const reorder = () => {
       const first = cards.map((c) => c.getBoundingClientRect());
-      const idx = items.map((_, i) => i).sort((a, c) => (on[c] - on[a]) || (st.sort === 'v' ? items[c].v - items[a].v : st.sort === 'd' ? secs[c] - secs[a] : a - c));
+      const idx = items.map((_, i) => i).sort((a, c) => (on[c] - on[a]) || (st.sort === 'v' ? (items[c].v || 0) - (items[a].v || 0) : st.sort === 'd' ? secs[c] - secs[a] : a - c));
       idx.forEach((i, o) => { cards[i].style.order = o; });
       if (!reduce) cards.forEach((c, i) => {
         const r = c.getBoundingClientRect(), dx = first[i].left - r.left, dy = first[i].top - r.top;
@@ -2818,9 +2918,9 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     const apply = () => {
       const s = { n: 0, v: 0, d: 0, h: 0 };
       items.forEach((it, i) => {
-        on[i] = (!st.th || it.s === st.th) && it.v >= st.v && secs[i] >= st.d * 60;
+        on[i] = (!st.th || it.s === st.th) && (it.v || 0) >= st.v && secs[i] >= st.d * 60;
         cards[i].classList.toggle('is-off', !on[i]);
-        if (on[i]) { s.n++; s.v += it.v; s.d += secs[i]; s.h += it.h || 0; }
+        if (on[i]) { s.n++; s.v += it.v || 0; s.d += secs[i]; s.h += it.h || 0; }
       });
       Object.keys(s).forEach((k) => tween(k, s[k]));
       const sig = on.join();
@@ -2841,6 +2941,14 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
         apply();
       };
       inp.addEventListener('input', set);
+    });
+    /* Clic sur une vidéo : elle s'ouvre en grand (avec les flèches pour passer aux vidéos sélectionnées) */
+    root.querySelector('.vl__grid').addEventListener('click', (e) => {
+      const th = e.target.closest('.vc__th'); if (!th) return;
+      const i = Number(th.closest('.vc').dataset.i);
+      if (!items[i].yt) { th.classList.remove('is-nudge'); void th.offsetWidth; th.classList.add('is-nudge'); return; }
+      const list = cards.filter((c, k) => items[k].yt && (on[k] || k === i)).sort((a, b) => Number(a.style.order || 0) - Number(b.style.order || 0)).map((c) => Number(c.dataset.i));
+      openLightbox(list.map((k) => `<div class="lb__vid" data-yt="${esc(items[k].yt)}"></div><p class="lb__t"><b>${esc(items[k].t)}</b> ${items[k].v ? `${fmtK(items[k].v)} vues · ` : ''}${esc(items[k].dur)}</p>`), list.indexOf(i), 'video');
     });
     root.querySelectorAll('[data-sort]').forEach((b) => b.addEventListener('click', () => {
       root.querySelectorAll('[data-sort]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
