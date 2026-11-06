@@ -682,6 +682,8 @@ a{color:inherit;text-decoration:none}
     }
 
     if (state.mode === 'list') {
+      listC += (listT - listC) * damp(0.085, dt);
+      if (Math.abs(listT - listC) > 0.2) { ownScroll = true; list.scrollTop = listC; }
       pvx += (pvtx - pvx) * damp(0.14, dt);
       pvy += (pvty - pvy) * damp(0.14, dt);
       const rot = clamp((pvtx - pvx) * 0.04, -8, 8);
@@ -823,6 +825,20 @@ a{color:inherit;text-decoration:none}
 
   /* ---------- Spirale / liste ---------- */
   const modes = $('#modes'), list = $('#list'), listItems = $('#listItems');
+  /* Scroll lissé de la liste : la molette et le pavé tactile fixent une cible, la position la rejoint en douceur.
+     Le défilement tactile sur mobile reste natif (il a déjà son inertie). */
+  let listT = 0, listC = 0, ownScroll = false;
+  list.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    let d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? -e.deltaX : e.deltaY;
+    if (e.deltaMode === 1) d *= 33;
+    const max = list.scrollHeight - list.clientHeight;
+    listT = clamp(listT + d, 0, max);
+  }, { passive: false });
+  list.addEventListener('scroll', () => {
+    if (ownScroll) { ownScroll = false; return; }
+    listT = listC = list.scrollTop;
+  }, { passive: true });
   projects.forEach((p, i) => {
     const li = document.createElement('li');
     const b = document.createElement('button');
@@ -854,7 +870,7 @@ a{color:inherit;text-decoration:none}
       setHovered(null);
       modeT = 0;
       list.hidden = false;
-      list.scrollTop = 0;
+      list.scrollTop = 0; listT = listC = 0;
       requestAnimationFrame(() => requestAnimationFrame(() => list.classList.add('is-on')));
     } else {
       modeT = 1;
