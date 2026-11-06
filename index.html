@@ -581,30 +581,31 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .ph.is-nudge .ph__play{animation:nudge .5s var(--ease-out)}
 @keyframes nudge{0%,100%{translate:0}25%{translate:-6px 0}50%{translate:6px 0}75%{translate:-3px 0}}
 
-/* Cadran FM sur la couverture Radio Classique */
-.pj-cover.fx-radio{position:relative}
-.fm{position:absolute;left:0;right:0;top:0;aspect-ratio:16/9;border-radius:16px;overflow:hidden;pointer-events:none}
-.fm__noise{position:absolute;inset:-50%;background-image:var(--noise);opacity:.32;mix-blend-mode:multiply;animation:grain .6s steps(5) infinite;transition:opacity .9s var(--ease-out)}
-.fx-radio.is-tuned .fm__noise{opacity:0}
-.fm__bar{position:absolute;left:14px;right:14px;bottom:14px;height:62px;border-radius:12px;background:var(--pill);color:var(--ink);display:flex;align-items:center;gap:14px;padding:0 16px;box-shadow:0 10px 30px var(--shadow)}
-.fm__band{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--ink-dim)}
-.fm__win{position:relative;flex:1;height:100%;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent)}
-.fm__scale{position:absolute;left:0;top:0;bottom:0;transition-property:transform;transition-timing-function:cubic-bezier(.3,1.35,.5,1);will-change:transform}
-.fm__scale i{position:absolute;bottom:14px;width:1px;height:8px;background:var(--ink-dim)}
-.fm__scale i.mj{height:16px;background:var(--ink)}
-.fm__scale em{position:absolute;bottom:20px;left:50%;translate:-50% 0;font-style:normal;font-size:10px;font-weight:600;color:var(--ink-dim);font-variant-numeric:tabular-nums}
-.fm__needle{position:absolute;left:50%;top:10px;bottom:8px;width:2px;translate:-50% 0;background:var(--ink);border-radius:2px}
-.fm__needle::before{content:"";position:absolute;top:-4px;left:50%;translate:-50% 0;width:8px;height:8px;border-radius:50%;background:var(--ink)}
-.fm__freq{display:flex;align-items:baseline;gap:8px;font-size:13px;font-weight:500;white-space:nowrap}
-.fm__freq b{font-size:22px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;min-width:3.2ch;text-align:right}
-.fm__eq{display:flex;align-items:flex-end;gap:2px;height:18px;width:20px}
-.fm__eq i{flex:1;height:100%;background:var(--ink);border-radius:1px;transform-origin:bottom;scale:1 .15;transition:scale .4s}
-.fx-radio.is-tuned .fm__eq i{animation:eq .9s ease-in-out infinite}
-.fx-radio.is-tuned .fm__eq i:nth-child(2){animation-duration:1.1s;animation-delay:-.3s}
-.fx-radio.is-tuned .fm__eq i:nth-child(3){animation-duration:.8s;animation-delay:-.5s}
-.fx-radio.is-tuned .fm__eq i:nth-child(4){animation-duration:1.2s;animation-delay:-.2s}
-.fx-radio.is-tuned .fm__eq i:nth-child(5){animation-duration:.95s;animation-delay:-.7s}
-.ab-sk.is-paused .fm__eq i{animation-play-state:paused}
+/* Couverture Radio Classique : un tuner FM qu'on règle à la souris ; l'onde passe du grésillement à un signal pur sur 101.1 */
+.rd{position:relative;aspect-ratio:16/9;border-radius:16px;background:var(--tint);color:var(--fg);overflow:hidden;cursor:ew-resize;touch-action:pan-y;user-select:none}
+.rd canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.rd__top{position:absolute;left:clamp(16px,3vw,36px);right:clamp(16px,3vw,36px);top:clamp(16px,3vw,32px);display:flex;justify-content:space-between;align-items:flex-start;gap:16px;pointer-events:none}
+.rd__freq{display:flex;align-items:baseline;gap:.25em;font-size:clamp(56px,10vw,170px);font-weight:500;letter-spacing:-.05em;line-height:.9;font-variant-numeric:tabular-nums}
+.rd__freq small{font-size:.16em;letter-spacing:.04em;font-weight:600;text-transform:uppercase}
+.rd__st{display:flex;flex-direction:column;align-items:flex-end;gap:6px;text-align:right;padding-top:.6em}
+.rd__name{font-size:clamp(15px,1.5vw,22px);font-weight:600;letter-spacing:-.02em;opacity:0;translate:0 6px;transition:opacity .4s,translate .5s var(--ease-out)}
+.rd__live{display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
+.rd__live i{width:8px;height:8px;border-radius:50%;background:var(--dim);transition:background .3s}
+.rd.is-tuned .rd__name{opacity:1;translate:0 0}
+.rd.is-tuned .rd__live{color:var(--fg)}
+.rd.is-tuned .rd__live i{background:var(--fg);animation:livePulse 1.4s ease-in-out infinite}
+@keyframes livePulse{0%,100%{opacity:1}50%{opacity:.25}}
+.rd__dial{position:absolute;left:clamp(16px,3vw,36px);right:clamp(16px,3vw,36px);bottom:clamp(16px,3vw,30px);height:54px;pointer-events:none}
+.rd__ticks{position:absolute;inset:0}
+.rd__ticks i{position:absolute;bottom:0;width:1px;height:8px;background:var(--line-strong)}
+.rd__ticks i.mj{height:16px;background:var(--dim)}
+.rd__ticks em{position:absolute;bottom:22px;left:50%;translate:-50% 0;font-style:normal;font-size:11px;font-weight:600;color:var(--dim);font-variant-numeric:tabular-nums}
+.rd__mark{position:absolute;bottom:-2px;width:10px;height:10px;border-radius:50%;border:1.5px solid var(--fg);translate:-50% 0;background:var(--bg)}
+.rd__needle{position:absolute;bottom:-6px;top:-10px;width:2px;background:var(--fg);translate:-50% 0;border-radius:2px}
+.rd__needle::before{content:"";position:absolute;top:-6px;left:50%;translate:-50% 0;width:12px;height:12px;border-radius:50%;background:var(--fg)}
+.rd__hint{position:absolute;left:50%;bottom:clamp(86px,12vw,120px);translate:-50% 0;font-size:12px;font-weight:500;color:var(--dim);transition:opacity .5s;pointer-events:none;white-space:nowrap}
+.rd.is-touched .rd__hint{opacity:0}
+@media (max-width:760px){ .rd{aspect-ratio:4/5} .rd__top{flex-direction:column} .rd__st{align-items:flex-start;text-align:left;padding-top:0} }
 
 /* Agrandissement d'une slide */
 .lb{position:fixed;inset:0;z-index:30;background:rgba(37,36,34,.9);display:grid;place-items:center;opacity:0;transition:opacity .3s}
@@ -618,7 +619,6 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .lb__n{right:var(--right)}
 .lb__c{position:fixed;bottom:var(--bottom);left:50%;translate:-50% 0;color:var(--bg);font-size:14px;font-weight:500;font-variant-numeric:tabular-nums}
 .cr__slide{cursor:zoom-in}
-@media (max-width:760px){ .fm__bar{height:52px;gap:10px;padding:0 12px} .fm__freq{font-size:0} .fm__freq b{font-size:18px} .fm__band{display:none} }
 
 .cr{grid-column:span 12;display:flex;flex-direction:column;gap:18px;min-width:0}
 .cr__bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
@@ -2169,7 +2169,9 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     h += `<header class="pj-hero"><p class="ab-eyebrow pj-kicker"><b>${String(idx + 1).padStart(2, '0')}</b>${esc(P.kicker)}</p>`;
     h += `<h1 class="ab-h">${esc(P.title)}</h1>`;
     h += `<dl class="pj-meta ab-reveal">${P.meta.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl></header>`;
-    h += `<figure class="pj-media pj-cover is-in${P.coverFx ? ' fx-' + P.coverFx : ''}" style="margin:var(--tgap) 0 0">${ph({ kind: 'image', ar: '16/9' }, true)}${P.coverFx === 'radio' ? RADIO_HTML : ''}<figcaption>Image de couverture — à remplacer${P.coverFx === 'radio' ? ' · survolez-la' : ''}</figcaption></figure>`;
+    h += P.coverFx === 'radio'
+      ? `<figure class="pj-media pj-cover is-in fx-radio" style="margin:var(--tgap) 0 0">${RADIO_HTML}</figure>`
+      : `<figure class="pj-media pj-cover is-in" style="margin:var(--tgap) 0 0">${ph({ kind: 'image', ar: '16/9' }, true)}<figcaption>Image de couverture — à remplacer</figcaption></figure>`;
     h += `<section class="pj-cols">${P.cols.map(([t, x]) => `<div class="pj-col ab-reveal"><h3>${esc(t)}</h3><p>${md(x)}</p></div>`).join('')}</section>`;
     h += `<section class="pj-stats" style="--n:${P.stats.length}">${P.stats.map((st) => st.ph
       ? `<div class="pj-stat is-ph ab-reveal"><span class="pj-big">00</span><p>${esc(st.lbl)}</p></div>`
@@ -2195,7 +2197,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     pjInner.querySelector('.pj-next').addEventListener('click', () => setView('project', nextSlug));
     pjInner.querySelectorAll('[data-cr]').forEach((el) => initCarousel(el, P.media.find((m) => m.carousel).sets));
     pjInner.querySelectorAll('.ph--video').forEach((el) => el.addEventListener('click', () => playFacade(el)));
-    const fxr = pjInner.querySelector('.pj-cover.fx-radio');
+    const fxr = pjInner.querySelector('.pj-cover.fx-radio .rd');
     if (fxr) initRadio(fxr);
     pjCur = slug;
   }
@@ -2212,34 +2214,71 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     el.insertAdjacentHTML('beforeend', media);
   }
 
-  /* Couverture Radio Classique : un cadran FM qui s'accorde sur 101.1 ; le grésillement disparaît quand le signal est trouvé */
-  const RADIO_HTML = `<div class="fm" aria-hidden="true"><span class="fm__noise"></span><div class="fm__bar"><span class="fm__band">FM</span><div class="fm__win"><div class="fm__scale"></div><span class="fm__needle"></span></div><span class="fm__freq"><b>101.1</b> Radio Classique</span><span class="fm__eq"><i></i><i></i><i></i><i></i><i></i></span></div></div>`;
-  function initRadio(fig) {
-    const scale = fig.querySelector('.fm__scale'), win = fig.querySelector('.fm__win'), freq = fig.querySelector('.fm__freq b');
-    const PX = 46, F0 = 87.5, F1 = 108;
-    let marks = '';
-    for (let f = F0; f <= F1 + 0.001; f += 0.2) {
-      const r = Math.round(f * 10) / 10, major = Math.abs(r - Math.round(r)) < 0.01;
-      marks += `<i class="${major ? 'mj' : ''}" style="left:${((r - F0) * PX).toFixed(1)}px">${major && Math.round(r) % 2 === 0 ? `<em>${Math.round(r)}</em>` : ''}</i>`;
+  /* Couverture Radio Classique : un tuner FM.
+     L'aiguille suit la souris (ou le doigt) ; près de 101.1 elle s'aimante sur la station,
+     le grésillement disparaît et l'onde devient un signal pur. Le dessin ne tourne que quand le tuner est à l'écran. */
+  const RADIO_HTML = `<div class="rd" role="img" aria-label="Tuner FM réglé sur 101.1, Radio Classique"><canvas></canvas>
+    <div class="rd__top"><div class="rd__freq"><span class="rd__f">88.0</span><small>MHz FM</small></div><div class="rd__st"><span class="rd__live"><i></i><span class="rd__lt">recherche…</span></span><span class="rd__name">Radio Classique</span></div></div>
+    <span class="rd__hint">déplacez la souris pour chercher la station</span>
+    <div class="rd__dial"><div class="rd__ticks"></div><span class="rd__mark"></span><span class="rd__needle"></span></div></div>`;
+  function initRadio(el) {
+    const F0 = 87.5, F1 = 108, ST = 101.1;
+    const cv = el.querySelector('canvas'), g = cv.getContext('2d');
+    const fEl = el.querySelector('.rd__f'), lt = el.querySelector('.rd__lt'), dial = el.querySelector('.rd__dial'), needle = el.querySelector('.rd__needle');
+    let ticks = '';
+    for (let k = 876; k <= 1080; k += 2) {
+      const r = k / 10, mj = k % 10 === 0;
+      ticks += `<i class="${mj ? 'mj' : ''}" style="left:${(((r - F0) / (F1 - F0)) * 100).toFixed(3)}%">${mj && Math.round(r) % 2 === 0 ? `<em>${Math.round(r)}</em>` : ''}</i>`;
     }
-    scale.innerHTML = marks; scale.style.width = `${(F1 - F0) * PX}px`;
-    let curF = 88.6, raf = 0;
-    const place = (f, dur) => {
-      const x = win.clientWidth / 2 - (f - F0) * PX;
-      scale.style.transitionDuration = `${dur}ms`;
-      scale.style.transform = `translateX(${x.toFixed(1)}px)`;
-      cancelAnimationFrame(raf);
-      const from = curF, t0 = performance.now();
-      const step = (now) => { const k = Math.min(1, (now - t0) / Math.max(1, dur)); const v = from + (f - from) * easeOutExpo(k); freq.textContent = v.toFixed(1); if (k < 1) raf = requestAnimationFrame(step); };
-      raf = requestAnimationFrame(step);
-      curF = f;
+    el.querySelector('.rd__ticks').innerHTML = ticks;
+    el.querySelector('.rd__mark').style.left = `${((ST - F0) / (F1 - F0)) * 100}%`;
+    const fg = getComputedStyle(el).color || '#252422';
+    let W = 0, H = 0, dpr = 1;
+    const size = () => { const r = el.getBoundingClientRect(); dpr = Math.min(window.devicePixelRatio || 1, 2); W = r.width; H = r.height; cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); };
+    window.addEventListener('resize', size);
+    if ('ResizeObserver' in window) new ResizeObserver(size).observe(el);
+    let f = 88, tf = 88, visible = false, raf = 0, last = performance.now(), t = 0, hovering = false;
+    const NOISE = new Float32Array(512).map(() => Math.random() * 2 - 1);
+    const noiseAt = (x) => { const i = Math.floor(x) & 511, j = (i + 1) & 511, k = x - Math.floor(x); return NOISE[i] * (1 - k) + NOISE[j] * k; };
+    const fromX = (cx) => { const r = dial.getBoundingClientRect(); return F0 + clamp((cx - r.left) / r.width, 0, 1) * (F1 - F0); };
+    const snap = (v) => (Math.abs(v - ST) < 0.35 ? ST : v);
+    el.addEventListener('pointermove', (e) => { if (e.pointerType === 'touch' && !e.buttons) return; hovering = true; el.classList.add('is-touched'); tf = snap(fromX(e.clientX)); });
+    el.addEventListener('pointerdown', (e) => { hovering = true; el.classList.add('is-touched'); tf = snap(fromX(e.clientX)); });
+    el.addEventListener('pointerleave', () => { hovering = false; tf = ST; });
+    let swept = false;
+    const draw = (now) => {
+      raf = 0;
+      if (!visible || state.view !== 'project' || !el.isConnected) return;
+      if (!W || !H) size();
+      const dt = Math.min(0.05, (now - last) / 1000); last = now; t += dt;
+      f += (tf - f) * damp(hovering ? 0.12 : 0.035, dt);
+      if (Math.abs(f - ST) < 0.02 && !hovering) f = ST;
+      const q = 1 - smooth(0.05, 1.4, Math.abs(f - ST));
+      needle.style.left = `${((f - F0) / (F1 - F0)) * 100}%`;
+      const txt = f.toFixed(1); if (fEl.textContent !== txt) fEl.textContent = txt;
+      const tuned = q > 0.9; el.classList.toggle('is-tuned', tuned); lt.textContent = tuned ? 'en direct' : 'recherche…';
+      /* L'onde : signal musical (plusieurs sinus) mêlé de bruit selon l'écart à la station */
+      g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H);
+      const mid = H * 0.56, amp = H * 0.13, N = Math.max(80, Math.round(W / 5));
+      g.beginPath();
+      for (let i = 0; i <= N; i++) {
+        const x = (i / N) * W, u = x / W, env = Math.sin(Math.PI * u);
+        const sig = Math.sin(u * 24 + t * 3) * 0.45 + Math.sin(u * 53 - t * 2.1) * 0.22 + Math.sin(u * 9 + t * 0.9) * 0.33;
+        const nz = noiseAt(u * 180 + t * 60) * 0.9 + noiseAt(u * 37 - t * 23) * 0.4;
+        const y = mid + amp * env * (q * sig + (1 - q) * nz * (0.5 + 0.5 * Math.random()));
+        i ? g.lineTo(x, y) : g.moveTo(x, y);
+      }
+      g.lineWidth = 2; g.strokeStyle = fg; g.lineJoin = 'round'; g.stroke();
+      raf = requestAnimationFrame(draw);
     };
-    const tune = () => { fig.classList.add('is-tuned'); place(101.1, reduce ? 0 : 1600); };
-    const detune = () => { fig.classList.remove('is-tuned'); place(94 + Math.random() * 3, reduce ? 0 : 1200); };
-    place(curF, 0);
-    setTimeout(tune, 900);
-    fig.addEventListener('pointerenter', () => { fig.classList.remove('is-tuned'); place(88 + Math.random() * 2, 260); setTimeout(tune, 280); });
-    fig.addEventListener('pointerleave', detune);
+    const kick = () => { if (!raf) { last = performance.now(); raf = requestAnimationFrame(draw); } };
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((en) => {
+        visible = en[0].isIntersecting;
+        if (visible) { kick(); if (!swept) { swept = true; tf = 88; setTimeout(() => { if (!hovering) tf = ST; }, 500); } }
+      }, { root: pj, threshold: 0.15 }).observe(el);
+    } else { visible = true; tf = ST; kick(); }
+    if (reduce) { f = tf = ST; }
   }
 
   /* Agrandissement d'une slide */
