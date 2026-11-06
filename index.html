@@ -573,6 +573,36 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .pj-next__t i{font-style:normal;font-size:.5em;transition:translate .6s var(--ease-out)}
 .pj-next:hover .pj-next__t{translate:12px 0}
 .pj-next:hover .pj-next__t i{translate:10px 0}
+.cr{grid-column:span 12;display:flex;flex-direction:column;gap:18px;min-width:0}
+.cr__bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.cr__h{margin:0;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.cr__tabs{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.cr__tabs button{font-size:14px;font-weight:500;padding:8px 14px;border-radius:999px;border:1px solid var(--line-strong);transition:background .3s,color .3s,border-color .3s}
+.cr__tabs button:hover{border-color:var(--fg)}
+.cr__tabs button[aria-selected="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.cr__nav{display:flex;align-items:center;gap:8px}
+.cr__count{font-size:14px;font-weight:500;font-variant-numeric:tabular-nums;margin-right:6px}
+.cr__btn{width:44px;height:44px;border-radius:50%;background:var(--pill);color:var(--ink);font-size:18px;display:grid;place-items:center;transition:scale .25s var(--ease-out)}
+.cr__btn:hover{scale:1.08}
+.cr__btn:active{scale:.94}
+.cr__track{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;cursor:grab;transition:opacity .25s;padding-bottom:2px}
+.cr__track::-webkit-scrollbar{display:none}
+.cr__track.is-drag{cursor:grabbing;scroll-snap-type:none;user-select:none}
+.cr__track.is-swap{opacity:0}
+.cr__slide{flex:0 0 clamp(240px,30vw,420px);scroll-snap-align:start}
+.cr__slide img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:16px;pointer-events:none}
+.cr__num{font-size:clamp(48px,6vw,96px);font-weight:500;letter-spacing:-.05em;color:var(--line-strong)}
+.cr__dots{display:flex;gap:6px}
+.cr__dots i{flex:1;max-width:48px;height:3px;border-radius:2px;background:var(--line-strong);transition:background .3s}
+.cr__dots i.is-on{background:var(--fg)}
+.pj-row-wrap{grid-column:span 12;display:flex;flex-direction:column;gap:18px;min-width:0}
+.pj-row{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:clamp(10px,1.4vw,18px)}
+@media (max-width:760px){
+  .cr__slide{flex-basis:78vw}
+  .pj-row{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+  .pj-row::-webkit-scrollbar{display:none}
+  .pj-row .pj-media{flex:0 0 62vw;scroll-snap-align:start}
+}
 @media (max-width:760px){
   .pj-meta{grid-template-columns:repeat(2,minmax(0,1fr))}
   .pj-cols{grid-template-columns:1fr}
@@ -1994,12 +2024,13 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
         { ph: true, lbl: 'À compléter : nombre de reels ou de carrousels publiés' }
       ],
       media: [
-        { kind: 'vidéo', ar: '16/9', cls: '', cap: 'Reel — à remplacer' },
-        { kind: 'vidéo', ar: '9/16', cls: 's4', cap: 'Reel vertical — à remplacer' },
-        { kind: 'vidéo', ar: '9/16', cls: 's4', cap: 'Reel vertical — à remplacer' },
-        { kind: 'vidéo', ar: '9/16', cls: 's4', cap: 'Reel vertical — à remplacer' },
-        { kind: 'image', ar: '4/5', cls: 's6', cap: 'Carrousel — à remplacer' },
-        { kind: 'image', ar: '4/5', cls: 's6', cap: 'Carrousel — à remplacer' }
+        { carousel: true, title: 'Carrousels', sets: [
+          { t: 'Carrousel 01', n: 8 },
+          { t: 'Carrousel 02', n: 6 },
+          { t: 'Carrousel 03', n: 10 }
+        ] },
+        { kind: 'vidéo', ar: '16/9', cls: '', cap: 'Vidéo horizontale — à remplacer' },
+        { row: true, title: 'Reels', n: 5, kind: 'vidéo', ar: '9/16', cap: 'Reel' }
       ]
     },
     'parisianvibe': {
@@ -2092,9 +2123,13 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     h += `<section class="pj-stats" style="--n:${P.stats.length}">${P.stats.map((st) => st.ph
       ? `<div class="pj-stat is-ph ab-reveal"><span class="pj-big">00</span><p>${esc(st.lbl)}</p></div>`
       : `<div class="pj-stat ab-reveal"><span class="pj-big">${st.pre ? esc(st.pre) : ''}<span class="pj-n" data-to="${st.to}">0</span>${st.suf ? `<small>${esc(st.suf)}</small>` : ''}</span><p>${esc(st.lbl)}</p></div>`).join('')}</section>`;
-    h += `<section class="pj-gallery">${P.media.map((m) => m.text
-      ? `<div class="pj-text ab-reveal ${m.cls}">${m.paras.map((x) => `<p>${md(x)}</p>`).join('')}</div>`
-      : `<figure class="pj-media ${m.cls}">${ph(m)}<figcaption>${esc(m.cap)}</figcaption></figure>`).join('')}</section>`;
+    const item = (m) => {
+      if (m.text) return `<div class="pj-text ab-reveal ${m.cls}">${m.paras.map((x) => `<p>${md(x)}</p>`).join('')}</div>`;
+      if (m.carousel) return `<div class="cr ab-reveal" data-cr><div class="cr__bar"><h3 class="cr__h">${esc(m.title)}</h3><div class="cr__tabs" role="tablist">${m.sets.map((st, i) => `<button type="button" role="tab" aria-selected="${i === 0}" data-set="${i}">${esc(st.t)}</button>`).join('')}</div><div class="cr__nav"><span class="cr__count" aria-live="polite"></span><button type="button" class="cr__btn" data-dir="-1" aria-label="slide précédente">←</button><button type="button" class="cr__btn" data-dir="1" aria-label="slide suivante">→</button></div></div><div class="cr__track" tabindex="0" aria-label="slides du carrousel"></div><div class="cr__dots" aria-hidden="true"></div></div>`;
+      if (m.row) return `<div class="pj-row-wrap"><h3 class="cr__h">${esc(m.title)}</h3><div class="pj-row" style="--n:${m.n}">${Array.from({ length: m.n }, (_, i) => `<figure class="pj-media">${ph(m)}<figcaption>${esc(m.cap)} ${String(i + 1).padStart(2, '0')} — à remplacer</figcaption></figure>`).join('')}</div></div>`;
+      return `<figure class="pj-media ${m.cls}">${ph(m)}<figcaption>${esc(m.cap)}</figcaption></figure>`;
+    };
+    h += `<section class="pj-gallery">${P.media.map(item).join('')}</section>`;
     h += `<button type="button" class="pj-next" data-next="${nextSlug}"><span class="ab-eyebrow">projet suivant</span><span class="pj-next__t">${esc(N.title)}<i>→</i></span></button>`;
     pjInner.innerHTML = h;
     pjInner.querySelectorAll('.ab-h').forEach((el) => {
@@ -2107,7 +2142,47 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     });
     pjInner.querySelectorAll('.ab-reveal, .ab-h, .pj-media:not(.pj-cover), .pj-stat').forEach((el) => { if (pjIO) pjIO.observe(el); else { el.classList.add('is-in'); if (el.classList.contains('pj-stat')) countUp(el); } });
     pjInner.querySelector('.pj-next').addEventListener('click', () => setView('project', nextSlug));
+    pjInner.querySelectorAll('[data-cr]').forEach((el) => initCarousel(el, P.media.find((m) => m.carousel).sets));
     pjCur = slug;
+  }
+
+  /* Carrousel : glisser (souris, doigt ou pavé), flèches, clavier ; onglets pour changer de carrousel.
+     Pour mettre vos images : remplacez n par la liste des fichiers, ex. { t: 'Victor Hugo', imgs: ['rc/hugo-1.jpg', …] } */
+  function initCarousel(root, sets) {
+    const track = root.querySelector('.cr__track'), dots = root.querySelector('.cr__dots'), count = root.querySelector('.cr__count');
+    let cur = 0;
+    const slides = () => [...track.children];
+    const fill = (si) => {
+      const st = sets[si], n = st.imgs ? st.imgs.length : st.n;
+      track.innerHTML = Array.from({ length: n }, (_, i) => st.imgs
+        ? `<div class="cr__slide"><img src="${esc(st.imgs[i])}" alt="${esc(st.t)} — slide ${i + 1}" loading="lazy" draggable="false"></div>`
+        : `<div class="cr__slide"><div class="ph" style="--ar:4/5"><span class="ph__l">slide ${i + 1} · 4:5 — à remplacer</span><span class="cr__num">${String(i + 1).padStart(2, '0')}</span></div></div>`).join('');
+      dots.innerHTML = Array.from({ length: n }, () => '<i></i>').join('');
+      track.scrollLeft = 0; cur = 0; update();
+    };
+    const update = () => {
+      const ss = slides(); if (!ss.length) return;
+      const w = ss[0].offsetWidth + parseFloat(getComputedStyle(track).columnGap || 14);
+      cur = clamp(Math.round(track.scrollLeft / w), 0, ss.length - 1);
+      count.textContent = `${String(cur + 1).padStart(2, '0')} / ${String(ss.length).padStart(2, '0')}`;
+      [...dots.children].forEach((d, i) => d.classList.toggle('is-on', i === cur));
+    };
+    const go = (i) => { const ss = slides(); const t = ss[clamp(i, 0, ss.length - 1)]; if (t) track.scrollTo({ left: t.offsetLeft - ss[0].offsetLeft, behavior: reduce ? 'auto' : 'smooth' }); };
+    track.addEventListener('scroll', update, { passive: true });
+    root.querySelectorAll('.cr__btn').forEach((b) => b.addEventListener('click', () => { go(cur + Number(b.dataset.dir)); sfx.play('click'); }));
+    track.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') { e.preventDefault(); go(cur + 1); } if (e.key === 'ArrowLeft') { e.preventDefault(); go(cur - 1); } });
+    root.querySelectorAll('[data-set]').forEach((b) => b.addEventListener('click', () => {
+      root.querySelectorAll('[data-set]').forEach((x) => x.setAttribute('aria-selected', String(x === b)));
+      track.classList.add('is-swap');
+      setTimeout(() => { fill(Number(b.dataset.set)); track.classList.remove('is-swap'); }, reduce ? 0 : 250);
+    }));
+    /* Glisser à la souris */
+    let drag = null;
+    track.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') return; drag = { x: e.clientX, sl: track.scrollLeft, moved: 0 }; track.classList.add('is-drag'); track.setPointerCapture(e.pointerId); });
+    track.addEventListener('pointermove', (e) => { if (!drag) return; const dx = e.clientX - drag.x; drag.moved = Math.abs(dx); track.scrollLeft = drag.sl - dx; });
+    const end = () => { if (!drag) return; const mv = drag.moved; drag = null; track.classList.remove('is-drag'); if (mv > 5) go(cur); };
+    track.addEventListener('pointerup', end); track.addEventListener('pointercancel', end);
+    fill(0);
   }
 
   function openProject(slug, swap) {
@@ -2137,6 +2212,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     }
   }
   pj.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && e.target.closest && e.target.closest('.cr__track, .pj-row')) return;
     e.preventDefault();
     let d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? -e.deltaX : e.deltaY;
     if (e.deltaMode === 1) d *= 33;
