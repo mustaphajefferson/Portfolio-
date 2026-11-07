@@ -678,26 +678,26 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .lb__vid iframe{display:block;width:100%;height:100%;border:0}
 /* ParisianVibe · couverture : un banc de montage façon logiciel, sur lequel on remet un épisode dans l'ordre */
 .pj-lead{margin:0;max-width:64ch;font-size:clamp(17px,1.45vw,21px);line-height:1.45;letter-spacing:-.01em}
-.pr{--pl:rgba(248,243,227,.045);--bd:rgba(248,243,227,.09);--tx2:rgba(248,243,227,.55);position:relative;height:clamp(560px,76vh,720px);box-sizing:border-box;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;gap:6px;padding:8px;border-radius:16px;background:var(--coal);color:var(--cream);user-select:none;-webkit-user-select:none;outline:none;font-variant-numeric:tabular-nums}
+.pr{--pl:var(--bg);--bd:var(--line-strong);--tx2:rgba(37,36,34,.55);position:relative;height:clamp(560px,76vh,720px);box-sizing:border-box;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;gap:6px;padding:8px;border-radius:16px;background:var(--tint);color:var(--fg);user-select:none;-webkit-user-select:none;outline:none;font-variant-numeric:tabular-nums}
 .pr__menu{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:2px 8px 4px;font-size:11.5px;color:var(--tx2)}
 .pr__ws{display:flex;gap:16px}
-.pr__ws span.is-on{color:var(--cream);font-weight:600;box-shadow:0 1px 0 var(--cream)}
+.pr__ws span.is-on{color:var(--fg);font-weight:600;box-shadow:0 1px 0 var(--fg)}
 .pr__dots{display:flex;gap:6px}
 .pr__dots i{width:9px;height:9px;border-radius:50%;background:var(--bd)}
 .pr__top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:6px;min-height:0}
 .pr__pan{display:flex;flex-direction:column;min-height:0;border-radius:8px;background:var(--pl);border:1px solid var(--bd);overflow:hidden}
 .pr__ph-h{display:flex;align-items:center;gap:14px;height:28px;flex:none;padding:0 10px;border-bottom:1px solid var(--bd);font-size:11.5px;color:var(--tx2);white-space:nowrap;overflow:hidden}
-.pr__ph-h b{color:var(--cream);font-weight:600}
+.pr__ph-h b{color:var(--fg);font-weight:600}
 .pr__ph-h span:last-child{margin-left:auto}
-.pr__bin{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-content:start;gap:10px 8px;padding:10px;overflow:auto;scrollbar-width:none}
-.pr__clip{display:flex;flex-direction:column;gap:5px;text-align:left;cursor:grab;touch-action:none;transition:opacity .3s}
-.pr__thumb{position:relative;display:grid;place-items:center;aspect-ratio:16/9;border-radius:5px;background:rgba(248,243,227,.08);border:1px solid var(--bd);transition:border-color .2s,background .2s}
-.pr__thumb svg{width:62%;height:62%;fill:none;stroke:var(--cream);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
-.pr__thumb i{position:absolute;right:4px;bottom:3px;font-style:normal;font-size:9.5px;font-weight:600;padding:1px 4px;border-radius:3px;background:rgba(0,0,0,.45)}
-.pr__clip:hover .pr__thumb{border-color:rgba(248,243,227,.4);background:rgba(248,243,227,.12)}
-.pr__clip b{font-size:11.5px;font-weight:600;line-height:1.2}
+.pr__bin{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:10px 8px;padding:10px;overflow:hidden}
+.pr__clip{display:flex;flex-direction:column;gap:6px;min-height:0;text-align:left;cursor:grab;touch-action:none;transition:opacity .3s}
+.pr__thumb{position:relative;flex:1;min-height:0;display:grid;place-items:center;border-radius:5px;background:var(--tint);border:1px solid var(--bd);transition:border-color .2s,background .2s}
+.pr__thumb svg{width:62%;height:62%;max-height:70px;fill:none;stroke:var(--fg);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+.pr__thumb i{position:absolute;right:4px;bottom:3px;font-style:normal;font-size:9.5px;font-weight:600;padding:1px 4px;border-radius:3px;background:var(--coal);color:var(--cream)}
+.pr__clip:hover .pr__thumb{border-color:var(--fg)}
+.pr__clip b{flex:none;font-size:11.5px;font-weight:600;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-bottom:1px}
 .pr__clip.is-used{opacity:.22;pointer-events:none}
-.pr__mon{position:relative;flex:1;min-height:0;display:grid;place-items:center;background:#161513;overflow:hidden}
+.pr__mon{--tx2:rgba(248,243,227,.55);--bd:rgba(248,243,227,.12);position:relative;flex:1;min-height:0;display:grid;place-items:center;background:var(--coal);color:var(--cream);overflow:hidden}
 .pr__card{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:0 8%}
 .pr__card svg{width:clamp(70px,9vw,120px);height:auto;fill:none;stroke:var(--cream);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .pr__k{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--tx2)}
@@ -711,15 +711,15 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .pr__msg{position:absolute;left:50%;top:12px;translate:-50% 0;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:999px;background:var(--cream);color:var(--coal);opacity:0;white-space:nowrap;pointer-events:none}
 .pr__msg.is-on{animation:gmMsg 1.6s var(--ease-out)}
 @keyframes gmMsg{0%{opacity:0;translate:-50% -6px}10%{opacity:1;translate:-50% 0}80%{opacity:1}100%{opacity:0}}
-.pr__exp{position:absolute;left:50%;top:50%;translate:-50% -50%;width:min(70%,320px);display:none;flex-direction:column;gap:8px;padding:14px 16px;border-radius:8px;background:var(--coal);border:1px solid var(--bd);font-size:12px}
+.pr__exp{position:absolute;left:50%;top:50%;translate:-50% -50%;width:min(70%,320px);display:none;flex-direction:column;gap:8px;padding:14px 16px;border-radius:8px;background:var(--coal);border:1px solid var(--bd);font-size:12px;color:var(--cream)}
 .pr__exp.is-on{display:flex}
 .pr__exp span{display:flex;justify-content:space-between}
 .pr__exp u{display:block;height:4px;border-radius:2px;background:var(--bd);overflow:hidden;text-decoration:none}
 .pr__exp u i{display:block;height:100%;background:var(--cream);transform-origin:0 50%;transform:scaleX(0)}
 .pr__tr-bar{display:flex;align-items:center;gap:10px;height:34px;flex:none;padding:0 10px;border-top:1px solid var(--bd);font-size:12px}
-.pr__tc{font-size:13px;font-weight:600;color:var(--cream);min-width:96px}
+.pr__tc{font-size:13px;font-weight:600;min-width:96px}
 .pr__trn{display:flex;gap:2px;margin:0 auto}
-.pr__trn button{width:30px;height:26px;border-radius:5px;display:grid;place-items:center;color:var(--cream)}
+.pr__trn button{width:30px;height:26px;border-radius:5px;display:grid;place-items:center;color:var(--fg)}
 .pr__trn button:hover{background:var(--bd)}
 .pr__trn svg{width:13px;height:13px;fill:currentColor}
 .pr__dur{color:var(--tx2);min-width:96px;text-align:right}
@@ -728,48 +728,49 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .pr__tli{position:relative;min-width:600px;padding-bottom:6px}
 .pr__row{display:grid;grid-template-columns:92px minmax(0,1fr);align-items:stretch}
 .pr__hd{display:flex;align-items:center;gap:6px;padding:0 8px;border-right:1px solid var(--bd);font-size:11px;font-weight:600;color:var(--tx2)}
-.pr__hd b{color:var(--cream);font-weight:600;min-width:20px}
+.pr__hd b{color:var(--fg);font-weight:600;min-width:20px}
 .pr__hd button{width:18px;height:18px;border-radius:3px;display:grid;place-items:center;font-size:9.5px;font-weight:700;color:var(--tx2);border:1px solid var(--bd)}
-.pr__hd button[aria-pressed="true"]{background:var(--cream);color:var(--coal);border-color:var(--cream)}
+.pr__hd button[aria-pressed="true"]{background:var(--coal);color:var(--cream);border-color:var(--coal)}
 .pr__hd button svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:1.6}
 .pr__ruler{position:relative;height:24px;border-bottom:1px solid var(--bd);cursor:ew-resize;background:repeating-linear-gradient(90deg,var(--bd) 0 1px,transparent 1px calc(100% / 36)) 0 100%/100% 6px no-repeat}
 .pr__ruler em{position:absolute;top:4px;font-style:normal;font-size:9.5px;color:var(--tx2);translate:3px 0}
 .pr__ruler em::before{content:"";position:absolute;left:-3px;top:-4px;width:1px;height:24px;background:var(--bd)}
-.pr__lane{position:relative;border-bottom:1px solid rgba(248,243,227,.05);cursor:default}
+.pr__lane{position:relative;border-bottom:1px solid rgba(37,36,34,.06);cursor:default}
 .pr__lane.v{height:46px}.pr__lane.a{height:30px}
 .pr__lane.v2{height:28px}
 .pr__c{position:absolute;top:3px;bottom:3px;box-sizing:border-box;border-radius:4px;overflow:hidden;transition:left .35s var(--ease-out),width .35s var(--ease-out),opacity .25s}
 .pr__c[hidden]{display:none}
-.pr__v1 .pr__c{background:var(--cream);color:var(--coal);cursor:grab;touch-action:none;display:flex;align-items:stretch}
-.pr__v1 .pr__c .th{flex:none;width:34px;display:grid;place-items:center;background:rgba(37,36,34,.12);border-right:1px solid rgba(37,36,34,.15)}
-.pr__v1 .pr__c .th svg{width:24px;height:24px;fill:none;stroke:var(--coal);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.pr__v1 .pr__c{background:var(--coal);color:var(--cream);cursor:grab;touch-action:none;display:flex;align-items:stretch}
+.pr__v1 .pr__c .th{flex:none;width:34px;display:grid;place-items:center;background:rgba(248,243,227,.1);border-right:1px solid rgba(248,243,227,.14)}
+.pr__v1 .pr__c .th svg{width:24px;height:24px;fill:none;stroke:var(--cream);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
 .pr__v1 .pr__c span{padding:5px 7px;font-size:11px;font-weight:600;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.pr__v1 .pr__c.is-sel{box-shadow:inset 0 0 0 2px var(--coal),0 0 0 2px var(--cream)}
+.pr__v1 .pr__c.is-sel{box-shadow:inset 0 0 0 2px var(--cream),0 0 0 2px var(--coal)}
 .pr__v1 .pr__c.is-ok::after{content:"✓";position:absolute;right:5px;bottom:3px;font-size:11px;font-weight:700}
 .pr__v1 .pr__c.is-bad{animation:drShake .45s}
 @keyframes drShake{20%,60%{translate:-4px 0}40%,80%{translate:4px 0}}
-.pr__a .pr__c{border:1px solid rgba(248,243,227,.28);background:rgba(248,243,227,.07)}
+.pr__a .pr__c{border:1px solid rgba(37,36,34,.3);background:rgba(37,36,34,.05)}
 .pr__a .pr__c canvas{position:absolute;inset:0;width:100%;height:100%}
 .pr__a.is-mute .pr__c{opacity:.3}
-.pr__v2 .pr__c{background:transparent;border:1px dashed rgba(248,243,227,.4);font-size:10px;font-weight:600;color:var(--tx2);display:flex;align-items:center;padding:0 6px}
-.pr__ins{position:absolute;top:22px;bottom:0;width:2px;margin-left:-1px;background:var(--cream);box-shadow:0 0 0 3px rgba(248,243,227,.18);pointer-events:none;display:none;z-index:3}
+.pr__v2 .pr__c{background:transparent;border:1px dashed rgba(37,36,34,.45);font-size:10px;font-weight:600;color:var(--tx2);display:flex;align-items:center;padding:0 6px}
+.pr__ins{position:absolute;top:22px;bottom:0;width:2px;margin-left:-1px;background:var(--coal);box-shadow:0 0 0 3px rgba(37,36,34,.15);pointer-events:none;display:none;z-index:3}
 .pr__phd{position:absolute;top:0;bottom:0;width:0;pointer-events:none;z-index:2}
-.pr__phd::before{content:"";position:absolute;top:24px;bottom:0;left:-.75px;width:1.5px;background:var(--cream)}
-.pr__phd::after{content:"";position:absolute;top:6px;left:-6px;width:12px;height:14px;border-radius:2px 2px 6px 6px;background:var(--cream)}
+.pr__phd::before{content:"";position:absolute;top:24px;bottom:0;left:-.75px;width:1.5px;background:var(--coal)}
+.pr__phd::after{content:"";position:absolute;top:6px;left:-6px;width:12px;height:14px;border-radius:2px 2px 6px 6px;background:var(--coal)}
 .pr__bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;min-height:38px;padding:0 4px}
-.pr__info{flex:1;min-width:220px;font-size:12.5px;line-height:1.4;color:var(--tx2)}
-.pr__info b{color:var(--cream);font-weight:600}
+.pr__info{flex:1;min-width:220px;font-size:13px;line-height:1.4;color:var(--fg)}
+.pr__info b{color:var(--fg);font-weight:600}
 .pr__score{font-size:12px;font-weight:600}
 .pr__btn{height:34px;padding:0 14px;border-radius:999px;font-size:13px;font-weight:500;border:1px solid var(--bd);transition:border-color .2s,scale .2s var(--ease-out)}
-.pr__btn:hover{border-color:rgba(248,243,227,.5)}
-.pr__btn.is-main{background:var(--cream);color:var(--coal);border-color:var(--cream)}
+.pr__btn:hover{border-color:var(--fg)}
+.pr__btn.is-main{background:var(--coal);color:var(--cream);border-color:var(--coal)}
 .pr__btn.is-main:hover{scale:1.04}
-.pr__ghost{position:fixed;left:0;top:0;z-index:100;pointer-events:none;padding:8px 12px;border-radius:5px;background:var(--cream);color:var(--coal);font-size:12px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.3);translate:-50% -120%}
+.pr__ghost{position:fixed;left:0;top:0;z-index:100;pointer-events:none;padding:8px 12px;border-radius:5px;background:var(--coal);color:var(--cream);font-size:12px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.3);translate:-50% -120%}
 @media (max-width:760px){
   .pr{height:auto}
   .pr__top{grid-template-columns:1fr}
   .pr__mon{min-height:200px;flex:none;height:34vh}
-  .pr__bin{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .pr__bin{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:none}
+  .pr__thumb{flex:none;aspect-ratio:16/9}
   .pr__ws span:nth-child(n+3){display:none}
   .pr__dur{display:none}
 }
@@ -2307,7 +2308,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     'parisianvibe': {
       title: 'ParisianVibe', kicker: 'montage vidéo', coverFx: 'edit',
       /* Petite introduction affichée au-dessus de l'animation */
-      lead: "**ParisianVibe** est un média lifestyle sur YouTube qui raconte l’art de vivre parisien : mode, intérieurs, voyages, avec des séries comme In the Bag ou At Home in Paris. Pendant mon alternance, j’étais **monteur vidéo** dans l’équipe de production : à partir des rushes de tournage, je construisais les épisodes, du dérushage à l’export. À votre tour : un épisode d’In the Bag vient d’être dérushé, remettez ses plans dans l’ordre sur la timeline.",
+      lead: "**ParisianVibe** est un média lifestyle sur YouTube qui raconte l’art de vivre parisien : mode, intérieurs, voyages, avec des séries comme In the Bag ou At Home in Paris. Pendant mon alternance, j’ai travaillé avec l’équipe de production sur tout le processus : la préparation des tournages, parfois la prise de vue, et surtout le **montage vidéo**, du dérushage à l’export. À votre tour : un épisode d’In the Bag vient d’être dérushé, remettez ses plans dans l’ordre sur la timeline.",
       meta: [['rôle', 'Monteur vidéo'], ['contrat', 'Alternance — 1 an'], ['équipe', 'Équipe de production'], ['dates', 'Déc. 2024 — juil. 2025'], ['lieu', 'Paris']],
       cols: [
         ['Alternance de 1 an', "Chez **ParisianVibe**, j'ai travaillé en tant que **monteur vidéo**, une expérience **immersive** qui m'a placé au **cœur** de la création de contenu pour l'univers exigeant du **luxe** et de **la mode**. Dans ce rôle, ma **mission** était de traduire l'identité **forte** de la marque en **séquences visuelles** dynamiques, en veillant à ce que **chaque** montage serve une narration **cohérente**. Cette opportunité m'a permis de **perfectionner** ma maîtrise du **rythme** et de **l'esthétique**, en collaborant **étroitement** avec la direction artistique afin d'assurer une cohérence visuelle **irréprochable** sur **l'ensemble** des plateformes de diffusion."],
@@ -2317,14 +2318,14 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
       stats: [
         { to: 150000, pre: '+', lbl: 'abonnés' },
         { to: 3040000, pre: '+', lbl: 'vues sur une période de 8 mois' },
-        { to: 488000, lbl: 'vues pour « In the Bag of Parisian Girls », épisode 7' }
+        { to: 823000, lbl: 'vues pour « At Home in France », l’épisode le plus vu de la période' }
       ],
       media: [
         /* Vidéo à la une : ajoutez yt: 'identifiant' (la partie après watch?v= dans le lien YouTube) */
         { kind: 'vidéo', ar: '16/9', cls: 'mid', cap: 'Vidéo à la une — à remplacer' },
         /* Bibliothèque YouTube. Pour chaque vidéo : yt = identifiant YouTube (la miniature s'affiche toute seule),
            t = titre, s = thème (un de la liste themes), dur = durée, v = vues (null = réservée aux membres), h = heures de montage (facultatif) */
-        { library: true, title: 'Vidéos YouTube', intro: "Texte de présentation des vidéos, à remplacer. Deux ou trois phrases sur les séries montées pendant l’alternance.",
+        { library: true, title: 'Vidéos YouTube', intro: "De décembre 2024 à juillet 2025, j’ai travaillé sur tous les épisodes publiés sur la chaîne : les voici, c’est l’essentiel de mon travail chez ParisianVibe. Tout est cliquable : filtrez par série, réglez les curseurs, triez, et lancez une vidéo pour la regarder.",
           themes: ['In the Bag', 'At Home', 'Les Filles à Paris', 'Guides mode', 'Art & culture', 'Voyages'],
           items: [
             { yt: '', t: 'Elegant Occasionwear Dresses Guide: Wedding Guest Edition', s: 'Guides mode', dur: '21:23', v: 95000 },
@@ -2797,7 +2798,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
         <div class="pr__row"><div class="pr__hd"><b>A2</b><button type="button" data-t="mute" data-l="a2" aria-pressed="false">M</button><button type="button" aria-pressed="false">S</button></div><div class="pr__lane a pr__a pr__a2"><div class="pr__c pr__bed" hidden><canvas></canvas></div></div></div>
         <span class="pr__ins"></span><span class="pr__phd"></span>
       </div></div></div>
-    <div class="pr__bar"><span class="pr__info">Un épisode <b>In the Bag</b> a été dérushé : ses six plans attendent dans le chutier. <b>Glissez-les sur la piste V1</b> dans l’ordre du récit, lisez la séquence, puis <b>exportez</b>.</span><span class="pr__score"></span><button type="button" class="pr__btn" data-a="mix">mélanger</button><button type="button" class="pr__btn is-main" data-a="export">exporter</button></div>
+    <div class="pr__bar"><span class="pr__info">Un épisode <b>In the Bag</b> a été dérushé : ses six plans attendent dans le chutier. <b>Glissez-les sur la piste V1</b> dans l’ordre du récit, lisez la séquence, puis <b>exportez</b>.</span><span class="pr__score"></span><button type="button" class="pr__btn" data-a="sol">solution</button><button type="button" class="pr__btn" data-a="mix">mélanger</button><button type="button" class="pr__btn is-main" data-a="export">exporter</button></div>
     </div>`;
   };
   function initPr(el) {
@@ -2806,7 +2807,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     const mon = q('.pr__mon'), card = q('.pr__card'), msg = q('.pr__msg'), exp = q('.pr__exp'), expBar = q('.pr__exp u i'), expPc = q('.pr__ep');
     const tc1 = q('.pr__tc'), tc2 = q('.pr__tc2'), dur = q('.pr__dur'), ins = q('.pr__ins'), phd = q('.pr__phd'), info = q('.pr__info'), score = q('.pr__score'), left = q('.pr__left');
     const bPlay = q('[data-a="play"]');
-    let seq = [], t = 0, playing = false, raf = 0, last = 0, tStart = 0, tries = 0, timer = 0, sel = -1, drag = null, lastShown = -2, busy = false;
+    let seq = [], t = 0, playing = false, raf = 0, last = 0, tStart = 0, tries = 0, timer = 0, sel = -1, drag = null, lastShown = -2, busy = false, usedSol = false;
     const restart = (n, c) => { n.classList.remove(c); void n.offsetWidth; n.classList.add(c); };
     const say = (m) => { msg.textContent = m; restart(msg, 'is-on'); };
     const fmt = (s) => { const f = Math.round(s * PR_FPS), ss = Math.floor(f / PR_FPS); return `00:${pad2(Math.floor(ss / 60))}:${pad2(ss % 60)}:${pad2(f % PR_FPS)}`; };
@@ -2817,7 +2818,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     const wave = (cv, seed, dense) => {
       const r = cv.parentElement.getBoundingClientRect(); if (!r.width) return;
       const d = Math.min(2, window.devicePixelRatio || 1); cv.width = Math.round(r.width * d); cv.height = Math.round(r.height * d);
-      const c = cv.getContext('2d'); c.scale(d, d); c.fillStyle = 'rgba(248,243,227,.6)';
+      const c = cv.getContext('2d'); c.scale(d, d); c.fillStyle = 'rgba(37,36,34,.55)';
       let s = seed * 9301 + 49297;
       for (let x = 2; x < r.width - 2; x += 3) { s = (s * 16807) % 2147483647; const a = (0.2 + 0.8 * (s / 2147483647)) * (dense ? 0.55 + 0.35 * Math.abs(Math.sin(x / 23)) : 0.8) * (r.height - 8); c.fillRect(x, (r.height - a) / 2, 1.6, Math.max(1, a)); }
     };
@@ -2865,7 +2866,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
       render();
     };
     const reset = () => {
-      stop(); seq = []; t = 0; sel = -1; tries = 0; tStart = 0; clearInterval(timer); score.textContent = ''; busy = false; exp.classList.remove('is-on');
+      stop(); seq = []; t = 0; sel = -1; tries = 0; tStart = 0; usedSol = false; clearInterval(timer); score.textContent = ''; busy = false; exp.classList.remove('is-on');
       let order; do { order = PR_PLANS.map((_, i) => i).sort(() => Math.random() - 0.5); } while (order.every((p, i) => p === i));
       bin.innerHTML = order.map((p) => `<button type="button" class="pr__clip" data-p="${p}"><span class="pr__thumb">${prIcon(PR_PLANS[p].ic)}<i>00:0${PR_PLANS[p].dur}</i></span><b>${esc(PR_PLANS[p].t)}</b></button>`).join('');
       PR_PLANS.forEach((_, p) => { aEl[p]._w = 0; });
@@ -2882,7 +2883,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
       playing = true; setPlayIcon(); last = 0;
       const step = (now) => {
         if (!playing || !el.isConnected) return;
-        const dt = last ? Math.min(0.05, (now - last) / 1000) : 0; last = now;
+        const dt = last ? Math.min(0.25, (now - last) / 1000) : 0; last = now;
         t += dt; if (t >= T) { t = T; head(); stop(); if (onEnd) onEnd(); return; }
         head(); show(at(t), false);
         raf = requestAnimationFrame(step);
@@ -2960,6 +2961,14 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
       if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); stop(); t = clamp(t + (e.key === 'ArrowRight' ? 1 : -1) / PR_FPS, 0, total()); head(); show(at(Math.min(t, total() - 0.01)), false); }
     });
     q('[data-a="mix"]').addEventListener('click', () => { reset(); sfx.play('click'); });
+    /* solution : les plans se rangent tout seuls dans l'ordre du récit */
+    q('[data-a="sol"]').addEventListener('click', () => {
+      if (busy) return; stop(); usedSol = true;
+      seq = PR_PLANS.map((_, i) => i); sel = -1; t = 0; changed(); show(at(0), true);
+      say('solution appliquée');
+      info.innerHTML = 'L’ordre du récit : <b>l’accroche</b>, le générique, la présentation, le sac s’ouvre, les essentiels, <b>le mot de la fin</b>. Exportez pour voir l’épisode.';
+      sfx.play('click');
+    });
     /* export : vérifie l'ordre du récit */
     q('[data-a="export"]').addEventListener('click', () => {
       if (busy) return; stop();
@@ -2975,7 +2984,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
         const k = Math.min(1, (now - t0) / D); expBar.style.transform = `scaleX(${k.toFixed(3)})`; expPc.textContent = `${Math.round(k * 100)} %`;
         if (k < 1) { requestAnimationFrame(fill); return; }
         exp.classList.remove('is-on');
-        score.textContent = `monté en ${fmt(secs).slice(3, 8)} · ${tries} export${tries > 1 ? 's' : ''}`;
+        score.textContent = usedSol ? 'monté avec la solution' : `monté en ${fmt(secs).slice(3, 8)} · ${tries} export${tries > 1 ? 's' : ''}`;
         info.innerHTML = 'Export terminé : lecture de l’épisode monté.';
         busy = false;
         play(true, () => { lastShown = -2; card.innerHTML = '<span class="pr__k">InTheBag_E14.mp4 · 00:00:30:00</span><span class="pr__t">Prêt à publier</span>'; restart(card, 'is-cut'); info.innerHTML = 'L’épisode est prêt. <b>Mélangez</b> pour rejouer et battre votre chrono.'; });
