@@ -232,7 +232,7 @@ a{color:inherit;text-decoration:none}
 
 /* Compétences animées */
 .ab-sk{padding-top:var(--sec);display:flex;flex-direction:column;gap:var(--tgap)}
-.sk-hint{max-width:60ch;margin-top:14px}
+.sk-hint{max-width:60ch;margin-top:14px;color:var(--fg);font-size:15px;line-height:1.5}
 .sk-list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line-strong)}
 .sk{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(20px,4vw,60px);align-items:center;padding-block:var(--row);border-bottom:1px solid var(--line-strong);cursor:default;--dur:2.4s}
 .sk:focus-visible{outline-offset:6px}
@@ -357,6 +357,8 @@ a{color:inherit;text-decoration:none}
 .comp{position:relative;flex:1;min-height:300px;border-radius:18px;background:var(--tint);overflow:hidden}
 .ly{position:absolute;transition:opacity .45s var(--ease-out),scale .6s var(--ease-out),translate .6s var(--ease-out)}
 .ly.is-off{opacity:0;scale:.85}
+.comp__empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;line-height:1.6;color:var(--fg);opacity:0;transition:opacity .5s;pointer-events:none}
+.comp.is-empty .comp__empty{opacity:.45}
 .ly0{inset:8%;border-radius:14px;background:var(--fg);opacity:.08}
 .ly0.is-off{opacity:0}
 .ly1{left:14%;top:12%;height:52%;aspect-ratio:1;border-radius:50%;background:var(--fg)}
@@ -674,67 +676,102 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .lb.is-video .lb__stage{width:min(90vw,calc(76vh * 16 / 9))}
 .lb__vid{aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
 .lb__vid iframe{display:block;width:100%;height:100%;border:0}
-/* ParisianVibe · couverture : deux mini-jeux de montage (à comparer) */
-.pj-lead{margin:0;max-width:62ch;font-size:clamp(17px,1.45vw,21px);line-height:1.45;letter-spacing:-.01em}
-.gms{display:flex;flex-direction:column;gap:clamp(36px,4.6vh,52px)}
-.gm__lbl{display:flex;align-items:baseline;gap:12px;margin:0 0 12px}
-.gm__lbl b{font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:var(--pill);color:var(--ink)}
-.gm__lbl span{font-size:14px;font-weight:500}
-.gm{position:relative;height:clamp(460px,66vh,620px);box-sizing:border-box;display:flex;flex-direction:column;gap:12px;padding:clamp(12px,1.4vw,18px);border-radius:16px;background:var(--tint);color:var(--fg);user-select:none;-webkit-user-select:none}
-.gm__mon{position:relative;flex:1;min-height:0;border-radius:10px;background:var(--coal);color:var(--cream);overflow:hidden;display:grid;place-items:center;transition:box-shadow .12s}
-.gm.is-beat .gm__mon{box-shadow:inset 0 0 0 3px rgba(248,243,227,.28)}
-.gm__hud{position:absolute;left:16px;right:16px;top:14px;display:flex;justify-content:space-between;gap:12px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-dim);font-variant-numeric:tabular-nums;pointer-events:none}
-.gm__tc{color:var(--cream);font-size:13px;letter-spacing:.04em}
-.gm__card{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;padding:0 8%;pointer-events:none}
-.gm__k{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim)}
-.gm__t{font-size:clamp(34px,5vw,84px);font-weight:500;letter-spacing:-.045em;line-height:.95}
-.gm__card.is-cut .gm__t{animation:gmIn .45s var(--ease-out)}
-.gm__card.is-cut .gm__k{animation:gmIn .45s var(--ease-out) .04s backwards}
+/* ParisianVibe · couverture : un banc de montage façon logiciel, sur lequel on remet un épisode dans l'ordre */
+.pj-lead{margin:0;max-width:64ch;font-size:clamp(17px,1.45vw,21px);line-height:1.45;letter-spacing:-.01em}
+.pr{--pl:rgba(248,243,227,.045);--bd:rgba(248,243,227,.09);--tx2:rgba(248,243,227,.55);position:relative;height:clamp(560px,76vh,720px);box-sizing:border-box;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;gap:6px;padding:8px;border-radius:16px;background:var(--coal);color:var(--cream);user-select:none;-webkit-user-select:none;outline:none;font-variant-numeric:tabular-nums}
+.pr__menu{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:2px 8px 4px;font-size:11.5px;color:var(--tx2)}
+.pr__ws{display:flex;gap:16px}
+.pr__ws span.is-on{color:var(--cream);font-weight:600;box-shadow:0 1px 0 var(--cream)}
+.pr__dots{display:flex;gap:6px}
+.pr__dots i{width:9px;height:9px;border-radius:50%;background:var(--bd)}
+.pr__top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:6px;min-height:0}
+.pr__pan{display:flex;flex-direction:column;min-height:0;border-radius:8px;background:var(--pl);border:1px solid var(--bd);overflow:hidden}
+.pr__ph-h{display:flex;align-items:center;gap:14px;height:28px;flex:none;padding:0 10px;border-bottom:1px solid var(--bd);font-size:11.5px;color:var(--tx2);white-space:nowrap;overflow:hidden}
+.pr__ph-h b{color:var(--cream);font-weight:600}
+.pr__ph-h span:last-child{margin-left:auto}
+.pr__bin{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-content:start;gap:10px 8px;padding:10px;overflow:auto;scrollbar-width:none}
+.pr__clip{display:flex;flex-direction:column;gap:5px;text-align:left;cursor:grab;touch-action:none;transition:opacity .3s}
+.pr__thumb{position:relative;display:grid;place-items:center;aspect-ratio:16/9;border-radius:5px;background:rgba(248,243,227,.08);border:1px solid var(--bd);transition:border-color .2s,background .2s}
+.pr__thumb svg{width:62%;height:62%;fill:none;stroke:var(--cream);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+.pr__thumb i{position:absolute;right:4px;bottom:3px;font-style:normal;font-size:9.5px;font-weight:600;padding:1px 4px;border-radius:3px;background:rgba(0,0,0,.45)}
+.pr__clip:hover .pr__thumb{border-color:rgba(248,243,227,.4);background:rgba(248,243,227,.12)}
+.pr__clip b{font-size:11.5px;font-weight:600;line-height:1.2}
+.pr__clip.is-used{opacity:.22;pointer-events:none}
+.pr__mon{position:relative;flex:1;min-height:0;display:grid;place-items:center;background:#161513;overflow:hidden}
+.pr__card{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:0 8%}
+.pr__card svg{width:clamp(70px,9vw,120px);height:auto;fill:none;stroke:var(--cream);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pr__k{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--tx2)}
+.pr__t{font-size:clamp(26px,3.4vw,54px);font-weight:500;letter-spacing:-.04em;line-height:.95}
+.pr__card.is-cut > *{animation:gmIn .4s var(--ease-out) backwards}
+.pr__card.is-cut > :nth-child(2){animation-delay:.03s}
+.pr__card.is-cut > :nth-child(3){animation-delay:.06s}
 @keyframes gmIn{from{opacity:0;translate:0 .3em}}
-.gm__msg{position:absolute;left:50%;bottom:16px;translate:-50% 0;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:999px;background:var(--cream);color:var(--coal);opacity:0;white-space:nowrap;pointer-events:none}
-.gm__msg.is-on{animation:gmMsg .8s var(--ease-out)}
-@keyframes gmMsg{0%{opacity:0;translate:-50% 6px}15%{opacity:1;translate:-50% 0}70%{opacity:1}100%{opacity:0}}
-.gm__flash{position:absolute;inset:0;background:var(--cream);opacity:0;pointer-events:none}
-.gm__flash.is-on{animation:gmFlash .3s ease-out}
-@keyframes gmFlash{from{opacity:.2}to{opacity:0}}
-.gm__bar{flex:none;display:flex;align-items:center;gap:14px;flex-wrap:wrap;min-height:40px}
-.gm__go{flex:none;height:40px;padding:0 18px;border-radius:999px;background:var(--pill);color:var(--ink);font-size:14px;font-weight:500;transition:scale .25s var(--ease-out)}
-.gm__go:hover{scale:1.04}
-.gm__info{font-size:13px;flex:1;min-width:200px;line-height:1.4}
-.gm__score{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
-.cg__lane{position:relative;flex:none;height:124px;border-radius:8px;overflow:hidden;background:var(--bg);cursor:crosshair;touch-action:manipulation}
-.cg__lane:focus{outline:none}
-.cg__lane canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.cg__ph{position:absolute;top:0;bottom:0;left:22%;width:2px;margin-left:-1px;background:var(--fg);pointer-events:none}
-.cg__ph::before{content:"";position:absolute;top:0;left:50%;translate:-50% 0;width:12px;height:12px;border-radius:2px 2px 6px 6px;background:var(--fg)}
-.cg__tr{position:absolute;left:8px;font-size:9.5px;font-weight:600;letter-spacing:.06em;color:var(--dim);pointer-events:none}
-.dr__top{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:12px}
-.dr__side{display:flex;flex-direction:column;gap:8px;min-height:0}
-.dr__lbl{font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase}
-.dr__bin{flex:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:minmax(0,1fr);gap:8px;min-height:0}
-.dr__clip{position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:6px;padding:10px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--line-strong);text-align:left;font-size:13.5px;font-weight:600;line-height:1.2;letter-spacing:-.01em;transition:opacity .3s,border-color .25s,scale .25s var(--ease-out)}
-.dr__clip small{font-size:11.5px;font-weight:500;letter-spacing:0;line-height:1.3}
-.dr__clip i{position:absolute;right:10px;top:9px;font-style:normal;font-size:10.5px;font-weight:600;font-variant-numeric:tabular-nums}
-.dr__clip:hover{border-color:var(--fg);scale:1.02}
-.dr__clip.is-used{opacity:.18;pointer-events:none}
-.dr__tl{flex:none;display:grid;grid-template-columns:26px repeat(6,minmax(0,1fr));gap:6px;align-items:stretch}
-.dr__tl > b{font-size:10px;font-weight:600;letter-spacing:.06em;color:var(--dim);display:flex;align-items:center}
-.dr__slot{position:relative;height:56px;box-sizing:border-box;border-radius:6px;border:1px dashed var(--line-strong);display:flex;align-items:flex-end;padding:0 9px 8px;font-size:12px;font-weight:600;line-height:1.15;text-align:left;overflow:hidden;transition:background .3s,color .3s,border-color .3s}
-.dr__slot em{position:absolute;top:5px;left:8px;font-style:normal;font-size:9.5px;font-weight:600;color:var(--dim)}
-.dr__slot.is-full{border-style:solid;background:rgba(0,0,0,.075)}
-.dr__slot.is-ok{background:var(--coal);color:var(--cream);border-color:var(--coal)}
-.dr__slot.is-ok em{color:var(--ink-dim)}
-.dr__slot.is-bad{animation:drShake .45s}
-.dr__slot.is-play{outline:2px solid var(--fg);outline-offset:2px}
+.pr__mon.is-hide .pr__card{opacity:0}
+.pr__safe{position:absolute;inset:9% 7%;border:1px solid rgba(248,243,227,.06);pointer-events:none}
+.pr__msg{position:absolute;left:50%;top:12px;translate:-50% 0;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:5px 12px;border-radius:999px;background:var(--cream);color:var(--coal);opacity:0;white-space:nowrap;pointer-events:none}
+.pr__msg.is-on{animation:gmMsg 1.6s var(--ease-out)}
+@keyframes gmMsg{0%{opacity:0;translate:-50% -6px}10%{opacity:1;translate:-50% 0}80%{opacity:1}100%{opacity:0}}
+.pr__exp{position:absolute;left:50%;top:50%;translate:-50% -50%;width:min(70%,320px);display:none;flex-direction:column;gap:8px;padding:14px 16px;border-radius:8px;background:var(--coal);border:1px solid var(--bd);font-size:12px}
+.pr__exp.is-on{display:flex}
+.pr__exp span{display:flex;justify-content:space-between}
+.pr__exp u{display:block;height:4px;border-radius:2px;background:var(--bd);overflow:hidden;text-decoration:none}
+.pr__exp u i{display:block;height:100%;background:var(--cream);transform-origin:0 50%;transform:scaleX(0)}
+.pr__tr-bar{display:flex;align-items:center;gap:10px;height:34px;flex:none;padding:0 10px;border-top:1px solid var(--bd);font-size:12px}
+.pr__tc{font-size:13px;font-weight:600;color:var(--cream);min-width:96px}
+.pr__trn{display:flex;gap:2px;margin:0 auto}
+.pr__trn button{width:30px;height:26px;border-radius:5px;display:grid;place-items:center;color:var(--cream)}
+.pr__trn button:hover{background:var(--bd)}
+.pr__trn svg{width:13px;height:13px;fill:currentColor}
+.pr__dur{color:var(--tx2);min-width:96px;text-align:right}
+.pr__tl{border-radius:8px;background:var(--pl);border:1px solid var(--bd);overflow:hidden}
+.pr__tlx{overflow-x:auto;scrollbar-width:thin}
+.pr__tli{position:relative;min-width:600px;padding-bottom:6px}
+.pr__row{display:grid;grid-template-columns:92px minmax(0,1fr);align-items:stretch}
+.pr__hd{display:flex;align-items:center;gap:6px;padding:0 8px;border-right:1px solid var(--bd);font-size:11px;font-weight:600;color:var(--tx2)}
+.pr__hd b{color:var(--cream);font-weight:600;min-width:20px}
+.pr__hd button{width:18px;height:18px;border-radius:3px;display:grid;place-items:center;font-size:9.5px;font-weight:700;color:var(--tx2);border:1px solid var(--bd)}
+.pr__hd button[aria-pressed="true"]{background:var(--cream);color:var(--coal);border-color:var(--cream)}
+.pr__hd button svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:1.6}
+.pr__ruler{position:relative;height:24px;border-bottom:1px solid var(--bd);cursor:ew-resize;background:repeating-linear-gradient(90deg,var(--bd) 0 1px,transparent 1px calc(100% / 36)) 0 100%/100% 6px no-repeat}
+.pr__ruler em{position:absolute;top:4px;font-style:normal;font-size:9.5px;color:var(--tx2);translate:3px 0}
+.pr__ruler em::before{content:"";position:absolute;left:-3px;top:-4px;width:1px;height:24px;background:var(--bd)}
+.pr__lane{position:relative;border-bottom:1px solid rgba(248,243,227,.05);cursor:default}
+.pr__lane.v{height:46px}.pr__lane.a{height:30px}
+.pr__lane.v2{height:28px}
+.pr__c{position:absolute;top:3px;bottom:3px;box-sizing:border-box;border-radius:4px;overflow:hidden;transition:left .35s var(--ease-out),width .35s var(--ease-out),opacity .25s}
+.pr__c[hidden]{display:none}
+.pr__v1 .pr__c{background:var(--cream);color:var(--coal);cursor:grab;touch-action:none;display:flex;align-items:stretch}
+.pr__v1 .pr__c .th{flex:none;width:34px;display:grid;place-items:center;background:rgba(37,36,34,.12);border-right:1px solid rgba(37,36,34,.15)}
+.pr__v1 .pr__c .th svg{width:24px;height:24px;fill:none;stroke:var(--coal);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.pr__v1 .pr__c span{padding:5px 7px;font-size:11px;font-weight:600;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pr__v1 .pr__c.is-sel{box-shadow:inset 0 0 0 2px var(--coal),0 0 0 2px var(--cream)}
+.pr__v1 .pr__c.is-ok::after{content:"✓";position:absolute;right:5px;bottom:3px;font-size:11px;font-weight:700}
+.pr__v1 .pr__c.is-bad{animation:drShake .45s}
 @keyframes drShake{20%,60%{translate:-4px 0}40%,80%{translate:4px 0}}
+.pr__a .pr__c{border:1px solid rgba(248,243,227,.28);background:rgba(248,243,227,.07)}
+.pr__a .pr__c canvas{position:absolute;inset:0;width:100%;height:100%}
+.pr__a.is-mute .pr__c{opacity:.3}
+.pr__v2 .pr__c{background:transparent;border:1px dashed rgba(248,243,227,.4);font-size:10px;font-weight:600;color:var(--tx2);display:flex;align-items:center;padding:0 6px}
+.pr__ins{position:absolute;top:22px;bottom:0;width:2px;margin-left:-1px;background:var(--cream);box-shadow:0 0 0 3px rgba(248,243,227,.18);pointer-events:none;display:none;z-index:3}
+.pr__phd{position:absolute;top:0;bottom:0;width:0;pointer-events:none;z-index:2}
+.pr__phd::before{content:"";position:absolute;top:24px;bottom:0;left:-.75px;width:1.5px;background:var(--cream)}
+.pr__phd::after{content:"";position:absolute;top:6px;left:-6px;width:12px;height:14px;border-radius:2px 2px 6px 6px;background:var(--cream)}
+.pr__bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;min-height:38px;padding:0 4px}
+.pr__info{flex:1;min-width:220px;font-size:12.5px;line-height:1.4;color:var(--tx2)}
+.pr__info b{color:var(--cream);font-weight:600}
+.pr__score{font-size:12px;font-weight:600}
+.pr__btn{height:34px;padding:0 14px;border-radius:999px;font-size:13px;font-weight:500;border:1px solid var(--bd);transition:border-color .2s,scale .2s var(--ease-out)}
+.pr__btn:hover{border-color:rgba(248,243,227,.5)}
+.pr__btn.is-main{background:var(--cream);color:var(--coal);border-color:var(--cream)}
+.pr__btn.is-main:hover{scale:1.04}
+.pr__ghost{position:fixed;left:0;top:0;z-index:100;pointer-events:none;padding:8px 12px;border-radius:5px;background:var(--cream);color:var(--coal);font-size:12px;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,.3);translate:-50% -120%}
 @media (max-width:760px){
-  .gm{height:auto}
-  .gm__mon{min-height:260px;flex:none;height:44vh}
-  .dr__top{grid-template-columns:1fr}
-  .dr__bin{grid-auto-rows:auto}
-  .dr__clip{min-height:64px}
-  .dr__tl{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .dr__tl > b{display:none}
+  .pr{height:auto}
+  .pr__top{grid-template-columns:1fr}
+  .pr__mon{min-height:200px;flex:none;height:34vh}
+  .pr__bin{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .pr__ws span:nth-child(n+3){display:none}
+  .pr__dur{display:none}
 }
 
 /* ParisianVibe · bibliothèque de vidéos : thèmes, curseurs, tri */
@@ -1105,7 +1142,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     </section>
 
     <section class="ab-soft" aria-label="soft skills">
-      <div><h2 class="ab-h">Soft skills</h2><p class="ab-note sk-hint">Cliquez sur une ligne pour lire l’explication. Cliquez sur l’œil <span class="eye-ico" aria-hidden="true"></span> pour masquer ou afficher sa forme dans la composition.</p></div>
+      <div><h2 class="ab-h">Soft skills</h2><p class="ab-note sk-hint">Un projet, c’est une composition : plein d’éléments différents qu’il faut savoir combiner. La composition est vide pour l’instant. Cliquez sur les yeux <span class="eye-ico" aria-hidden="true"></span> pour faire apparaître chaque forme, et sur une ligne pour lire l’explication.</p></div>
       <div class="layers ab-reveal">
         <div class="layers__panel" role="group" aria-label="soft skills">
           <div class="layers__head"><span>soft skills</span><button type="button" id="lyAll">tout afficher</button></div>
@@ -1114,7 +1151,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
         </div>
         <div class="layers__view">
           <div class="comp" id="comp" aria-hidden="true">
-            <span class="ly ly0"></span><span class="ly ly1"></span><span class="ly ly2"></span><span class="ly ly3"></span><span class="ly ly4"></span><span class="ly ly5"><i></i><i></i><i></i></span><span class="ly ly6"></span>
+            <span class="comp__empty">composition vide<br>allumez les calques</span><span class="ly ly0"></span><span class="ly ly1"></span><span class="ly ly2"></span><span class="ly ly3"></span><span class="ly ly4"></span><span class="ly ly5"><i></i><i></i><i></i></span><span class="ly ly6"></span>
           </div>
         </div>
       </div>
@@ -2113,24 +2150,29 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
   }
   SOFT.forEach(([n], i) => {
     const li = document.createElement('li');
-    li.className = 'ly-row';
-    li.innerHTML = `<button type="button" class="ly-eye" aria-pressed="true">${EYE}</button><button type="button" class="ly-sel" aria-pressed="false"><span class="ly-num">${String(i + 1).padStart(2, '0')}</span><span class="ly-name"></span></button>`;
+    li.className = 'ly-row is-off';
+    li.innerHTML = `<button type="button" class="ly-eye" aria-pressed="false">${EYE}</button><button type="button" class="ly-sel" aria-pressed="false"><span class="ly-num">${String(i + 1).padStart(2, '0')}</span><span class="ly-name"></span></button>`;
     li.querySelector('.ly-name').textContent = n;
     const eye = li.querySelector('.ly-eye');
-    eye.setAttribute('aria-label', `masquer : ${n}`);
+    eye.setAttribute('aria-label', `afficher : ${n}`);
+    lyShapes[i].classList.add('is-off');
     eye.addEventListener('click', () => {
       const off = !li.classList.contains('is-off');
       li.classList.toggle('is-off', off);
       eye.setAttribute('aria-pressed', String(!off));
       eye.setAttribute('aria-label', `${off ? 'afficher' : 'masquer'} : ${n}`);
       lyShapes[i].classList.toggle('is-off', off);
+      lyEmpty();
       sfx.play('toggle');
     });
     li.querySelector('.ly-sel').addEventListener('click', () => selectSoft(i));
     lyList.appendChild(li);
     lyRows.push(li);
   });
-  $('#lyAll').addEventListener('click', () => { lyRows.forEach((r, i) => { r.classList.remove('is-off'); r.querySelector('.ly-eye').setAttribute('aria-pressed', 'true'); lyShapes[i].classList.remove('is-off'); }); });
+  /* La composition démarre vide : on allume les calques un par un (ou « tout afficher ») */
+  function lyEmpty() { $('#comp').classList.toggle('is-empty', lyShapes.every((sh) => sh.classList.contains('is-off'))); }
+  $('#lyAll').addEventListener('click', () => { lyRows.forEach((r, i) => { r.classList.remove('is-off'); r.querySelector('.ly-eye').setAttribute('aria-pressed', 'true'); lyShapes[i].classList.remove('is-off'); }); lyEmpty(); });
+  lyEmpty();
   selectSoft(0);
 
   /* Logiciels : effet dock + rebond au clic */
@@ -2263,9 +2305,9 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
       ]
     },
     'parisianvibe': {
-      title: 'ParisianVibe', kicker: 'montage vidéo', coverFx: 'games',
+      title: 'ParisianVibe', kicker: 'montage vidéo', coverFx: 'edit',
       /* Petite introduction affichée au-dessus de l'animation */
-      lead: "**ParisianVibe** est une chaîne YouTube consacrée au style et à l’art de vivre parisiens : mode, intérieurs, voyages. Pendant mon alternance, j’y ai monté les épisodes des séries de la chaîne. À votre tour de passer au montage.",
+      lead: "**ParisianVibe** est un média lifestyle sur YouTube qui raconte l’art de vivre parisien : mode, intérieurs, voyages, avec des séries comme In the Bag ou At Home in Paris. Pendant mon alternance, j’étais **monteur vidéo** dans l’équipe de production : à partir des rushes de tournage, je construisais les épisodes, du dérushage à l’export. À votre tour : un épisode d’In the Bag vient d’être dérushé, remettez ses plans dans l’ordre sur la timeline.",
       meta: [['rôle', 'Monteur vidéo'], ['contrat', 'Alternance — 1 an'], ['équipe', 'Équipe de production'], ['dates', 'Déc. 2024 — juil. 2025'], ['lieu', 'Paris']],
       cols: [
         ['Alternance de 1 an', "Chez **ParisianVibe**, j'ai travaillé en tant que **monteur vidéo**, une expérience **immersive** qui m'a placé au **cœur** de la création de contenu pour l'univers exigeant du **luxe** et de **la mode**. Dans ce rôle, ma **mission** était de traduire l'identité **forte** de la marque en **séquences visuelles** dynamiques, en veillant à ce que **chaque** montage serve une narration **cohérente**. Cette opportunité m'a permis de **perfectionner** ma maîtrise du **rythme** et de **l'esthétique**, en collaborant **étroitement** avec la direction artistique afin d'assurer une cohérence visuelle **irréprochable** sur **l'ensemble** des plateformes de diffusion."],
@@ -2366,7 +2408,13 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
   let pjCur = null, pjT = 0, pjC = 0, pjOwn = false, pjHideTimer = 0, pjLastSt = -1;
   const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   const md = (t) => esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
-  const fmtN = (v) => Math.round(v).toLocaleString('fr-FR');
+  /* Chiffres lisibles : 150 k, 3,04 M (plutôt que 150 000 ou 3 040 000) */
+  const fmtN = (v) => {
+    const a = Math.abs(v);
+    if (a >= 1e6) return `${(v / 1e6).toLocaleString('fr-FR', { maximumFractionDigits: a >= 1e7 ? 1 : 2 })} M`;
+    if (a >= 1e4) return `${Math.round(v / 1000).toLocaleString('fr-FR')} k`;
+    return Math.round(v).toLocaleString('fr-FR');
+  };
 
   const pjIO = 'IntersectionObserver' in window ? new IntersectionObserver((ents) => ents.forEach((en) => {
     if (!en.isIntersecting) return;
@@ -2405,8 +2453,8 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     h += `</header>`;
     h += P.coverFx === 'radio'
       ? `<figure class="pj-media pj-cover is-in fx-radio" style="margin:var(--tgap) 0 0">${RADIO_HTML}</figure>`
-      : P.coverFx === 'games'
-      ? `<figure class="pj-media pj-cover is-in fx-games" style="margin:var(--tgap) 0 0"><div class="gms"><div><p class="gm__lbl"><b>jeu 1</b><span>Le cut parfait : coupez sur le rythme</span></p>${CUT_HTML}</div><div><p class="gm__lbl"><b>jeu 2</b><span>Remets dans l’ordre : montez l’épisode</span></p>${DR_HTML}</div></div></figure>`
+      : P.coverFx === 'edit'
+      ? `<figure class="pj-media pj-cover is-in fx-edit" style="margin:var(--tgap) 0 0">${PR_HTML()}</figure>`
       : `<figure class="pj-media pj-cover is-in" style="margin:var(--tgap) 0 0">${ph({ kind: 'image', ar: '16/9' }, true)}<figcaption>Image de couverture — à remplacer</figcaption></figure>`;
     h += `<section class="pj-cols">${P.cols.map(([t, x]) => `<div class="pj-col ab-reveal"><h3>${esc(t)}</h3><p>${md(x)}</p></div>`).join('')}</section>`;
     h += `<section class="pj-stats" style="--n:${P.stats.length}">${P.stats.map((st) => st.ph
@@ -2442,10 +2490,8 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     pjInner.querySelectorAll('.ph--video').forEach((el) => el.addEventListener('click', () => playFacade(el)));
     const fxr = pjInner.querySelector('.pj-cover.fx-radio .rd');
     if (fxr) initRadio(fxr);
-    const fxc = pjInner.querySelector('.pj-cover.fx-games .cg');
-    if (fxc) initCut(fxc);
-    const fxo = pjInner.querySelector('.pj-cover.fx-games .dr');
-    if (fxo) initOrder(fxo);
+    const fxe = pjInner.querySelector('.pj-cover.fx-edit .pr');
+    if (fxe) initPr(fxe);
     pjInner.querySelectorAll('[data-vl]').forEach((el) => initLibrary(el, P.media.find((m) => m.library)));
     pjCur = slug;
   }
@@ -2707,223 +2753,236 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     requestAnimationFrame(() => { measure(); render(); });
   }
 
-  /* Couverture ParisianVibe : deux mini-jeux de montage, l'un sous l'autre pour comparer.
-     Jeu 1 « Le cut parfait » : la musique défile, on coupe sur les repères (clic ou espace) ; chaque coupe passe au plan suivant.
-     Jeu 2 « Remets dans l'ordre » : on remet les plans d'un épisode dans l'ordre du récit, puis le montage se lit.
-     Rien ne tourne tant qu'on ne joue pas ; le son (une simple pulsation synthétisée) suit le bouton son du site. */
-  const CUT_SHOTS = [
-    ['ParisianVibe', 'générique · ouverture'], ['In the Bag', 'plan d’ensemble · le café'], ['In the Bag', 'gros plan · le sac'], ['In the Bag', 'détail · le rouge à lèvres'],
-    ['At Home in Paris', 'plan large · le salon'], ['At Home in Paris', 'travelling · la bibliothèque'], ['At Home in Paris', 'détail · la céramique'],
-    ['Les Filles à Paris', 'plan pied · la rue'], ['Les Filles à Paris', 'plan taille · le manteau'], ['24 Hours in Madrid', 'plan large · le marché'],
-    ['Magical Italy', 'détail · l’assiette'], ['At Home in France', 'plan large · la cuisine'], ['ParisianVibe', 'générique de fin']
+  /* Couverture ParisianVibe : un banc de montage façon logiciel (projet, programme, timeline).
+     Les six plans d'un épisode « In the Bag » sont dans le chutier : on les glisse sur la piste V1 (ou clic = à la suite),
+     on les réordonne en les faisant glisser, on lit la séquence (espace), puis « exporter » vérifie l'ordre du récit.
+     Rien ne tourne tant qu'on ne lit pas la séquence. */
+  const PR_IC = {
+    hook: '<path d="M80 14 L87 37 L110 39 L92 53 L98 76 L80 63 L62 76 L68 53 L50 39 L73 37 Z"/>',
+    title: '<rect x="38" y="28" width="84" height="14" rx="2"/><path d="M56 56 H104 M66 66 H94"/>',
+    face: '<circle cx="80" cy="34" r="13"/><path d="M52 80 Q54 54 80 52 Q106 54 108 80"/>',
+    bag: '<path d="M54 40 H106 L112 78 H48 Z"/><path d="M66 40 Q66 22 80 22 Q94 22 94 40"/><path d="M76 52 H84"/>',
+    items: '<rect x="40" y="34" width="12" height="38" rx="3"/><path d="M40 46 H52"/><circle cx="80" cy="54" r="15"/><circle cx="80" cy="54" r="6"/><path d="M106 36 h14 v36 h-14 z M110 42 h6"/>',
+    end: '<path d="M44 26 H116 V62 H76 L60 76 V62 H44 Z"/><path d="M60 40 H100 M60 50 H88"/>'
+  };
+  const PR_PLANS = [
+    { t: 'L’accroche', d: 'le meilleur moment, en avant-goût', dur: 4, ic: 'hook' },
+    { t: 'Le générique', d: 'le titre de la série', dur: 3, ic: 'title' },
+    { t: 'La présentation', d: 'elle se présente face caméra', dur: 6, ic: 'face' },
+    { t: 'Le sac s’ouvre', d: 'premier regard sur le sac', dur: 4, ic: 'bag' },
+    { t: 'Les essentiels', d: 'les objets, un par un', dur: 9, ic: 'items' },
+    { t: 'Le mot de la fin', d: 'conclusion et au revoir', dur: 4, ic: 'end' }
   ];
-  const CUT_HTML = `<div class="gm cg"><div class="gm__mon"><div class="gm__hud"><span class="gm__tc">00:00:00:00</span><span class="gm__pl">séquence à monter</span></div><div class="gm__card"><span class="gm__k">ParisianVibe · séquence à monter</span><span class="gm__t">Le cut parfait</span></div><span class="gm__msg"></span><span class="gm__flash"></span></div>
-    <div class="cg__lane" tabindex="-1" aria-label="timeline : cliquez pour couper"><canvas></canvas><span class="cg__tr" style="top:8px">V1</span><span class="cg__tr" style="bottom:8px">A1</span><span class="cg__ph"></span></div>
-    <div class="gm__bar"><button type="button" class="gm__go">lancer la musique</button><span class="gm__info">Coupez pile sur les repères quand ils passent sous la tête de lecture : clic sur la timeline ou barre d’espace.</span><span class="gm__score"></span></div></div>`;
-  function initCut(el) {
-    const mon = el.querySelector('.gm__mon'), card = el.querySelector('.gm__card'), tK = el.querySelector('.gm__k'), tT = el.querySelector('.gm__t'), tc = el.querySelector('.gm__tc'), pl = el.querySelector('.gm__pl');
-    const msg = el.querySelector('.gm__msg'), flash = el.querySelector('.gm__flash'), lane = el.querySelector('.cg__lane'), cv = lane.querySelector('canvas'), ctx = cv.getContext('2d');
-    const go = el.querySelector('.gm__go'), info = el.querySelector('.gm__info'), score = el.querySelector('.gm__score');
-    const BEAT = 0.6, LEAD = 4, PATTERN = [0, 2, 4, 5, 7, 8, 10, 12, 13, 14, 16, 18], PPS = 170;
-    const T = PATTERN.map((b) => (LEAD + b) * BEAT), END = T[T.length - 1] + 2 * BEAT;
-    let targets = [], cuts = [], shot = 0, playing = false, t0 = 0, raf = 0, ac = null, lastBeat = -1, visible = false, extra = 0;
-    let W = 1, H = 1, dpr = 1, col = '#252422';
+  const PR_SPAN = 36, PR_FPS = 25;
+  const prIcon = (k) => `<svg viewBox="0 0 160 90" aria-hidden="true">${PR_IC[k]}</svg>`;
+  const PR_HTML = () => {
+    const tb = (p) => `<button type="button" class="pr__clip" data-p="${p}"><span class="pr__thumb">${prIcon(PR_PLANS[p].ic)}<i>00:0${PR_PLANS[p].dur}</i></span><b>${esc(PR_PLANS[p].t)}</b></button>`;
+    const svgLock = '<svg viewBox="0 0 12 12"><rect x="2.5" y="5.5" width="7" height="5" rx="1"/><path d="M4 5.5V4a2 2 0 0 1 4 0v1.5"/></svg>';
+    const svgEye = '<svg viewBox="0 0 12 12"><path d="M1 6s2-3.5 5-3.5S11 6 11 6 9 9.5 6 9.5 1 6 1 6z"/><circle cx="6" cy="6" r="1.5"/></svg>';
+    return `<div class="pr" tabindex="0" aria-label="Banc de montage : remettez les plans de l’épisode dans l’ordre sur la timeline">
+    <div class="pr__menu"><div class="pr__ws"><span>Assemblage</span><span class="is-on">Montage</span><span>Couleur</span><span>Audio</span><span>Export</span></div><span>InTheBag_E14 · dérushé</span><div class="pr__dots"><i></i><i></i><i></i></div></div>
+    <div class="pr__top">
+      <div class="pr__pan"><div class="pr__ph-h"><b>Projet : InTheBag_E14</b><span>Chutier</span><span class="pr__left">6 éléments</span></div><div class="pr__bin"></div></div>
+      <div class="pr__pan"><div class="pr__ph-h"><b>Programme : Séquence 01</b><span>1080p · 25 i/s</span></div>
+        <div class="pr__mon"><span class="pr__safe"></span><div class="pr__card"><span class="pr__k">In the Bag of a Parisian · dérushé</span><span class="pr__t">Montez l’épisode</span></div><span class="pr__msg"></span>
+          <div class="pr__exp"><span><b>Export · H.264 · 1080p</b><em class="pr__ep">0 %</em></span><u><i></i></u></div></div>
+        <div class="pr__tr-bar"><span class="pr__tc">00:00:00:00</span><div class="pr__trn"><button type="button" data-a="start" aria-label="début"><svg viewBox="0 0 12 12"><path d="M2 2h1.6v8H2zM10 2v8L4 6z"/></svg></button><button type="button" data-a="prev" aria-label="image précédente"><svg viewBox="0 0 12 12"><path d="M9 2v8L3 6z"/></svg></button><button type="button" data-a="play" aria-label="lecture"><svg viewBox="0 0 12 12" class="i-play"><path d="M3 1.5v9L10.5 6z"/></svg></button><button type="button" data-a="next" aria-label="image suivante"><svg viewBox="0 0 12 12"><path d="M3 2v8l6-4z"/></svg></button></div><span class="pr__dur">00:00:00:00</span></div></div>
+    </div>
+    <div class="pr__tl"><div class="pr__ph-h"><b>Séquence 01</b><span class="pr__tc2">00:00:00:00</span><span>glissez les plans sur V1 · espace = lecture · suppr = retirer</span></div>
+      <div class="pr__tlx"><div class="pr__tli">
+        <div class="pr__row"><div class="pr__hd"></div><div class="pr__ruler">${Array.from({ length: 8 }, (_, i) => `<em style="left:${(i * 5 / PR_SPAN * 100).toFixed(3)}%">00:00:${pad2(i * 5)}:00</em>`).join('')}</div></div>
+        <div class="pr__row"><div class="pr__hd"><b>V2</b><button type="button" aria-pressed="false" aria-label="verrouiller">${svgLock}</button><button type="button" aria-pressed="false" aria-label="masquer">${svgEye}</button></div><div class="pr__lane v2 pr__v2"><div class="pr__c" hidden>Titre · In the Bag</div></div></div>
+        <div class="pr__row"><div class="pr__hd"><b>V1</b><button type="button" aria-pressed="false" aria-label="verrouiller">${svgLock}</button><button type="button" data-t="eye" aria-pressed="false" aria-label="masquer la piste">${svgEye}</button></div><div class="pr__lane v pr__v1"></div></div>
+        <div class="pr__row"><div class="pr__hd"><b>A1</b><button type="button" data-t="mute" data-l="a1" aria-pressed="false">M</button><button type="button" aria-pressed="false">S</button></div><div class="pr__lane a pr__a pr__a1"></div></div>
+        <div class="pr__row"><div class="pr__hd"><b>A2</b><button type="button" data-t="mute" data-l="a2" aria-pressed="false">M</button><button type="button" aria-pressed="false">S</button></div><div class="pr__lane a pr__a pr__a2"><div class="pr__c pr__bed" hidden><canvas></canvas></div></div></div>
+        <span class="pr__ins"></span><span class="pr__phd"></span>
+      </div></div></div>
+    <div class="pr__bar"><span class="pr__info">Un épisode <b>In the Bag</b> a été dérushé : ses six plans attendent dans le chutier. <b>Glissez-les sur la piste V1</b> dans l’ordre du récit, lisez la séquence, puis <b>exportez</b>.</span><span class="pr__score"></span><button type="button" class="pr__btn" data-a="mix">mélanger</button><button type="button" class="pr__btn is-main" data-a="export">exporter</button></div>
+    </div>`;
+  };
+  function initPr(el) {
+    const q = (s) => el.querySelector(s);
+    const bin = q('.pr__bin'), v1 = q('.pr__v1'), a1 = q('.pr__a1'), v2c = q('.pr__v2 .pr__c'), bed = q('.pr__bed'), tli = q('.pr__tli'), ruler = q('.pr__ruler');
+    const mon = q('.pr__mon'), card = q('.pr__card'), msg = q('.pr__msg'), exp = q('.pr__exp'), expBar = q('.pr__exp u i'), expPc = q('.pr__ep');
+    const tc1 = q('.pr__tc'), tc2 = q('.pr__tc2'), dur = q('.pr__dur'), ins = q('.pr__ins'), phd = q('.pr__phd'), info = q('.pr__info'), score = q('.pr__score'), left = q('.pr__left');
+    const bPlay = q('[data-a="play"]');
+    let seq = [], t = 0, playing = false, raf = 0, last = 0, tStart = 0, tries = 0, timer = 0, sel = -1, drag = null, lastShown = -2, busy = false;
     const restart = (n, c) => { n.classList.remove(c); void n.offsetWidth; n.classList.add(c); };
     const say = (m) => { msg.textContent = m; restart(msg, 'is-on'); };
-    const show = (k, t, anim) => { tK.textContent = k; tT.textContent = t; if (anim) restart(card, 'is-cut'); };
-    const size = () => { const r = lane.getBoundingClientRect(); if (!r.width) return; dpr = Math.min(2, window.devicePixelRatio || 1); W = r.width; H = r.height; cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); col = getComputedStyle(el).color; draw(playing ? now() : -1.4); };
-    /* l'horloge du jeu suit performance.now() (fiable partout) ; le son est calé sur le même départ */
-    const now = () => (performance.now() - t0) / 1000;
-    const amp = (t) => { if (t < LEAD * BEAT) return 0.08 + 0.05 * Math.abs(Math.sin(t * 37)); const ph = (t % BEAT) / BEAT; return Math.min(1, 0.16 + 0.14 * Math.abs(Math.sin(t * 53) * Math.cos(t * 17)) + 0.72 * Math.exp(-ph * 9)); };
-    function draw(t) {
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H); ctx.fillStyle = col; ctx.strokeStyle = col;
-      const ph = W * 0.22, tmin = t - ph / PPS, tmax = t + (W - ph) / PPS, X = (s) => ph + (s - t) * PPS;
-      /* forme d'onde (A1) */
-      const top = 64, hh = H - top - 6;
-      for (let s = Math.floor(tmin / 0.02) * 0.02; s < tmax; s += 0.02) {
-        if (s < 0 || s > END) continue;
-        const x = X(s), a = amp(s) * hh;
-        ctx.globalAlpha = x < ph ? 0.75 : 0.22; ctx.fillRect(x, top + (hh - a) / 2, 2, Math.max(1.5, a));
-      }
-      /* temps (petits traits) */
-      ctx.globalAlpha = 0.3;
-      for (let k = Math.max(0, Math.floor(tmin / BEAT)); k * BEAT < Math.min(tmax, END); k++) ctx.fillRect(X(k * BEAT) - 0.5, 56, 1, 6);
-      /* repères de coupe (V1) */
-      targets.forEach((g) => {
-        const x = X(g.t); if (x < -20 || x > W + 20) return;
-        if (!g.st) { ctx.globalAlpha = 1; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(x - 4, 8, 8, 40, 3) : ctx.rect(x - 4, 8, 8, 40); ctx.fill(); }
-        else if (g.st === 'miss') { ctx.globalAlpha = 0.35; ctx.setLineDash([3, 3]); ctx.strokeRect(x - 4, 8, 8, 40); ctx.setLineDash([]); }
-        else { ctx.globalAlpha = 0.28; ctx.fillRect(x - 4, 8, 8, 40); ctx.globalAlpha = 0.8; ctx.font = '600 10px "Instrument Sans", sans-serif'; ctx.fillText(g.st, x + 7, 22); }
-      });
-      /* vos coupes */
-      ctx.globalAlpha = 0.9;
-      cuts.forEach((c) => { const x = X(c); if (x > -2 && x < W + 2) ctx.fillRect(x - 0.75, 4, 1.5, H - 8); });
-      ctx.globalAlpha = 1;
-    }
-    /* Pulsation : grosse caisse sur les temps, charleston entre les deux, synthétisés (aucun fichier son) */
-    const audio = () => {
-      if (!state.sound) return null;
-      try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return null; }
-      if (ac.state === 'suspended') ac.resume();
-      const master = ac.createGain(); master.gain.value = 0.55; master.connect(ac.destination);
-      const nb = ac.createBuffer(1, Math.floor(ac.sampleRate * 0.05), ac.sampleRate), d = nb.getChannelData(0);
-      for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length);
-      const kick = (t, v) => { const o = ac.createOscillator(), g = ac.createGain(); o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(42, t + 0.13); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(v, t + 0.005); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.24); o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.26); };
-      const hat = (t, v) => { const s = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain(); s.buffer = nb; f.type = 'highpass'; f.frequency.value = 6500; g.gain.value = v; s.connect(f); f.connect(g); g.connect(master); s.start(t); };
-      const start = ac.currentTime + 0.12;
-      for (let k = 0; k * BEAT <= END; k++) {
-        const t = start + k * BEAT;
-        if (k < LEAD) hat(t, 0.5); else { kick(t, 0.7); hat(t + BEAT / 2, 0.18); }
-      }
-      return { start, master };
+    const fmt = (s) => { const f = Math.round(s * PR_FPS), ss = Math.floor(f / PR_FPS); return `00:${pad2(Math.floor(ss / 60))}:${pad2(ss % 60)}:${pad2(f % PR_FPS)}`; };
+    const total = () => seq.reduce((a, p) => a + PR_PLANS[p].dur, 0);
+    const starts = (s = seq) => { let a = 0; return s.map((p) => { const x = a; a += PR_PLANS[p].dur; return x; }); };
+    const pct = (s) => `${(s / PR_SPAN * 100).toFixed(3)}%`;
+    /* forme d'onde dessinée une fois par clip audio */
+    const wave = (cv, seed, dense) => {
+      const r = cv.parentElement.getBoundingClientRect(); if (!r.width) return;
+      const d = Math.min(2, window.devicePixelRatio || 1); cv.width = Math.round(r.width * d); cv.height = Math.round(r.height * d);
+      const c = cv.getContext('2d'); c.scale(d, d); c.fillStyle = 'rgba(248,243,227,.6)';
+      let s = seed * 9301 + 49297;
+      for (let x = 2; x < r.width - 2; x += 3) { s = (s * 16807) % 2147483647; const a = (0.2 + 0.8 * (s / 2147483647)) * (dense ? 0.55 + 0.35 * Math.abs(Math.sin(x / 23)) : 0.8) * (r.height - 8); c.fillRect(x, (r.height - a) / 2, 1.6, Math.max(1, a)); }
     };
-    let snd = null;
-    const begin = () => {
-      targets = T.map((t) => ({ t, st: null, pts: 0 })); cuts = []; shot = 0; extra = 0; lastBeat = -1;
-      snd = audio();
-      t0 = performance.now() + 120;
-      playing = true; go.textContent = 'arrêter'; score.textContent = ''; info.textContent = 'Coupez sur les repères noirs : clic sur la timeline ou barre d’espace.';
-      pl.textContent = `plan 01 / ${pad2(CUT_SHOTS.length)}`;
-      loop();
-    };
-    const stop = (done) => {
-      playing = false; cancelAnimationFrame(raf); raf = 0;
-      if (snd) { try { snd.master.gain.setTargetAtTime(0, ac.currentTime, 0.05); } catch (e) {} snd = null; }
-      go.textContent = 'rejouer';
-      if (!done) { show('ParisianVibe · séquence à monter', 'Le cut parfait', true); return; }
-      const n = targets.length, perf = targets.filter((g) => g.st === 'parfait').length, ok = targets.filter((g) => g.st === 'bien' || g.st === 'juste').length, miss = targets.filter((g) => g.st === 'miss').length;
-      const p = Math.max(0, Math.round(targets.reduce((a, g) => a + g.pts, 0) / n - extra * 4));
-      show(`${perf} parfait${perf > 1 ? 's' : ''} · ${ok} correct${ok > 1 ? 's' : ''} · ${miss} manqué${miss > 1 ? 's' : ''}`, `${p} % de précision`, true);
-      info.textContent = p >= 90 ? 'Prêt pour la diffusion.' : p >= 70 ? 'Validé, après une petite retouche.' : p >= 45 ? 'Encore un export et c’est bon.' : 'On refait la séquence ?';
-      score.textContent = extra ? `${extra} coupe${extra > 1 ? 's' : ''} en trop` : '';
-    };
-    function loop() {
-      raf = 0; if (!playing || !el.isConnected) return;
-      const t = now();
-      const sec = Math.max(0, t - LEAD * BEAT);
-      tc.textContent = `00:00:${pad2(Math.floor(sec))}:${pad2(Math.floor((sec % 1) * 25))}`;
-      const b = Math.floor(t / BEAT);
-      if (t >= 0 && b !== lastBeat) {
-        lastBeat = b; el.classList.add('is-beat'); setTimeout(() => el.classList.remove('is-beat'), 90);
-        if (b < LEAD) show('prêt ?', String(LEAD - b), true);
-        else if (b === LEAD) show(`${CUT_SHOTS[0][0]} · ${CUT_SHOTS[0][1]}`, CUT_SHOTS[0][0], true);
-      }
-      targets.forEach((g) => { if (!g.st && t > g.t + 0.3) { g.st = 'miss'; say('manqué'); } });
-      draw(t);
-      if (t > END) { stop(true); return; }
-      raf = requestAnimationFrame(loop);
-    }
-    const cut = () => {
-      if (!playing) return;
-      const t = now(); cuts.push(t);
-      let best = null, bd = 9;
-      targets.forEach((g) => { const d = Math.abs(t - g.t); if (!g.st && d < bd) { bd = d; best = g; } });
-      if (!best || bd > 0.3) { extra++; say('pas de repère'); return; }
-      const dt = t - best.t, fr = Math.round(dt * 25);
-      best.st = bd <= 0.08 ? 'parfait' : bd <= 0.16 ? 'bien' : 'juste'; best.pts = bd <= 0.08 ? 100 : bd <= 0.16 ? 70 : 35;
-      say(`${best.st} · ${fr > 0 ? '+' : fr < 0 ? '−' : '±'}${Math.abs(fr)} i`);
-      shot = Math.min(CUT_SHOTS.length - 1, shot + 1);
-      show(`${CUT_SHOTS[shot][0]} · ${CUT_SHOTS[shot][1]}`, CUT_SHOTS[shot][0], true);
-      pl.textContent = `plan ${pad2(shot + 1)} / ${pad2(CUT_SHOTS.length)}`;
-      restart(flash, 'is-on'); sfx.play('cut');
-    };
-    go.addEventListener('click', () => { if (playing) stop(false); else { begin(); go.blur(); lane.focus?.({ preventScroll: true }); } });
-    /* la barre d'espace sert à couper : elle ne doit pas « cliquer » le bouton pendant la partie */
-    go.addEventListener('keyup', (e) => { if (playing && (e.code === 'Space' || e.key === ' ')) e.preventDefault(); });
-    lane.addEventListener('pointerdown', (e) => { if (e.button) return; if (playing) { e.preventDefault(); cut(); } });
-    mon.addEventListener('pointerdown', (e) => { if (playing && !e.button) cut(); });
-    window.addEventListener('keydown', (e) => {
-      if (!el.isConnected || !playing || !visible) return;
-      if (e.code === 'Space' || e.key === ' ') { e.preventDefault(); if (!e.repeat) cut(); }
+    /* éléments : une vignette par plan dans le chutier, un clip vidéo (V1) + son audio lié (A1) par plan */
+    bin.innerHTML = '';
+    const vEl = [], aEl = [];
+    PR_PLANS.forEach((P, p) => {
+      const v = document.createElement('div'); v.className = 'pr__c'; v.dataset.p = p; v.hidden = true;
+      v.innerHTML = `<span class="th">${prIcon(P.ic)}</span><span>${esc(P.t)}</span>`; v1.appendChild(v); vEl[p] = v;
+      const a = document.createElement('div'); a.className = 'pr__c'; a.hidden = true; a.innerHTML = '<canvas></canvas>'; a1.appendChild(a); aEl[p] = a;
     });
-    if ('IntersectionObserver' in window) new IntersectionObserver((en) => { visible = en[0].isIntersecting; if (!visible && playing) stop(false); }, { root: pj, threshold: 0.25 }).observe(el);
-    else visible = true;
-    if ('ResizeObserver' in window) new ResizeObserver(size).observe(lane);
-    targets = T.map((t) => ({ t, st: null, pts: 0 }));
-    size();
-  }
-
-  const DR_PLANS = [
-    { t: 'L’accroche', d: 'le meilleur moment, en avant-goût', dur: 4 },
-    { t: 'Le générique', d: 'le titre de la série', dur: 3 },
-    { t: 'La présentation', d: 'elle se présente face caméra', dur: 6 },
-    { t: 'Le sac s’ouvre', d: 'premier regard sur le sac', dur: 4 },
-    { t: 'Les essentiels', d: 'les objets, un par un', dur: 9 },
-    { t: 'Le mot de la fin', d: 'conclusion et au revoir', dur: 4 }
-  ];
-  const DR_HTML = `<div class="gm dr"><div class="dr__top"><div class="gm__mon"><div class="gm__hud"><span class="gm__tc">00:00:00:00</span><span class="gm__pl">In the Bag · épisode à monter</span></div><div class="gm__card"><span class="gm__k">In the Bag of a Parisian</span><span class="gm__t">Remets dans l’ordre</span></div><span class="gm__msg"></span><span class="gm__flash"></span></div>
-    <div class="dr__side"><span class="dr__lbl">chutier · cliquez les plans dans l’ordre du récit</span><div class="dr__bin"></div></div></div>
-    <div class="dr__tl"><b>V1</b>${DR_PLANS.map((_, i) => `<button type="button" class="dr__slot" data-s="${i}"><em>${pad2(i + 1)}</em></button>`).join('')}</div>
-    <div class="gm__bar"><button type="button" class="gm__go">mélanger les rushes</button><span class="gm__info">Un épisode « In the Bag » en six plans, mélangés au dérushage. Remettez-les dans l’ordre.</span><span class="gm__score"></span></div></div>`;
-  function initOrder(el) {
-    const card = el.querySelector('.gm__card'), tK = el.querySelector('.gm__k'), tT = el.querySelector('.gm__t'), tc = el.querySelector('.gm__tc'), msg = el.querySelector('.gm__msg'), flash = el.querySelector('.gm__flash');
-    const bin = el.querySelector('.dr__bin'), slotsEl = [...el.querySelectorAll('.dr__slot')], go = el.querySelector('.gm__go'), info = el.querySelector('.gm__info'), score = el.querySelector('.gm__score');
-    let slots, locked, tries, tStart, timer = 0, busy = false, order;
-    const restart = (n, c) => { n.classList.remove(c); void n.offsetWidth; n.classList.add(c); };
-    const say = (m) => { msg.textContent = m; restart(msg, 'is-on'); };
-    const show = (k, t) => { tK.textContent = k; tT.textContent = t; restart(card, 'is-cut'); };
-    const fmt = (s) => `00:${pad2(Math.floor(s / 60))}:${pad2(Math.floor(s % 60))}`;
-    const clock = () => { clearInterval(timer); timer = setInterval(() => { if (!el.isConnected) { clearInterval(timer); return; } score.textContent = `chrono ${fmt((performance.now() - tStart) / 1000)} · essai ${tries}`; }, 250); };
+    const show = (p, anim) => {
+      if (p === lastShown && !anim) return; lastShown = p;
+      if (p < 0) card.innerHTML = '<span class="pr__k">séquence 01</span><span class="pr__t">—</span>';
+      else card.innerHTML = `${prIcon(PR_PLANS[p].ic)}<span class="pr__k">plan ${pad2(seq.indexOf(p) + 1)} · ${esc(PR_PLANS[p].d)}</span><span class="pr__t">${esc(PR_PLANS[p].t)}</span>`;
+      restart(card, 'is-cut');
+    };
+    const showSrc = (p) => { lastShown = -3; card.innerHTML = `${prIcon(PR_PLANS[p].ic)}<span class="pr__k">source · ${esc(PR_PLANS[p].d)}</span><span class="pr__t">${esc(PR_PLANS[p].t)}</span>`; restart(card, 'is-cut'); };
+    const at = (s) => { const st = starts(); for (let i = 0; i < seq.length; i++) if (s >= st[i] && s < st[i] + PR_PLANS[seq[i]].dur) return seq[i]; return -1; };
+    const head = () => {
+      phd.style.left = `calc(92px + (100% - 92px) * ${(t / PR_SPAN).toFixed(5)})`;
+      tc1.textContent = tc2.textContent = fmt(t);
+    };
     const render = () => {
-      bin.querySelectorAll('.dr__clip').forEach((c) => c.classList.toggle('is-used', slots.includes(Number(c.dataset.p))));
-      slotsEl.forEach((s, i) => {
-        const p = slots[i];
-        s.classList.toggle('is-full', p !== null); s.classList.toggle('is-ok', locked[i]);
-        s.innerHTML = `<em>${pad2(i + 1)}</em>${p !== null ? esc(DR_PLANS[p].t) : ''}`;
+      const st = starts();
+      PR_PLANS.forEach((P, p) => {
+        const i = seq.indexOf(p), on = i >= 0;
+        [vEl[p], aEl[p]].forEach((n) => { n.hidden = !on; if (on) { n.style.left = pct(st[i]); n.style.width = `calc(${pct(P.dur)} - 2px)`; } });
+        vEl[p].classList.toggle('is-sel', on && p === sel);
       });
+      const T = total();
+      bed.hidden = !T; if (T) { bed.style.left = '0%'; bed.style.width = `calc(${pct(T)} - 2px)`; }
+      const gi = seq.indexOf(1);
+      v2c.hidden = gi < 0; if (gi >= 0) { v2c.style.left = pct(st[gi]); v2c.style.width = `calc(${pct(PR_PLANS[1].dur)} - 2px)`; }
+      bin.querySelectorAll('.pr__clip').forEach((b) => b.classList.toggle('is-used', seq.includes(Number(b.dataset.p))));
+      left.textContent = `${PR_PLANS.length - seq.length} élément${PR_PLANS.length - seq.length > 1 ? 's' : ''}`;
+      dur.textContent = fmt(T);
+      requestAnimationFrame(() => { PR_PLANS.forEach((_, p) => { if (!aEl[p].hidden && !aEl[p]._w) { wave(aEl[p].firstChild, p + 3, false); aEl[p]._w = 1; } }); if (T) wave(bed.firstChild, 99, true); });
+      if (t > T) t = T;
+      head(); if (!playing) show(at(Math.min(t, Math.max(0, T - 0.01))), false);
+    };
+    const changed = () => {
+      el.querySelectorAll('.pr__v1 .pr__c').forEach((c) => c.classList.remove('is-ok'));
+      if (!tStart && seq.length) { tStart = performance.now(); clearInterval(timer); timer = setInterval(() => { if (!el.isConnected) { clearInterval(timer); return; } score.textContent = `chrono ${fmt((performance.now() - tStart) / 1000).slice(3, 8)}${tries ? ` · ${tries} export${tries > 1 ? 's' : ''}` : ''}`; }, 500); }
+      render();
     };
     const reset = () => {
-      do { order = DR_PLANS.map((_, i) => i).sort(() => Math.random() - 0.5); } while (order.every((p, i) => p === i));
-      bin.innerHTML = order.map((p) => `<button type="button" class="dr__clip" data-p="${p}">${esc(DR_PLANS[p].t)}<small>${esc(DR_PLANS[p].d)}</small><i>0:${pad2(DR_PLANS[p].dur)}</i></button>`).join('');
-      slots = DR_PLANS.map(() => null); locked = DR_PLANS.map(() => false); tries = 1; tStart = 0; busy = false;
-      clearInterval(timer); score.textContent = ''; tc.textContent = '00:00:00:00';
-      info.textContent = 'Un épisode « In the Bag » en six plans, mélangés au dérushage. Remettez-les dans l’ordre.';
-      slotsEl.forEach((s) => s.classList.remove('is-play', 'is-bad'));
-      show('In the Bag of a Parisian', 'Remets dans l’ordre'); render();
+      stop(); seq = []; t = 0; sel = -1; tries = 0; tStart = 0; clearInterval(timer); score.textContent = ''; busy = false; exp.classList.remove('is-on');
+      let order; do { order = PR_PLANS.map((_, i) => i).sort(() => Math.random() - 0.5); } while (order.every((p, i) => p === i));
+      bin.innerHTML = order.map((p) => `<button type="button" class="pr__clip" data-p="${p}"><span class="pr__thumb">${prIcon(PR_PLANS[p].ic)}<i>00:0${PR_PLANS[p].dur}</i></span><b>${esc(PR_PLANS[p].t)}</b></button>`).join('');
+      PR_PLANS.forEach((_, p) => { aEl[p]._w = 0; });
+      lastShown = -2; card.innerHTML = '<span class="pr__k">In the Bag of a Parisian · dérushé</span><span class="pr__t">Montez l’épisode</span>';
+      render(); lastShown = -2;
+      card.innerHTML = '<span class="pr__k">In the Bag of a Parisian · dérushé</span><span class="pr__t">Montez l’épisode</span>';
     };
-    const check = () => {
-      busy = true;
-      const bad = [];
-      slots.forEach((p, i) => { if (p === i) locked[i] = true; else bad.push(i); });
-      render();
-      if (!bad.length) { finish(); return; }
-      bad.forEach((i) => restart(slotsEl[i], 'is-bad'));
-      say(`${DR_PLANS.length - bad.length} / ${DR_PLANS.length} à leur place`);
-      setTimeout(() => { bad.forEach((i) => { slots[i] = null; }); tries++; busy = false; render(); }, 750);
-    };
-    const finish = () => {
-      clearInterval(timer);
-      const secs = (performance.now() - tStart) / 1000;
-      score.textContent = `monté en ${fmt(secs)} · ${tries} essai${tries > 1 ? 's' : ''}`;
-      info.textContent = 'Lecture du montage…';
-      /* lecture : chaque plan s'affiche à son tour, le timecode avance */
-      let i = 0, tcs = 0;
-      const step = () => {
-        if (!el.isConnected) return;
-        slotsEl.forEach((s, k) => s.classList.toggle('is-play', k === i));
-        if (i >= DR_PLANS.length) {
-          show('In the Bag of a Parisian · épisode prêt', 'Prêt à publier'); info.textContent = 'L’épisode est prêt. Rejouez pour battre votre chrono.'; go.textContent = 'rejouer'; busy = false; return;
-        }
-        show(`plan ${pad2(i + 1)} · ${DR_PLANS[i].d}`, DR_PLANS[i].t); restart(flash, 'is-on');
-        tcs += DR_PLANS[i].dur; tc.textContent = `00:00:${pad2(tcs)}:00`;
-        i++; setTimeout(step, reduce ? 300 : 1100);
+    /* lecture */
+    const setPlayIcon = () => { bPlay.innerHTML = playing ? '<svg viewBox="0 0 12 12"><path d="M2.5 1.5h2.5v9H2.5zM7 1.5h2.5v9H7z"/></svg>' : '<svg viewBox="0 0 12 12"><path d="M3 1.5v9L10.5 6z"/></svg>'; };
+    function stop() { playing = false; cancelAnimationFrame(raf); raf = 0; setPlayIcon(); }
+    const play = (fromStart, onEnd) => {
+      const T = total(); if (!T) { say('la timeline est vide'); return; }
+      if (fromStart || t >= T - 0.02) t = 0;
+      playing = true; setPlayIcon(); last = 0;
+      const step = (now) => {
+        if (!playing || !el.isConnected) return;
+        const dt = last ? Math.min(0.05, (now - last) / 1000) : 0; last = now;
+        t += dt; if (t >= T) { t = T; head(); stop(); if (onEnd) onEnd(); return; }
+        head(); show(at(t), false);
+        raf = requestAnimationFrame(step);
       };
-      step();
+      raf = requestAnimationFrame(step);
     };
-    bin.addEventListener('click', (e) => {
-      const c = e.target.closest('.dr__clip'); if (!c || busy) return;
-      const p = Number(c.dataset.p), free = slots.findIndex((s, i) => s === null && !locked[i]);
-      if (free < 0) return;
-      if (!tStart) { tStart = performance.now(); clock(); }
-      slots[free] = p; render(); show(`plan ${pad2(free + 1)} · ${DR_PLANS[p].d}`, DR_PLANS[p].t); sfx.play('click');
-      if (slots.every((s) => s !== null)) setTimeout(check, 350);
+    /* glisser-déposer (souris et doigt) */
+    const laneRect = () => v1.getBoundingClientRect();
+    const overTl = (x, y) => { const r = laneRect(), rr = tli.getBoundingClientRect(); return x >= r.left - 10 && x <= r.right + 10 && y >= rr.top && y <= rr.bottom; };
+    const idxAt = (x, s) => { const r = laneRect(), time = (x - r.left) / r.width * PR_SPAN, st = starts(s); let i = 0; while (i < s.length && st[i] + PR_PLANS[s[i]].dur / 2 < time) i++; return i; };
+    const insX = (i, s) => { const st = starts(s), at2 = i < s.length ? st[i] : s.reduce((a, p) => a + PR_PLANS[p].dur, 0); return at2; };
+    const onMove = (e) => {
+      if (!drag) return;
+      if (!drag.on) {
+        if (Math.hypot(e.clientX - drag.x, e.clientY - drag.y) < 5) return;
+        drag.on = true; stop();
+        drag.g = document.createElement('div'); drag.g.className = 'pr__ghost'; drag.g.textContent = PR_PLANS[drag.p].t; document.body.appendChild(drag.g);
+        if (drag.src === 'tl') { drag.before = seq.slice(); seq = seq.filter((p) => p !== drag.p); render(); }
+      }
+      e.preventDefault();
+      drag.g.style.transform = `translate(${e.clientX}px,${e.clientY}px)`;
+      if (overTl(e.clientX, e.clientY)) { const i = idxAt(e.clientX, seq); drag.i = i; ins.style.display = 'block'; ins.style.left = `calc(92px + (100% - 92px) * ${(insX(i, seq) / PR_SPAN).toFixed(5)})`; }
+      else { drag.i = -1; ins.style.display = 'none'; }
+    };
+    const onUp = () => {
+      window.removeEventListener('pointermove', onMove); window.removeEventListener('pointerup', onUp); window.removeEventListener('pointercancel', onUp);
+      const d = drag; drag = null; ins.style.display = 'none';
+      if (!d || busy) return;
+      if (d.on) {
+        d.g.remove();
+        if (d.i >= 0) { seq.splice(d.i, 0, d.p); sel = d.p; t = starts()[seq.indexOf(d.p)]; sfx.play('click'); }
+        else if (d.src === 'tl' && d.out) { /* retiré */ }
+        else if (d.src === 'tl') { /* lâché hors de la timeline : on le renvoie dans le chutier */ say('plan renvoyé au chutier'); }
+        changed(); show(at(t), true); return;
+      }
+      /* simple clic */
+      if (d.src === 'bin') { seq.push(d.p); sel = d.p; t = starts()[seq.length - 1]; changed(); show(d.p, true); sfx.play('click'); }
+      else { sel = d.p; t = starts()[seq.indexOf(d.p)]; render(); show(d.p, true); }
+    };
+    const startDrag = (e, src, p) => {
+      if (e.button || busy) return;
+      el.focus({ preventScroll: true });
+      drag = { src, p, x: e.clientX, y: e.clientY, on: false, i: -1 };
+      window.addEventListener('pointermove', onMove, { passive: false }); window.addEventListener('pointerup', onUp); window.addEventListener('pointercancel', onUp);
+    };
+    bin.addEventListener('pointerdown', (e) => { const b = e.target.closest('.pr__clip'); if (b && !b.classList.contains('is-used')) startDrag(e, 'bin', Number(b.dataset.p)); });
+    bin.addEventListener('pointerover', (e) => { const b = e.target.closest('.pr__clip'); if (b && !drag && !playing && !busy && e.pointerType === 'mouse') showSrc(Number(b.dataset.p)); });
+    bin.addEventListener('pointerleave', () => { if (!drag && !playing && !busy) { lastShown = -2; render(); } });
+    v1.addEventListener('pointerdown', (e) => { const c = e.target.closest('.pr__c'); if (c) { e.stopPropagation(); startDrag(e, 'tl', Number(c.dataset.p)); } });
+    /* tête de lecture : cliquer-glisser sur la règle ou une piste vide */
+    const scrub = (e) => { const r = laneRect(); t = clamp((e.clientX - r.left) / r.width * PR_SPAN, 0, Math.max(0, total())); head(); show(at(Math.min(t, total() - 0.01)), false); };
+    [ruler, ...el.querySelectorAll('.pr__lane')].forEach((n) => n.addEventListener('pointerdown', (e) => {
+      if (e.button || e.target.closest('.pr__v1 .pr__c') || busy) return;
+      el.focus({ preventScroll: true }); stop(); scrub(e);
+      const mv = (ev) => scrub(ev), up = () => { window.removeEventListener('pointermove', mv); window.removeEventListener('pointerup', up); };
+      window.addEventListener('pointermove', mv); window.addEventListener('pointerup', up);
+    }));
+    /* boutons */
+    q('.pr__trn').addEventListener('click', (e) => {
+      const b = e.target.closest('button'); if (!b || busy) return;
+      const a = b.dataset.a;
+      if (a === 'play') { if (playing) stop(); else play(false); }
+      if (a === 'start') { stop(); t = 0; head(); show(at(0), true); }
+      if (a === 'prev' || a === 'next') { stop(); t = clamp(t + (a === 'next' ? 1 : -1) / PR_FPS, 0, total()); head(); show(at(Math.min(t, total() - 0.01)), false); }
     });
-    el.querySelector('.dr__tl').addEventListener('click', (e) => {
-      const s = e.target.closest('.dr__slot'); if (!s || busy) return;
-      const i = Number(s.dataset.s); if (locked[i] || slots[i] === null) return;
-      slots[i] = null; render(); sfx.play('click');
+    el.querySelectorAll('.pr__hd button').forEach((b) => b.addEventListener('click', () => {
+      const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', String(on));
+      if (b.dataset.t === 'eye') mon.classList.toggle('is-hide', on);
+      if (b.dataset.t === 'mute') q(`.pr__${b.dataset.l}`).classList.toggle('is-mute', on);
+    }));
+    el.addEventListener('keydown', (e) => {
+      if (busy) return;
+      if (e.code === 'Space' || e.key === ' ') { e.preventDefault(); if (playing) stop(); else play(false); }
+      if ((e.key === 'Delete' || e.key === 'Backspace') && sel >= 0 && seq.includes(sel)) { e.preventDefault(); seq = seq.filter((p) => p !== sel); sel = -1; changed(); }
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); stop(); t = clamp(t + (e.key === 'ArrowRight' ? 1 : -1) / PR_FPS, 0, total()); head(); show(at(Math.min(t, total() - 0.01)), false); }
     });
-    go.addEventListener('click', () => { reset(); go.textContent = 'mélanger les rushes'; sfx.play('click'); });
+    q('[data-a="mix"]').addEventListener('click', () => { reset(); sfx.play('click'); });
+    /* export : vérifie l'ordre du récit */
+    q('[data-a="export"]').addEventListener('click', () => {
+      if (busy) return; stop();
+      if (seq.length < PR_PLANS.length) { const n = PR_PLANS.length - seq.length; say(`il manque ${n} plan${n > 1 ? 's' : ''} sur la timeline`); return; }
+      tries++;
+      const ok = seq.map((p, i) => p === i), good = ok.filter(Boolean).length;
+      seq.forEach((p, i) => { vEl[p].classList.toggle('is-ok', ok[i]); if (!ok[i]) restart(vEl[p], 'is-bad'); });
+      if (good < PR_PLANS.length) { say(`${good} / ${PR_PLANS.length} plans à leur place : le récit ne tient pas encore`); info.innerHTML = 'Indice : sur YouTube, on <b>accroche</b> avant le générique, et on garde <b>le mot de la fin</b> pour la fin.'; return; }
+      busy = true; clearInterval(timer);
+      const secs = (performance.now() - tStart) / 1000;
+      exp.classList.add('is-on'); const t0 = performance.now(), D = reduce ? 200 : 1800;
+      const fill = (now) => {
+        const k = Math.min(1, (now - t0) / D); expBar.style.transform = `scaleX(${k.toFixed(3)})`; expPc.textContent = `${Math.round(k * 100)} %`;
+        if (k < 1) { requestAnimationFrame(fill); return; }
+        exp.classList.remove('is-on');
+        score.textContent = `monté en ${fmt(secs).slice(3, 8)} · ${tries} export${tries > 1 ? 's' : ''}`;
+        info.innerHTML = 'Export terminé : lecture de l’épisode monté.';
+        busy = false;
+        play(true, () => { lastShown = -2; card.innerHTML = '<span class="pr__k">InTheBag_E14.mp4 · 00:00:30:00</span><span class="pr__t">Prêt à publier</span>'; restart(card, 'is-cut'); info.innerHTML = 'L’épisode est prêt. <b>Mélangez</b> pour rejouer et battre votre chrono.'; });
+      };
+      requestAnimationFrame(fill);
+    });
+    if ('ResizeObserver' in window) new ResizeObserver(() => { PR_PLANS.forEach((_, p) => { aEl[p]._w = 0; }); render(); }).observe(v1);
     reset();
   }
 
@@ -2944,7 +3003,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
       <div class="vl__ctl"><div class="vl__tags" role="group" aria-label="thèmes"><button type="button" aria-pressed="true" data-th="">Tout<sup>${items.length}</sup></button>${themes.map((t) => `<button type="button" aria-pressed="false" data-th="${esc(t)}">${esc(t)}<sup>${items.filter((it) => it.s === t).length}</sup></button>`).join('')}</div>
       <div class="vl__sort" role="group" aria-label="trier"><span>trier</span><button type="button" aria-pressed="true" data-sort="">récentes</button><button type="button" aria-pressed="false" data-sort="v">vues</button><button type="button" aria-pressed="false" data-sort="d">durée</button></div>
       <div class="vl__sl"><label><span>vues minimum</span><output data-o="v">toutes</output><input type="range" data-k="v" min="0" max="${Math.floor(Math.max(...items.map((it) => it.v || 0)) / 1000) * 1000}" step="1000" value="0"></label><label><span>durée minimum</span><output data-o="d">toutes</output><input type="range" data-k="d" min="0" max="${Math.ceil(maxD / 60)}" step="1" value="0"></label></div></div>
-      <div class="vl__stats" style="--n:${hasH ? 4 : 3}"><div><b><span data-s="n">${items.length}</span><small>/ ${items.length}</small></b><p>vidéos sélectionnées</p></div><div><b data-s="v">0</b><p>vues cumulées</p></div><div><b data-s="d">0</b><p>de visionnage estimé, soit <span data-s="y">0 an</span> sans pause</p></div>${hasH ? '<div><b data-s="h">0</b><p>heures de montage</p></div>' : ''}</div>
+      <div class="vl__stats" style="--n:${hasH ? 4 : 3}"><div><b><span data-s="n">${items.length}</span><small>/ ${items.length}</small></b><p>vidéos sélectionnées</p></div><div><b data-s="v">0</b><p>vues cumulées</p></div><div><b data-s="d">0</b><p>heures de visionnage estimées, soit <span data-s="y">0 an</span> sans pause</p></div>${hasH ? '<div><b data-s="h">0</b><p>heures de montage</p></div>' : ''}</div>
       <p class="vl__note">Estimation : vues × durée × 30 %, le pourcentage moyen d’une vidéo longue regardé sur YouTube (référence vidIQ).</p>
       <div class="vl__grid">${items.map(card).join('')}</div></section>`;
   }
@@ -2964,7 +3023,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     };
     const out = { n: root.querySelector('[data-s="n"]'), v: root.querySelector('[data-s="v"]'), d: root.querySelector('[data-s="d"]'), y: root.querySelector('[data-s="y"]'), h: root.querySelector('[data-s="h"]') };
     /* d = heures de visionnage estimées : vues × durée × 30 % (pourcentage moyen regardé sur une vidéo longue, d'après vidIQ) */
-    const fmt = { n: (x) => String(Math.round(x)), v: fmtN, d: (x) => `${fmtN(x)} h`, y: (x) => { const a = Math.round(x); return `${a} an${a > 1 ? 's' : ''}`; }, h: (x) => `${Math.round(x)} h` };
+    const fmt = { n: (x) => String(Math.round(x)), v: fmtN, d: fmtN, y: (x) => { const a = Math.round(x); return `${a} an${a > 1 ? 's' : ''}`; }, h: (x) => `${Math.round(x)} h` };
     const cur = { n: items.length, v: 0, d: 0, y: 0, h: 0 }, anim = {};
     const tween = (k, to) => {
       if (!out[k]) return;
