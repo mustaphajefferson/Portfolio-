@@ -677,6 +677,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .lb__vid{aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
 .lb__vid iframe{display:block;width:100%;height:100%;border:0}
 /* ParisianVibe · couverture : un banc de montage façon logiciel, sur lequel on remet un épisode dans l'ordre */
+.pj-lead + .pj-lead{margin-top:calc(var(--tgap) * -.55)}
 .pj-lead{margin:0;max-width:64ch;font-size:clamp(17px,1.45vw,21px);line-height:1.45;letter-spacing:-.01em}
 .pr{--pl:var(--bg);--bd:var(--line-strong);--tx2:rgba(37,36,34,.55);position:relative;height:clamp(560px,76vh,720px);box-sizing:border-box;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;gap:6px;padding:8px;border-radius:16px;background:var(--tint);color:var(--fg);user-select:none;-webkit-user-select:none;outline:none;font-variant-numeric:tabular-nums}
 .pr__menu{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:2px 8px 4px;font-size:11.5px;color:var(--tx2)}
@@ -2293,7 +2294,10 @@ a.vc__th{display:grid}
     'radio-classique': {
       title: 'Radio Classique', kicker: 'motion design & montage', coverFx: 'radio',
       /* Petite introduction affichée au-dessus du tuner */
-      lead: "**Radio Classique**, c’est la musique classique et l’actualité, en direct sur le 101.1 à Paris. Je suis le créatif de la station : je transforme ce qui passe à l’antenne en contenus pour les réseaux sociaux. Pour commencer, cherchez la fréquence : l’aiguille suit la souris, et sur 101.1, vous tombez sur le direct.",
+      lead: [
+        "**Radio Classique**, c’est la musique classique et l’actualité, en direct sur le 101.1 à Paris. Je suis le créatif de la station : je transforme ce qui passe à l’antenne en contenus pour les réseaux sociaux.",
+        "**Pour commencer, cherchez la fréquence** : l’aiguille suit la souris, et sur 101.1, vous tombez sur le direct."
+      ],
       meta: [['rôle', 'Motion designer & monteur vidéo'], ['contrat', 'Alternance — 2 ans'], ['équipe', 'Service communication'], ['dates', "Depuis août 2025"], ['lieu', 'Paris']],
       cols: [
         ['Alternance de 2 ans', "En rejoignant **Radio Classique** en tant que Motion Designer et Monteur Vidéo, j'ai intégré l'univers exigeant d'un média de **référence** pour y insuffler une dynamique visuelle **contemporaine**. Cette mission m'a permis de traduire **l'élégance** et la **profondeur** de la programmation classique en contenus **animés**, tout en respectant l'identité **forte** et la rigueur **institutionnelle** qui définissent la marque."],
@@ -2369,7 +2373,10 @@ a.vc__th{display:grid}
     'parisianvibe': {
       title: 'ParisianVibe', kicker: 'montage vidéo', coverFx: 'edit',
       /* Petite introduction affichée au-dessus de l'animation */
-      lead: "**ParisianVibe** est un média lifestyle sur YouTube qui raconte l’art de vivre parisien : mode, intérieurs, voyages, avec des séries comme In the Bag ou At Home in Paris. Pendant mon alternance, j’ai travaillé avec l’équipe de production sur tout le processus : la préparation des tournages, parfois la prise de vue, et surtout le **montage vidéo**, du dérushage à l’export. À votre tour : un épisode d’In the Bag vient d’être dérushé, remettez ses plans dans l’ordre sur la timeline.",
+      lead: [
+        "**ParisianVibe** est un média lifestyle sur YouTube qui raconte l’art de vivre parisien : mode, intérieurs, voyages, avec des séries comme In the Bag ou At Home in Paris. Pendant mon alternance, j’ai travaillé avec l’équipe de production sur tout le processus : la préparation des tournages, parfois la prise de vue, et surtout le **montage vidéo**, du dérushage à l’export.",
+        "**Le mini-jeu ci-dessous** vous met à ma place : un épisode d’In the Bag vient d’être dérushé et ses plans sont mélangés. Glissez-les sur la timeline dans l’ordre du récit, lisez la séquence, puis exportez. Le bouton « solution » est là si besoin."
+      ],
       meta: [['rôle', 'Monteur vidéo'], ['contrat', 'Alternance — 1 an'], ['équipe', 'Équipe de production'], ['dates', 'Déc. 2024 — juil. 2025'], ['lieu', 'Paris']],
       cols: [
         ['Alternance de 1 an', "Chez **ParisianVibe**, j'ai travaillé en tant que **monteur vidéo**, une expérience **immersive** qui m'a placé au **cœur** de la création de contenu pour l'univers exigeant du **luxe** et de **la mode**. Dans ce rôle, ma **mission** était de traduire l'identité **forte** de la marque en **séquences visuelles** dynamiques, en veillant à ce que **chaque** montage serve une narration **cohérente**. Cette opportunité m'a permis de **perfectionner** ma maîtrise du **rythme** et de **l'esthétique**, en collaborant **étroitement** avec la direction artistique afin d'assurer une cohérence visuelle **irréprochable** sur **l'ensemble** des plateformes de diffusion."],
@@ -2378,7 +2385,7 @@ a.vc__th{display:grid}
       ],
       stats: [
         { to: 150000, pre: '+', lbl: 'abonnés' },
-        { to: 3040000, pre: '+', lbl: 'vues sur une période de 8 mois' },
+        { to: 6404000, pre: '+', lbl: 'vues cumulées sur les 36 épisodes de la période' },
         { to: 823000, lbl: 'vues pour « At Home in France », l’épisode le plus vu de la période' }
       ],
       media: [
@@ -2511,7 +2518,7 @@ a.vc__th{display:grid}
     h += `<header class="pj-hero"><p class="ab-eyebrow pj-kicker"><b>${String(idx + 1).padStart(2, '0')}</b>${esc(P.kicker)}</p>`;
     h += `<h1 class="ab-h">${esc(P.title)}</h1>`;
     h += `<dl class="pj-meta ab-reveal">${P.meta.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`;
-    if (P.lead) h += `<p class="pj-lead ab-reveal">${md(P.lead)}</p>`;
+    if (P.lead) [].concat(P.lead).forEach((t) => { h += `<p class="pj-lead ab-reveal">${md(t)}</p>`; });
     h += `</header>`;
     h += P.coverFx === 'radio'
       ? `<figure class="pj-media pj-cover is-in fx-radio" style="margin:var(--tgap) 0 0">${RADIO_HTML}</figure>`
