@@ -775,6 +775,43 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
   .pr__dur{display:none}
 }
 
+/* Radio Classique · vue d'ensemble : les voix de l'antenne (façon conducteur), invités, partenaires, scènes ; filtre par thème */
+.ant{grid-column:span 12;display:flex;flex-direction:column;gap:24px;min-width:0}
+.ant__nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,2vw,26px);padding:18px 0;border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong)}
+.ant__nums div{display:flex;flex-direction:column;gap:4px}
+.ant__nums b{font-size:clamp(30px,3.2vw,54px);font-weight:500;letter-spacing:-.045em;line-height:1;font-variant-numeric:tabular-nums}
+.ant__nums p{margin:0;font-size:13px;font-weight:500}
+.ant__tags{display:flex;gap:6px;flex-wrap:wrap}
+.ant__tags button{font-size:14px;font-weight:500;padding:8px 14px;border-radius:999px;border:1px solid var(--line-strong);transition:background .3s,color .3s,border-color .3s}
+.ant__tags button:hover{border-color:var(--fg)}
+.ant__tags button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.ant__tags sup{font-size:10px;font-weight:600;margin-left:4px;opacity:.6;top:-.5em}
+.ant__grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(24px,3vw,48px);align-items:start}
+.ant__lbl{display:block;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+.ant__list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line-strong)}
+.ant__row{position:relative;display:grid;grid-template-columns:64px minmax(0,1fr) auto;align-items:baseline;gap:6px 16px;padding:14px 0;border-bottom:1px solid var(--line-strong);transition:opacity .45s}
+.ant__h{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.ant__who b{display:block;font-size:clamp(20px,2vw,28px);font-weight:500;letter-spacing:-.035em;line-height:1.05}
+.ant__who span{display:block;margin-top:4px;font-size:13px;line-height:1.35}
+.ant__tg{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-align:right;white-space:nowrap}
+.ant__live{position:absolute;right:0;top:-9px;font-style:normal;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px 3px 18px;border-radius:999px;background:var(--fg);color:var(--bg)}
+.ant__live::before{content:"";position:absolute;left:7px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--bg);animation:antBlink 1.4s steps(2,jump-none) infinite}
+@keyframes antBlink{50%{opacity:.2}}
+.ant__side{display:flex;flex-direction:column;gap:28px}
+.ant__cloud{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 0;border-top:1px solid var(--line-strong);padding-top:12px}
+.ant__n{font-size:clamp(22px,2.4vw,36px);font-weight:500;letter-spacing:-.04em;line-height:1.15;transition:opacity .45s}
+.ant__n::after{content:"·";display:inline-block;margin:0 .32em;opacity:.35}
+.ant__n:last-child::after{display:none}
+.ant__n.is-tbd{opacity:.4;font-style:italic}
+.ant .is-dim{opacity:.16}
+.ant__note{margin:0;font-size:12.5px;line-height:1.45;opacity:.6}
+@media (max-width:900px){ .ant__grid{grid-template-columns:1fr} }
+@media (max-width:760px){
+  .ant__nums{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ant__row{grid-template-columns:52px minmax(0,1fr)}
+  .ant__tg{grid-column:2;text-align:left}
+}
+
 /* ParisianVibe · bibliothèque de vidéos : thèmes, curseurs, tri */
 .vl{grid-column:span 12;display:flex;flex-direction:column;gap:22px;min-width:0}
 .vl__ctl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px 32px;align-items:end}
@@ -2266,6 +2303,27 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
         { ph: true, lbl: 'À compléter : nombre de reels ou de carrousels publiés' }
       ],
       media: [
+        /* Vue d'ensemble : les voix de l'antenne pour qui je fais des vidéos, les invités, partenaires et scènes.
+           slot = [premier jour, dernier jour (1 = lundi), début, fin en minutes] : sert au badge « à l'antenne ». */
+        { antenna: true, title: 'Sur l’antenne',
+          intro: "Depuis septembre 2025, je mets en images ce qui passe à l’antenne : l’actualité politique et économique, la musique classique, l’histoire, les histoires en musique pour enfants, la nature. Voici avec qui et sur quoi je travaille. Choisissez un thème.",
+          nums: [[8, 'voix de l’antenne'], [7, 'thèmes'], [2, 'fondations partenaires'], [4, 'scènes et salles']],
+          themes: ['Politique & actu', 'Économie', 'Musique', 'Histoire', 'Jeunesse', 'Nature & sciences', 'Culture'],
+          voices: [
+            { h: '6 h', n: 'Stéphane Pedrazzi', s: 'La Matinale économique', th: ['Économie'], slot: [1, 5, 360, 420] },
+            { h: '7 h', n: 'David Abiker', s: 'La Matinale', th: ['Politique & actu'], slot: [1, 5, 420, 540] },
+            { h: '9 h', n: 'Franck Ferrand', s: 'Les Grands dossiers de l’Histoire', th: ['Histoire'], slot: [1, 5, 540, 570] },
+            { h: '14 h 30', n: 'Élodie Fondacci', s: 'Les Heures légères · Des histoires en musique', th: ['Musique', 'Jeunesse'], slot: [1, 5, 870, 1080] },
+            { h: '19 h', n: 'Allain Bougrain-Dubourg', s: 'Le Chant de la Terre, le vendredi', th: ['Nature & sciences'], slot: [5, 5, 1140, 1200] },
+            { h: '20 h', n: 'Laure Mézan', s: 'Le Journal du classique', th: ['Musique'], slot: [1, 5, 1200, 1230] },
+            { h: 'chronique', n: 'David Kadouch', s: 'pianiste', th: ['Musique'] },
+            { h: 'chronique', n: 'Esther Abrami', s: 'violoniste', th: ['Musique'] }
+          ],
+          groups: [
+            { t: 'invités', items: [{ n: 'Gad Elmaleh', th: ['Culture'] }, { n: 'Christine Lagarde', th: ['Économie', 'Politique & actu'] }, { n: 'anciens ministres, à compléter', th: ['Politique & actu'], tbd: true }] },
+            { t: 'partenaires', items: [{ n: 'Fondation Orange', th: ['Culture'] }, { n: 'Fondation Louis Vuitton', th: ['Culture'] }] },
+            { t: 'scènes et salles', items: [{ n: 'Théâtre des Champs-Élysées', th: ['Musique'] }, { n: 'Philharmonie de Paris', th: ['Musique'] }, { n: 'Opéra Garnier', th: ['Musique'] }, { n: 'Opéra Bastille', th: ['Musique'] }] }
+          ] },
         /* Chaque vidéo est un exemple tiré d'une série */
         { row: true, title: 'Reels', kind: 'vidéo', ar: '9/16', intro: "Texte de présentation des reels, à remplacer. Deux ou trois phrases pour expliquer le principe des séries et ce que vous y avez fait.", items: [
           { t: 'Esther Abrami', s: 'Showreel motion design', d: "Série de reels qui mettent en image sa chronique à l’antenne. Ici, les passages en motion design." },
@@ -2463,6 +2521,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
       : `<div class="pj-stat ab-reveal"><span class="pj-big">${st.pre ? esc(st.pre) : ''}<span class="pj-n" data-to="${st.to}">0</span>${st.suf ? `<small>${esc(st.suf)}</small>` : ''}</span><p>${esc(st.lbl)}</p></div>`).join('')}</section>`;
     const item = (m) => {
       if (m.library) return vlHTML(m);
+      if (m.antenna) return antHTML(m);
       if (m.text) return `<div class="pj-text ab-reveal ${m.cls}">${m.paras.map((x) => `<p>${md(x)}</p>`).join('')}</div>`;
       if (m.carousel) {
         const sl = (it, i, dup) => `<figure class="cr__slide" data-i="${i}"${dup ? ' aria-hidden="true"' : ''}><div class="cr__img">${crMedia(it, i)}</div><figcaption class="rl"><b>${esc(it.t)}</b>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`;
@@ -2494,6 +2553,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     const fxe = pjInner.querySelector('.pj-cover.fx-edit .pr');
     if (fxe) initPr(fxe);
     pjInner.querySelectorAll('[data-vl]').forEach((el) => initLibrary(el, P.media.find((m) => m.library)));
+    pjInner.querySelectorAll('[data-ant]').forEach((el) => initAnt(el));
     pjCur = slug;
   }
 
@@ -2993,6 +3053,43 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     });
     if ('ResizeObserver' in window) new ResizeObserver(() => { PR_PLANS.forEach((_, p) => { aEl[p]._w = 0; }); render(); }).observe(v1);
     reset();
+  }
+
+  /* Radio Classique · vue d'ensemble : la grille des voix de l'antenne, les invités, les partenaires et les scènes.
+     Un thème choisi met en avant ce qui le concerne ; le reste s'efface. « à l'antenne » s'allume sur la voix en direct (heure de Paris). */
+  function antHTML(m) {
+    const themes = m.themes;
+    const count = (th) => m.voices.filter((v) => v.th.includes(th)).length + m.groups.reduce((a, g) => a + g.items.filter((it) => it.th.includes(th)).length, 0);
+    const row = (v) => `<li class="ant__row" data-th="${v.th.join('|')}"${v.slot ? ` data-slot="${v.slot.join(',')}"` : ''}><span class="ant__h">${esc(v.h)}</span><div class="ant__who"><b>${esc(v.n)}</b><span>${esc(v.s)}</span></div><span class="ant__tg">${v.th.map(esc).join(' · ')}</span></li>`;
+    const nums = m.nums.map(([n, l]) => `<div><b class="ant__cnt" data-to="${n}">0</b><p>${esc(l)}</p></div>`).join('');
+    return `<section class="ant ab-reveal" data-ant><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3><p class="sec-intro">${esc(m.intro)}</p></div>
+      <div class="ant__nums">${nums}</div>
+      <div class="ant__tags" role="group" aria-label="thèmes"><button type="button" aria-pressed="true" data-th="">Tout</button>${themes.map((t) => `<button type="button" aria-pressed="false" data-th="${esc(t)}">${esc(t)}<sup>${count(t)}</sup></button>`).join('')}</div>
+      <div class="ant__grid"><div><span class="ant__lbl">les voix de l’antenne</span><ol class="ant__list">${m.voices.map(row).join('')}</ol></div>
+      <div class="ant__side">${m.groups.map((g) => `<div><span class="ant__lbl">${esc(g.t)}</span><p class="ant__cloud">${g.items.map((it) => `<span class="ant__n${it.tbd ? ' is-tbd' : ''}" data-th="${it.th.join('|')}">${esc(it.n)}</span>`).join('')}</p></div>`).join('')}${m.note ? `<p class="ant__note">${esc(m.note)}</p>` : ''}</div></div></section>`;
+  }
+  function initAnt(root) {
+    const items = [...root.querySelectorAll('[data-th]:not(button)')];
+    root.querySelectorAll('.ant__tags button').forEach((b) => b.addEventListener('click', () => {
+      const th = b.dataset.th;
+      root.querySelectorAll('.ant__tags button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      items.forEach((el) => el.classList.toggle('is-dim', !!th && !el.dataset.th.split('|').includes(th)));
+      sfx.play('click');
+    }));
+    /* compteurs */
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((en) => { if (!en[0].isIntersecting) return; io.disconnect(); root.querySelectorAll('.ant__cnt').forEach((n) => { const to = Number(n.dataset.to), t0 = performance.now(); const step = (now) => { const k = reduce ? 1 : Math.min(1, (now - t0) / 1200); n.textContent = String(Math.round(to * easeOutExpo(k))); if (k < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); }); }, { root: pj, threshold: 0.3 });
+      io.observe(root);
+    } else root.querySelectorAll('.ant__cnt').forEach((n) => { n.textContent = n.dataset.to; });
+    /* « à l'antenne » : jours (1 = lundi … 7 = dimanche), début et fin en minutes, heure de Paris */
+    try {
+      const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Paris', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date()).map((p) => [p.type, p.value]));
+      const day = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].indexOf(parts.weekday) + 1, min = Number(parts.hour) % 24 * 60 + Number(parts.minute);
+      root.querySelectorAll('[data-slot]').forEach((r) => {
+        const [d0, d1, a, b] = r.dataset.slot.split(',').map(Number);
+        if (day >= d0 && day <= d1 && min >= a && min < b) r.insertAdjacentHTML('beforeend', '<i class="ant__live">à l’antenne</i>');
+      });
+    } catch (e) {}
   }
 
   /* Bibliothèque de vidéos : boutons de thème, curseurs (vues, durée) et tri.
