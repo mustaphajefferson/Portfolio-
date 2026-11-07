@@ -806,6 +806,17 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .ant__n.is-tbd{opacity:.4;font-style:italic}
 .ant .is-dim{opacity:.16}
 .ant__note{margin:0;font-size:12.5px;line-height:1.45;opacity:.6}
+.ant__wall{display:flex;flex-direction:column;gap:14px;padding:6px 0 4px}
+.ant__wl{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 0;line-height:1.08}
+.ant__g{padding:0;border:0;background:none;color:inherit;font:inherit;font-weight:500;letter-spacing:-.045em;cursor:default;text-align:left;transition:opacity .45s,color .25s}
+.ant__g::after{content:"·";display:inline-block;margin:0 .3em;opacity:.3;font-weight:400}
+.ant__wl .ant__g:last-child::after{display:none}
+.ant__g.t1{font-size:clamp(30px,4vw,64px)}
+.ant__g.t2{font-size:clamp(20px,2.3vw,34px)}
+.ant__g:hover,.ant__g:focus-visible,.ant__g.is-cur{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.12em;outline:none}
+.ant__cap{min-height:1.5em;margin:0;font-size:14px;font-weight:500}
+.ant__cap b{font-weight:600}
+.ant__sub{display:block;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin:10px 0 6px}
 @media (max-width:900px){ .ant__grid{grid-template-columns:1fr} }
 @media (max-width:760px){
   .ant__nums{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -2347,27 +2358,74 @@ a.vc__th{display:grid}
           { img: '', t: 'Carrousel 24', d: 'Petit texte à remplacer.' }
         ] },
         { kind: 'vidéo', ar: '16/9', cls: 'mid', cap: 'Vidéo horizontale — à remplacer' },
-        /* Vue d'ensemble : les voix de l'antenne pour qui je fais des vidéos, les invités, partenaires et scènes.
-           slot = [premier jour, dernier jour (1 = lundi), début, fin en minutes] : sert au badge « à l'antenne ». */
+        /* Vue d'ensemble : invités, voix de l'antenne, scènes et partenaires.
+           guests : big = en grand ; r = qui c'est (affiché au survol). slot = [premier jour, dernier jour (1 = lundi), début, fin en minutes]. */
         { antenna: true, title: 'Sur l’antenne',
-          intro: "Depuis septembre 2025, je mets en images ce qui passe à l’antenne : l’actualité politique et économique, la musique classique, l’histoire, les histoires en musique pour enfants, la nature. Voici avec qui et sur quoi je travaille. Choisissez un thème.",
-          nums: [[8, 'voix de l’antenne'], [7, 'thèmes'], [2, 'fondations partenaires'], [4, 'scènes et salles']],
-          themes: ['Politique & actu', 'Économie', 'Musique', 'Histoire', 'Jeunesse', 'Nature & sciences', 'Culture'],
+          intro: "Depuis septembre 2025, je mets en images ce qui passe à l’antenne : l’actualité politique et économique, la musique classique, l’histoire, les histoires en musique pour enfants, la nature. Des chroniqueurs de la radio aux invités de la Matinale, des grandes scènes aux partenaires de la station, voici avec qui et sur quoi je travaille. Choisissez un thème.",
+          nums: [[13, 'voix de l’antenne'], [70, 'invités filmés ou montés', '+'], [6, 'scènes et salles'], [7, 'thèmes']],
+          themes: ['Politique & actu', 'Économie', 'Musique', 'Histoire', 'Jeunesse', 'Nature & sciences', 'Culture & idées'],
+          guests: [
+            { t: 'à la Matinale', items: [
+              { n: 'Christine Lagarde', r: 'présidente de la Banque centrale européenne', th: ['Économie'], big: 1 },
+              { n: 'Gad Elmaleh', r: 'humoriste et acteur', th: ['Culture & idées'], big: 1 },
+              { n: 'Jean Tirole', r: 'prix Nobel d’économie', th: ['Économie'], big: 1 },
+              { n: 'Philippe Aghion', r: 'prix Nobel d’économie', th: ['Économie'], big: 1 },
+              { n: 'Amin Maalouf', r: 'écrivain, de l’Académie française', th: ['Culture & idées'], big: 1 },
+              { n: 'Hubert Védrine', r: 'ancien ministre des Affaires étrangères', th: ['Politique & actu'], big: 1 },
+              { n: 'Bruno Le Maire', r: 'ancien ministre de l’Économie', th: ['Politique & actu', 'Économie'], big: 1 },
+              { n: 'Boris Cyrulnik', r: 'psychiatre et écrivain', th: ['Culture & idées', 'Nature & sciences'], big: 1 },
+              { n: 'Thierry Lhermitte', r: 'acteur', th: ['Culture & idées'], big: 1 },
+              { n: 'Éric-Emmanuel Schmitt', r: 'écrivain et dramaturge', th: ['Culture & idées'], big: 1 },
+              { n: 'Jean-Michel Blanquer', r: 'ancien ministre de l’Éducation nationale', th: ['Politique & actu'] },
+              { n: 'Jean-Claude Trichet', r: 'ancien président de la Banque centrale européenne', th: ['Économie'] },
+              { n: 'François Villeroy de Galhau', r: 'gouverneur de la Banque de France', th: ['Économie'] },
+              { n: 'Éric Lombard', r: 'ancien ministre de l’Économie', th: ['Politique & actu', 'Économie'] },
+              { n: 'Gilles Kepel', r: 'politologue, spécialiste du monde arabe', th: ['Politique & actu'] },
+              { n: 'Joann Sfar', r: 'auteur de bande dessinée et réalisateur', th: ['Culture & idées'] },
+              { n: 'Guy Savoy', r: 'chef cuisinier', th: ['Culture & idées'] },
+              { n: 'Anne-Sophie Pic', r: 'cheffe cuisinière', th: ['Culture & idées'] },
+              { n: 'Alexandre Bompard', r: 'PDG de Carrefour', th: ['Économie'] },
+              { n: 'Bruno Patino', r: 'président d’Arte', th: ['Culture & idées'] },
+              { n: 'Karine Lacombe', r: 'infectiologue', th: ['Nature & sciences'] },
+              { n: 'Patrick Artus', r: 'économiste', th: ['Économie'] },
+              { n: 'Pascal Perrineau', r: 'politologue', th: ['Politique & actu'] },
+              { n: 'Jean Viard', r: 'sociologue', th: ['Culture & idées'] },
+              { n: 'Sylvie Bermann', r: 'ambassadrice de France', th: ['Politique & actu'] }
+            ] },
+            { t: 'en musique', items: [
+              { n: 'Roberto Alagna', r: 'ténor', th: ['Musique'], big: 1 },
+              { n: 'Philippe Jaroussky', r: 'contre-ténor', th: ['Musique'], big: 1 },
+              { n: 'Lambert Wilson', r: 'acteur et chanteur', th: ['Musique', 'Culture & idées'], big: 1 },
+              { n: 'Alexandre Desplat', r: 'compositeur de musiques de film', th: ['Musique'], big: 1 },
+              { n: 'Alexandre Tharaud', r: 'pianiste', th: ['Musique'] },
+              { n: 'Lucas Debargue', r: 'pianiste', th: ['Musique'] },
+              { n: 'David Fray', r: 'pianiste', th: ['Musique'] },
+              { n: 'Raphaël Pichon', r: 'chef d’orchestre', th: ['Musique'] },
+              { n: 'Jean-Claude Casadesus', r: 'chef d’orchestre', th: ['Musique'] },
+              { n: 'Olivier Py', r: 'metteur en scène', th: ['Musique', 'Culture & idées'] },
+              { n: 'Théotime Langlois de Swarte', r: 'violoniste', th: ['Musique'] }
+            ] }
+          ],
           voices: [
             { h: '6 h', n: 'Stéphane Pedrazzi', s: 'La Matinale économique', th: ['Économie'], slot: [1, 5, 360, 420] },
-            { h: '7 h', n: 'David Abiker', s: 'La Matinale', th: ['Politique & actu'], slot: [1, 5, 420, 540] },
+            { h: '7 h', n: 'David Abiker', s: 'La Matinale et l’invité de la Matinale', th: ['Politique & actu'], slot: [1, 5, 420, 540] },
             { h: '9 h', n: 'Franck Ferrand', s: 'Les Grands dossiers de l’Histoire', th: ['Histoire'], slot: [1, 5, 540, 570] },
+            { h: '9 h 30', n: 'Pauline Lambert', s: 'Changez d’air', th: ['Musique'], slot: [1, 5, 570, 720] },
+            { h: '12 h', n: 'Jean-Michel Dhuez', s: 'Harmoniques', th: ['Musique'], slot: [1, 5, 720, 840] },
             { h: '14 h 30', n: 'Élodie Fondacci', s: 'Les Heures légères · Des histoires en musique', th: ['Musique', 'Jeunesse'], slot: [1, 5, 870, 1080] },
             { h: '19 h', n: 'Allain Bougrain-Dubourg', s: 'Le Chant de la Terre, le vendredi', th: ['Nature & sciences'], slot: [5, 5, 1140, 1200] },
             { h: '20 h', n: 'Laure Mézan', s: 'Le Journal du classique', th: ['Musique'], slot: [1, 5, 1200, 1230] },
+            { h: 'chronique', n: 'Guy Boyer', s: 'les arts et les expositions', th: ['Culture & idées'] },
+            { h: 'chronique', n: 'Karine Dijoud', s: 'Et si on parlait français ?', th: ['Culture & idées'] },
+            { h: 'chronique', n: 'Marc Bourreau', s: 'Le Journal imprévisible', th: ['Culture & idées'] },
             { h: 'chronique', n: 'David Kadouch', s: 'pianiste', th: ['Musique'] },
             { h: 'chronique', n: 'Esther Abrami', s: 'violoniste', th: ['Musique'] }
           ],
           groups: [
-            { t: 'invités', items: [{ n: 'Gad Elmaleh', th: ['Culture'] }, { n: 'Christine Lagarde', th: ['Économie', 'Politique & actu'] }, { n: 'anciens ministres, à compléter', th: ['Politique & actu'], tbd: true }] },
-            { t: 'partenaires', items: [{ n: 'Fondation Orange', th: ['Culture'] }, { n: 'Fondation Louis Vuitton', th: ['Culture'] }] },
-            { t: 'scènes et salles', items: [{ n: 'Théâtre des Champs-Élysées', th: ['Musique'] }, { n: 'Philharmonie de Paris', th: ['Musique'] }, { n: 'Opéra Garnier', th: ['Musique'] }, { n: 'Opéra Bastille', th: ['Musique'] }] }
-          ] },
+            { t: 'scènes et salles', items: [{ n: 'Opéra Garnier', th: ['Musique'] }, { n: 'Opéra Bastille', th: ['Musique'] }, { n: 'Théâtre des Champs-Élysées', th: ['Musique'] }, { n: 'Philharmonie de Paris', th: ['Musique'] }, { n: 'Théâtre du Châtelet', th: ['Musique'] }, { n: 'Opéra Royal de Versailles', th: ['Musique', 'Histoire'] }] },
+            { t: 'festivals et événements', items: [{ n: 'Festival d’Aix-en-Provence', th: ['Musique'] }, { n: 'Grand Concert d’été Radio Classique', th: ['Musique'] }, { n: 'Journée Radio Classique à l’Opéra Royal', th: ['Musique', 'Histoire'] }] },
+            { t: 'partenaires et institutions', items: [{ n: 'Fondation Louis Vuitton', th: ['Culture & idées'] }, { n: 'Fondation Orange', th: ['Culture & idées'] }, { n: 'Château de Versailles Spectacles', th: ['Histoire', 'Culture & idées'] }, { n: 'Bibliothèque nationale de France', th: ['Culture & idées', 'Histoire'] }, { n: 'Orchestre national d’Île-de-France', th: ['Musique'] }] }
+          ] }
       ]
     },
     'parisianvibe': {
@@ -3065,33 +3123,37 @@ a.vc__th{display:grid}
     reset();
   }
 
-  /* Radio Classique · vue d'ensemble : la grille des voix de l'antenne, les invités, les partenaires et les scènes.
-     Un thème choisi met en avant ce qui le concerne ; le reste s'efface. « à l'antenne » s'allume sur la voix en direct (heure de Paris). */
+  /* Radio Classique · vue d'ensemble : les invités (les plus connus en grand), les voix de l'antenne (façon conducteur),
+     les scènes, événements et partenaires. Un thème choisi met en avant ce qui le concerne ; survoler un invité affiche qui il est.
+     « à l'antenne » s'allume sur la voix en direct (heure de Paris). */
   function antHTML(m) {
     const themes = m.themes;
-    const count = (th) => m.voices.filter((v) => v.th.includes(th)).length + m.groups.reduce((a, g) => a + g.items.filter((it) => it.th.includes(th)).length, 0);
+    const all = [...m.voices, ...m.guests.flatMap((g) => g.items), ...m.groups.flatMap((g) => g.items)];
+    const count = (th) => all.filter((v) => v.th.includes(th)).length;
     const row = (v) => `<li class="ant__row" data-th="${v.th.join('|')}"${v.slot ? ` data-slot="${v.slot.join(',')}"` : ''}><span class="ant__h">${esc(v.h)}</span><div class="ant__who"><b>${esc(v.n)}</b><span>${esc(v.s)}</span></div><span class="ant__tg">${v.th.map(esc).join(' · ')}</span></li>`;
-    const nums = m.nums.map(([n, l]) => `<div><b class="ant__cnt" data-to="${n}">0</b><p>${esc(l)}</p></div>`).join('');
+    const nums = m.nums.map(([n, l, suf]) => `<div><b><span class="ant__cnt" data-to="${n}">0</span>${suf || ''}</b><p>${esc(l)}</p></div>`).join('');
+    const wall = m.guests.map((g) => `<div><span class="ant__sub">${esc(g.t)}</span><p class="ant__wl">${g.items.map((it) => `<button type="button" class="ant__g ${it.big ? 't1' : 't2'}" data-th="${it.th.join('|')}" data-r="${esc(it.r)}">${esc(it.n)}</button>`).join('')}</p></div>`).join('');
     return `<section class="ant ab-reveal" data-ant><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3><p class="sec-intro">${esc(m.intro)}</p></div>
       <div class="ant__nums">${nums}</div>
       <div class="ant__tags" role="group" aria-label="thèmes"><button type="button" aria-pressed="true" data-th="">Tout</button>${themes.map((t) => `<button type="button" aria-pressed="false" data-th="${esc(t)}">${esc(t)}<sup>${count(t)}</sup></button>`).join('')}</div>
+      <div class="ant__wall"><span class="ant__lbl">ils sont passés à l’antenne</span>${wall}<p class="ant__cap" aria-live="polite">Survolez un nom pour savoir qui c’est.</p></div>
       <div class="ant__grid"><div><span class="ant__lbl">les voix de l’antenne</span><ol class="ant__list">${m.voices.map(row).join('')}</ol></div>
-      <div class="ant__side">${m.groups.map((g) => `<div><span class="ant__lbl">${esc(g.t)}</span><p class="ant__cloud">${g.items.map((it) => `<span class="ant__n${it.tbd ? ' is-tbd' : ''}" data-th="${it.th.join('|')}">${esc(it.n)}</span>`).join('')}</p></div>`).join('')}${m.note ? `<p class="ant__note">${esc(m.note)}</p>` : ''}</div></div></section>`;
+      <div class="ant__side">${m.groups.map((g) => `<div><span class="ant__lbl">${esc(g.t)}</span><p class="ant__cloud">${g.items.map((it) => `<span class="ant__n" data-th="${it.th.join('|')}">${esc(it.n)}</span>`).join('')}</p></div>`).join('')}${m.note ? `<p class="ant__note">${esc(m.note)}</p>` : ''}</div></div></section>`;
   }
   function initAnt(root) {
-    const items = [...root.querySelectorAll('[data-th]:not(button)')];
+    const items = [...root.querySelectorAll('[data-th]:not(.ant__tags button)')], cap = root.querySelector('.ant__cap');
     root.querySelectorAll('.ant__tags button').forEach((b) => b.addEventListener('click', () => {
       const th = b.dataset.th;
       root.querySelectorAll('.ant__tags button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
       items.forEach((el) => el.classList.toggle('is-dim', !!th && !el.dataset.th.split('|').includes(th)));
       sfx.play('click');
     }));
-    /* compteurs */
+    const who = (g) => { root.querySelectorAll('.ant__g.is-cur').forEach((x) => x.classList.remove('is-cur')); g.classList.add('is-cur'); cap.innerHTML = `<b>${esc(g.textContent)}</b> · ${esc(g.dataset.r)}`; };
+    root.querySelectorAll('.ant__g').forEach((g) => { g.addEventListener('pointerenter', () => who(g)); g.addEventListener('focus', () => who(g)); g.addEventListener('click', () => who(g)); });
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver((en) => { if (!en[0].isIntersecting) return; io.disconnect(); root.querySelectorAll('.ant__cnt').forEach((n) => { const to = Number(n.dataset.to), t0 = performance.now(); const step = (now) => { const k = reduce ? 1 : Math.min(1, (now - t0) / 1200); n.textContent = String(Math.round(to * easeOutExpo(k))); if (k < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); }); }, { root: pj, threshold: 0.3 });
       io.observe(root);
     } else root.querySelectorAll('.ant__cnt').forEach((n) => { n.textContent = n.dataset.to; });
-    /* « à l'antenne » : jours (1 = lundi … 7 = dimanche), début et fin en minutes, heure de Paris */
     try {
       const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Paris', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date()).map((p) => [p.type, p.value]));
       const day = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].indexOf(parts.weekday) + 1, min = Number(parts.hour) % 24 * 60 + Number(parts.minute);
