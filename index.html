@@ -842,6 +842,9 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .vc{margin:0;display:flex;flex-direction:column;gap:9px;min-width:0}
 .vc__th{width:100%;padding:0;border:0;border-radius:10px;cursor:pointer;transition:filter .6s,opacity .6s}
 .vc__th img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:scale .6s var(--ease-out)}
+a.vc__th{display:grid}
+.vc__lnk{color:inherit;text-decoration:none}
+.vc__lnk:hover b{text-decoration:underline;text-underline-offset:2px}
 .vc:hover .vc__th img{scale:1.04}
 .vc__th .ph__l{left:8px;top:8px;font-size:9.5px;padding:3px 6px}
 .vc__dur{position:absolute;right:6px;bottom:6px;font-size:10.5px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--cream);background:rgba(37,36,34,.82);padding:2px 5px;border-radius:5px}
@@ -2303,27 +2306,6 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
         { ph: true, lbl: 'À compléter : nombre de reels ou de carrousels publiés' }
       ],
       media: [
-        /* Vue d'ensemble : les voix de l'antenne pour qui je fais des vidéos, les invités, partenaires et scènes.
-           slot = [premier jour, dernier jour (1 = lundi), début, fin en minutes] : sert au badge « à l'antenne ». */
-        { antenna: true, title: 'Sur l’antenne',
-          intro: "Depuis septembre 2025, je mets en images ce qui passe à l’antenne : l’actualité politique et économique, la musique classique, l’histoire, les histoires en musique pour enfants, la nature. Voici avec qui et sur quoi je travaille. Choisissez un thème.",
-          nums: [[8, 'voix de l’antenne'], [7, 'thèmes'], [2, 'fondations partenaires'], [4, 'scènes et salles']],
-          themes: ['Politique & actu', 'Économie', 'Musique', 'Histoire', 'Jeunesse', 'Nature & sciences', 'Culture'],
-          voices: [
-            { h: '6 h', n: 'Stéphane Pedrazzi', s: 'La Matinale économique', th: ['Économie'], slot: [1, 5, 360, 420] },
-            { h: '7 h', n: 'David Abiker', s: 'La Matinale', th: ['Politique & actu'], slot: [1, 5, 420, 540] },
-            { h: '9 h', n: 'Franck Ferrand', s: 'Les Grands dossiers de l’Histoire', th: ['Histoire'], slot: [1, 5, 540, 570] },
-            { h: '14 h 30', n: 'Élodie Fondacci', s: 'Les Heures légères · Des histoires en musique', th: ['Musique', 'Jeunesse'], slot: [1, 5, 870, 1080] },
-            { h: '19 h', n: 'Allain Bougrain-Dubourg', s: 'Le Chant de la Terre, le vendredi', th: ['Nature & sciences'], slot: [5, 5, 1140, 1200] },
-            { h: '20 h', n: 'Laure Mézan', s: 'Le Journal du classique', th: ['Musique'], slot: [1, 5, 1200, 1230] },
-            { h: 'chronique', n: 'David Kadouch', s: 'pianiste', th: ['Musique'] },
-            { h: 'chronique', n: 'Esther Abrami', s: 'violoniste', th: ['Musique'] }
-          ],
-          groups: [
-            { t: 'invités', items: [{ n: 'Gad Elmaleh', th: ['Culture'] }, { n: 'Christine Lagarde', th: ['Économie', 'Politique & actu'] }, { n: 'anciens ministres, à compléter', th: ['Politique & actu'], tbd: true }] },
-            { t: 'partenaires', items: [{ n: 'Fondation Orange', th: ['Culture'] }, { n: 'Fondation Louis Vuitton', th: ['Culture'] }] },
-            { t: 'scènes et salles', items: [{ n: 'Théâtre des Champs-Élysées', th: ['Musique'] }, { n: 'Philharmonie de Paris', th: ['Musique'] }, { n: 'Opéra Garnier', th: ['Musique'] }, { n: 'Opéra Bastille', th: ['Musique'] }] }
-          ] },
         /* Chaque vidéo est un exemple tiré d'une série */
         { row: true, title: 'Reels', kind: 'vidéo', ar: '9/16', intro: "Texte de présentation des reels, à remplacer. Deux ou trois phrases pour expliquer le principe des séries et ce que vous y avez fait.", items: [
           { t: 'Esther Abrami', s: 'Showreel motion design', d: "Série de reels qui mettent en image sa chronique à l’antenne. Ici, les passages en motion design." },
@@ -2360,7 +2342,28 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
           { img: '', t: 'Carrousel 23', d: 'Petit texte à remplacer.' },
           { img: '', t: 'Carrousel 24', d: 'Petit texte à remplacer.' }
         ] },
-        { kind: 'vidéo', ar: '16/9', cls: 'mid', cap: 'Vidéo horizontale — à remplacer' }
+        { kind: 'vidéo', ar: '16/9', cls: 'mid', cap: 'Vidéo horizontale — à remplacer' },
+        /* Vue d'ensemble : les voix de l'antenne pour qui je fais des vidéos, les invités, partenaires et scènes.
+           slot = [premier jour, dernier jour (1 = lundi), début, fin en minutes] : sert au badge « à l'antenne ». */
+        { antenna: true, title: 'Sur l’antenne',
+          intro: "Depuis septembre 2025, je mets en images ce qui passe à l’antenne : l’actualité politique et économique, la musique classique, l’histoire, les histoires en musique pour enfants, la nature. Voici avec qui et sur quoi je travaille. Choisissez un thème.",
+          nums: [[8, 'voix de l’antenne'], [7, 'thèmes'], [2, 'fondations partenaires'], [4, 'scènes et salles']],
+          themes: ['Politique & actu', 'Économie', 'Musique', 'Histoire', 'Jeunesse', 'Nature & sciences', 'Culture'],
+          voices: [
+            { h: '6 h', n: 'Stéphane Pedrazzi', s: 'La Matinale économique', th: ['Économie'], slot: [1, 5, 360, 420] },
+            { h: '7 h', n: 'David Abiker', s: 'La Matinale', th: ['Politique & actu'], slot: [1, 5, 420, 540] },
+            { h: '9 h', n: 'Franck Ferrand', s: 'Les Grands dossiers de l’Histoire', th: ['Histoire'], slot: [1, 5, 540, 570] },
+            { h: '14 h 30', n: 'Élodie Fondacci', s: 'Les Heures légères · Des histoires en musique', th: ['Musique', 'Jeunesse'], slot: [1, 5, 870, 1080] },
+            { h: '19 h', n: 'Allain Bougrain-Dubourg', s: 'Le Chant de la Terre, le vendredi', th: ['Nature & sciences'], slot: [5, 5, 1140, 1200] },
+            { h: '20 h', n: 'Laure Mézan', s: 'Le Journal du classique', th: ['Musique'], slot: [1, 5, 1200, 1230] },
+            { h: 'chronique', n: 'David Kadouch', s: 'pianiste', th: ['Musique'] },
+            { h: 'chronique', n: 'Esther Abrami', s: 'violoniste', th: ['Musique'] }
+          ],
+          groups: [
+            { t: 'invités', items: [{ n: 'Gad Elmaleh', th: ['Culture'] }, { n: 'Christine Lagarde', th: ['Économie', 'Politique & actu'] }, { n: 'anciens ministres, à compléter', th: ['Politique & actu'], tbd: true }] },
+            { t: 'partenaires', items: [{ n: 'Fondation Orange', th: ['Culture'] }, { n: 'Fondation Louis Vuitton', th: ['Culture'] }] },
+            { t: 'scènes et salles', items: [{ n: 'Théâtre des Champs-Élysées', th: ['Musique'] }, { n: 'Philharmonie de Paris', th: ['Musique'] }, { n: 'Opéra Garnier', th: ['Musique'] }, { n: 'Opéra Bastille', th: ['Musique'] }] }
+          ] },
       ]
     },
     'parisianvibe': {
@@ -2379,49 +2382,49 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
         { to: 823000, lbl: 'vues pour « At Home in France », l’épisode le plus vu de la période' }
       ],
       media: [
-        /* Vidéo à la une : ajoutez yt: 'identifiant' (la partie après watch?v= dans le lien YouTube) */
-        { kind: 'vidéo', ar: '16/9', cls: 'mid', cap: 'Vidéo à la une — à remplacer' },
+        /* Vidéo à la une : l'épisode le plus vu de la période (la vidéo ne se charge qu'au clic) */
+        { kind: 'vidéo', ar: '16/9', cls: 'mid', yt: 'jM8aRBI34ys', poster: 'https://i.ytimg.com/vi/jM8aRBI34ys/sddefault.jpg', cap: 'At Home in France : Extraordinary French Countryside Family House · 823 k vues · 30 min, l’épisode le plus vu de la période' },
         /* Bibliothèque YouTube. Pour chaque vidéo : yt = identifiant YouTube (la miniature s'affiche toute seule),
            t = titre, s = thème (un de la liste themes), dur = durée, v = vues (null = réservée aux membres), h = heures de montage (facultatif) */
         { library: true, title: 'Vidéos YouTube', intro: "De décembre 2024 à juillet 2025, j’ai travaillé sur tous les épisodes publiés sur la chaîne : les voici, c’est l’essentiel de mon travail chez ParisianVibe. Tout est cliquable : filtrez par série, réglez les curseurs, triez, et lancez une vidéo pour la regarder.",
           themes: ['In the Bag', 'At Home', 'Les Filles à Paris', 'Guides mode', 'Art & culture', 'Voyages'],
           items: [
-            { yt: '', t: 'Elegant Occasionwear Dresses Guide: Wedding Guest Edition', s: 'Guides mode', dur: '21:23', v: 95000 },
-            { yt: '', t: 'At Home in Paris: Meticulously Designed Apartment of an Architect Couple, 55 sqm', s: 'At Home', dur: '17:17', v: 294000 },
-            { yt: '', t: 'At Home in Paris: A Modern Minimalist Apartment of an Architect, 28 sqm', s: 'At Home', dur: '12:01', v: 47000 },
-            { yt: '', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E14', s: 'In the Bag', dur: '17:19', v: 107000 },
-            { yt: '', t: 'At Home in Paris: A Playful Artist Apartment Full of Color and Craft', s: 'At Home', dur: '13:41', v: 122000 },
-            { yt: '', t: 'Magical Italy: Design, Food & Culture in the South', s: 'Voyages', dur: '19:17', v: 82000 },
-            { yt: '', t: 'Les Filles à Paris: Elegant Petite Summer Fashion', s: 'Les Filles à Paris', dur: '8:48', v: 85000 },
-            { yt: '', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E13', s: 'In the Bag', dur: '17:00', v: 292000 },
-            { yt: '', t: 'Chic Summer Wardrobe — 24 Hours in Provence', s: 'Voyages', dur: '10:03', v: 46000 },
-            { yt: '', t: 'Les Filles à Paris: Summer Wardrobe Diary', s: 'Les Filles à Paris', dur: '9:11', v: 58000 },
-            { yt: '', t: 'At Home in France: Extraordinary French Countryside Family House', s: 'At Home', dur: '30:00', v: 823000 },
-            { yt: '', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E12', s: 'In the Bag', dur: '15:49', v: 363000 },
-            { yt: '', t: 'Parisian Vibe Travels: Madrid — A Day of Cheese, Culture & Beauty with Clara Diez', s: 'Voyages', dur: '8:35', v: 42000 },
-            { yt: '', t: '5 Elegant and Effortless Summer Hairstyles | Alexandre de Paris', s: 'Guides mode', dur: '12:22', v: 54000 },
-            { yt: '', t: 'Art to Fashion: Spring Inspiration and Colour Moodboard', s: 'Art & culture', dur: '16:09', v: 20000 },
-            { yt: '', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E11', s: 'In the Bag', dur: '20:38', v: 224000 },
-            { yt: '', t: 'Parisian Guide to Chic Spring Capsule Wardrobe Essentials', s: 'Guides mode', dur: '10:55', v: 215000 },
-            { yt: '', t: 'The Timeless Elegance of Carolyn Bessette-Kennedy: Spring Wardrobe Inspiration', s: 'Guides mode', dur: '18:01', v: 296000 },
-            { yt: '', t: 'Spring Wardrobe: Elegant and Boho-Chic Outfits from Paris', s: 'Les Filles à Paris', dur: '13:17', v: 142000 },
-            { yt: '', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E10', s: 'In the Bag', dur: '17:08', v: 229000 },
-            { yt: '', t: 'How to Style Brown: Effortlessly Chic Wardrobe from Paris', s: 'Les Filles à Paris', dur: '10:08', v: 125000 },
-            { yt: '', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E09', s: 'In the Bag', dur: '17:03', v: 259000 },
-            { yt: '', t: 'Parisian Wardrobe Tour | Inside a Colourful & Playful Personal Style', s: 'Guides mode', dur: '11:31', v: 82000 },
-            { yt: '', t: 'Chic and Unique Parisian Style for Men', s: 'Guides mode', dur: '8:19', v: 23000 },
-            { yt: '', t: 'Louvre Couture: A Historic Fashion Exhibition and Gala in Paris', s: 'Art & culture', dur: '13:12', v: 17000 },
-            { yt: '', t: 'At Home in Paris: The Vibrant and Unique Apartment of a Fashion Enthusiast, 35 sqm', s: 'At Home', dur: '16:32', v: null },
-            { yt: '', t: 'French Girl’s Accessories Guide: Elegant Ways to Elevate Your Look', s: 'Guides mode', dur: '14:51', v: 179000 },
-            { yt: '', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E08', s: 'In the Bag', dur: '16:39', v: 700000 },
-            { yt: '', t: 'Art meets Fashion: Winter Inspirations', s: 'Art & culture', dur: '24:10', v: 69000 },
-            { yt: '', t: 'At Home in Paris: Modern French Family Cozy Apartment With a Garden', s: 'At Home', dur: '7:38', v: null },
-            { yt: '', t: 'Book Club: Uncover Your Potential — 5 Books That Inspire and Empower 2025', s: 'Art & culture', dur: '11:29', v: 25000 },
-            { yt: '', t: 'Dans les sacs de 3 filles parisiennes : leurs essentiels préférés E7', s: 'In the Bag', dur: '13:05', v: 481000 },
-            { yt: '', t: 'Manteaux parisiens 2025 : comment se construire une garde-robe intemporelle', s: 'Les Filles à Paris', dur: '10:30', v: 119000 },
-            { yt: '', t: '7 Elegant and Fun Ways to Tie a Scarf: A Complete Guide to a Classy Outfit', s: 'Guides mode', dur: '21:27', v: 624000 },
-            { yt: '', t: 'Christmas in Paris 2024 | Noël à Paris — Discover the Rare & Extraordinary!', s: 'Voyages', dur: '8:45', v: 42000 },
-            { yt: '', t: 'Bag Girl’s Guide: A Conversation With Christie’s', s: 'Guides mode', dur: '13:15', v: 23000 }
+            { yt: 'IqZ-N7hpGp8', t: 'Elegant Occasionwear Dresses Guide: Wedding Guest Edition', s: 'Guides mode', dur: '21:23', v: 95000 },
+            { yt: 'PXRoeaaTZUc', t: 'At Home in Paris: Meticulously Designed Apartment of an Architect Couple, 55 sqm', s: 'At Home', dur: '17:17', v: 294000 },
+            { yt: 'ygREkkEzf14', t: 'At Home in Paris: A Modern Minimalist Apartment of an Architect, 28 sqm', s: 'At Home', dur: '12:01', v: 47000 },
+            { yt: 'vlHpbJMWnxY', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E14', s: 'In the Bag', dur: '17:19', v: 107000 },
+            { yt: 'XhXeCTuJmSk', t: 'At Home in Paris: A Playful Artist Apartment Full of Color and Craft', s: 'At Home', dur: '13:41', v: 122000 },
+            { yt: '9XkFqKqArmQ', t: 'Magical Italy: Design, Food & Culture in the South', s: 'Voyages', dur: '19:17', v: 82000 },
+            { yt: 'PD9mQnG38D0', t: 'Les Filles à Paris: Elegant Petite Summer Fashion', s: 'Les Filles à Paris', dur: '8:48', v: 85000 },
+            { yt: 'n2aneTqkz0M', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E13', s: 'In the Bag', dur: '17:00', v: 292000 },
+            { yt: 'czqCKi8CLnE', t: 'Chic Summer Wardrobe — 24 Hours in Provence', s: 'Voyages', dur: '10:03', v: 46000 },
+            { yt: '1CYKZX1mkJw', t: 'Les Filles à Paris: Summer Wardrobe Diary', s: 'Les Filles à Paris', dur: '9:11', v: 58000 },
+            { yt: 'jM8aRBI34ys', t: 'At Home in France: Extraordinary French Countryside Family House', s: 'At Home', dur: '30:00', v: 823000 },
+            { yt: 'G18EuPlIPwU', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E12', s: 'In the Bag', dur: '15:49', v: 363000 },
+            { yt: '1yaFrJvXifA', t: 'Parisian Vibe Travels: Madrid — A Day of Cheese, Culture & Beauty with Clara Diez', s: 'Voyages', dur: '8:35', v: 42000 },
+            { yt: 'MGNmwZTPSPs', t: '5 Elegant and Effortless Summer Hairstyles | Alexandre de Paris', s: 'Guides mode', dur: '12:22', v: 54000 },
+            { yt: 'ssReICrq4b0', t: 'Art to Fashion: Spring Inspiration and Colour Moodboard', s: 'Art & culture', dur: '16:09', v: 20000 },
+            { yt: 'PG_imawZn4A', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E11', s: 'In the Bag', dur: '20:38', v: 224000 },
+            { yt: 'Yiko44qbJu8', t: 'Parisian Guide to Chic Spring Capsule Wardrobe Essentials', s: 'Guides mode', dur: '10:55', v: 215000 },
+            { yt: '2Bp4u-oBSwE', t: 'The Timeless Elegance of Carolyn Bessette-Kennedy: Spring Wardrobe Inspiration', s: 'Guides mode', dur: '18:01', v: 296000 },
+            { yt: 'ofbtq38DMpY', t: 'Spring Wardrobe: Elegant and Boho-Chic Outfits from Paris', s: 'Les Filles à Paris', dur: '13:17', v: 142000 },
+            { yt: 'CEUGiM-FSWA', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E10', s: 'In the Bag', dur: '17:08', v: 229000 },
+            { yt: '6FayP3mf9g8', t: 'How to Style Brown: Effortlessly Chic Wardrobe from Paris', s: 'Les Filles à Paris', dur: '10:08', v: 125000 },
+            { yt: 'lIPP38TiYSU', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E09', s: 'In the Bag', dur: '17:03', v: 259000 },
+            { yt: 'PNDagTimK_Q', t: 'Parisian Wardrobe Tour | Inside a Colourful & Playful Personal Style', s: 'Guides mode', dur: '11:31', v: 82000 },
+            { yt: 'YdGkgIv1Qvc', t: 'Chic and Unique Parisian Style for Men', s: 'Guides mode', dur: '8:19', v: 23000 },
+            { yt: 'ghkWt6UOTsQ', t: 'Louvre Couture: A Historic Fashion Exhibition and Gala in Paris', s: 'Art & culture', dur: '13:12', v: 17000 },
+            { yt: 'ssfzqVWMxFo', t: 'At Home in Paris: The Vibrant and Unique Apartment of a Fashion Enthusiast, 35 sqm', s: 'At Home', dur: '16:32', v: null },
+            { yt: 'BtOd2MC7v40', t: 'French Girl’s Accessories Guide: Elegant Ways to Elevate Your Look', s: 'Guides mode', dur: '14:51', v: 179000 },
+            { yt: 'hZ8DAN9daNs', t: 'In the Bags of 3 Parisian Girls: Their Favorite Essentials E08', s: 'In the Bag', dur: '16:39', v: 700000 },
+            { yt: '9VmDh7JJo3I', t: 'Art meets Fashion: Winter Inspirations', s: 'Art & culture', dur: '24:10', v: 69000 },
+            { yt: 'RIAkP4g3jsk', t: 'At Home in Paris: Modern French Family Cozy Apartment With a Garden', s: 'At Home', dur: '7:38', v: null },
+            { yt: 'vmzAPn8Ww7c', t: 'Book Club: Uncover Your Potential — 5 Books That Inspire and Empower 2025', s: 'Art & culture', dur: '11:29', v: 25000 },
+            { yt: '_FPc8Q-33jE', t: 'Dans les sacs de 3 filles parisiennes : leurs essentiels préférés E7', s: 'In the Bag', dur: '13:05', v: 481000 },
+            { yt: 'FUhlRteLjCE', t: 'Manteaux parisiens 2025 : comment se construire une garde-robe intemporelle', s: 'Les Filles à Paris', dur: '10:30', v: 119000 },
+            { yt: 'Fgudm4XQKDU', t: '7 Elegant and Fun Ways to Tie a Scarf: A Complete Guide to a Classy Outfit', s: 'Guides mode', dur: '21:27', v: 624000 },
+            { yt: 'szibkWLKrjw', t: 'Christmas in Paris 2024 | Noël à Paris — Discover the Rare & Extraordinary!', s: 'Voyages', dur: '8:45', v: 42000 },
+            { yt: 'fce7CClNj_M', t: 'Bag Girl’s Guide: A Conversation With Christie’s', s: 'Guides mode', dur: '13:15', v: 23000 }
           ] },
         { row: true, title: 'Images', kind: 'image', ar: '4/5', intro: "Petit texte de présentation des images, à remplacer.", items: [
           { t: 'Image 01', s: 'à remplacer' }, { t: 'Image 02', s: 'à remplacer' }, { t: 'Image 03', s: 'à remplacer' }
@@ -3103,7 +3106,9 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
     const hasH = items.some((it) => it.h);
     const card = (it, i) => {
       const img = it.yt ? `<img src="https://i.ytimg.com/vi/${encodeURIComponent(it.yt)}/mqdefault.jpg" alt="" loading="lazy" decoding="async">` : '<span class="ph__l">à remplacer</span>';
-      return `<figure class="vc" data-i="${i}"><button type="button" class="ph vc__th" style="--ar:16/9" aria-label="lire : ${esc(it.t)}">${img}<span class="ph__play" aria-hidden="true"></span><span class="vc__dur">${esc(it.dur)}</span></button><figcaption><span class="vc__s">${esc(it.s)}</span><b>${esc(it.t)}</b><span class="vc__m">${it.v ? `${fmtK(it.v)} vues` : 'réservée aux membres'} · ${fmtDur(toSec(it.dur))}${it.h ? ` · ${it.h} h` : ''}</span><span class="vc__bar" aria-hidden="true"><i style="--w:${(toSec(it.dur) / maxD).toFixed(3)}"></i></span></figcaption></figure>`;
+      const url = it.yt ? `https://www.youtube.com/watch?v=${encodeURIComponent(it.yt)}` : '';
+      const th = `${img}<span class="ph__play" aria-hidden="true"></span><span class="vc__dur">${esc(it.dur)}</span>`;
+      return `<figure class="vc" data-i="${i}">${url ? `<a class="ph vc__th" style="--ar:16/9" href="${url}" target="_blank" rel="noopener" aria-label="voir sur YouTube : ${esc(it.t)}">${th}</a>` : `<button type="button" class="ph vc__th" style="--ar:16/9" aria-label="${esc(it.t)}">${th}</button>`}<figcaption><span class="vc__s">${esc(it.s)}</span>${url ? `<a class="vc__lnk" href="${url}" target="_blank" rel="noopener"><b>${esc(it.t)}</b></a>` : `<b>${esc(it.t)}</b>`}<span class="vc__m">${it.v ? `${fmtK(it.v)} vues` : 'réservée aux membres'} · ${fmtDur(toSec(it.dur))}${it.h ? ` · ${it.h} h` : ''}</span><span class="vc__bar" aria-hidden="true"><i style="--w:${(toSec(it.dur) / maxD).toFixed(3)}"></i></span></figcaption></figure>`;
     };
     return `<section class="vl ab-reveal" data-vl><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div>
       <div class="vl__ctl"><div class="vl__tags" role="group" aria-label="thèmes"><button type="button" aria-pressed="true" data-th="">Tout<sup>${items.length}</sup></button>${themes.map((t) => `<button type="button" aria-pressed="false" data-th="${esc(t)}">${esc(t)}<sup>${items.filter((it) => it.s === t).length}</sup></button>`).join('')}</div>
@@ -3166,13 +3171,10 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
       };
       inp.addEventListener('input', set);
     });
-    /* Clic sur une vidéo : elle s'ouvre en grand (avec les flèches pour passer aux vidéos sélectionnées) */
+    /* Une vidéo avec un lien s'ouvre sur YouTube (nouvel onglet) ; sans lien, la vignette fait un petit signe */
     root.querySelector('.vl__grid').addEventListener('click', (e) => {
-      const th = e.target.closest('.vc__th'); if (!th) return;
-      const i = Number(th.closest('.vc').dataset.i);
-      if (!items[i].yt) { th.classList.remove('is-nudge'); void th.offsetWidth; th.classList.add('is-nudge'); return; }
-      const list = cards.filter((c, k) => items[k].yt && (on[k] || k === i)).sort((a, b) => Number(a.style.order || 0) - Number(b.style.order || 0)).map((c) => Number(c.dataset.i));
-      openLightbox(list.map((k) => `<div class="lb__vid" data-yt="${esc(items[k].yt)}"></div><p class="lb__t"><b>${esc(items[k].t)}</b> ${items[k].v ? `${fmtK(items[k].v)} vues · ` : ''}${esc(items[k].dur)}</p>`), list.indexOf(i), 'video');
+      const th = e.target.closest('button.vc__th'); if (!th) return;
+      th.classList.remove('is-nudge'); void th.offsetWidth; th.classList.add('is-nudge');
     });
     root.querySelectorAll('[data-sort]').forEach((b) => b.addEventListener('click', () => {
       root.querySelectorAll('[data-sort]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
