@@ -642,8 +642,9 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 /* Agrandissement d'une slide */
 .lb{position:fixed;inset:0;z-index:30;background:rgba(37,36,34,.9);display:grid;place-items:center;opacity:0;transition:opacity .3s}
 .lb.is-on{opacity:1}
-.lb__stage{width:min(88vw,calc(70vh * .8));}
+.lb__stage{width:min(88vw,calc(72vh * var(--lar,.8)))}
 .lb__stage .ph,.lb__stage img{width:100%;aspect-ratio:4/5;border-radius:16px;object-fit:cover;display:block}
+.lb__stage img[data-ar]{object-fit:contain;background:rgba(0,0,0,.2)}
 .lb__stage .ph{background-color:var(--bg)}
 .lb__x{position:fixed;top:calc(var(--top) + 4px);right:var(--right);height:44px;padding:0 18px;border-radius:999px;background:var(--bg);color:var(--fg);font-size:15px;font-weight:500}
 .lb .cr__btn{position:fixed;top:50%;translate:0 -50%;background:var(--bg);color:var(--fg)}
@@ -665,9 +666,11 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .cr__view{overflow:hidden;touch-action:pan-y;cursor:grab;outline:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent);mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent)}
 .cr__view.is-drag{cursor:grabbing;user-select:none}
 .cr__track{display:flex;gap:clamp(10px,1.4vw,18px);width:max-content;will-change:transform}
-.cr__slide{flex:0 0 clamp(220px,22vw,320px);margin:0;display:flex;flex-direction:column;gap:12px;cursor:zoom-in}
+.cr{--ch:clamp(275px,27.5vw,400px)}
+.cr__slide{flex:0 0 auto;width:calc(var(--ch) * var(--ar,.8));margin:0;display:flex;flex-direction:column;gap:12px;cursor:zoom-in}
 .cr__img{border-radius:16px;overflow:hidden}
 .cr__img > *{width:100%;aspect-ratio:4/5;pointer-events:none;transition:scale .6s var(--ease-out)}
+.cr__img > img{background:var(--tint)}
 .cr__img > img{display:block;object-fit:cover}
 .cr__slide:hover .cr__img > *{scale:1.035}
 .cr__slide .rl{display:flex;flex-direction:column;gap:3px;color:var(--fg)}
@@ -1115,7 +1118,7 @@ a.vc__th{display:grid}
 .pj-row.is-stagger > :nth-child(even){margin-top:clamp(36px,7vw,110px)}
 .pj-pair{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.4vw,18px);width:min(100%,calc(80vh * 1.45));margin:0 auto}
 @media (max-width:760px){
-  .cr__slide{flex-basis:62vw}
+  .cr{--ch:calc(62vw * 1.25)}
   .pj-row{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
   .pj-row::-webkit-scrollbar{display:none}
   .pj-row .pj-media{flex:0 0 62vw;scroll-snap-align:start}
@@ -2829,32 +2832,28 @@ a.vc__th{display:grid}
           { t: 'L’invité de la Matinale', s: 'Gad Elmaleh · montage', d: "Extrait de la série d’interviews de la Matinale, le plus souvent avec des personnalités politiques." }
         ] },
         /* Carrousels : une bande qui glisse doucement vers la gauche, en boucle.
-           Pour chaque slide : img = chemin de l'image (ex. 'rc/c-01.jpg'), t = titre, d = petit texte. */
+           Pour chaque slide : img = petite image (bande), big = grande image (agrandie au clic), ar = format largeur/hauteur, t = titre, d = petit texte.
+           Chaque slide garde son format d'origine (4:5, 3:4, carré…) : rien n'est recadré. */
         { carousel: true, title: 'Carrousels', intro: "Texte de présentation des carrousels, à remplacer. Deux ou trois phrases pour expliquer le principe et ce que vous y avez fait.", items: [
-          { img: '', t: 'Carrousel 01', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 02', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 03', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 04', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 05', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 06', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 07', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 08', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 09', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 10', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 11', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 12', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 13', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 14', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 15', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 16', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 17', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 18', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 19', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 20', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 21', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 22', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 23', d: 'Petit texte à remplacer.' },
-          { img: '', t: 'Carrousel 24', d: 'Petit texte à remplacer.' }
+          { img: 'img/rc/c01-mozart-portrait-s.webp', big: 'img/rc/c01-mozart-portrait-l.webp', ar: '1079/1350', t: 'Wolfgang Amadeus Mozart, portrait d’un enfant prodige', d: 'Article' },
+          { img: 'img/rc/c02-rubinstein-s.webp', big: 'img/rc/c02-rubinstein-l.webp', ar: '1080/1440', t: 'Rubinstein, l’éternel', d: 'Carrousel' },
+          { img: 'img/rc/c03-henri-rousseau-s.webp', big: 'img/rc/c03-henri-rousseau-l.webp', ar: '1080/1350', t: 'Henri Rousseau : 6 secrets sur la vie du peintre', d: 'Article' },
+          { img: 'img/rc/c04-dumas-montecristo-s.webp', big: 'img/rc/c04-dumas-montecristo-l.webp', ar: '1080/1440', t: 'Dumas et l’île de Montecristo', d: 'Carrousel' },
+          { img: 'img/rc/c05-mort-de-mozart-s.webp', big: 'img/rc/c05-mort-de-mozart-l.webp', ar: '1080/1350', t: 'Mort de Mozart : mystères, Requiem et dernières heures', d: 'Article' },
+          { img: 'img/rc/c06-kamikazes-s.webp', big: 'img/rc/c06-kamikazes-l.webp', ar: '1080/1440', t: 'Les Kamikazes de la Seconde Guerre mondiale', d: 'Carrousel' },
+          { img: 'img/rc/c07-tchaikovski-s.webp', big: 'img/rc/c07-tchaikovski-l.webp', ar: '1080/1350', t: 'Tchaïkovski, la bande-son secrète de notre enfance', d: 'Article' },
+          { img: 'img/rc/c08-tige-en-bois-s.webp', big: 'img/rc/c08-tige-en-bois-l.webp', ar: '1080/1350', t: 'Une tige en bois entre les dents', d: 'Article · slide intérieure' },
+          { img: 'img/rc/c09-matinale-iran-s.webp', big: 'img/rc/c09-matinale-iran-l.webp', ar: '1080/1350', t: 'Guerre au Moyen-Orient : Trump menace à nouveau l’Iran', d: 'La Matinale' },
+          { img: 'img/rc/c10-i-have-a-dream-s.webp', big: 'img/rc/c10-i-have-a-dream-l.webp', ar: '2160/1920', t: 'I Have a Dream', d: 'Les Heures légères, avec Elodie Fondacci' },
+          { img: 'img/rc/c11-philip-glass-s.webp', big: 'img/rc/c11-philip-glass-l.webp', ar: '1080/1350', t: 'Philip Glass signe une bande originale… 70 ans après', d: 'Article' },
+          { img: 'img/rc/c12-lettre-nuitter-s.webp', big: 'img/rc/c12-lettre-nuitter-l.webp', ar: '1080/1350', t: 'Une lettre à Charles Nuitter, 2 août 1868', d: 'Article · slide intérieure' },
+          { img: 'img/rc/c13-sieste-s.webp', big: 'img/rc/c13-sieste-l.webp', ar: '1080/1350', t: 'La sieste, la sixième heure chez les Romains', d: 'Carrousel' },
+          { img: 'img/rc/c14-chant-de-la-terre-s.webp', big: 'img/rc/c14-chant-de-la-terre-l.webp', ar: '1440/1440', t: 'Le Chant de la Terre', d: 'avec Allain Bougrain-Dubourg' },
+          { img: 'img/rc/c15-chiffres-semaine-s.webp', big: 'img/rc/c15-chiffres-semaine-l.webp', ar: '1080/1350', t: 'Les chiffres de la semaine', d: '73 % des Français consomment régulièrement des produits de la mer' },
+          { img: 'img/rc/c16-sherlock-holmes-s.webp', big: 'img/rc/c16-sherlock-holmes-l.webp', ar: '1080/1440', t: 'La fin de Sherlock Holmes', d: 'Carrousel' },
+          { img: 'img/rc/c17-histoires-sapin-s.webp', big: 'img/rc/c17-histoires-sapin-l.webp', ar: '1080/1350', t: 'Des histoires en musique sous le sapin', d: 'Podcast' },
+          { img: 'img/rc/c18-merimee-s.webp', big: 'img/rc/c18-merimee-l.webp', ar: '1080/1350', t: 'Prosper Mérimée et les cathédrales', d: 'Article' },
+          { img: 'img/rc/c19-moai-s.webp', big: 'img/rc/c19-moai-l.webp', ar: '1080/1350', t: 'Pourquoi les Moaï géants défient toujours la science', d: 'Article' }
         ] },
         { kind: 'vidéo', ar: '16/9', cls: 'mid', cap: 'Vidéo horizontale — à remplacer' },
         /* Vue d'ensemble, en trois onglets. guests : invités classés par thème (big = mis en avant) ;
@@ -3407,7 +3406,7 @@ a.vc__th{display:grid}
       if (m.antenna) return antHTML(m);
       if (m.text) return `<div class="pj-text ab-reveal ${m.cls}">${m.paras.map((x) => `<p>${md(x)}</p>`).join('')}</div>`;
       if (m.carousel) {
-        const sl = (it, i, dup) => `<figure class="cr__slide" data-i="${i}"${dup ? ' aria-hidden="true"' : ''}><div class="cr__img">${crMedia(it, i)}</div><figcaption class="rl"><b>${esc(it.t)}</b>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`;
+        const sl = (it, i, dup) => `<figure class="cr__slide" data-i="${i}" style="--ar:${arNum(it.ar).toFixed(4)}"${dup ? ' aria-hidden="true"' : ''}><div class="cr__img">${crMedia(it, i)}</div><figcaption class="rl"><b>${esc(it.t)}</b>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`;
         return `<div class="cr ab-reveal" data-cr><div class="cr__bar"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div><div class="cr__nav"><span class="cr__count" aria-live="polite"></span><button type="button" class="cr__btn" data-dir="-1" aria-label="slide précédente">←</button><button type="button" class="cr__btn" data-dir="1" aria-label="slide suivante">→</button></div></div><div class="cr__view" tabindex="0" aria-label="carrousels : glisser, ou flèches du clavier"><div class="cr__track">${m.items.map((it, i) => sl(it, i)).join('')}${m.items.map((it, i) => sl(it, i, true)).join('')}</div></div><div class="cr__prog" aria-hidden="true"><i></i></div></div>`;
       }
       if (m.row) {
@@ -3608,6 +3607,7 @@ a.vc__th{display:grid}
     const n = lb._items.length; i = (i + n) % n; lb._i = i;
     const stage = lb.querySelector('.lb__stage');
     stage.innerHTML = lb._items[i];
+    const im = stage.querySelector('img[data-ar]'); stage.style.setProperty('--lar', im ? im.dataset.ar : '0.8');
     const v = stage.querySelector('.lb__vid[data-yt]');
     if (v) v.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.dataset.yt)}?autoplay=1&rel=0&modestbranding=1" title="vidéo" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
     lb.querySelector('.lb__c').textContent = `${String(i + 1).padStart(2, '0')} / ${String(n).padStart(2, '0')}`;
@@ -3621,9 +3621,10 @@ a.vc__th{display:grid}
   }, true);
 
   const pad2 = (k) => String(k).padStart(2, '0');
-  function crMedia(it, i) {
+  const arNum = (ar) => { const [a, b] = String(ar || '4/5').split('/').map(Number); return b ? a / b : 0.8; };
+  function crMedia(it, i, big) {
     return it.img
-      ? `<img src="${esc(it.img)}" alt="${esc(it.t)}" loading="lazy" decoding="async" draggable="false">`
+      ? `<img src="${esc(big && it.big ? it.big : it.img)}" alt="${esc(it.t)}" ${big ? '' : 'loading="lazy" '}decoding="async" draggable="false" data-ar="${arNum(it.ar).toFixed(4)}" style="aspect-ratio:${esc(it.ar || '4/5')}">`
       : `<div class="ph" style="--ar:4/5"><span class="ph__l">carrousel ${pad2(i + 1)} · 4:5 — à remplacer</span><span class="cr__num">${pad2(i + 1)}</span></div>`;
   }
   /* Bande de carrousels : glisse doucement vers la gauche en boucle (la suite est doublée pour boucler sans saut).
@@ -3633,13 +3634,15 @@ a.vc__th{display:grid}
     const view = root.querySelector('.cr__view'), track = root.querySelector('.cr__track'), count = root.querySelector('.cr__count'), bar = root.querySelector('.cr__prog i');
     const n = m.items.length, SPEED = 32;
     let x = 0, v = 0, tgt = null, half = 1, step = 1, visible = false, hover = false, focus = false, raf = 0, last = 0, drag = null, dragged = false, lastCur = -1, wheelT = 0;
-    const measure = () => { const c = track.children; if (c.length > n) { half = c[n].offsetLeft - c[0].offsetLeft || 1; step = c[1].offsetLeft - c[0].offsetLeft || 1; } };
+    let offs = [0];
+    const measure = () => { const c = track.children; if (c.length > n) { half = c[n].offsetLeft - c[0].offsetLeft || 1; step = c[1].offsetLeft - c[0].offsetLeft || 1; offs = Array.from({ length: n + 1 }, (_, k) => c[k].offsetLeft - c[0].offsetLeft); } };
+    const idxAt = (xm) => { let k = 0, bd = Infinity; offs.forEach((o, j) => { const d = Math.abs(o - xm); if (d < bd) { bd = d; k = j; } }); return k; };
     const render = () => {
       const xm = ((x % half) + half) % half;
       track.style.transform = `translate3d(${(-xm).toFixed(2)}px,0,0)`;
-      const cur = Math.round(xm / step) % n;
+      const cur = idxAt(xm) % n;
       if (cur !== lastCur) { lastCur = cur; count.textContent = `${pad2(cur + 1)} / ${pad2(n)}`; }
-      bar.style.transform = `scaleX(${Math.min(1, (xm + step) / half).toFixed(4)})`;
+      bar.style.transform = `scaleX(${Math.min(1, (xm + (offs[1] || step)) / half).toFixed(4)})`;
     };
     const tick = (t) => {
       raf = 0;
@@ -3654,9 +3657,12 @@ a.vc__th{display:grid}
       if (visible && !idle) raf = requestAnimationFrame(tick);
     };
     const wake = () => { if (!raf && visible) { last = 0; raf = requestAnimationFrame(tick); } };
-    const snap = (from) => Math.round(from / step) * step;
+    const snap = (from) => { const base = Math.floor(from / half) * half; return base + offs[idxAt(from - base)]; };
     const go = (d) => {
-      tgt = snap(tgt ?? x) + d * step;
+      const s0 = snap(tgt ?? x); let base = Math.floor(s0 / half) * half, j = idxAt(s0 - base);
+      if (j >= n) { base += half; j -= n; }
+      j += d; if (j < 0) { base -= half; j += n; } if (j >= n) { base += half; j -= n; }
+      tgt = base + offs[j];
       if (reduce) { x = tgt; tgt = null; render(); return; }
       wake();
     };
@@ -3700,7 +3706,7 @@ a.vc__th{display:grid}
     view.addEventListener('click', (e) => {
       if (dragged) { dragged = false; return; }
       const sl = e.target.closest('.cr__slide'); if (!sl) return;
-      openLightbox(m.items.map((it, i) => `${crMedia(it, i)}<p class="lb__t"><b>${esc(it.t)}</b>${it.d ? ` ${esc(it.d)}` : ''}</p>`), Number(sl.dataset.i));
+      openLightbox(m.items.map((it, i) => `${crMedia(it, i, true)}<p class="lb__t"><b>${esc(it.t)}</b>${it.d ? ` ${esc(it.d)}` : ''}</p>`), Number(sl.dataset.i));
     });
     requestAnimationFrame(() => { measure(); render(); });
   }
