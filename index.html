@@ -883,7 +883,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
   .dc{--wh:220px}
 }
 
-/* Reels · « snack content » : la machine à formats courts (deux animations à comparer) */
+/* Snack content : la machine à formats courts, en aperçu comme une story */
 .vm{position:relative;border-radius:18px;background:var(--coal);color:var(--cream);padding:clamp(12px,1.4vw,18px);display:flex;flex-direction:column;gap:12px}
 .vm__head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:0 4px}
 .vm__brand{font-size:clamp(18px,2vw,26px);font-weight:600;letter-spacing:-.03em;line-height:1}
@@ -911,16 +911,6 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .vm__slot.is-act .vm__bar i{animation:vmBar var(--t,2.6s) linear forwards}
 .vm__slot.is-act .vm__tag b{background:var(--coal)}
 @keyframes vmBar{to{transform:scaleX(1)}}
-/* version 2 · l'emballage : chaque format est emballé comme un snack ; au survol, l'emballage se déchire */
-.vm__wrap{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:14px 10px;text-align:center;background:var(--coal);color:var(--cream);clip-path:var(--zz);transition:transform .55s var(--ease-out),opacity .4s;pointer-events:none}
-.vm__wrap::before,.vm__wrap::after{content:"";position:absolute;left:0;right:0;height:14px;background:repeating-linear-gradient(90deg,rgba(248,243,227,.18) 0 2px,transparent 2px 6px)}
-.vm__wrap::before{top:4px}.vm__wrap::after{bottom:4px}
-.vm__wrap small{font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;opacity:.6}
-.vm__wrap b{font-size:clamp(17px,1.7vw,24px);font-weight:600;letter-spacing:-.03em;line-height:1.05}
-.vm__wrap i{font-style:normal;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;border:1px solid rgba(248,243,227,.4)}
-.vm__item:hover .vm__wrap,.vm__item:focus-within .vm__wrap{transform:translateY(80%) rotate(5deg)}
-.vm__item.is-playing .vm__wrap{transform:translateY(110%) rotate(8deg);opacity:0}
-@media (hover:none){.vm__wrap{transform:translateY(62%) rotate(3deg)}}
 @media (max-width:760px){.vm__row{grid-template-columns:repeat(var(--n,5),148px);overflow-x:auto;scrollbar-width:none}}
 @media (prefers-reduced-motion:reduce){.vm *{animation:none!important;transition:none!important}}
 
@@ -1393,8 +1383,131 @@ a.vc__th{display:grid}
 
   const state = { entered: false, sound: true, mode: 'spiral', menu: false, view: 'home' };
 
-  /* Sons : branchements prêts, à remplir plus tard */
-  const sfx = { play(name) { if (!state.sound) return; /* à venir : ambiance + sons d'interaction */ } };
+  /* Son du site : tout est généré en direct (Web Audio), aucun fichier à charger.
+     · une ambiance : une nappe lente sur quatre accords (ré, si mineur, sol, la), un souffle léger et quelques notes au hasard ;
+     · des sons d'interaction : survol d'un projet (une note de l'accord en cours), clic, ouverture, défilement…
+     L'ambiance s'efface quand une vidéo ou la radio joue, et tout se met en pause quand l'onglet est caché ou le son coupé.
+     Pour remplacer l'ambiance par un vrai morceau plus tard : AMB_URL = 'son/ambiance.mp3'. */
+  const AMB_URL = '';
+  const audio = (() => {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    const CH = [[50, 57, 62, 66, 69], [47, 54, 59, 62, 66], [43, 50, 55, 59, 62], [45, 52, 57, 61, 64]];
+    const mtof = (m) => 440 * Math.pow(2, (m - 69) / 12);
+    const A = { ctx: null, on: false, duck: false, chord: 0, timers: [], voices: [], file: null };
+    const AMB = 0.5;
+    function init() {
+      if (A.ctx || !AC) return;
+      const c = A.ctx = new AC();
+      A.master = c.createGain(); A.master.gain.value = 0;
+      const comp = c.createDynamicsCompressor(); comp.threshold.value = -18; comp.ratio.value = 3;
+      A.master.connect(comp); comp.connect(c.destination);
+      A.amb = c.createGain(); A.amb.gain.value = 0; A.amb.connect(A.master);
+      A.fx = c.createGain(); A.fx.gain.value = 1; A.fx.connect(A.master);
+      /* écho doux, partagé par les notes et les sons d'interaction */
+      A.dly = c.createDelay(1); A.dly.delayTime.value = 0.36;
+      const fb = c.createGain(); fb.gain.value = 0.32; const dlp = c.createBiquadFilter(); dlp.type = 'lowpass'; dlp.frequency.value = 2200;
+      A.dly.connect(dlp); dlp.connect(fb); fb.connect(A.dly); dlp.connect(A.amb);
+      A.send = c.createGain(); A.send.gain.value = 0.35; A.send.connect(A.dly);
+      if (AMB_URL) {
+        A.file = new Audio(AMB_URL); A.file.loop = true; A.file.preload = 'none';
+        c.createMediaElementSource(A.file).connect(A.amb);
+        return;
+      }
+      /* la nappe */
+      const lp = c.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 760; lp.Q.value = 0.4; lp.connect(A.amb);
+      const lfo = c.createOscillator(), lg = c.createGain(); lfo.frequency.value = 0.045; lg.gain.value = 320; lfo.connect(lg); lg.connect(lp.frequency); lfo.start();
+      CH[0].forEach((m, k) => {
+        const g = c.createGain(); g.gain.value = 0; g.connect(lp);
+        const o1 = c.createOscillator(), o2 = c.createOscillator(); o1.type = 'sine'; o2.type = 'triangle'; o2.detune.value = 6 + k * 2;
+        o1.frequency.value = o2.frequency.value = mtof(m); o1.connect(g); o2.connect(g); o1.start(); o2.start();
+        A.voices.push({ o1, o2, g });
+      });
+      /* le souffle */
+      const len = c.sampleRate * 2, buf = c.createBuffer(1, len, c.sampleRate), d = buf.getChannelData(0);
+      for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+      A.noiseBuf = buf;
+      const ns = c.createBufferSource(); ns.buffer = buf; ns.loop = true;
+      const nb = c.createBiquadFilter(); nb.type = 'bandpass'; nb.frequency.value = 5200; nb.Q.value = 0.6;
+      const ng = c.createGain(); ng.gain.value = 0.012; ns.connect(nb); nb.connect(ng); ng.connect(A.amb); ns.start();
+    }
+    const now = () => A.ctx.currentTime;
+    function setChord() {
+      const t = now(), ch = CH[A.chord % CH.length];
+      A.voices.forEach((v, k) => { const f = mtof(ch[k]); v.o1.frequency.setTargetAtTime(f, t, 1.4); v.o2.frequency.setTargetAtTime(f, t, 1.4); v.g.gain.setTargetAtTime(k === 0 ? 0.07 : 0.04, t, 2); });
+    }
+    function note(m, gain = 0.05, dur = 2.2, bus = A.amb) {
+      const c = A.ctx, t = now(), o = c.createOscillator(), o2 = c.createOscillator(), g = c.createGain(), g2 = c.createGain();
+      o.type = 'sine'; o2.type = 'sine'; o.frequency.value = mtof(m); o2.frequency.value = mtof(m) * 2.01; g2.gain.value = 0.25;
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(gain, t + 0.008); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g); o2.connect(g2); g2.connect(g); g.connect(bus); g.connect(A.send);
+      o.start(t); o2.start(t); o.stop(t + dur + 0.05); o2.stop(t + dur + 0.05);
+    }
+    function loop() {
+      A.timers.forEach(clearTimeout); A.timers = [];
+      if (!A.on || A.file) return;
+      setChord();
+      A.timers.push(setTimeout(() => { A.chord++; loop(); }, 9000));
+      const ch = CH[A.chord % CH.length];
+      [1800 + Math.random() * 1500, 5200 + Math.random() * 2000].forEach((ms) => A.timers.push(setTimeout(() => { if (A.on && !A.duck) note(ch[1 + Math.floor(Math.random() * 4)] + 24, 0.022, 3.2); }, ms)));
+    }
+    function tone(f0, f1, dur, type, gain, bus) {
+      const c = A.ctx, t = now(), o = c.createOscillator(), g = c.createGain();
+      o.type = type; o.frequency.setValueAtTime(f0, t); if (f1 !== f0) o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(gain, t + 0.004); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      o.connect(g); g.connect(bus || A.fx); o.start(t); o.stop(t + dur + 0.02);
+      return g;
+    }
+    function whoosh(f0, f1, dur, gain) {
+      if (!A.noiseBuf) { tone(f0 / 4, f1 / 4, dur, 'sine', gain); return; }
+      const c = A.ctx, t = now(), s = c.createBufferSource(), bp = c.createBiquadFilter(), g = c.createGain();
+      s.buffer = A.noiseBuf; bp.type = 'bandpass'; bp.Q.value = 1.4;
+      bp.frequency.setValueAtTime(f0, t); bp.frequency.exponentialRampToValueAtTime(f1, t + dur);
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(gain, t + dur * 0.35); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+      s.connect(bp); bp.connect(g); g.connect(A.fx); s.start(t, Math.random()); s.stop(t + dur + 0.05);
+    }
+    const SFX = {
+      hover() { const ch = CH[A.chord % CH.length]; note(ch[1 + Math.floor(Math.random() * 4)] + 12, 0.045, 0.9, A.fx); },
+      tick() { tone(2300 + Math.random() * 500, 1900, 0.025, 'sine', 0.018); },
+      click() { tone(620, 300, 0.08, 'triangle', 0.07); tone(2600, 2600, 0.012, 'square', 0.006); },
+      toggle() { tone(660, 660, 0.07, 'sine', 0.05); setTimeout(() => A.ctx && tone(990, 990, 0.09, 'sine', 0.05), 70); },
+      open() { whoosh(500, 2600, 0.32, 0.06); },
+      close() { whoosh(2600, 500, 0.3, 0.05); },
+      view() { whoosh(380, 1800, 0.45, 0.06); tone(110, 70, 0.35, 'sine', 0.09); },
+      enter() { const ch = CH[0]; [0, 2, 4].forEach((k, i) => setTimeout(() => A.ctx && note(ch[k] + 12, 0.06, 2.4, A.fx), i * 110)); },
+      mode() { tone(440, 880, 0.12, 'sine', 0.05); },
+      reset() { tone(880, 440, 0.14, 'sine', 0.05); },
+      surprise() { [72, 76, 79, 84].forEach((m, i) => setTimeout(() => A.ctx && note(m, 0.04, 1.2, A.fx), i * 70)); }
+    };
+    function level() {
+      if (!A.ctx) return;
+      const t = now();
+      A.master.gain.setTargetAtTime(A.on ? 0.85 : 0, t, 0.25);
+      A.amb.gain.setTargetAtTime(A.on && !A.duck ? AMB : 0, t, A.duck ? 0.35 : 1.2);
+      A.fx.gain.setTargetAtTime(A.duck ? 0.4 : 1, t, 0.2);
+      if (A.file) { if (A.on && !A.duck) A.file.play().catch(() => {}); else setTimeout(() => { if (!A.on || A.duck) A.file.pause(); }, 900); }
+    }
+    let susp = 0;
+    function setOn(on) {
+      A.on = on;
+      if (on) { init(); if (!A.ctx) return; clearTimeout(susp); if (A.ctx.state !== 'running') A.ctx.resume(); loop(); }
+      else if (A.ctx) { A.timers.forEach(clearTimeout); susp = setTimeout(() => { if (!A.on && A.ctx.state === 'running') A.ctx.suspend(); }, 900); }
+      level();
+    }
+    document.addEventListener('visibilitychange', () => {
+      if (!A.ctx) return;
+      if (document.hidden) { A.timers.forEach(clearTimeout); A.ctx.suspend(); if (A.file) A.file.pause(); }
+      else if (A.on) { A.ctx.resume(); loop(); level(); }
+    });
+    /* défilement : un petit cran sonore tous les ~90 px, jamais plus de 20 par seconde */
+    let acc = 0, lastT = 0, ty = null;
+    const scrolled = (d) => { acc += Math.abs(d); const t = performance.now(); if (acc > 90 && t - lastT > 50) { acc = 0; lastT = t; play('tick'); } };
+    window.addEventListener('wheel', (e) => scrolled(e.deltaY || e.deltaX), { passive: true, capture: true });
+    window.addEventListener('touchstart', (e) => { ty = e.touches[0].clientY; }, { passive: true });
+    window.addEventListener('touchmove', (e) => { if (ty == null) return; const y = e.touches[0].clientY; scrolled((ty - y) * 1.5); ty = y; }, { passive: true });
+    function play(name) { if (!A.on || !A.ctx || A.ctx.state !== 'running' || !SFX[name]) return; try { SFX[name](); } catch (e) {} }
+    return { setOn, play, duck(d) { if (A.duck === d) return; A.duck = d; level(); } };
+  })();
+  const sfx = { play(name) { if (state.sound) audio.play(name); } };
 
   /* ---------- Projets (placeholders) ---------- */
   const N = 12;
@@ -1891,6 +2004,7 @@ a.vc__th{display:grid}
   const soundBtn = $('#soundBtn');
   function setSound(on) {
     state.sound = on;
+    audio.setOn(on);
     soundBtn.classList.toggle('is-muted', !on);
     soundBtn.setAttribute('aria-pressed', String(on));
     soundBtn.setAttribute('aria-label', on ? 'couper le son' : 'activer le son');
@@ -2436,6 +2550,7 @@ a.vc__th{display:grid}
   }
   /* Vues : 'home' (spirale / liste), 'about', 'project' (avec son identifiant) */
   function setView(v, slug) {
+    audio.duck(false);
     if (v === 'project' && !PROJECTS[slug]) return;
     if (v === state.view && (v !== 'project' || slug === pjCur)) return;
     const prev = state.view;
@@ -3070,6 +3185,7 @@ a.vc__th{display:grid}
     else { el.classList.remove('is-nudge'); void el.offsetWidth; el.classList.add('is-nudge'); return; }
     el.classList.add('is-playing');
     el.insertAdjacentHTML('beforeend', media);
+    audio.duck(true);
   }
 
   /* Couverture Radio Classique : un tuner FM.
@@ -3099,11 +3215,11 @@ a.vc__th{display:grid}
     radio.audio.src = RADIO_URL; radio.audio.volume = 0;
     radio.err = false;
     radio.audio.play().catch(() => { radio.err = true; });
-    radio.on = true;
+    radio.on = true; audio.duck(true);
   }
   function radioStop() {
     if (!radio.on) return;
-    radio.on = false;
+    radio.on = false; audio.duck(false);
     if (radio.audio) { radio.audio.pause(); radio.audio.removeAttribute('src'); radio.audio.load(); }
     if (radio.noise) radio.noise.gain.value = 0;
     if (radio.ctx && radio.ctx.state === 'running') radio.ctx.suspend();
@@ -3212,7 +3328,7 @@ a.vc__th{display:grid}
       lb.querySelector('.lb__p').addEventListener('click', () => showLb(lb._i - 1));
       lb.querySelector('.lb__n').addEventListener('click', () => showLb(lb._i + 1));
     }
-    lb._items = items; lb.hidden = false; lb.classList.toggle('is-video', mode === 'video');
+    lb._items = items; lb.hidden = false; lb.classList.toggle('is-video', mode === 'video'); if (mode === 'video') audio.duck(true);
     requestAnimationFrame(() => lb.classList.add('is-on'));
     showLb(i);
   }
@@ -3224,7 +3340,7 @@ a.vc__th{display:grid}
     if (v) v.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.dataset.yt)}?autoplay=1&rel=0&modestbranding=1" title="vidéo" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
     lb.querySelector('.lb__c').textContent = `${String(i + 1).padStart(2, '0')} / ${String(n).padStart(2, '0')}`;
   }
-  function closeLightbox() { if (!lb || lb.hidden) return false; lb.classList.remove('is-on'); setTimeout(() => { lb.hidden = true; if (lb.classList.contains('is-video')) lb.querySelector('.lb__stage').innerHTML = ''; }, 300); return true; }
+  function closeLightbox() { if (!lb || lb.hidden) return false; lb.classList.remove('is-on'); audio.duck(radio.on); setTimeout(() => { lb.hidden = true; if (lb.classList.contains('is-video')) lb.querySelector('.lb__stage').innerHTML = ''; }, 300); return true; }
   window.addEventListener('keydown', (e) => {
     if (!lb || lb.hidden) return;
     if (e.key === 'Escape') { e.stopImmediatePropagation(); closeLightbox(); }
@@ -3688,23 +3804,18 @@ a.vc__th{display:grid}
   }
 
   /* Reels · « snack content » : les formats courts rangés dans une machine, chacun avec son code et sa durée.
-     Un seul clic lance la vidéo. Deux animations à comparer :
-     1 · l'aperçu : comme une story, chaque format s'avance à tour de rôle et sa barre de lecture se remplit ;
-     2 · l'emballage : chaque format est emballé comme un snack ; au survol, l'emballage se déchire et laisse voir la vidéo. */
+     Un seul clic lance la vidéo. L'aperçu : comme une story, chaque format s'avance à tour de rôle et sa barre de lecture se remplit. */
   const VM_COIL = `<svg class="vm__coil" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6" opacity=".55">${Array.from({ length: 13 }, (_, k) => `<ellipse cx="${k * 12 - 6}" cy="7" rx="7" ry="5.5"/>`).join('')}</g></svg>`;
-  const VM_ZZ = (() => { const n = 14, top = [], bot = []; for (let k = 0; k <= n; k++) { const x = (k / n) * 100; top.push(`${x.toFixed(2)}% ${k % 2 ? 0 : 6}px`); bot.unshift(`${x.toFixed(2)}% calc(100% - ${k % 2 ? 0 : 6}px)`); } return `polygon(${top.concat(bot).join(',')})`; })();
   const VM_HTML = (P, v) => `<div class="vm" data-vm="${v}">
       <div class="vm__head"><span class="vm__brand">snack content</span><span class="vm__sign">formats courts · à consommer sans modération</span></div>
       <div class="vm__glass"><div class="vm__row" style="--n:${P.reels.length}">${P.reels.map((r, k) => {
         const src = r.yt ? ` data-yt="${esc(r.yt)}"` : r.mp4 ? ` data-mp4="${esc(r.mp4)}"` : '', bg = r.poster ? `;background-image:url(${esc(r.poster)})` : '';
-        const extra = v === 1 ? '<span class="vm__bar"><i></i></span>' : `<span class="vm__wrap" style="--zz:${VM_ZZ}" aria-hidden="true"><small>snack content</small><b>${esc(r.t)}</b><i>${esc(r.d)}</i></span>`;
+        const extra = '<span class="vm__bar"><i></i></span>';
         return `<div class="vm__slot" style="--i:${k}"><div class="ph ph--video vm__item" style="--ar:9/16${bg}"${src}>${src || bg ? '' : `<span class="ph__l">${esc(r.c)} · à remplacer</span>`}<button type="button" class="ph__play" aria-label="lire ${esc(r.t)}"></button>${extra}</div>${VM_COIL}<span class="vm__tag"><b>${esc(r.c)}</b><span>${esc(r.t)}</span><i>${esc(r.d)}</i></span></div>`;
       }).join('')}</div></div>
-      <p class="vm__hint">${v === 1 ? 'Les formats défilent en aperçu. Cliquez sur celui qui vous tente : il se lance.' : 'Survolez un snack pour ouvrir l’emballage, cliquez pour lancer la vidéo.'}</p>
+      <p class="vm__hint">Les formats défilent en aperçu. Cliquez sur celui qui vous tente : il se lance.</p>
     </div>`;
-  const REELS_HTML = (P) => `<div class="ags">
-    <div><p class="ag__lbl"><b>version 1</b><span>L’aperçu : chaque format s’avance à tour de rôle, comme une story</span></p>${VM_HTML(P, 1)}</div>
-    <div><p class="ag__lbl"><b>version 2</b><span>L’emballage : on ouvre le snack pour voir la vidéo</span></p>${VM_HTML(P, 2)}</div></div>`;
+  const REELS_HTML = (P) => VM_HTML(P, 1);
   function initVm(el) {
     if (el.dataset.vm !== '1' || reduce) return;
     const slots = [...el.querySelectorAll('.vm__slot')];
