@@ -1022,18 +1022,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .bw__hint{position:absolute;right:12px;bottom:12px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;border-radius:5px;background:var(--coal);color:var(--cream);pointer-events:none}
 @media (max-width:760px){.bw__dots,.bw__nav{display:none}.bw__tab{max-width:140px;padding:8px 10px}}
 
-/* Écran d'accueil : chargement, puis titre « entrer avec le son » cinétique */
-.ld{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;pointer-events:none;animation:none!important}
-.ld__n{display:flex;font-size:clamp(64px,11vw,150px);font-weight:600;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums}
-.ld__d{display:inline-block;height:1em;overflow:hidden}
-.ld__d > span{display:flex;flex-direction:column;transition:transform .45s var(--ease-out)}
-.ld__d > span > b{display:block;height:1em;font-weight:600}
-.ld__line{position:relative;width:min(280px,60vw);height:1px;background:var(--line-strong);overflow:hidden}
-.ld__line i{position:absolute;inset:0;background:var(--fg);transform-origin:0 50%;transform:scaleX(var(--p,0));transition:transform .3s var(--ease-out)}
-.ld__lbl{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-variant-numeric:tabular-nums}
-.ld.is-out .ld__d > span{transform:translateY(-110%)!important;transition:transform .55s var(--ease-io) calc(var(--k) * 60ms)}
-.ld.is-out .ld__line,.ld.is-out .ld__lbl{opacity:0;transition:opacity .3s}
-.gate.is-loading > :not(.ld){visibility:hidden;animation:none!important}
+/* Écran d'accueil : bouton « entrer avec le son » cinétique */
 .enter__label .ch{display:inline-block;position:relative;overflow:hidden;vertical-align:top;height:1.15em;line-height:1.15}
 .enter__label .ch > span{display:block;transition:transform .5s var(--ease-out) calc(var(--k) * 22ms)}
 .enter__label .ch > span::after{content:attr(data-c);display:block}
@@ -1209,7 +1198,7 @@ a.vc__th{display:grid}
 <canvas id="scene" aria-label="spirale des projets"></canvas>
 
 <!-- Écran d'entrée -->
-<div class="gate is-loading" id="gate">
+<div class="gate" id="gate">
   <div class="orb orb--gate" id="gateOrb" aria-hidden="true"><span class="orb__body"></span></div>
   <p class="gate__line gate__fade">graphisme, direction artistique<br>&amp; montage vidéo — paris</p>
   <button class="enter gate__fade" id="enterBtn" type="button">
@@ -1218,7 +1207,6 @@ a.vc__th{display:grid}
     <span class="enter__dot" aria-hidden="true"></span>
   </button>
   <button class="quiet gate__fade" id="quietBtn" type="button">entrer sans le son</button>
-  <div class="ld" aria-hidden="true"><div class="ld__n"><span class="ld__d" style="--k:0"><span><b>0</b><b>1</b><b>2</b><b>3</b><b>4</b><b>5</b><b>6</b><b>7</b><b>8</b><b>9</b></span></span><span class="ld__d" style="--k:1"><span><b>0</b><b>1</b><b>2</b><b>3</b><b>4</b><b>5</b><b>6</b><b>7</b><b>8</b><b>9</b></span></span><span class="ld__d" style="--k:2"><span><b>0</b><b>1</b><b>2</b><b>3</b><b>4</b><b>5</b><b>6</b><b>7</b><b>8</b><b>9</b></span></span></div><span class="ld__line"><i></i></span><span class="ld__lbl">chargement</span></div>
 </div>
 
 <!-- Interface fixe -->
@@ -2852,8 +2840,8 @@ a.vc__th{display:grid}
           { img: 'img/rc/c15-chiffres-semaine-s.webp', big: 'img/rc/c15-chiffres-semaine-l.webp', ar: '1080/1350', t: 'Les chiffres de la semaine', d: '73 % des Français consomment régulièrement des produits de la mer' },
           { img: 'img/rc/c16-sherlock-holmes-s.webp', big: 'img/rc/c16-sherlock-holmes-l.webp', ar: '1080/1440', t: 'La fin de Sherlock Holmes', d: 'Carrousel' },
           { img: 'img/rc/c17-histoires-sapin-s.webp', big: 'img/rc/c17-histoires-sapin-l.webp', ar: '1080/1350', t: 'Des histoires en musique sous le sapin', d: 'Podcast' },
-          { img: 'img/rc/c18-merimee-s.webp', big: 'img/rc/c18-merimee-l.webp', ar: '1080/1350', t: 'Prosper Mérimée et les cathédrales', d: 'Article' },
-          { img: 'img/rc/c19-moai-s.webp', big: 'img/rc/c19-moai-l.webp', ar: '1080/1350', t: 'Pourquoi les Moaï géants défient toujours la science', d: 'Article' }
+          { img: 'img/rc/c19-moai-s.webp', big: 'img/rc/c19-moai-l.webp', ar: '1080/1350', t: 'Pourquoi les Moaï géants défient toujours la science', d: 'Article' },
+          { img: 'img/rc/c18-merimee-s.webp', big: 'img/rc/c18-merimee-l.webp', ar: '1080/1350', t: 'Prosper Mérimée et les cathédrales', d: 'Article' }
         ] },
         { kind: 'vidéo', ar: '16/9', cls: 'mid', cap: 'Vidéo horizontale — à remplacer' },
         /* Vue d'ensemble, en trois onglets. guests : invités classés par thème (big = mis en avant) ;
@@ -3708,7 +3696,8 @@ a.vc__th{display:grid}
       const sl = e.target.closest('.cr__slide'); if (!sl) return;
       openLightbox(m.items.map((it, i) => `${crMedia(it, i, true)}<p class="lb__t"><b>${esc(it.t)}</b>${it.d ? ` ${esc(it.d)}` : ''}</p>`), Number(sl.dataset.i));
     });
-    requestAnimationFrame(() => { measure(); render(); });
+    /* départ : la dernière slide coupée en deux à gauche, puis la première slide en entier */
+    requestAnimationFrame(() => { measure(); x = (offs[n - 1] + offs[n]) / 2; render(); });
   }
 
   /* Couverture ParisianVibe : un banc de montage façon logiciel (projet, programme, timeline).
@@ -4384,29 +4373,6 @@ a.vc__th{display:grid}
     send.disabled = false;
   });
 
-  /* ---------- Écran d'accueil : chargement (000 → 100), puis le bouton « entrer » ----------
-     Le compteur suit le vrai chargement (page, typo, three.js) avec une durée minimale ;
-     c'est ici qu'on lancera plus tard l'intro en motion design (vidéo ou Lottie), juste avant le bouton. */
-  (() => {
-    const gate = $('#gate'), ld = gate.querySelector('.ld'); if (!ld) return;
-    const digs = [...ld.querySelectorAll('.ld__d > span')], line = ld.querySelector('.ld__line'), lbl = ld.querySelector('.ld__lbl');
-    let target = 0.25, shown = 0, t0 = performance.now();
-    const MIN = reduce ? 0 : 1500;
-    const set = (v) => { const s = String(Math.round(v)).padStart(3, '0'); [...s].forEach((c, k) => { digs[k].style.transform = `translateY(${-Number(c) * 10}%)`; }); line.style.setProperty('--p', (v / 100).toFixed(3)); };
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { target = Math.max(target, 0.6); });
-    const loaded = () => { target = 1; };
-    if (document.readyState === 'complete') loaded(); else window.addEventListener('load', loaded);
-    const tick = () => {
-      const el = performance.now() - t0, cap = MIN ? Math.min(1, el / MIN) : 1;
-      shown += (Math.min(target, cap) * 100 - shown) * 0.12;
-      if (Math.min(target, cap) >= 1 && shown > 99.4) shown = 100;
-      set(shown);
-      if (shown < 100) { requestAnimationFrame(tick); return; }
-      lbl.textContent = 'prêt';
-      setTimeout(() => { ld.classList.add('is-out'); setTimeout(() => { gate.classList.remove('is-loading'); ld.remove(); }, reduce ? 0 : 520); }, reduce ? 0 : 250);
-    };
-    requestAnimationFrame(tick);
-  })();
   /* Bouton « entrer avec le son » : les lettres roulent au survol, et le mot « son » ondule comme une onde sonore */
   (() => {
     const lab = $('#enterLabel'), txt = lab.textContent; lab.setAttribute('aria-label', txt); lab.textContent = '';
