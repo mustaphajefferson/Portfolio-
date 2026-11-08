@@ -883,91 +883,83 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
   .dc{--wh:220px}
 }
 
-/* Reels · le distributeur (deux animations à comparer) */
+/* Reels · « snack content » : la machine à formats courts (deux animations à comparer) */
 .vm{position:relative;border-radius:18px;background:var(--coal);color:var(--cream);padding:clamp(12px,1.4vw,18px);display:flex;flex-direction:column;gap:12px}
 .vm__head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:0 4px}
 .vm__brand{font-size:clamp(18px,2vw,26px);font-weight:600;letter-spacing:-.03em;line-height:1}
 .vm__sign{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.65}
-.vm__glass{position:relative;border-radius:10px;background:var(--cream);color:var(--coal);padding:clamp(10px,1.2vw,16px) clamp(10px,1.2vw,16px) 10px;overflow:hidden}
+.vm__glass{position:relative;border-radius:10px;background:var(--cream);color:var(--coal);padding:clamp(10px,1.2vw,16px) clamp(10px,1.2vw,16px) 10px}
 .vm__row{display:grid;grid-template-columns:repeat(var(--n,5),minmax(0,1fr));gap:clamp(10px,1.4vw,18px)}
 .vm__slot{position:relative;display:flex;flex-direction:column;gap:5px;min-width:0}
-.vm__item.ph{border-radius:8px;clip-path:none!important;transition:transform .45s var(--ease-out)}
+.vm__item.ph{border-radius:8px;clip-path:none!important;transition:transform .45s var(--ease-out),opacity .45s,box-shadow .45s}
 .vm__item .ph__play{width:46px;height:46px}
 .vm__item .ph__play::after{border-width:8px 0 8px 13px;margin-left:4px}
-.vm__item .ph__l{font-size:9.5px;left:8px;top:8px;padding:3px 6px}
+.vm__item .ph__l{font-size:9.5px;left:8px;top:14px;padding:3px 6px}
 .vm__coil{display:block;width:100%;height:14px}
 .vm__coil g{transition:transform .6s var(--ease-out)}
-.vm__slot:hover .vm__item{transform:translateY(5px)}
-.vm__slot:hover .vm__coil g{transform:translateX(-12px)}
+.vm__slot:hover .vm__coil g,.vm__slot.is-act .vm__coil g{transform:translateX(-12px)}
 .vm__tag{display:flex;align-items:baseline;gap:6px;font-size:11.5px;line-height:1.2;border-top:1px solid var(--line-strong);padding-top:5px}
 .vm__tag b{flex:none;font-size:10px;font-weight:700;padding:1px 5px;border-radius:3px;background:var(--coal);color:var(--cream)}
 .vm__tag span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:500}
 .vm__tag i{flex:none;font-style:normal;font-variant-numeric:tabular-nums;opacity:.55}
-.vm__foot{display:flex;align-items:center;gap:14px;padding:0 4px}
-.vm__bin{flex:0 0 clamp(130px,22%,260px);height:30px;border-radius:6px;background:rgba(0,0,0,.42);box-shadow:inset 0 3px 0 rgba(0,0,0,.3);display:grid;place-items:center;transition:background .25s}
-.vm__bin small{font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;opacity:.55}
-.vm__bin.is-hit{animation:vmHit .45s ease-out}
-.vm__hint{font-size:12.5px;line-height:1.35;opacity:.75}
-@keyframes vmTurn{to{transform:translateX(-12px)}}
-@keyframes vmHit{30%{background:rgba(248,243,227,.25)}}
-/* version 1 : la machine s'allume rangée par rangée, les spirales font un tour */
-.vm[data-vm="1"] .vm__slot::before{content:"";position:absolute;inset:-6px;z-index:2;background:var(--coal);opacity:.86;pointer-events:none}
-.vm[data-vm="1"].is-on .vm__slot::before{animation:vmOn .7s calc(var(--i) * .14s) both}
-.vm[data-vm="1"].is-on .vm__coil g{animation:vmTurn .7s calc(var(--i) * .14s + .25s) var(--ease-out)}
-.vm__sheen{position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.6) 50%,transparent 62%);translate:-110% 0}
-.vm.is-on .vm__sheen{animation:vmSheen 1.3s 1s ease-out both}
-@keyframes vmOn{0%{opacity:.86}25%{opacity:.35}35%{opacity:.75}55%{opacity:.12}100%{opacity:0}}
-@keyframes vmSheen{to{translate:110% 0}}
-/* version 2 : au clic, la spirale tourne, la vidéo tombe dans le bac puis se lance */
-.vm__slot.is-drop .vm__coil g{animation:vmTurn .4s var(--ease-out)}
-.vm__slot.is-drop .vm__item{animation:vmDrop .5s .3s cubic-bezier(.55,0,.9,.45) forwards}
-.vm__slot.is-back .vm__item{animation:vmBack .45s var(--ease-out)}
-@keyframes vmDrop{to{transform:translateY(130%) rotate(9deg)}}
-@keyframes vmBack{from{transform:translateY(-24px);opacity:0}}
-@media (max-width:760px){
-  .vm__row{grid-template-columns:repeat(var(--n,5),148px);overflow-x:auto;scrollbar-width:none}
-  .vm__hint{font-size:11.5px}
-}
-@media (prefers-reduced-motion:reduce){.vm *,.vm::before{animation:none!important}.vm[data-vm="1"] .vm__slot::before{opacity:0}}
+.vm__hint{font-size:12.5px;line-height:1.35;opacity:.75;padding:0 4px}
+/* version 1 · l'aperçu : comme une story, chaque format s'avance à tour de rôle, sa barre de lecture se remplit */
+.vm__bar{position:absolute;left:8px;right:8px;top:7px;height:3px;border-radius:2px;background:rgba(37,36,34,.15);overflow:hidden;pointer-events:none}
+.vm__bar i{position:absolute;inset:0;background:var(--coal);transform:scaleX(0);transform-origin:0 50%}
+.vm[data-vm="1"].is-on .vm__slot:not(.is-act) .vm__item:not(.is-playing){opacity:.55}
+.vm__slot.is-act .vm__item{transform:translateY(-6px) scale(1.03);box-shadow:0 14px 26px -12px rgba(0,0,0,.45)}
+.vm__slot.is-act .vm__bar i{animation:vmBar var(--t,2.6s) linear forwards}
+.vm__slot.is-act .vm__tag b{background:var(--coal)}
+@keyframes vmBar{to{transform:scaleX(1)}}
+/* version 2 · l'emballage : chaque format est emballé comme un snack ; au survol, l'emballage se déchire */
+.vm__wrap{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;padding:14px 10px;text-align:center;background:var(--coal);color:var(--cream);clip-path:var(--zz);transition:transform .55s var(--ease-out),opacity .4s;pointer-events:none}
+.vm__wrap::before,.vm__wrap::after{content:"";position:absolute;left:0;right:0;height:14px;background:repeating-linear-gradient(90deg,rgba(248,243,227,.18) 0 2px,transparent 2px 6px)}
+.vm__wrap::before{top:4px}.vm__wrap::after{bottom:4px}
+.vm__wrap small{font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;opacity:.6}
+.vm__wrap b{font-size:clamp(17px,1.7vw,24px);font-weight:600;letter-spacing:-.03em;line-height:1.05}
+.vm__wrap i{font-style:normal;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;border:1px solid rgba(248,243,227,.4)}
+.vm__item:hover .vm__wrap,.vm__item:focus-within .vm__wrap{transform:translateY(80%) rotate(5deg)}
+.vm__item.is-playing .vm__wrap{transform:translateY(110%) rotate(8deg);opacity:0}
+@media (hover:none){.vm__wrap{transform:translateY(62%) rotate(3deg)}}
+@media (max-width:760px){.vm__row{grid-template-columns:repeat(var(--n,5),148px);overflow-x:auto;scrollbar-width:none}}
+@media (prefers-reduced-motion:reduce){.vm *{animation:none!important;transition:none!important}}
 
-/* Graphisme · le mur de colle (deux animations à comparer) */
+/* Défense d'afficher · le mur de colle : la pile à arracher, ou tout voir d'un coup */
+.wl-hd{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 12px}
+.wl-hd .ab-pv-switch{font-size:14px}
 .wl{position:relative;aspect-ratio:16/7;border-radius:14px;overflow:hidden;background-color:rgba(0,0,0,.06);background-image:linear-gradient(rgba(0,0,0,.05) 1px,transparent 1px);background-size:100% 44px;user-select:none;-webkit-user-select:none}
-.wl__p{position:absolute;margin:0;rotate:var(--r);transform-origin:50% 0;transition:rotate .4s var(--ease-out),scale .4s var(--ease-out),box-shadow .4s}
+.wl__sign{position:absolute;right:clamp(14px,3%,40px);top:clamp(14px,8%,40px);z-index:0;padding:6px 10px;border:2px solid rgba(37,36,34,.35);color:rgba(37,36,34,.4);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-align:center;line-height:1.3;rotate:-2deg}
+.wl__sign small{display:block;font-size:8.5px;font-weight:600;letter-spacing:.06em}
+.wl__p{position:absolute;margin:0;rotate:var(--r);transition:rotate .4s var(--ease-out)}
 .wl__p .ph{border-radius:2px;background:var(--bg);box-shadow:0 1px 0 rgba(0,0,0,.06),0 6px 14px -6px rgba(0,0,0,.25);clip-path:none!important}
 .wl__p .ph__l{font-size:9.5px;left:8px;top:8px;padding:3px 6px}
 .wl__scrap{position:absolute;z-index:25;background:var(--bg);filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.35));pointer-events:none}
-.wl__cap{position:absolute;left:14px;bottom:12px;z-index:30;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;border-radius:5px;background:var(--coal);color:var(--cream);pointer-events:none}
-/* version 1 : les affiches se collent une à une, d'un coup de brosse */
-.wl[data-wl="1"] .wl__p{opacity:0}
-.wl[data-wl="1"] .wl__p:hover{rotate:0deg;scale:1.04;z-index:20}
-.wl[data-wl="1"].is-on .wl__p{animation:wlPaste .6s calc(var(--i) * .17s) var(--ease-out) both}
-.wl[data-wl="1"] .wl__p::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.55) 0 3px,rgba(255,255,255,.15) 3px 7px);mask:linear-gradient(transparent,#000 30%,#000 70%,transparent);-webkit-mask:linear-gradient(transparent,#000 30%,#000 70%,transparent);background-size:100% 100%}
-.wl[data-wl="1"].is-on .wl__p::after{animation:wlBrush .6s calc(var(--i) * .17s + .22s) ease-out both}
-@keyframes wlPaste{0%{opacity:0;transform:translateY(-18px) scale(1.06) skewX(-2deg)}35%{opacity:1}100%{opacity:1;transform:none}}
-@keyframes wlBrush{0%{opacity:.9;clip-path:inset(0 0 100% 0)}60%{opacity:.7;clip-path:inset(0)}100%{opacity:0;clip-path:inset(0)}}
-/* version 2 : une pile d'affiches, on arrache celle du dessus */
-.wl[data-wl="2"] .wl__stack{position:absolute;left:50%;top:7%;bottom:7%;translate:-50% 0;aspect-ratio:3/4}
-.wl[data-wl="2"] .wl__p{inset:0;margin:auto;height:100%;width:fit-content;cursor:grab;touch-action:none}
-.wl[data-wl="2"] .wl__p .ph{height:100%;width:auto}
-.wl[data-wl="2"] .wl__p.is-drag{cursor:grabbing;transition:none}
-.wl[data-wl="2"] .wl__p.is-wide{width:100%;height:fit-content}
-.wl[data-wl="2"] .wl__p.is-wide .ph{width:100%;height:auto}
-.wl[data-wl="2"] .wl__p.is-top .ph{clip-path:polygon(0 0,100% 0,100% calc(100% - 34px),calc(100% - 34px) 100%,0 100%)!important}
-.wl[data-wl="2"] .wl__p.is-top::after{content:"";position:absolute;right:0;bottom:0;width:34px;height:34px;pointer-events:none;background:linear-gradient(135deg,var(--cream) 0 50%,transparent 50%);filter:drop-shadow(-2px -2px 2px rgba(0,0,0,.22));transform-origin:0 0;animation:wlCorner 1.8s ease-in-out infinite}
-.wl[data-wl="2"] .wl__p.is-drag::after,.wl[data-wl="2"] .wl__p.is-gone::after{display:none}
-.wl[data-wl="2"] .wl__p.is-drag .ph,.wl[data-wl="2"] .wl__p.is-gone .ph{clip-path:none!important}
-.wl[data-wl="2"] .wl__p.is-gone{transition:transform .5s cubic-bezier(.5,0,.9,.5),opacity .5s;opacity:0;pointer-events:none}
+.wl__stack{position:absolute;left:50%;top:7%;bottom:7%;translate:-50% 0;aspect-ratio:3/4}
+.wl__stack .wl__p{inset:0;margin:auto;height:100%;width:fit-content;cursor:grab;touch-action:none}
+.wl__stack .wl__p .ph{height:100%;width:auto}
+.wl__stack .wl__p.is-wide{width:100%;height:fit-content}
+.wl__stack .wl__p.is-wide .ph{width:100%;height:auto}
+.wl__stack .wl__p.is-drag{cursor:grabbing;transition:none}
+.wl__stack .wl__p.is-top .ph{clip-path:polygon(0 0,100% 0,100% calc(100% - 34px),calc(100% - 34px) 100%,0 100%)!important}
+.wl__stack .wl__p.is-top::after{content:"";position:absolute;right:0;bottom:0;width:34px;height:34px;pointer-events:none;background:linear-gradient(135deg,var(--cream) 0 50%,transparent 50%);filter:drop-shadow(-2px -2px 2px rgba(0,0,0,.22));animation:wlCorner 1.8s ease-in-out infinite}
+.wl__stack .wl__p.is-drag::after,.wl__stack .wl__p.is-gone::after{display:none}
+.wl__stack .wl__p.is-drag .ph,.wl__stack .wl__p.is-gone .ph{clip-path:none!important}
+.wl__stack .wl__p.is-gone{transition:transform .5s cubic-bezier(.5,0,.9,.5),opacity .5s;opacity:0;pointer-events:none}
 .wl__side{position:absolute;left:clamp(14px,3%,40px);top:50%;translate:0 -50%;z-index:30;max-width:24%;display:flex;flex-direction:column;gap:8px;font-size:13px;line-height:1.4}
 .wl__side b{font-size:clamp(26px,3vw,40px);font-weight:600;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
 @keyframes wlCorner{50%{transform:translate(-3px,-3px)}}
+.wl-grid{display:flex;flex-wrap:wrap;gap:clamp(14px,2vw,24px);align-items:flex-end}
+.wl-grid figure{margin:0;display:flex;flex-direction:column;gap:8px;flex:none}
+.wl-grid .ph{height:clamp(170px,19vw,250px);width:auto;border-radius:4px;clip-path:none!important}
+.wl-grid figcaption{font-size:13px;font-weight:500}
 @media (max-width:760px){
-  .wl{aspect-ratio:auto;height:420px}
-  .wl[data-wl="1"]{overflow-x:auto}
-  .wl[data-wl="1"] .wl__in{position:relative;width:900px;height:100%}
+  .wl{aspect-ratio:auto;height:440px}
   .wl__side{top:auto;bottom:14px;translate:none;max-width:none;flex-direction:row;align-items:baseline}
-  .wl[data-wl="2"] .wl__stack{top:5%;bottom:22%}
+  .wl__stack{top:5%;bottom:24%}
+  .wl__sign{display:none}
+  .wl-grid .ph{height:150px}
 }
-@media (prefers-reduced-motion:reduce){.wl *{animation:none!important}.wl[data-wl="1"] .wl__p{opacity:1}}
+@media (prefers-reduced-motion:reduce){.wl *{animation:none!important}}
 
 /* ParisianVibe · bibliothèque de vidéos : thèmes, curseurs, tri */
 .vl{grid-column:span 12;display:flex;flex-direction:column;gap:22px;min-width:0}
@@ -1415,7 +1407,7 @@ a.vc__th{display:grid}
   ];
   const PORTRAIT = new Set([3, 8]);
   const projects = Array.from({ length: N }, (_, i) => ({
-    title: ['Radio Classique', 'ParisianVibe', 'AFP', 'UMA', 'Méduse', 'Sea Shepherd', 'Reels', 'Graphisme', 'La Calle m’a dit', 'Le Corbusier'][i] || 'Projet ' + String(i + 1).padStart(2, '0'),
+    title: ['Radio Classique', 'ParisianVibe', 'AFP', 'UMA', 'Méduse', 'Sea Shepherd', 'Snack content', 'Défense d’afficher', 'La Calle m’a dit', 'Le Corbusier'][i] || 'Projet ' + String(i + 1).padStart(2, '0'),
     slug: ['radio-classique', 'parisianvibe', 'afp', 'uma', 'meduse', 'sea-shepherd', 'reels', 'graphisme', 'la-calle-ma-dit', 'le-corbusier'][i] || null,
     cat: CATS[i % CATS.length],
     portrait: PORTRAIT.has(i)
@@ -2852,7 +2844,7 @@ a.vc__th{display:grid}
       ]
     },
     'reels': {
-      title: 'Reels', kicker: 'vidéo verticale', coverFx: 'vend',
+      title: 'Snack content', kicker: 'reels · vidéo verticale', coverFx: 'vend',
       /* Les reels du distributeur : c = code de la spirale, t = titre, d = durée ; ajoutez yt: '…' ou mp4: '…' (et poster: '…') pour brancher la vidéo */
       reels: [
         { c: 'A1', t: 'Reel 01', d: '0:15' },
@@ -2862,7 +2854,7 @@ a.vc__th{display:grid}
         { c: 'A5', t: 'Reel 05', d: '0:30' }
       ],
       lead: [
-        "À côté de mes projets, je réalise des **reels** : des vidéos **verticales** et courtes, pensées pour le fil Instagram. Comme dans un **distributeur**, chacun est un petit format à piocher, à consommer en quelques secondes. Des projets **personnels**, aux sujets et aux styles très différents, qui me servent de **terrain d’expérimentation**.",
+        "À côté de mes projets, je réalise des **reels** : des vidéos **verticales** et courtes, pensées pour le fil Instagram. Du **snack content** : des petits formats à piocher, qui se consomment en quelques secondes. Des projets **personnels**, aux sujets et aux styles très différents, qui me servent de **terrain d’expérimentation**.",
         "Chaque reel est l’occasion de tester quelque chose : un **rythme de montage**, une **transition**, une **typo animée**, un **étalonnage**. Le format impose ses règles : accrocher dès la première seconde, se comprendre sans le son, tout dire en quelques secondes."
       ],
       meta: [['format', 'Vertical 9:16'], ['diffusion', 'Instagram'], ['nature', 'Projets personnels']],
@@ -2875,7 +2867,7 @@ a.vc__th{display:grid}
       media: []
     },
     'graphisme': {
-      title: 'Graphisme', kicker: 'affiches & typographie', coverFx: 'wall',
+      title: 'Défense d’afficher', kicker: 'affiches & typographie', coverFx: 'wall',
       /* Les affiches du mur : t = nom, ar = format ; ajoutez img: 'chemin/image.jpg' pour mettre l'image */
       posters: [
         { t: 'Affiche 01', ar: '3/4' },
@@ -2888,7 +2880,7 @@ a.vc__th{display:grid}
         { t: 'Affiche 06', ar: '2/3' }
       ],
       lead: [
-        "Un **mur de colle**, c’est l’endroit où les affiches s’accumulent, se recouvrent et finissent par raconter une époque. J’y colle tout ce que je fais à côté : des **affiches**, beaucoup de **typographie**, des essais et des projets variés.",
+        "**Défense d’afficher** : c’est écrit sur le mur, et c’est justement là que les affiches s’accumulent, se recouvrent et finissent par raconter une époque. J’y colle tout ce que je fais à côté : des **affiches**, beaucoup de **typographie**, des essais et des projets variés.",
         "Pas de fil rouge, sinon le plaisir de **faire** et de chercher : chaque pièce est un terrain d’essai pour une forme, une lettre ou une composition."
       ],
       meta: [['contenu', 'Affiches · typographie · essais'], ['nature', 'Projets personnels']],
@@ -3060,7 +3052,7 @@ a.vc__th{display:grid}
     const fxd = pjInner.querySelector('.pj-cover.fx-afp .dc');
     if (fxd) initDecl(fxd);
     pjInner.querySelectorAll('.pj-cover .vm').forEach(initVm);
-    pjInner.querySelectorAll('.pj-cover .wl').forEach(initWall);
+    pjInner.querySelectorAll('.pj-cover .wl-box').forEach(initWall);
     const fxe = pjInner.querySelector('.pj-cover.fx-edit .pr');
     if (fxe) initPr(fxe);
     pjInner.querySelectorAll('[data-vl]').forEach((el) => initLibrary(el, P.media.find((m) => m.library)));
@@ -3695,60 +3687,54 @@ a.vc__th{display:grid}
     });
   }
 
-  /* Reels · « le distributeur » : chaque reel est rangé dans une spirale, avec son code et sa durée.
+  /* Reels · « snack content » : les formats courts rangés dans une machine, chacun avec son code et sa durée.
      Un seul clic lance la vidéo. Deux animations à comparer :
-     1 · l'allumage : en arrivant, la vitre s'allume rangée par rangée et chaque spirale fait un tour ;
-     2 · la chute : au clic, la spirale tourne, la vidéo tombe dans le bac, puis se lance. */
+     1 · l'aperçu : comme une story, chaque format s'avance à tour de rôle et sa barre de lecture se remplit ;
+     2 · l'emballage : chaque format est emballé comme un snack ; au survol, l'emballage se déchire et laisse voir la vidéo. */
   const VM_COIL = `<svg class="vm__coil" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6" opacity=".55">${Array.from({ length: 13 }, (_, k) => `<ellipse cx="${k * 12 - 6}" cy="7" rx="7" ry="5.5"/>`).join('')}</g></svg>`;
+  const VM_ZZ = (() => { const n = 14, top = [], bot = []; for (let k = 0; k <= n; k++) { const x = (k / n) * 100; top.push(`${x.toFixed(2)}% ${k % 2 ? 0 : 6}px`); bot.unshift(`${x.toFixed(2)}% calc(100% - ${k % 2 ? 0 : 6}px)`); } return `polygon(${top.concat(bot).join(',')})`; })();
   const VM_HTML = (P, v) => `<div class="vm" data-vm="${v}">
-      <div class="vm__head"><span class="vm__brand">reels</span><span class="vm__sign">formats courts · au choix</span></div>
+      <div class="vm__head"><span class="vm__brand">snack content</span><span class="vm__sign">formats courts · à consommer sans modération</span></div>
       <div class="vm__glass"><div class="vm__row" style="--n:${P.reels.length}">${P.reels.map((r, k) => {
         const src = r.yt ? ` data-yt="${esc(r.yt)}"` : r.mp4 ? ` data-mp4="${esc(r.mp4)}"` : '', bg = r.poster ? `;background-image:url(${esc(r.poster)})` : '';
-        return `<div class="vm__slot" style="--i:${k}"><div class="ph ph--video vm__item" style="--ar:9/16${bg}"${src}>${src || bg ? '' : `<span class="ph__l">${esc(r.c)} · à remplacer</span>`}<button type="button" class="ph__play" aria-label="lire ${esc(r.t)}"></button></div>${VM_COIL}<span class="vm__tag"><b>${esc(r.c)}</b><span>${esc(r.t)}</span><i>${esc(r.d)}</i></span></div>`;
-      }).join('')}</div><span class="vm__sheen"></span></div>
-      <div class="vm__foot"><span class="vm__bin"><small>poussez</small></span><span class="vm__hint">${v === 1 ? 'Choisissez une vidéo et cliquez : elle se lance.' : 'Cliquez sur une vidéo : elle tombe dans le bac, puis se lance.'}</span></div>
+        const extra = v === 1 ? '<span class="vm__bar"><i></i></span>' : `<span class="vm__wrap" style="--zz:${VM_ZZ}" aria-hidden="true"><small>snack content</small><b>${esc(r.t)}</b><i>${esc(r.d)}</i></span>`;
+        return `<div class="vm__slot" style="--i:${k}"><div class="ph ph--video vm__item" style="--ar:9/16${bg}"${src}>${src || bg ? '' : `<span class="ph__l">${esc(r.c)} · à remplacer</span>`}<button type="button" class="ph__play" aria-label="lire ${esc(r.t)}"></button>${extra}</div>${VM_COIL}<span class="vm__tag"><b>${esc(r.c)}</b><span>${esc(r.t)}</span><i>${esc(r.d)}</i></span></div>`;
+      }).join('')}</div></div>
+      <p class="vm__hint">${v === 1 ? 'Les formats défilent en aperçu. Cliquez sur celui qui vous tente : il se lance.' : 'Survolez un snack pour ouvrir l’emballage, cliquez pour lancer la vidéo.'}</p>
     </div>`;
   const REELS_HTML = (P) => `<div class="ags">
-    <div><p class="ag__lbl"><b>version 1</b><span>L’allumage : la machine s’éclaire en arrivant</span></p>${VM_HTML(P, 1)}</div>
-    <div><p class="ag__lbl"><b>version 2</b><span>La chute : la vidéo tombe dans le bac, puis se lance</span></p>${VM_HTML(P, 2)}</div></div>`;
+    <div><p class="ag__lbl"><b>version 1</b><span>L’aperçu : chaque format s’avance à tour de rôle, comme une story</span></p>${VM_HTML(P, 1)}</div>
+    <div><p class="ag__lbl"><b>version 2</b><span>L’emballage : on ouvre le snack pour voir la vidéo</span></p>${VM_HTML(P, 2)}</div></div>`;
   function initVm(el) {
-    if (el.dataset.vm === '1') {
-      if (reduce || !('IntersectionObserver' in window)) el.classList.add('is-on');
-      else { const io = new IntersectionObserver((en) => { if (en[0].isIntersecting) { io.disconnect(); el.classList.add('is-on'); } }, { root: pj, threshold: 0.35 }); io.observe(el); }
-      return;
-    }
-    const bin = el.querySelector('.vm__bin');
-    el.querySelectorAll('.vm__slot').forEach((slot) => {
-      const item = slot.querySelector('.vm__item');
-      slot.addEventListener('click', (e) => {
-        if (item.classList.contains('is-playing') || slot.classList.contains('is-drop')) return;
-        e.stopPropagation();
-        if (reduce) { playFacade(item); return; }
-        slot.classList.remove('is-back'); slot.classList.add('is-drop'); sfx.play('click');
-        setTimeout(() => { bin.classList.remove('is-hit'); void bin.offsetWidth; bin.classList.add('is-hit'); }, 650);
-        setTimeout(() => { slot.classList.remove('is-drop'); slot.classList.add('is-back'); playFacade(item); }, 880);
-      }, true);
-    });
+    if (el.dataset.vm !== '1' || reduce) return;
+    const slots = [...el.querySelectorAll('.vm__slot')];
+    let cur = -1, timer = 0, vis = false, hover = false;
+    const step = () => { slots.forEach((s) => s.classList.remove('is-act')); cur = (cur + 1) % slots.length; void slots[cur].offsetWidth; slots[cur].classList.add('is-act'); };
+    const run = () => { clearInterval(timer); if (vis && !hover) { if (cur < 0) step(); timer = setInterval(step, 2600); } };
+    el.addEventListener('pointerenter', () => { hover = true; clearInterval(timer); });
+    el.addEventListener('pointerleave', () => { hover = false; run(); });
+    slots.forEach((s, k) => s.addEventListener('pointerenter', () => { slots.forEach((x) => x.classList.remove('is-act')); cur = k; s.classList.add('is-act'); }));
+    if ('IntersectionObserver' in window) new IntersectionObserver((en) => { vis = en[0].isIntersecting; el.classList.toggle('is-on', vis); run(); }, { root: pj, threshold: 0.35 }).observe(el);
   }
 
-  /* Graphisme · « le mur de colle » : affiches, typos et essais collés les uns sur les autres.
-     Deux animations à comparer :
-     1 · le collage : en arrivant, les affiches se collent une à une, d'un coup de brosse ;
-     2 · l'arrachage : une pile d'affiches, on attrape celle du dessus et on l'arrache (ou un clic) pour voir la suivante. */
-  const WL_POS = [[1.5, 6, 17, -2], [14, 50, 15, 3], [27, 5, 16, 1.5], [31, 57, 20, -1], [45, 8, 15, -3], [55, 40, 16, 2], [68, 4, 18, -1.5], [80, 37, 17, 2.5]];
-  const wlPoster = (it, k, style) => `<figure class="wl__p" style="${style};--i:${k}"><div class="ph" style="--ar:${it.ar}${it.img ? `;background-image:url(${esc(it.img)})` : ''}">${it.img ? '' : `<span class="ph__l">${esc(it.t)} · ${esc(it.ar.replace('/', ':'))}</span>`}</div></figure>`;
-  const WALL_HTML = (P) => `<div class="ags">
-    <div><p class="ag__lbl"><b>version 1</b><span>Le collage : les affiches se collent une à une</span></p>
-      <div class="wl" data-wl="1"><div class="wl__in">${P.posters.map((it, k) => { const [x, y, w, r] = WL_POS[k % WL_POS.length]; return wlPoster(it, k, `left:${x}%;top:${y}%;width:${w}%;--r:${r}deg`); }).join('')}</div></div></div>
-    <div><p class="ag__lbl"><b>version 2</b><span>L’arrachage : arrachez l’affiche du dessus</span></p>
-      <div class="wl" data-wl="2"><div class="wl__side"><b><span class="wl__n">01</span> / ${pad2(P.posters.length)}</b><span>Attrapez l’affiche et arrachez-la, ou cliquez, pour découvrir la suivante.</span></div>
-        <div class="wl__stack">${P.posters.map((it, k) => { const [a, b] = it.ar.split('/').map(Number); return wlPoster(it, k, `--r:${((k * 37) % 7) - 3}deg;z-index:${P.posters.length - k}`).replace('class="wl__p"', `class="wl__p${a / b > 0.75 ? ' is-wide' : ''}"`); }).join('')}</div></div></div></div>`;
-  function initWall(el) {
-    if (el.dataset.wl === '1') {
-      if (reduce || !('IntersectionObserver' in window)) el.classList.add('is-on');
-      else { const io = new IntersectionObserver((en) => { if (en[0].isIntersecting) { io.disconnect(); el.classList.add('is-on'); } }, { root: pj, threshold: 0.35 }); io.observe(el); }
-      return;
-    }
+  /* Défense d'afficher · le mur de colle : une pile d'affiches à arracher (glisser ou clic),
+     ou « tout voir » pour afficher toutes les pièces d'un coup, sans animation. */
+  const wlPoster = (it, k, style, cls) => `<figure class="wl__p${cls || ''}" style="${style}"><div class="ph" style="--ar:${it.ar}${it.img ? `;background-image:url(${esc(it.img)})` : ''}">${it.img ? '' : `<span class="ph__l">${esc(it.t)} · ${esc(it.ar.replace('/', ':'))}</span>`}</div></figure>`;
+  const WALL_HTML = (P) => `<div class="wl-box">
+      <div class="wl-hd"><p class="ag__lbl" style="margin:0"><b>le mur</b><span>Arrachez l’affiche du dessus pour voir la suivante</span></p>
+        <div class="ab-pv-switch" role="tablist" aria-label="affichage des affiches"><button type="button" role="tab" aria-selected="true" data-wv="pile">arracher</button><span aria-hidden="true">•</span><button type="button" role="tab" aria-selected="false" data-wv="all">tout voir</button></div></div>
+      <div class="wl" data-wl="2"><span class="wl__sign">défense d’afficher<small>loi du 29 juillet 1881</small></span><div class="wl__side"><b><span class="wl__n">01</span> / ${pad2(P.posters.length)}</b><span>Attrapez l’affiche et arrachez-la, ou cliquez, pour découvrir la suivante.</span></div>
+        <div class="wl__stack">${P.posters.map((it, k) => { const [a, b] = it.ar.split('/').map(Number); return wlPoster(it, k, `--r:${((k * 37) % 7) - 3}deg;z-index:${P.posters.length - k}`, a / b > 0.75 ? ' is-wide' : ''); }).join('')}</div></div>
+      <div class="wl-grid" hidden>${P.posters.map((it) => `<figure><div class="ph" style="--ar:${it.ar}${it.img ? `;background-image:url(${esc(it.img)})` : ''}">${it.img ? '' : `<span class="ph__l">${esc(it.ar.replace('/', ':'))}</span>`}</div><figcaption>${esc(it.t)}</figcaption></figure>`).join('')}</div>
+    </div>`;
+  function initWall(box) {
+    const el = box.querySelector('.wl'), grid = box.querySelector('.wl-grid');
+    box.querySelectorAll('[data-wv]').forEach((b) => b.addEventListener('click', () => {
+      const all = b.dataset.wv === 'all';
+      box.querySelectorAll('[data-wv]').forEach((x) => x.setAttribute('aria-selected', String(x === b)));
+      el.hidden = all; grid.hidden = !all; sfx.play('click');
+      box.querySelector('.wl-hd .ag__lbl span').textContent = all ? 'Toutes les pièces, d’un coup d’œil' : 'Arrachez l’affiche du dessus pour voir la suivante';
+    }));
     const stack = el.querySelector('.wl__stack'), num = el.querySelector('.wl__n'), total = stack.children.length;
     let order = [...stack.children], seen = 0, busy = false;
     const restack = () => { order.forEach((p, k) => { p.style.zIndex = String(total - k); p.classList.toggle('is-top', k === 0); }); num.textContent = pad2((seen % total) + 1); };
@@ -3777,8 +3763,8 @@ a.vc__th{display:grid}
       drag.p.style.transform = `translate(${drag.dx}px,${drag.dy}px) rotate(${drag.dx * 0.06}deg)`;
     });
     const end = () => {
-      if (!drag) return; const { p, dx, dy } = drag; drag = null;
-      if (Math.hypot(dx, dy) > 70 || Math.hypot(dx, dy) < 4) tear(p, Math.hypot(dx, dy) < 4 ? 30 : dx, Math.hypot(dx, dy) < 4 ? 40 : dy);
+      if (!drag) return; const { p, dx, dy } = drag; drag = null; const m = Math.hypot(dx, dy);
+      if (m > 70 || m < 4) tear(p, m < 4 ? 30 : dx, m < 4 ? 40 : dy);
       else { p.classList.remove('is-drag'); p.style.transform = ''; }
     };
     stack.addEventListener('pointerup', end); stack.addEventListener('pointercancel', end);
