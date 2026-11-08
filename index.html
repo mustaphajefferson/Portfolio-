@@ -589,6 +589,11 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .ph--video{cursor:pointer}
 .ph__play{border:0;cursor:pointer;position:relative;z-index:1}
 .ph iframe,.ph video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000;object-fit:cover}
+.ph__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.ph.is-zoom{cursor:zoom-in}
+.ph.is-zoom .ph__img{transition:scale .6s var(--ease-out)}
+.ph.is-zoom:hover .ph__img{scale:1.025}
+.lb__t .rl__s,.lb__t .rl__d{display:block;margin-top:4px;opacity:.75}
 .ph.is-playing .ph__play,.ph.is-playing .ph__l{display:none}
 .ph.is-nudge .ph__play{animation:nudge .5s var(--ease-out)}
 @keyframes nudge{0%,100%{translate:0}25%{translate:-6px 0}50%{translate:6px 0}75%{translate:-3px 0}}
@@ -2814,7 +2819,7 @@ a.vc__th{display:grid}
         /* Chaque vidéo est un exemple tiré d'une série */
         { row: true, title: 'Reels', kind: 'vidéo', ar: '9/16', intro: "Texte de présentation des reels, à remplacer. Deux ou trois phrases pour expliquer le principe des séries et ce que vous y avez fait.", items: [
           { t: 'Esther Abrami', s: 'Showreel motion design', d: "Série de reels qui mettent en image sa chronique à l’antenne. Ici, les passages en motion design." },
-          { t: 'Conférence de rentrée', s: 'Micro-trottoir', d: "Les coulisses de la radio : des contenus autour de l’antenne et de ceux qui la font." },
+          { t: 'Conférence de rentrée', s: 'Les voix de l’antenne · montage', mp4: 'vid/rc-rentree.mp4', poster: 'vid/rc-rentree-poster.webp', d: "Les voix de la station présentent la nouvelle saison, lors de la conférence de rentrée." },
           { t: 'Le Journal imprévisible', s: 'Marc Bourreau · motion design', d: "Un reel en motion design qui illustre la chronique." },
           { t: 'Showreel animations', s: 'Motion design', d: "Une sélection des différentes animations réalisées pour la station." },
           { t: 'L’invité de la Matinale', s: 'Gad Elmaleh · montage', d: "Extrait de la série d’interviews de la Matinale, le plus souvent avec des personnalités politiques." }
@@ -2843,7 +2848,7 @@ a.vc__th{display:grid}
           { img: 'img/rc/c19-moai-s.webp', big: 'img/rc/c19-moai-l.webp', ar: '1080/1350', t: 'Pourquoi les Moaï géants défient toujours la science', d: 'Article' },
           { img: 'img/rc/c18-merimee-s.webp', big: 'img/rc/c18-merimee-l.webp', ar: '1080/1350', t: 'Prosper Mérimée et les cathédrales', d: 'Article' }
         ] },
-        { kind: 'vidéo', ar: '16/9', cls: 'mid', cap: 'Vidéo horizontale — à remplacer' },
+        { kind: 'vidéo', ar: '16/9', cls: 'mid', mp4: 'vid/rc-journal-du-classique.mp4', poster: 'vid/rc-journal-du-classique-poster.webp', cap: 'Le Journal du Classique : une compilation des interviews de Laure Mézan' },
         /* Vue d'ensemble, en trois onglets. guests : invités classés par thème (big = mis en avant) ;
            voices : slot = [premier jour, dernier jour (1 = lundi), début, fin en minutes], pour le badge « à l'antenne ». */
         { antenna: true, title: 'Sur l’antenne',
@@ -3000,8 +3005,15 @@ a.vc__th{display:grid}
             { yt: 'szibkWLKrjw', t: 'Christmas in Paris 2024 | Noël à Paris — Discover the Rare & Extraordinary!', s: 'Voyages', dur: '8:45', v: 42000 },
             { yt: 'fce7CClNj_M', t: 'Bag Girl’s Guide: A Conversation With Christie’s', s: 'Guides mode', dur: '13:15', v: 23000 }
           ] },
-        { row: true, title: 'Images', kind: 'image', ar: '4/5', intro: "Petit texte de présentation des images, à remplacer.", items: [
-          { t: 'Image 01', s: 'à remplacer' }, { t: 'Image 02', s: 'à remplacer' }, { t: 'Image 03', s: 'à remplacer' }
+        /* Carrousel de l'habillage : titres, cartons et mises en page à l'écran (img = petite, big = agrandie au clic) */
+        { carousel: true, title: 'L’habillage', intro: "Titres, génériques, cartons et citations : l’habillage graphique que je créais pour chaque série de la chaîne, dans l’univers élégant de ParisianVibe.", items: [
+          { img: 'img/pv/pv-24h-madrid-s.webp', big: 'img/pv/pv-24h-madrid-l.webp', ar: '3024/1638', t: '24 Hours in Madrid', d: 'Spain Edition · titre d’ouverture' },
+          { img: 'img/pv/pv-at-home-paris-s.webp', big: 'img/pv/pv-at-home-paris-l.webp', ar: '3024/1644', t: 'At Home in Paris', d: 'PV Series · générique de la série' },
+          { img: 'img/pv/pv-bonjour-provence-s.webp', big: 'img/pv/pv-bonjour-provence-l.webp', ar: '3024/1640', t: 'Bonjour Provence', d: 'titre en surimpression' },
+          { img: 'img/pv/pv-coquette-red-dress-s.webp', big: 'img/pv/pv-coquette-red-dress-l.webp', ar: '3024/1644', t: 'Outfit n°3 · Coquette Red Dress', d: 'carton de présentation d’une tenue' },
+          { img: 'img/pv/pv-lettres-jeune-poete-s.webp', big: 'img/pv/pv-lettres-jeune-poete-l.webp', ar: '3024/1642', t: 'Lettres à un jeune poète', d: 'citation de Rilke, en écran partagé' },
+          { img: 'img/pv/pv-filles-a-paris-s.webp', big: 'img/pv/pv-filles-a-paris-l.webp', ar: '3024/1646', t: 'Les Filles à Paris', d: 'PV Series · épisode 05' },
+          { img: 'img/pv/pv-flowers-renoir-s.webp', big: 'img/pv/pv-flowers-renoir-l.webp', ar: '720/585', t: 'Flowers of Pierre-Auguste Renoir', d: 'titre d’un épisode Art & culture' }
         ] },
         { text: true, cls: 'mid', paras: [
           "Mon approche créative repose sur une synergie entre une maîtrise technique **exigeante** et une vision **stratégique** claire. En tant que **graphiste** et **monteur vidéo**, j'associe une expertise pointue en post-production — du motion design au sound design — à un sens aigu du storytelling afin de concevoir des identités visuelles percutantes.",
@@ -3029,20 +3041,17 @@ a.vc__th{display:grid}
       ],
       media: [
         /* La vidéo (16:9) */
-        { kind: 'vidéo', ar: '16/9', cls: 'mid', cap: 'Jeux olympiques 2024 : Paris, capitale des sports vue par trois photographes de l’AFP' },
+        { kind: 'vidéo', ar: '16/9', cls: 'mid', yt: '5PJTNqlyBs4', poster: 'https://i.ytimg.com/vi/5PJTNqlyBs4/hqdefault.jpg', cap: 'Jeux olympiques 2024 : Paris, capitale des sports vue par trois photographes de l’AFP' },
         { text: true, cls: 'mid', paras: [
           "Ma pratique s'est **appuyée** sur un socle technique **robuste**, alliant la maîtrise **avancée** des outils de **post-production** — du **motion design** au **sound design**, en passant par **l'étalonnage** et les **effets visuels** — à une rigueur d'exécution **constante**. Au-delà de la simple **technicité**, j'ai développé une approche **pragmatique** de la **résolution créative** de problèmes : j'ai **systématiquement** anticipé les **contraintes techniques** dès la phase de **conception** pour garantir une **fluidité optimale** dans la chaîne de production.",
           "Cette **agilité** m'a permis de **naviguer** avec **aisance** entre la création de contenus **dynamiques** pour les réseaux sociaux et la gestion de **projets complexes**, tout en assurant une qualité de **finition exemplaire** sur l'ensemble des supports de diffusion."
         ] },
-        /* Deux affiches de même format (3:4 pour l'instant, à ajuster sur les vrais fichiers) */
-        { row: true, title: 'Affiches', kind: 'image', ar: '3/4', cls: 'mid', items: [
-          { t: 'Visuel promotionnel d’un événement en interne', s: 'affiche' },
-          { t: 'Affiche 02', s: 'à remplacer' }
-        ] },
-        /* Deux photos, format plus carré (4:5) */
-        { row: true, title: 'Photos', kind: 'image', ar: '4/5', cls: 'mid', items: [
-          { t: 'Photo 01', s: 'à remplacer' },
-          { t: 'Photo 02', s: 'à remplacer' }
+        /* L'affiche et les visuels, chacun dans son format d'origine, à la même hauteur ; clic = agrandir */
+        { row: true, title: 'Affiche et visuels', intro: "Une affiche pour la soirée des 80 ans de l’agence, et des visuels pour les réseaux sociaux et les offres de l’AFP.", kind: 'image', ar: '1/1', items: [
+          { img: 'img/afp/afp-soiree-80-ans-s.webp', big: 'img/afp/afp-soiree-80-ans-l.webp', ar: '2480/3508', t: 'Soirée des 80 ans', s: 'affiche · événement interne' },
+          { img: 'img/afp/afp-meduses-s.webp', big: 'img/afp/afp-meduses-l.webp', ar: '1200/1500', t: 'L’année de la méduse', s: 'post · Sciences' },
+          { img: 'img/afp/afp-periodismo-digital-s.webp', big: 'img/afp/afp-periodismo-digital-l.webp', ar: '1080/1080', t: 'Periodismo digital', s: 'visuel · formation en ligne' },
+          { img: 'img/afp/afp-stories-s.webp', big: 'img/afp/afp-stories-l.webp', ar: '1200/1200', t: 'AFP Stories', s: 'visuel · offre multimédia' }
         ] }
       ]
     },
@@ -3061,24 +3070,23 @@ a.vc__th{display:grid}
       ],
       stats: [],
       media: [
-        /* Les 3 affiches (format à ajuster sur les vrais fichiers) */
-        { row: true, title: 'Les affiches', intro: 'Trois affiches, chacune avec son slogan : le message se retient en un coup d’œil, la promesse et la recette se lisent en s’approchant.', kind: 'image', ar: '3/4', items: [
-          { t: 'Affiche 01', s: 'à remplacer' },
-          { t: 'Affiche 02', s: 'à remplacer' },
-          { t: 'Affiche 03', s: 'à remplacer' }
+        /* Les 3 affiches (clic = agrandir) */
+        { row: true, title: 'Les affiches', intro: 'Trois affiches, chacune avec son slogan : le message se retient en un coup d’œil, la promesse et la recette se lisent en s’approchant.', kind: 'image', ar: '4/3', items: [
+          { img: 'img/uma/uma-affiche-toute-la-night-s.webp', big: 'img/uma/uma-affiche-toute-la-night-l.webp', t: 'Toute la Night.', s: '100 % sensations · 100 % plaisir · 0 % alcool' },
+          { img: 'img/uma/uma-affiche-night-en-main-s.webp', big: 'img/uma/uma-affiche-night-en-main-l.webp', t: 'La Night en Main', s: '100 % plaisir · 100 % contrôle · 0 % alcool' },
+          { img: 'img/uma/uma-affiche-souvenirs-s.webp', big: 'img/uma/uma-affiche-souvenirs-l.webp', t: 'Les Souvenirs de la Night', s: '100 % partage · 100 % amis · 0 % alcool' }
         ] },
-        /* Les 3 mock-ups des affiches */
-        { row: true, title: 'En situation', kind: 'image', ar: '4/5', items: [
-          { t: 'Mock-up 01', s: 'à remplacer' },
-          { t: 'Mock-up 02', s: 'à remplacer' },
-          { t: 'Mock-up 03', s: 'à remplacer' }
-        ] },
+        /* L'affiche en situation */
+        { kind: 'image', ar: '5318/3545', cls: 'mid', img: 'img/uma/uma-mockup-affiche-s.webp', big: 'img/uma/uma-mockup-affiche-l.webp', cap: 'L’affiche en situation' },
         { text: true, cls: 'mid', paras: [
           "Pour ancrer la marque dans la vie nocturne, j’ai imaginé une **double page sponsorisée** dans **Le Bonbon**, le média des sorties à Paris. Elle prend la forme d’une sélection d’**adresses** où sortir, en France et surtout à Paris, toutes choisies parmi les lieux où l’on trouve UMA.",
           "La marque n’est pas une publicité posée à côté du contenu : elle fait partie du **bon plan**. Le lecteur découvre un endroit où passer la soirée, et la boisson qu’il pourra y commander."
         ] },
-        /* Mock-up de la double page Le Bonbon */
-        { kind: 'image', ar: '3/2', cls: '', cap: 'Double page sponsorisée dans Le Bonbon : les bonnes adresses où trouver UMA' },
+        /* La double page Le Bonbon : à plat et en situation */
+        { row: true, title: 'La double page', kind: 'image', ar: '3/2', items: [
+          { img: 'img/uma/uma-double-page-s.webp', big: 'img/uma/uma-double-page-l.webp', ar: '3180/2249', t: 'Le AfterLife, vu par Thibz', s: 'double page à plat' },
+          { img: 'img/uma/uma-mockup-double-page-s.webp', big: 'img/uma/uma-mockup-double-page-l.webp', ar: '5000/3333', t: 'Dans Le Bonbon', s: 'double page en situation' }
+        ] },
         /* Carrousel Instagram : une case par slide */
         { row: true, title: 'Carrousel Instagram', intro: 'Le même univers, slide après slide, pensé pour le fil Instagram.', kind: 'image', ar: '4/5', items: [
           { t: 'Slide 01', s: 'à remplacer' },
@@ -3087,8 +3095,8 @@ a.vc__th{display:grid}
           { t: 'Slide 04', s: 'à remplacer' },
           { t: 'Slide 05', s: 'à remplacer' }
         ] },
-        /* Motion design (9:16 pour l'instant, à ajuster sur le vrai fichier) */
-        { kind: 'vidéo', ar: '9/16', cls: 's4', cap: 'Motion design UMA' },
+        /* Motion design (9:16) */
+        { kind: 'vidéo', ar: '9/16', cls: 's4', mp4: 'vid/uma-motion.mp4', poster: 'vid/uma-motion-poster.webp', cap: 'Motion design UMA' },
         { text: true, cls: 's8', paras: [
           "En motion, les **formes** de la marque prennent vie : l’étoile, la vague et le carré s’animent au rythme d’une soirée, et les slogans s’enchaînent comme sur un **beat**.",
           "Un format court et vertical, fait pour les **stories** et les **reels**."
@@ -3317,6 +3325,13 @@ a.vc__th{display:grid}
     return { v: 'home' };
   }
   const pj = $('#pj'), pjInner = $('#pjInner');
+  /* Cliquer une image d'une page projet l'agrandit (avec les autres images de la même rangée) */
+  pjInner.addEventListener('click', (e) => {
+    const z = e.target.closest('.ph.is-zoom'); if (!z) return;
+    const grp = z.closest('.pj-row') || z.closest('figure') || z.parentElement;
+    const all = [...grp.querySelectorAll('.ph.is-zoom')];
+    openLightbox(all.map((q) => { const cap = q.closest('figure') && q.closest('figure').querySelector('figcaption'); return `<img src="${q.dataset.big}" alt="" data-ar="${q.dataset.ar}" style="aspect-ratio:${q.dataset.ar}">${cap ? `<p class="lb__t">${cap.innerHTML}</p>` : ''}`; }), all.indexOf(z));
+  });
   let pjCur = null, pjT = 0, pjC = 0, pjOwn = false, pjHideTimer = 0, pjLastSt = -1;
   const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   const md = (t) => esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
@@ -3360,9 +3375,13 @@ a.vc__th{display:grid}
        Pour brancher une vidéo : ajoutez yt: 'identifiant YouTube' ou mp4: 'chemin/video.mp4' (et poster: 'image.jpg') */
     const ph = (m, cover) => {
       const src = m.yt ? ` data-yt="${esc(m.yt)}"` : m.mp4 ? ` data-mp4="${esc(m.mp4)}"` : '';
-      const bg = cover && card ? `;background-image:url(${card.thumb})` : m.poster ? `;background-image:url(${esc(m.poster)})` : '';
-      const label = (m.yt || m.mp4 || m.poster) ? '' : `<span class="ph__l">${esc(m.kind)} · ${esc(m.ar.replace('/', ':'))} — à remplacer</span>`;
-      return `<div class="ph${m.kind === 'vidéo' ? ' ph--video' : ''}" style="--ar:${m.ar}${bg}"${src}>${label}${m.kind === 'vidéo' ? '<button type="button" class="ph__play" aria-label="lire la vidéo"></button>' : ''}</div>`;
+      const bg = cover && card ? `;background-image:url(${card.thumb})` : '';
+      const pic = m.img || m.poster;
+      /* les images ne se chargent qu'à l'approche (loading="lazy") ; la grande version seulement au clic */
+      const im = pic ? `<img class="ph__img" src="${esc(pic)}" alt="${esc(m.t || m.cap || '')}" loading="lazy" decoding="async" draggable="false">` : '';
+      const label = (m.yt || m.mp4 || pic) ? '' : `<span class="ph__l">${esc(m.kind)} · ${esc(m.ar.replace('/', ':'))} — à remplacer</span>`;
+      const zoom = m.img ? ` data-big="${esc(m.big || m.img)}" data-ar="${arNum(m.ar).toFixed(4)}"` : '';
+      return `<div class="ph${m.kind === 'vidéo' ? ' ph--video' : ''}${m.img ? ' is-zoom' : ''}" style="--ar:${m.ar}${bg}"${src}${zoom}>${im}${label}${m.kind === 'vidéo' ? '<button type="button" class="ph__play" aria-label="lire la vidéo"></button>' : ''}</div>`;
     };
     let h = '';
     h += `<header class="pj-hero"><p class="ab-eyebrow pj-kicker"><b>${String(idx + 1).padStart(2, '0')}</b>${esc(P.kicker)}</p>`;
@@ -3399,7 +3418,7 @@ a.vc__th{display:grid}
       }
       if (m.row) {
         const its = m.items || Array.from({ length: m.n }, (_, i) => ({ t: `${m.cap} ${String(i + 1).padStart(2, '0')}`, s: 'à remplacer' }));
-        return `<div class="pj-row-wrap ${m.cls || ''}"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div><div class="pj-row${m.cols ? ' is-grid' : ''}${m.cls === 'is-stagger' ? ' is-stagger' : ''}" style="--n:${m.cols || its.length}${its.some((it) => it.ar) ? `;grid-template-columns:${its.map((it) => { const [a, b] = (it.ar || m.ar).split('/').map(Number); return `minmax(0,${(a / b).toFixed(3)}fr)`; }).join(' ')}` : ''}">${its.map((it) => `<figure class="pj-media">${ph(it.ar ? { ...m, ar: it.ar } : m)}<figcaption class="rl"><b>${esc(it.t)}</b><span class="rl__s">${esc(it.s)}</span>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`).join('')}</div></div>`;
+        return `<div class="pj-row-wrap ${m.cls || ''}"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div><div class="pj-row${m.cols ? ' is-grid' : ''}${m.cls === 'is-stagger' ? ' is-stagger' : ''}" style="--n:${m.cols || its.length}${its.some((it) => it.ar) ? `;grid-template-columns:${its.map((it) => { const [a, b] = (it.ar || m.ar).split('/').map(Number); return `minmax(0,${(a / b).toFixed(3)}fr)`; }).join(' ')}` : ''}">${its.map((it) => `<figure class="pj-media">${ph({ ...m, ...it, kind: m.kind, ar: it.ar || m.ar })}<figcaption class="rl"><b>${esc(it.t)}</b><span class="rl__s">${esc(it.s)}</span>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`).join('')}</div></div>`;
       }
       return `<figure class="pj-media ${m.cls}">${ph(m)}<figcaption>${esc(m.cap)}</figcaption></figure>`;
     };
@@ -3697,7 +3716,7 @@ a.vc__th{display:grid}
       openLightbox(m.items.map((it, i) => `${crMedia(it, i, true)}<p class="lb__t"><b>${esc(it.t)}</b>${it.d ? ` ${esc(it.d)}` : ''}</p>`), Number(sl.dataset.i));
     });
     /* départ : la dernière slide coupée en deux à gauche, puis la première slide en entier */
-    requestAnimationFrame(() => { measure(); x = (offs[n - 1] + offs[n]) / 2; render(); });
+    requestAnimationFrame(() => { measure(); x = offs[n] - (offs[n] - offs[n - 1]) * 0.45; render(); });
   }
 
   /* Couverture ParisianVibe : un banc de montage façon logiciel (projet, programme, timeline).
