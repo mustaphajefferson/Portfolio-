@@ -944,6 +944,7 @@ a.vc__th{display:grid}
 .pj-row-wrap{grid-column:span 12;display:flex;flex-direction:column;gap:18px;min-width:0}
 .pj-row{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:clamp(10px,1.4vw,18px);align-items:start}
 .pj-row.is-grid{row-gap:clamp(22px,3vw,36px)}
+.pj-row.is-stagger > :nth-child(even){margin-top:clamp(36px,7vw,110px)}
 .pj-pair{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.4vw,18px);width:min(100%,calc(80vh * 1.45));margin:0 auto}
 @media (max-width:760px){
   .cr__slide{flex-basis:62vw}
@@ -1319,7 +1320,7 @@ a.vc__th{display:grid}
 
   /* ---------- Projets (placeholders) ---------- */
   const N = 12;
-  const CATS = ['motion design & montage', 'montage vidéo', 'design graphique', 'campagne de communication', 'motion design', 'campagne print'];
+  const CATS = ['motion design & montage', 'montage vidéo', 'design graphique', 'campagne de communication', 'motion design', 'campagne print', 'vidéo verticale', 'montage vidéo', 'édition · risographie'];
   const PALETTES = [
     ['#2b2bff', '#00e0c6', '#ffde3b'], ['#ff5e3a', '#ffd1c2', '#2a1a5e'], ['#c8ff2e', '#1a6b4f', '#0f0f2e'],
     ['#ff3ea5', '#5b2bff', '#ffe3f3'], ['#00b3ff', '#002a5c', '#ff9f1c'], ['#f4f0e6', '#ff4b2b', '#1b1b1b'],
@@ -1328,8 +1329,8 @@ a.vc__th{display:grid}
   ];
   const PORTRAIT = new Set([3, 8]);
   const projects = Array.from({ length: N }, (_, i) => ({
-    title: ['Radio Classique', 'ParisianVibe', 'AFP', 'UMA', 'Méduse', 'Sea Shepherd'][i] || 'Projet ' + String(i + 1).padStart(2, '0'),
-    slug: ['radio-classique', 'parisianvibe', 'afp', 'uma', 'meduse', 'sea-shepherd'][i] || null,
+    title: ['Radio Classique', 'ParisianVibe', 'AFP', 'UMA', 'Méduse', 'Sea Shepherd', 'Reels', 'La Calle m’a dit', 'Le Corbusier'][i] || 'Projet ' + String(i + 1).padStart(2, '0'),
+    slug: ['radio-classique', 'parisianvibe', 'afp', 'uma', 'meduse', 'sea-shepherd', 'reels', 'la-calle-ma-dit', 'le-corbusier'][i] || null,
     cat: CATS[i % CATS.length],
     portrait: PORTRAIT.has(i)
   }));
@@ -2649,11 +2650,7 @@ a.vc__th{display:grid}
         ['Trois niveaux de lecture', "Chaque visuel se lit en trois temps. D’abord le **grand slogan**, festif et facile à retenir : avoir **la night en main**, durer **toute la night**. Ensuite la **promesse** des marques sans alcool : **100 % plaisir, 100 % contrôle, 0 % alcool**. Enfin, pour ceux qui s’attardent, la **recette** : ce qu’il y a dans la boisson."],
         ['Les codes de la marque', "Le graphisme reprend les **formes** déjà présentes sur le produit : l’**étoile jaune**, la **vague**, le **carré percé d’un rond**. Elles deviennent des **repères** d’un support à l’autre, pour que la campagne reste reconnaissable sur une affiche, une page de magazine ou un écran de téléphone."]
       ],
-      stats: [
-        { to: 100, suf: '%', lbl: 'plaisir' },
-        { to: 100, suf: '%', lbl: 'contrôle' },
-        { to: 0, suf: '%', lbl: 'alcool : la promesse, deuxième niveau de lecture de chaque visuel' }
-      ],
+      stats: [],
       media: [
         /* Les 3 affiches (format à ajuster sur les vrais fichiers) */
         { row: true, title: 'Les affiches', intro: 'Trois affiches, chacune avec son slogan : le message se retient en un coup d’œil, la promesse et la recette se lisent en s’approchant.', kind: 'image', ar: '3/4', items: [
@@ -2732,11 +2729,7 @@ a.vc__th{display:grid}
         ['Un affichage pirate', "Pas de panneaux publicitaires qui consomment de l’**électricité** : les affiches sont collées en **affichage sauvage**, avec une **colle écologique**, dans l’esprit pirate de Sea Shepherd. Autour, des **objets du quotidien détournés** s’infiltrent partout, sans jamais ressembler à de la pub, pour provoquer une **prise de conscience** et donner envie de s’engager."],
         ['Éco-conçue par nature', "Une campagne **100 % print**, en **noir et blanc**, sans grands aplats de fond noir pour **économiser l’encre**, avec des **encres naturelles**. Les petits formats sont imprimés en série sur une même feuille, sur **papier recyclé**, et distribués à la main. Pas d’achat d’espace : moins de canaux, plus d’impact."]
       ],
-      stats: [
-        { to: 13, lbl: 'supports imprimés, de l’affiche au sticker de métro' },
-        { to: 90, suf: 'jours', lbl: 'en mer pour l’Opération Antarctique, le départ annoncé par l’affiche' },
-        { to: 0, suf: 'kWh', lbl: 'd’affichage lumineux : tout est collé à la main' }
-      ],
+      stats: [],
       media: [
         /* L'affiche en situation, en affichage sauvage */
         { kind: 'image', ar: '16/9', cls: '', cap: 'Affichage sauvage : le duo d’affiches collé dans la rue' },
@@ -2771,9 +2764,91 @@ a.vc__th{display:grid}
           { t: 'Billet d’aquarium', s: 'entrée des aquariums', d: 'Un faux billet d’entrée, remis aux visiteurs par un bénévole.' }
         ] }
       ]
+    },
+    'reels': {
+      title: 'Reels', kicker: 'vidéo verticale',
+      lead: [
+        "À côté de mes projets, je réalise des **reels** : des vidéos **verticales** et courtes, pensées pour le fil Instagram. Des projets **personnels**, aux sujets et aux styles très différents, qui me servent de **terrain d’expérimentation**.",
+        "Chaque reel est l’occasion de tester quelque chose : un **rythme de montage**, une **transition**, une **typo animée**, un **étalonnage**. Le format impose ses règles : accrocher dès la première seconde, se comprendre sans le son, tout dire en quelques secondes."
+      ],
+      meta: [['format', 'Vertical 9:16'], ['diffusion', 'Instagram'], ['nature', 'Projets personnels']],
+      cols: [
+        ['Accrocher en une seconde', "Sur un fil qui défile, la **première image** décide de tout. Je construis chaque reel à partir de son **ouverture** : un mouvement, un son, un texte qui donne envie de rester."],
+        ['Lisible sans le son', "La plupart des vidéos sont regardées **en silence**. Les textes à l’écran, le cadrage et le **rythme des coupes** doivent porter le récit à eux seuls."],
+        ['Un terrain d’essai', "Sans brief ni client, je peux **expérimenter** librement : de nouvelles techniques, de nouveaux outils, des idées que je réutilise ensuite dans mes projets."]
+      ],
+      stats: [],
+      media: [
+        /* Les reels : une case par vidéo (9:16), en quinconce. Ajoutez ou retirez des lignes selon le nombre de vidéos */
+        { row: true, cls: 'is-stagger', title: 'Sélection', intro: 'Une sélection de reels : cliquez pour lancer la vidéo.', kind: 'vidéo', ar: '9/16', items: [
+          { t: 'Reel 01', s: 'à remplacer', d: 'Une ligne pour dire de quoi il s’agit.' },
+          { t: 'Reel 02', s: 'à remplacer', d: 'Une ligne pour dire de quoi il s’agit.' },
+          { t: 'Reel 03', s: 'à remplacer', d: 'Une ligne pour dire de quoi il s’agit.' },
+          { t: 'Reel 04', s: 'à remplacer', d: 'Une ligne pour dire de quoi il s’agit.' },
+          { t: 'Reel 05', s: 'à remplacer', d: 'Une ligne pour dire de quoi il s’agit.' }
+        ] }
+      ]
+    },
+    'la-calle-ma-dit': {
+      title: 'La Calle m’a dit', kicker: 'montage vidéo',
+      coverMedia: { kind: 'vidéo', ar: '16/9', cap: 'La Calle m’a dit : la session d’enregistrement, montée et habillée' },
+      lead: [
+        "**La Calle m’a dit** est un collectif qui parle de **rap** sur les réseaux sociaux. Pour la vidéo d’une **session d’enregistrement**, ils m’ont confié leurs rushs.",
+        "J’ai réalisé tout le **montage**, créé l’**habillage graphique** et les **textes à l’écran**, puis un **reel teaser** pour la communication sur les réseaux."
+      ],
+      meta: [['rôle', 'Montage et habillage graphique'], ['client', 'La Calle m’a dit · collectif rap'], ['livrables', 'Vidéo de session · reel teaser']],
+      cols: [
+        ['Du rush au montage', "À partir des **rushs bruts** de la session, j’ai construit le montage : choisir les **angles**, caler les coupes sur le **flow**, garder l’**énergie** du studio du premier au dernier couplet."],
+        ['L’habillage', "Titres, textes et éléments **graphiques** : j’ai créé l’habillage de la vidéo pour lui donner une **identité** propre, cohérente avec l’univers du collectif."],
+        ['Le teaser', "Un **reel vertical**, monté à partir de la session, pour **annoncer** la vidéo et accrocher l’audience du collectif sur Instagram."]
+      ],
+      stats: [],
+      media: [
+        /* 3 captures de la vidéo pour montrer le graphisme et les textes */
+        { row: true, title: 'L’habillage', intro: 'Trois images de la vidéo : les titres, les textes et le graphisme créés pour la session.', kind: 'image', ar: '16/9', items: [
+          { t: 'Capture 01', s: 'à remplacer' },
+          { t: 'Capture 02', s: 'à remplacer' },
+          { t: 'Capture 03', s: 'à remplacer' }
+        ] },
+        /* Le reel teaser (9:16) */
+        { kind: 'vidéo', ar: '9/16', cls: 's4', cap: 'Reel teaser' },
+        { text: true, cls: 's8', paras: [
+          "Avant la sortie, un **teaser** au format vertical : quelques secondes de la session, l’habillage de la vidéo, et l’envie de voir la suite.",
+          "Le même univers graphique d’un format à l’autre, pour que la vidéo et sa communication se reconnaissent au premier coup d’œil."
+        ] }
+      ]
+    },
+    'le-corbusier': {
+      title: 'Le Corbusier', kicker: 'édition · risographie',
+      coverMedia: { kind: 'image', ar: '16/9', cap: 'Le carnet, imprimé en risographie' },
+      lead: [
+        "Un carnet à plusieurs mains, imprimé en **risographie**, sur la pensée de **Le Corbusier** : ses principes architecturaux, sa philosophie, sa logique.",
+        "J’ai conçu la **première page**, une **double page** et la **dernière page**. Mon parti pris : appliquer à la **mise en page** les règles que Le Corbusier appliquait à l’architecture, comme le **Modulor**."
+      ],
+      meta: [['rôle', 'Mise en page et design éditorial'], ['technique', 'Risographie'], ['pages', 'Première page · double page · dernière page'], ['projet', 'Carnet collectif']],
+      cols: [
+        ['La pensée de Le Corbusier', "Le carnet explique ce qui guide l’architecte : ses **principes**, sa **philosophie** et sa **logique** de construction, où chaque élément obéit à une règle."],
+        ['Le Modulor comme grille', "Le **Modulor** est un système de proportions fondé sur le **corps humain** et le **nombre d’or**. J’en ai fait la **grille** de mes pages : les marges, les colonnes et la place des textes découlent de ces proportions."],
+        ['La risographie', "Une impression par **couches de couleur**, avec son **grain** et ses légers décalages. Le projet était l’occasion de tester la technique et de composer avec ses **contraintes** : peu de couleurs, des aplats maîtrisés."]
+      ],
+      stats: [],
+      media: [
+        /* Les exports : première page, double page, dernière page (formats à ajuster sur les vrais fichiers) */
+        { row: true, title: 'Les pages', intro: 'Les exports de mes pages, de la première à la dernière.', kind: 'image', ar: '5/7', items: [
+          { t: 'Première page', s: 'à remplacer' },
+          { t: 'Double page', s: 'à remplacer', ar: '10/7' },
+          { t: 'Dernière page', s: 'à remplacer' }
+        ] },
+        /* Photos du carnet imprimé */
+        { row: true, title: 'Le carnet imprimé', intro: 'Le carnet une fois imprimé : le grain, les couleurs et les superpositions propres à la risographie.', kind: 'image', ar: '4/5', items: [
+          { t: 'Photo 01', s: 'à remplacer' },
+          { t: 'Photo 02', s: 'à remplacer' },
+          { t: 'Photo 03', s: 'à remplacer' }
+        ] }
+      ]
     }
   };
-  const PJ_ORDER = ['radio-classique', 'parisianvibe', 'afp', 'uma', 'meduse', 'sea-shepherd'];
+  const PJ_ORDER = ['radio-classique', 'parisianvibe', 'afp', 'uma', 'meduse', 'sea-shepherd', 'reels', 'la-calle-ma-dit', 'le-corbusier'];
   function routeOf(hash) {
     const h = (hash || '').replace('#', '');
     if (h === 'a-propos') return { v: 'about' };
@@ -2850,7 +2925,7 @@ a.vc__th{display:grid}
       }
       if (m.row) {
         const its = m.items || Array.from({ length: m.n }, (_, i) => ({ t: `${m.cap} ${String(i + 1).padStart(2, '0')}`, s: 'à remplacer' }));
-        return `<div class="pj-row-wrap ${m.cls || ''}"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div><div class="pj-row${m.cols ? ' is-grid' : ''}" style="--n:${m.cols || its.length}${its.some((it) => it.ar) ? `;grid-template-columns:${its.map((it) => { const [a, b] = (it.ar || m.ar).split('/').map(Number); return `minmax(0,${(a / b).toFixed(3)}fr)`; }).join(' ')}` : ''}">${its.map((it) => `<figure class="pj-media">${ph(it.ar ? { ...m, ar: it.ar } : m)}<figcaption class="rl"><b>${esc(it.t)}</b><span class="rl__s">${esc(it.s)}</span>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`).join('')}</div></div>`;
+        return `<div class="pj-row-wrap ${m.cls || ''}"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div><div class="pj-row${m.cols ? ' is-grid' : ''}${m.cls === 'is-stagger' ? ' is-stagger' : ''}" style="--n:${m.cols || its.length}${its.some((it) => it.ar) ? `;grid-template-columns:${its.map((it) => { const [a, b] = (it.ar || m.ar).split('/').map(Number); return `minmax(0,${(a / b).toFixed(3)}fr)`; }).join(' ')}` : ''}">${its.map((it) => `<figure class="pj-media">${ph(it.ar ? { ...m, ar: it.ar } : m)}<figcaption class="rl"><b>${esc(it.t)}</b><span class="rl__s">${esc(it.s)}</span>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`).join('')}</div></div>`;
       }
       return `<figure class="pj-media ${m.cls}">${ph(m)}<figcaption>${esc(m.cap)}</figcaption></figure>`;
     };
