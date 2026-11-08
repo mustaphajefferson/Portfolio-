@@ -826,6 +826,83 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
   .ant__tg{grid-column:2;text-align:left}
 }
 
+/* AFP · couverture : deux mini-jeux à comparer (les déclinaisons, photo finish) */
+.ags{display:flex;flex-direction:column;gap:clamp(36px,4.6vh,52px)}
+.ag__lbl{display:flex;align-items:baseline;gap:12px;margin:0 0 12px}
+.ag__lbl b{font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:var(--pill);color:var(--ink)}
+.ag__lbl span{font-size:14px;font-weight:500}
+.ag{position:relative;box-sizing:border-box;display:flex;flex-direction:column;gap:14px;padding:clamp(12px,1.4vw,18px);border-radius:16px;background:var(--tint);color:var(--fg);user-select:none;-webkit-user-select:none}
+.ag__bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;min-height:38px}
+.ag__info{flex:1;min-width:220px;font-size:13px;line-height:1.4}
+.ag__info b{font-weight:600}
+.ag__score{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.ag__btn{height:36px;padding:0 15px;border-radius:999px;font-size:13px;font-weight:500;border:1px solid var(--line-strong);transition:border-color .2s,scale .2s var(--ease-out)}
+.ag__btn:hover{border-color:var(--fg)}
+.ag__btn.is-main{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.ag__btn.is-main:hover{scale:1.04}
+.ags svg .k{fill:#252422}.ags svg .ks{stroke:#252422;fill:none}.ags svg .w{fill:#f8f3e3}
+/* jeu 1 : déclinaisons */
+.dc__top{display:grid;grid-template-columns:minmax(0,240px) minmax(0,1fr);gap:16px;align-items:center}
+.dc__src{position:relative;border-radius:6px;overflow:hidden;background:var(--bg);box-shadow:0 0 0 1px var(--line-strong)}
+.dc__src svg{display:block;width:100%;height:auto}
+.dc__src span{position:absolute;left:6px;top:6px;font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:4px;background:var(--bg)}
+.dc__brief{margin:0;font-size:14px;line-height:1.45;max-width:58ch}
+.dc__brief b{font-weight:600}
+.dc__frames{display:flex;gap:clamp(14px,2vw,26px);align-items:flex-end;justify-content:center;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.dc__f{flex:none;display:flex;flex-direction:column;gap:8px}
+.dc__fh{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.dc__fl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.dc__z{display:flex;gap:4px}
+.dc__z button{width:26px;height:26px;border-radius:50%;border:1px solid var(--line-strong);font-size:15px;line-height:1;display:grid;place-items:center}
+.dc__z button:hover{border-color:var(--fg)}
+.dc__win{position:relative;height:clamp(220px,34vh,330px);border-radius:8px;overflow:hidden;background:var(--bg);box-shadow:0 0 0 1px var(--line-strong);cursor:grab;touch-action:none}
+.dc__win.is-drag{cursor:grabbing}
+.dc__win > svg{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+.dc__tag{position:absolute;left:8px;top:8px;font-size:9px;font-weight:700;letter-spacing:.08em;padding:3px 6px;border-radius:3px;background:var(--coal);color:var(--cream);pointer-events:none}
+.dc__band{position:absolute;display:flex;flex-direction:column;justify-content:flex-end;gap:3px;padding:10px 12px;box-sizing:border-box;background:linear-gradient(to bottom,rgba(37,36,34,0),rgba(37,36,34,.92) 38%);color:var(--cream);pointer-events:none}
+.dc__band.is-side{background:rgba(37,36,34,.94);justify-content:center}
+.dc__band b{font-size:clamp(13px,1.15vw,17px);font-weight:600;letter-spacing:-.02em;line-height:1.1}
+.dc__band small{font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.7}
+.dc__grid{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;--c:rgba(37,36,34,.35);background:linear-gradient(var(--c),var(--c)) 33.33% 0/1px 100%,linear-gradient(var(--c),var(--c)) 66.66% 0/1px 100%,linear-gradient(var(--c),var(--c)) 0 33.33%/100% 1px,linear-gradient(var(--c),var(--c)) 0 66.66%/100% 1px;background-repeat:no-repeat}
+.dc__win.is-drag .dc__grid{opacity:1}
+.dc__stamp{position:absolute;left:50%;top:42%;translate:-50% -50%;rotate:-8deg;padding:6px 12px;border:2.5px solid var(--coal);border-radius:4px;background:rgba(248,243,227,.9);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;opacity:0;scale:1.4;pointer-events:none;transition:opacity .3s,scale .45s var(--ease-out)}
+.dc__f.is-done .dc__stamp{opacity:1;scale:1}
+.dc__chk{display:flex;gap:4px;flex-wrap:wrap;max-width:100%}
+.dc__chk i{font-style:normal;font-size:10.5px;font-weight:600;padding:3px 7px;border-radius:999px;border:1px solid var(--line-strong);opacity:.55;transition:background .25s,color .25s,opacity .25s}
+.dc__chk i.is-ok{background:var(--fg);color:var(--bg);border-color:var(--fg);opacity:1}
+/* jeu 2 : photo finish */
+.pf__stage{position:relative;border-radius:10px;overflow:hidden;background:var(--bg);box-shadow:0 0 0 1px var(--line-strong);cursor:crosshair;touch-action:manipulation}
+.pf__stage > svg{display:block;width:100%;height:auto}
+.pf__hud{position:absolute;left:14px;right:14px;top:12px;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none}
+.pf__clock{font-size:clamp(22px,2.6vw,36px);font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1;padding:6px 10px;border-radius:6px;background:var(--coal);color:var(--cream)}
+.pf__ev{text-align:right;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;line-height:1.5}
+.pf__shots{display:flex;gap:6px;margin-top:6px;justify-content:flex-end}
+.pf__shots i{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--fg);box-sizing:border-box}
+.pf__shots i.is-used{background:var(--fg)}
+.pf__msg{position:absolute;left:50%;top:50%;translate:-50% -50%;font-size:clamp(28px,4vw,56px);font-weight:600;letter-spacing:-.04em;pointer-events:none;opacity:0}
+.pf__msg.is-on{animation:pfMsg .9s var(--ease-out)}
+@keyframes pfMsg{0%{opacity:0;scale:.8}20%{opacity:1;scale:1}75%{opacity:1}100%{opacity:0}}
+.pf__flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+.pf__flash.is-on{animation:pfFlash .45s ease-out}
+@keyframes pfFlash{from{opacity:.95}to{opacity:0}}
+.pf__vf{position:absolute;top:18%;bottom:14%;left:62%;width:26%;pointer-events:none;opacity:.6;--c:var(--fg);background:linear-gradient(var(--c),var(--c)) 0 0/18px 2px,linear-gradient(var(--c),var(--c)) 0 0/2px 18px,linear-gradient(var(--c),var(--c)) 100% 0/18px 2px,linear-gradient(var(--c),var(--c)) 100% 0/2px 18px,linear-gradient(var(--c),var(--c)) 0 100%/18px 2px,linear-gradient(var(--c),var(--c)) 0 100%/2px 18px,linear-gradient(var(--c),var(--c)) 100% 100%/18px 2px,linear-gradient(var(--c),var(--c)) 100% 100%/2px 18px;background-repeat:no-repeat}
+.pf__res{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;min-height:0}
+.pf__res:empty{display:none}
+.pf__ph{flex:none;margin:0;width:clamp(180px,22vw,260px);padding:6px 6px 8px;background:#fff;border-radius:3px;box-shadow:0 2px 8px rgba(0,0,0,.12);animation:pfDrop .5s var(--ease-out)}
+.pf__ph svg{display:block;width:100%;height:auto;background:var(--bg)}
+.pf__ph figcaption{display:flex;flex-direction:column;gap:2px;margin-top:6px;font-size:11px;line-height:1.3}
+.pf__ph figcaption b{font-size:12.5px;font-weight:600}
+.pf__ph.is-best{box-shadow:0 0 0 2px var(--fg),0 2px 8px rgba(0,0,0,.12)}
+@keyframes pfDrop{from{opacity:0;translate:0 -10px}}
+.pf__ph svg *{animation:none!important}
+@media (max-width:760px){
+  .dc__top{grid-template-columns:1fr}
+  .dc__src{max-width:220px}
+  .dc__frames{justify-content:flex-start}
+  .dc__win{height:240px}
+  .pf__vf{display:none}
+}
+
 /* ParisianVibe · bibliothèque de vidéos : thèmes, curseurs, tri */
 .vl{grid-column:span 12;display:flex;flex-direction:column;gap:22px;min-width:0}
 .vl__ctl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px 32px;align-items:end}
@@ -2541,7 +2618,12 @@ a.vc__th{display:grid}
       ]
     },
     'afp': {
-      title: 'AFP', kicker: 'design graphique',
+      title: 'AFP', kicker: 'design graphique', coverFx: 'afp',
+      /* Petite introduction affichée au-dessus des mini-jeux */
+      lead: [
+        "L’**AFP** (Agence France-Presse) est l’une des trois grandes agences de presse mondiales : ses dépêches, photos et vidéos sont reprises par les médias du monde entier. Pendant mon stage de 4 mois au **service communication**, j’ai conçu des visuels, des affiches et des vidéos pour la communication de l’agence, dont une série sur les Jeux olympiques de Paris 2024.",
+        "**Deux mini-jeux à tester** : déclinez un visuel dans tous les formats, comme un graphiste, puis prenez la photo décisive d’une finale olympique, comme les photographes de l’agence."
+      ],
       meta: [['rôle', 'Designer graphique'], ['contrat', 'Stage — 4 mois'], ['équipe', 'Service communication'], ['dates', 'Avr. — juil. 2024'], ['lieu', 'Paris']],
       cols: [
         ['Stage de 4 mois', "Mon objectif **principal** était de **traduire** des enjeux de communication **institutionnelle complexes** en supports visuels **percutants**. Dans un environnement où la **précision** et la **rapidité** sont **essentielles**, j'ai appris à **adapter** mon **processus créatif** pour répondre aux **standards d'excellence** d'une agence de presse mondiale, tout en renforçant la **cohérence visuelle** de son image de marque."],
@@ -2629,6 +2711,8 @@ a.vc__th{display:grid}
     h += `</header>`;
     h += P.coverFx === 'radio'
       ? `<figure class="pj-media pj-cover is-in fx-radio" style="margin:var(--tgap) 0 0">${RADIO_HTML}</figure>`
+      : P.coverFx === 'afp'
+      ? `<figure class="pj-media pj-cover is-in fx-afp" style="margin:var(--tgap) 0 0">${AF_HTML()}</figure>`
       : P.coverFx === 'edit'
       ? `<figure class="pj-media pj-cover is-in fx-edit" style="margin:var(--tgap) 0 0">${PR_HTML()}</figure>`
       : `<figure class="pj-media pj-cover is-in" style="margin:var(--tgap) 0 0">${ph({ kind: 'image', ar: '16/9' }, true)}<figcaption>Image de couverture — à remplacer</figcaption></figure>`;
@@ -2667,6 +2751,10 @@ a.vc__th{display:grid}
     pjInner.querySelectorAll('.ph--video').forEach((el) => el.addEventListener('click', () => playFacade(el)));
     const fxr = pjInner.querySelector('.pj-cover.fx-radio .rd');
     if (fxr) initRadio(fxr);
+    const fxd = pjInner.querySelector('.pj-cover.fx-afp .dc');
+    if (fxd) initDecl(fxd);
+    const fxf = pjInner.querySelector('.pj-cover.fx-afp .pf');
+    if (fxf) initFinish(fxf);
     const fxe = pjInner.querySelector('.pj-cover.fx-edit .pr');
     if (fxe) initPr(fxe);
     pjInner.querySelectorAll('[data-vl]').forEach((el) => initLibrary(el, P.media.find((m) => m.library)));
@@ -3210,6 +3298,187 @@ a.vc__th{display:grid}
         if (day >= d0 && day <= d1 && min >= a && min < b) r.insertAdjacentHTML('beforeend', '<i class="ant__live">à l’antenne</i>');
       });
     } catch (e) {}
+  }
+
+  /* Couverture AFP : deux mini-jeux à comparer.
+     Jeu 1 « Les déclinaisons » : un même visuel à recadrer en story 9:16, post 4:5 et bannière 16:9 ;
+     le sujet doit rester entier, hors du bandeau de texte, et bien placé.
+     Jeu 2 « Photo finish » : la finale du 100 m arrive sur la ligne ; on déclenche (clic ou espace) au moment décisif,
+     comme les photographes de l'agence aux Jeux de Paris 2024. Trois déclenchements par course.
+     Tout est dessiné en vectoriel ; rien ne tourne hors de l'écran ni hors de la course. */
+  const AG_SRC = `<symbol id="agSrc" viewBox="0 0 1600 900">
+    <rect width="1600" height="900" fill="#f8f3e3"/>
+    <circle cx="1270" cy="240" r="210" fill="#252422" opacity=".07"/>
+    <g stroke="#252422" fill="none" stroke-width="3" opacity=".22"><path d="M150 760 L228 300 L306 760 M176 610 H280 M196 480 H260 M228 300 V250"/><path d="M200 700 Q228 640 256 700"/></g>
+    <g fill="#252422" opacity=".1"><rect x="380" y="640" width="90" height="120"/><rect x="480" y="600" width="70" height="160"/><rect x="560" y="660" width="110" height="100"/><rect x="1300" y="620" width="80" height="140"/><rect x="1390" y="660" width="120" height="100"/><rect x="1520" y="600" width="80" height="160"/></g>
+    <rect y="760" width="1600" height="140" fill="#252422" opacity=".06"/>
+    <g stroke="#252422" fill="none" stroke-width="2" opacity=".18"><path d="M0 800 H1600 M0 845 H1600"/></g>
+    <rect x="860" y="700" width="330" height="60" rx="6" fill="#252422" opacity=".16"/>
+    <g stroke="#252422" fill="none" stroke-width="7" stroke-linecap="round"><path d="M820 760 V390 M1210 760 V390"/></g>
+    <path d="M820 420 H1210" stroke="#252422" fill="none" stroke-width="6"/>
+    <g stroke="#252422" fill="none" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"><path d="M905 480 Q985 312 1078 398"/><path d="M905 480 L870 520 M905 480 L880 455"/><path d="M1040 360 L1072 330"/></g>
+    <circle cx="1092" cy="420" r="22" fill="#252422"/>
+  </symbol>`;
+  const DC_SUBJ = { x0: 850, y0: 320, x1: 1120, y1: 535 };
+  const DC_FMT = [
+    { k: 'story', l: 'story · 9:16', ar: 9 / 16, band: [0, 1, 0.72, 1], side: false, init: { z: 1, x: 140, y: 0 } },
+    { k: 'post', l: 'post · 4:5', ar: 4 / 5, band: [0, 1, 0.75, 1], side: false, init: { z: 1.15, x: 470, y: 120 } },
+    { k: 'banner', l: 'bannière · 16:9', ar: 16 / 9, band: [0, 0.4, 0, 1], side: true, init: { z: 1.6, x: 600, y: 200 } }
+  ];
+  const PF_W = 1200, PF_H = 420, PF_LINE = 900, PF_PPM = 34;
+  const PF_RUN = [{ T: 9.80, lane: 3, n: '4' }, { T: 9.86, lane: 2, n: '3' }, { T: 9.84, lane: 1, n: '6' }, { T: 9.93, lane: 0, n: '5' }];
+  const PF_POSE = [
+    'M0 0 L6 -62 M5 -55 L22 -40 L30 -52 M5 -55 L-10 -38 L-18 -48 M0 0 L20 22 L14 50 M0 0 L-14 24 L-32 30',
+    'M0 0 L6 -62 M5 -55 L-12 -40 L-20 -50 M5 -55 L20 -42 L28 -54 M0 0 L-16 22 L-26 46 M0 0 L20 16 L34 6'
+  ];
+  const AF_HTML = () => `<div class="ags"><svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>${AG_SRC}</defs></svg>
+    <div><p class="ag__lbl"><b>jeu 1</b><span>Les déclinaisons : un visuel, trois formats</span></p>
+      <div class="ag dc">
+        <div class="dc__top"><div class="dc__src"><svg viewBox="0 0 1600 900" aria-hidden="true"><use href="#agSrc" width="1600" height="900"/></svg><span>visuel source</span></div>
+          <p class="dc__brief"><b>Le brief :</b> déclinez la photo « Paris 2024 » pour Instagram et le site de l’agence. Dans chaque format, l’athlète doit rester <b>entier</b>, <b>hors du texte</b>, et <b>bien placé</b>. Glissez chaque image pour la recadrer, zoomez avec + et −.</p></div>
+        <div class="dc__frames">${DC_FMT.map((f) => `<div class="dc__f" data-f="${f.k}"><div class="dc__fh"><span class="dc__fl">${f.l}</span><span class="dc__z"><button type="button" data-z="-1" aria-label="dézoomer">−</button><button type="button" data-z="1" aria-label="zoomer">+</button></span></div>
+          <div class="dc__win" style="aspect-ratio:${f.ar}"><svg preserveAspectRatio="none" aria-hidden="true"><use href="#agSrc" width="1600" height="900"/></svg><span class="dc__grid"></span><span class="dc__tag">AFP · PARIS 2024</span>
+            <span class="dc__band${f.side ? ' is-side' : ''}" style="left:${f.band[0] * 100}%;right:${(1 - f.band[1]) * 100}%;top:${f.band[2] * 100}%;bottom:${(1 - f.band[3]) * 100}%"><small>Jeux olympiques</small><b>Paris, capitale des sports</b></span><span class="dc__stamp">bon à diffuser</span></div>
+          <div class="dc__chk"><i data-c="in">sujet entier</i><i data-c="txt">hors du texte</i><i data-c="comp">bien placé</i></div></div>`).join('')}</div>
+        <div class="ag__bar"><span class="ag__info">Trois formats à livrer. Recadrez, puis validez.</span><span class="ag__score"></span><button type="button" class="ag__btn" data-a="reset">recommencer</button><button type="button" class="ag__btn is-main" data-a="ok">valider les 3 formats</button></div>
+      </div></div>
+    <div><p class="ag__lbl"><b>jeu 2</b><span>Photo finish : déclenchez au moment décisif</span></p>
+      <div class="ag pf">
+        <div class="pf__stage"><svg viewBox="0 0 ${PF_W} ${PF_H}" aria-hidden="true">
+          <rect width="${PF_W}" height="${PF_H}" class="w"/>
+          <g class="k" opacity=".07">${Array.from({ length: 60 }, (_, i) => `<circle cx="${(i * 97) % PF_W + 10}" cy="${22 + (i * 37) % 70}" r="${4 + (i % 3)}"/>`).join('')}</g>
+          <rect y="120" width="${PF_W}" height="8" class="k" opacity=".12"/>
+          <g class="ks" stroke-width="2" opacity=".25">${[200, 250, 300, 350, 400].map((y) => `<path d="M0 ${y} H${PF_W}"/>`).join('')}</g>
+          <g class="k" opacity=".35" font-size="13" font-weight="600">${[0, 1, 2, 3].map((l) => `<text x="${PF_LINE + 18}" y="${238 + l * 50}">${['5', '6', '3', '4'][l]}</text>`).join('')}</g>
+          <rect x="${PF_LINE - 3}" y="150" width="6" height="${PF_H - 150}" class="k" opacity=".85"/>
+          <text x="${PF_LINE}" y="146" text-anchor="middle" class="k" font-size="12" font-weight="700" letter-spacing="2">ARRIVÉE</text>
+          <g class="pf__runners"></g>
+        </svg>
+          <span class="pf__vf"></span>
+          <div class="pf__hud"><span class="pf__clock">0,00</span><span class="pf__ev">Paris 2024 · finale du 100 m<span class="pf__shots"><i></i><i></i><i></i></span></span></div>
+          <span class="pf__msg"></span><span class="pf__flash"></span></div>
+        <div class="pf__res" aria-live="polite"></div>
+        <div class="ag__bar"><span class="ag__info">Comme les photographes de l’AFP sur la piste du Stade de France : <b>3 déclenchements</b> par course, au clic ou à la barre d’espace. Visez le moment où le premier franchit la ligne.</span><span class="ag__score"></span><button type="button" class="ag__btn is-main" data-a="go">lancer la course</button></div>
+      </div></div></div>`;
+
+  function initDecl(el) {
+    const frames = [...el.querySelectorAll('.dc__f')], info = el.querySelector('.ag__info'), score = el.querySelector('.ag__score');
+    const st = DC_FMT.map((f) => ({ ...f.init }));
+    const crop = (i) => { const f = DC_FMT[i], s = st[i]; const bw = Math.min(1600, 900 * f.ar), cw = bw / s.z, ch = cw / f.ar; return { cw, ch }; };
+    const clampS = (i) => { const { cw, ch } = crop(i), s = st[i]; s.x = clamp(s.x, 0, 1600 - cw); s.y = clamp(s.y, 0, 900 - ch); };
+    const checks = (i) => {
+      const f = DC_FMT[i], s = st[i], { cw, ch } = crop(i), S = DC_SUBJ;
+      const inside = S.x0 >= s.x && S.x1 <= s.x + cw && S.y0 >= s.y && S.y1 <= s.y + ch;
+      const bx0 = s.x + f.band[0] * cw, bx1 = s.x + f.band[1] * cw, by0 = s.y + f.band[2] * ch, by1 = s.y + f.band[3] * ch;
+      const txt = !(S.x0 < bx1 && S.x1 > bx0 && S.y0 < by1 && S.y1 > by0);
+      const u = ((S.x0 + S.x1) / 2 - s.x) / cw, v = ((S.y0 + S.y1) / 2 - s.y) / ch;
+      const pts = [[1 / 3, 1 / 3], [2 / 3, 1 / 3], [1 / 3, 2 / 3], [2 / 3, 2 / 3], [0.5, 0.42]];
+      const comp = inside && pts.some(([a, b]) => Math.hypot(u - a, v - b) < 0.17);
+      return { in: inside, txt, comp };
+    };
+    const draw = (i) => {
+      const { cw, ch } = crop(i), s = st[i];
+      frames[i].querySelector('.dc__win > svg').setAttribute('viewBox', `${s.x.toFixed(1)} ${s.y.toFixed(1)} ${cw.toFixed(1)} ${ch.toFixed(1)}`);
+      const c = checks(i);
+      frames[i].querySelectorAll('.dc__chk i').forEach((n) => n.classList.toggle('is-ok', c[n.dataset.c]));
+    };
+    frames.forEach((fr, i) => {
+      const win = fr.querySelector('.dc__win');
+      let drag = null;
+      win.addEventListener('pointerdown', (e) => { if (e.button) return; drag = { x: e.clientX, y: e.clientY, sx: st[i].x, sy: st[i].y }; win.setPointerCapture(e.pointerId); win.classList.add('is-drag'); fr.classList.remove('is-done'); });
+      win.addEventListener('pointermove', (e) => {
+        if (!drag) return;
+        const { cw } = crop(i), k = cw / win.clientWidth;
+        st[i].x = drag.sx - (e.clientX - drag.x) * k; st[i].y = drag.sy - (e.clientY - drag.y) * k; clampS(i); draw(i);
+      });
+      const end = () => { drag = null; win.classList.remove('is-drag'); };
+      win.addEventListener('pointerup', end); win.addEventListener('pointercancel', end);
+      const zoom = (d) => {
+        const { cw, ch } = crop(i), cx = st[i].x + cw / 2, cy = st[i].y + ch / 2;
+        st[i].z = clamp(st[i].z * (d > 0 ? 1.15 : 1 / 1.15), 1, 2.6);
+        const n = crop(i); st[i].x = cx - n.cw / 2; st[i].y = cy - n.ch / 2; clampS(i); draw(i); fr.classList.remove('is-done');
+      };
+      fr.querySelectorAll('[data-z]').forEach((b) => b.addEventListener('click', () => { zoom(Number(b.dataset.z)); sfx.play('click'); }));
+      win.addEventListener('wheel', (e) => { e.preventDefault(); e.stopPropagation(); zoom(e.deltaY < 0 ? 1 : -1); }, { passive: false });
+      draw(i);
+    });
+    el.querySelector('[data-a="reset"]').addEventListener('click', () => { DC_FMT.forEach((f, i) => { st[i] = { ...f.init }; frames[i].classList.remove('is-done'); draw(i); }); score.textContent = ''; info.textContent = 'Trois formats à livrer. Recadrez, puis validez.'; sfx.play('click'); });
+    el.querySelector('[data-a="ok"]').addEventListener('click', () => {
+      let ok = 0, comp = 0; const pb = [];
+      DC_FMT.forEach((f, i) => {
+        const c = checks(i), good = c.in && c.txt;
+        frames[i].classList.toggle('is-done', good); if (good) ok++; if (good && c.comp) comp++;
+        if (!c.in) pb.push(`${f.l.split(' ·')[0]} : athlète coupé`); else if (!c.txt) pb.push(`${f.l.split(' ·')[0]} : athlète sous le texte`);
+      });
+      score.textContent = `${ok} / 3 formats prêts${ok ? ` · ${comp} bien composé${comp > 1 ? 's' : ''}` : ''}`;
+      info.innerHTML = ok === 3 ? (comp === 3 ? '<b>Parfait :</b> trois formats prêts à publier, avec une composition soignée.' : '<b>Bon à diffuser.</b> Pour aller plus loin, placez l’athlète sur une ligne des tiers.') : `À reprendre : ${pb.join(' · ')}.`;
+      sfx.play('click');
+    });
+  }
+
+  function initFinish(el) {
+    const svg = el.querySelector('.pf__stage > svg'), g = el.querySelector('.pf__runners'), clock = el.querySelector('.pf__clock'), msg = el.querySelector('.pf__msg'), flash = el.querySelector('.pf__flash');
+    const res = el.querySelector('.pf__res'), go = el.querySelector('[data-a="go"]'), info = el.querySelector('.ag__info'), score = el.querySelector('.ag__score'), dots = [...el.querySelectorAll('.pf__shots i')];
+    g.innerHTML = PF_RUN.map((r) => `<g class="pf__r" data-l="${r.lane}"><circle r="9" cy="-78" cx="8" class="k"/><path class="ks" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" d="${PF_POSE[0]}"/><text x="-4" y="-30" font-size="10" font-weight="700" class="w">${r.n}</text></g>`).join('');
+    const R = [...g.children];
+    let t0 = 0, raf = 0, running = false, shots = [], visible = false, ac = null;
+    const restart = (n, c) => { n.classList.remove(c); void n.offsetWidth; n.classList.add(c); };
+    const say = (m) => { msg.textContent = m; restart(msg, 'is-on'); };
+    const dist = (r, t) => 100 * Math.pow(Math.max(0, t) / r.T, 1.15);
+    const place = (t) => {
+      PF_RUN.forEach((r, i) => {
+        const d = dist(r, t), x = PF_LINE + (d - 100) * PF_PPM - 9, y = 245 + r.lane * 50, s = 0.47 + r.lane * 0.04;
+        R[i].setAttribute('transform', `translate(${x.toFixed(1)} ${y}) scale(${s.toFixed(2)})`);
+        R[i].children[1].setAttribute('d', PF_POSE[Math.floor(d / 1.15) % 2]);
+      });
+      clock.textContent = Math.max(0, t).toFixed(2).replace('.', ',');
+    };
+    const tick = (now) => {
+      raf = 0; if (!running || !el.isConnected) return;
+      const t = (now - t0) / 1000; place(t);
+      if (t > 11.2) { finish(); return; }
+      raf = requestAnimationFrame(tick);
+    };
+    const beep = () => {
+      if (!state.sound) return;
+      try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); const o = ac.createOscillator(), gg = ac.createGain(); o.frequency.value = 880; gg.gain.setValueAtTime(0.0001, ac.currentTime); gg.gain.exponentialRampToValueAtTime(0.25, ac.currentTime + 0.01); gg.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.35); o.connect(gg); gg.connect(ac.destination); o.start(); o.stop(ac.currentTime + 0.4); } catch (e) {}
+    };
+    const start = () => {
+      shots = []; res.innerHTML = ''; dots.forEach((d) => d.classList.remove('is-used')); score.textContent = '';
+      info.innerHTML = 'Les coureurs arrivent dans le viseur juste avant la ligne. <b>Clic ou espace</b> pour déclencher.';
+      go.textContent = 'arrêter'; running = true; place(-1);
+      say('à vos marques'); setTimeout(() => { if (running) say('prêts'); }, 900);
+      setTimeout(() => { if (!running) return; beep(); say('partez !'); t0 = performance.now(); raf = requestAnimationFrame(tick); }, 1800);
+    };
+    const finish = () => {
+      running = false; cancelAnimationFrame(raf); raf = 0; go.textContent = 'rejouer';
+      if (!shots.length) { info.innerHTML = 'Aucune photo : la course est passée. <b>Rejouez</b> et déclenchez quand le premier arrive sur la ligne.'; return; }
+      const best = shots.reduce((a, b) => (Math.abs(b.cm) < Math.abs(a.cm) ? b : a));
+      best.el.classList.add('is-best');
+      const a = Math.abs(best.cm);
+      info.innerHTML = a <= 20 ? '<b>Photo parfaite :</b> le vainqueur sur la ligne. Elle part sur le fil de l’agence.' : a <= 60 ? '<b>Excellente photo</b>, à quelques centimètres de la ligne.' : a <= 150 ? '<b>Bonne photo</b>, mais le moment décisif est passé à côté.' : 'Trop loin de la ligne : <b>rejouez</b> pour viser le moment décisif.';
+      score.textContent = `meilleure photo : ${a < 1 ? 'sur la ligne' : `à ${Math.round(a)} cm ${best.cm > 0 ? 'avant' : 'après'} la ligne`}`;
+    };
+    const shoot = () => {
+      if (!running || !t0 || shots.length >= 3) return;
+      const t = (performance.now() - t0) / 1000;
+      restart(flash, 'is-on'); sfx.play('shutter');
+      const lead = PF_RUN.reduce((a, r) => (dist(r, t) > dist(a, t) ? r : a));
+      const cm = (100 - (dist(lead, t) + 9 / PF_PPM)) * 100;
+      dots[shots.length].classList.add('is-used');
+      const f = document.createElement('figure'); f.className = 'pf__ph';
+      const c = svg.cloneNode(true); c.setAttribute('viewBox', `${PF_LINE - 330} 150 520 ${PF_H - 150}`); f.appendChild(c);
+      const a = Math.abs(cm);
+      f.insertAdjacentHTML('beforeend', `<figcaption><b>${a < 1 ? 'Sur la ligne' : `${Math.round(a)} cm ${cm > 0 ? 'avant' : 'après'} la ligne`}</b><span>Paris 2024 · finale du 100 m · ${t.toFixed(2).replace('.', ',')} s · photo © AFP / vous</span></figcaption>`);
+      res.appendChild(f); shots.push({ cm, el: f });
+    };
+    go.addEventListener('click', () => { if (running) { running = false; cancelAnimationFrame(raf); raf = 0; go.textContent = 'lancer la course'; place(-1); } else { start(); go.blur(); } });
+    go.addEventListener('keyup', (e) => { if (running && (e.code === 'Space' || e.key === ' ')) e.preventDefault(); });
+    el.querySelector('.pf__stage').addEventListener('pointerdown', (e) => { if (!e.button) shoot(); });
+    window.addEventListener('keydown', (e) => { if (!el.isConnected || !running || !visible) return; if (e.code === 'Space' || e.key === ' ') { e.preventDefault(); if (!e.repeat) shoot(); } });
+    if ('IntersectionObserver' in window) new IntersectionObserver((en) => { visible = en[0].isIntersecting; if (!visible && running) { running = false; cancelAnimationFrame(raf); raf = 0; go.textContent = 'lancer la course'; } }, { root: pj, threshold: 0.3 }).observe(el);
+    else visible = true;
+    place(-1);
   }
 
   /* Bibliothèque de vidéos : boutons de thème, curseurs (vues, durée) et tri.
