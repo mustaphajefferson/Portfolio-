@@ -1317,7 +1317,7 @@ a.vc__th{display:grid}
 
   /* ---------- Projets (placeholders) ---------- */
   const N = 12;
-  const CATS = ['motion design & montage', 'montage vidéo', 'design graphique', 'campagne de communication', 'social media', '3d'];
+  const CATS = ['motion design & montage', 'montage vidéo', 'design graphique', 'campagne de communication', 'motion design', '3d'];
   const PALETTES = [
     ['#2b2bff', '#00e0c6', '#ffde3b'], ['#ff5e3a', '#ffd1c2', '#2a1a5e'], ['#c8ff2e', '#1a6b4f', '#0f0f2e'],
     ['#ff3ea5', '#5b2bff', '#ffe3f3'], ['#00b3ff', '#002a5c', '#ff9f1c'], ['#f4f0e6', '#ff4b2b', '#1b1b1b'],
@@ -1326,8 +1326,8 @@ a.vc__th{display:grid}
   ];
   const PORTRAIT = new Set([3, 8]);
   const projects = Array.from({ length: N }, (_, i) => ({
-    title: ['Radio Classique', 'ParisianVibe', 'AFP', 'UMA'][i] || 'Projet ' + String(i + 1).padStart(2, '0'),
-    slug: ['radio-classique', 'parisianvibe', 'afp', 'uma'][i] || null,
+    title: ['Radio Classique', 'ParisianVibe', 'AFP', 'UMA', 'Méduse'][i] || 'Projet ' + String(i + 1).padStart(2, '0'),
+    slug: ['radio-classique', 'parisianvibe', 'afp', 'uma', 'meduse'][i] || null,
     cat: CATS[i % CATS.length],
     portrait: PORTRAIT.has(i)
   }));
@@ -2686,9 +2686,38 @@ a.vc__th{display:grid}
           "Un format court et vertical, fait pour les **stories** et les **reels**."
         ] }
       ]
+    },
+    'meduse': {
+      title: 'Méduse', kicker: 'motion design',
+      /* La vidéo est la couverture : c'est la pièce principale du projet (yt: '…' ou mp4: '…' pour la brancher) */
+      coverMedia: { kind: 'vidéo', ar: '16/9', cap: 'Méduse : le mythe raconté à rebours, en full motion design' },
+      lead: [
+        "Raconter un mythe grec en **full motion design**. Nous avons choisi **Méduse**, et pris le parti de raconter son histoire autrement.",
+        "On connaît surtout sa fin : Persée qui, par la ruse, lui tranche la tête. Le film s’ouvre sur cette scène, puis remonte le fil d’une histoire bien moins connue, celle d’une **injustice**, qui fait aujourd’hui de Méduse un **symbole** pour les femmes victimes de violences sexuelles."
+      ],
+      meta: [['discipline', 'Motion design'], ['récit', 'Le mythe de Méduse'], ['technique', 'Illustration vectorielle et animation']],
+      cols: [
+        ['Un récit à rebours', "Tout le monde connaît la fin : Persée, le bouclier, la **tête tranchée**. Le film commence là, sur la scène la plus célèbre du mythe, puis **remonte le temps**. Avant les serpents, avant le regard qui pétrifie, Méduse était une **femme** d’une grande beauté."],
+        ['L’histoire qu’on ne raconte pas', "Dans le **temple d’Athéna**, Méduse est agressée par **Poséidon**. Ne pouvant pas punir un dieu, Athéna punit la victime : Méduse est changée en **monstre**. En suivant l’histoire dans l’ordre inverse, le film renverse le point de vue sur celle qu’on appelle le monstre."],
+        ['Un symbole aujourd’hui', "Méduse est devenue un **symbole** pour les femmes victimes de **violences sexuelles**, qui se sont **réapproprié** son histoire. C’est ce regard que nous voulions transmettre : raconter le mythe **de son côté à elle**."]
+      ],
+      stats: [],
+      media: [
+        /* Images clés du film (16:9) */
+        { row: true, title: 'Styleframes', intro: 'Les images clés du film, de la tête de Méduse au visage de la jeune femme qu’elle était.', kind: 'image', ar: '16/9', items: [
+          { t: 'Styleframe 01', s: 'à remplacer' },
+          { t: 'Styleframe 02', s: 'à remplacer' },
+          { t: 'Styleframe 03', s: 'à remplacer' }
+        ] },
+        /* Making-of : croquis, construction des vecteurs, animation */
+        { row: true, title: 'Making-of', intro: 'De l’esquisse au vecteur, puis à l’animation : les étapes de fabrication des personnages et des décors.', kind: 'image', ar: '4/3', items: [
+          { t: 'Making-of 01', s: 'à remplacer' },
+          { t: 'Making-of 02', s: 'à remplacer' }
+        ] }
+      ]
     }
   };
-  const PJ_ORDER = ['radio-classique', 'parisianvibe', 'afp', 'uma'];
+  const PJ_ORDER = ['radio-classique', 'parisianvibe', 'afp', 'uma', 'meduse'];
   function routeOf(hash) {
     const h = (hash || '').replace('#', '');
     if (h === 'a-propos') return { v: 'about' };
@@ -2748,9 +2777,11 @@ a.vc__th{display:grid}
       ? `<figure class="pj-media pj-cover is-in fx-afp" style="margin:var(--tgap) 0 0">${AF_HTML()}</figure>`
       : P.coverFx === 'edit'
       ? `<figure class="pj-media pj-cover is-in fx-edit" style="margin:var(--tgap) 0 0">${PR_HTML()}</figure>`
+      : P.coverMedia
+      ? `<figure class="pj-media pj-cover is-in" style="margin:var(--tgap) 0 0">${ph(P.coverMedia)}<figcaption>${esc(P.coverMedia.cap)}</figcaption></figure>`
       : `<figure class="pj-media pj-cover is-in" style="margin:var(--tgap) 0 0">${ph({ kind: 'image', ar: '16/9' }, true)}<figcaption>Image de couverture — à remplacer</figcaption></figure>`;
     h += `<section class="pj-cols">${P.cols.map(([t, x]) => `<div class="pj-col ab-reveal"><h3>${esc(t)}</h3><p>${md(x)}</p></div>`).join('')}</section>`;
-    h += `<section class="pj-stats" style="--n:${P.stats.length}">${P.stats.map((st) => st.ph
+    if (P.stats.length) h += `<section class="pj-stats" style="--n:${P.stats.length}">${P.stats.map((st) => st.ph
       ? `<div class="pj-stat is-ph ab-reveal"><span class="pj-big">00</span><p>${esc(st.lbl)}</p></div>`
       : `<div class="pj-stat ab-reveal"><span class="pj-big">${st.pre ? esc(st.pre) : ''}<span class="pj-n" data-to="${st.to}">0</span>${st.suf ? `<small>${esc(st.suf)}</small>` : ''}</span><p>${esc(st.lbl)}</p></div>`).join('')}</section>`;
     const item = (m) => {
