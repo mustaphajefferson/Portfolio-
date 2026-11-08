@@ -779,50 +779,49 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
   .pr__dur{display:none}
 }
 
-/* Radio Classique · vue d'ensemble : les voix de l'antenne (façon conducteur), invités, partenaires, scènes ; filtre par thème */
-.ant{grid-column:span 12;display:flex;flex-direction:column;gap:24px;min-width:0}
+/* Radio Classique · vue d'ensemble, rangée en trois onglets : invités, voix de l'antenne, lieux et partenaires */
+.ant{grid-column:span 12;display:flex;flex-direction:column;gap:26px;min-width:0}
 .ant__nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,2vw,26px);padding:18px 0;border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong)}
 .ant__nums div{display:flex;flex-direction:column;gap:4px}
 .ant__nums b{font-size:clamp(30px,3.2vw,54px);font-weight:500;letter-spacing:-.045em;line-height:1;font-variant-numeric:tabular-nums}
 .ant__nums p{margin:0;font-size:13px;font-weight:500}
-.ant__tags{display:flex;gap:6px;flex-wrap:wrap}
-.ant__tags button{font-size:14px;font-weight:500;padding:8px 14px;border-radius:999px;border:1px solid var(--line-strong);transition:background .3s,color .3s,border-color .3s}
-.ant__tags button:hover{border-color:var(--fg)}
-.ant__tags button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-.ant__tags sup{font-size:10px;font-weight:600;margin-left:4px;opacity:.6;top:-.5em}
-.ant__grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(24px,3vw,48px);align-items:start}
-.ant__lbl{display:block;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
-.ant__list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line-strong)}
-.ant__row{position:relative;display:grid;grid-template-columns:64px minmax(0,1fr) auto;align-items:baseline;gap:6px 16px;padding:14px 0;border-bottom:1px solid var(--line-strong);transition:opacity .45s}
+.ant__tabs{display:flex;gap:4px;padding:4px;border-radius:999px;background:var(--tint);width:max-content;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.ant__tabs button{flex:none;font-size:14px;font-weight:500;padding:9px 18px;border-radius:999px;transition:background .3s,color .3s}
+.ant__tabs button[aria-selected="true"]{background:var(--fg);color:var(--bg)}
+.ant__tabs button sup{font-size:10px;font-weight:600;margin-left:5px;opacity:.6;top:-.5em}
+.ant__panel{display:flex;flex-direction:column;gap:30px}
+.ant__panel[hidden]{display:none}
+.ant__panel.is-in > *{animation:antIn .5s var(--ease-out) backwards}
+.ant__panel.is-in > :nth-child(2){animation-delay:.05s}.ant__panel.is-in > :nth-child(3){animation-delay:.1s}.ant__panel.is-in > :nth-child(4){animation-delay:.15s}
+@keyframes antIn{from{opacity:0;translate:0 10px}}
+.ant__grp{display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px 32px;padding-top:14px;border-top:1px solid var(--line-strong)}
+.ant__gh{display:flex;flex-direction:column;gap:6px}
+.ant__gh b{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.ant__gh span{font-size:12.5px;line-height:1.4;opacity:.65}
+.ant__cg{display:flex;flex-direction:column;gap:18px;min-width:0}
+.ant__cells{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px 24px;margin:0;padding:0;list-style:none}
+.ant__cells li{display:flex;flex-direction:column;gap:3px;min-width:0}
+.ant__cells b{font-size:17px;font-weight:600;letter-spacing:-.02em;line-height:1.2}
+.ant__cells span{font-size:12.5px;line-height:1.35}
+.ant__cells li.is-big b{font-size:clamp(20px,1.8vw,26px);letter-spacing:-.03em}
+.ant__list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(24px,3vw,48px);border-top:1px solid var(--line-strong)}
+.ant__row{position:relative;display:grid;grid-template-columns:64px minmax(0,1fr) auto;align-items:baseline;gap:6px 14px;padding:14px 0;border-bottom:1px solid var(--line-strong)}
 .ant__h{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
-.ant__who b{display:block;font-size:clamp(20px,2vw,28px);font-weight:500;letter-spacing:-.035em;line-height:1.05}
-.ant__who span{display:block;margin-top:4px;font-size:13px;line-height:1.35}
-.ant__tg{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-align:right;white-space:nowrap}
+.ant__who b{display:block;font-size:clamp(18px,1.6vw,22px);font-weight:600;letter-spacing:-.025em;line-height:1.1}
+.ant__who span{display:block;margin-top:3px;font-size:13px;line-height:1.35}
+.ant__tg{font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-align:right;white-space:nowrap}
 .ant__live{position:absolute;right:0;top:-9px;font-style:normal;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px 3px 18px;border-radius:999px;background:var(--fg);color:var(--bg)}
 .ant__live::before{content:"";position:absolute;left:7px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--bg);animation:antBlink 1.4s steps(2,jump-none) infinite}
 @keyframes antBlink{50%{opacity:.2}}
-.ant__side{display:flex;flex-direction:column;gap:28px}
-.ant__cloud{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 0;border-top:1px solid var(--line-strong);padding-top:12px}
-.ant__n{font-size:clamp(22px,2.4vw,36px);font-weight:500;letter-spacing:-.04em;line-height:1.15;transition:opacity .45s}
-.ant__n::after{content:"·";display:inline-block;margin:0 .32em;opacity:.35}
-.ant__n:last-child::after{display:none}
-.ant__n.is-tbd{opacity:.4;font-style:italic}
-.ant .is-dim{opacity:.16}
-.ant__note{margin:0;font-size:12.5px;line-height:1.45;opacity:.6}
-.ant__wall{display:flex;flex-direction:column;gap:14px;padding:6px 0 4px}
-.ant__wl{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 0;line-height:1.08}
-.ant__g{padding:0;border:0;background:none;color:inherit;font:inherit;font-weight:500;letter-spacing:-.045em;cursor:default;text-align:left;transition:opacity .45s,color .25s}
-.ant__g::after{content:"·";display:inline-block;margin:0 .3em;opacity:.3;font-weight:400}
-.ant__wl .ant__g:last-child::after{display:none}
-.ant__g.t1{font-size:clamp(30px,4vw,64px)}
-.ant__g.t2{font-size:clamp(20px,2.3vw,34px)}
-.ant__g:hover,.ant__g:focus-visible,.ant__g.is-cur{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:.12em;outline:none}
-.ant__cap{min-height:1.5em;margin:0;font-size:14px;font-weight:500}
-.ant__cap b{font-weight:600}
-.ant__sub{display:block;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin:10px 0 6px}
-@media (max-width:900px){ .ant__grid{grid-template-columns:1fr} }
+.ant__places{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,3vw,48px)}
+.ant__places ul{list-style:none;margin:10px 0 0;padding:0;border-top:1px solid var(--line-strong)}
+.ant__places li{padding:12px 0;border-bottom:1px solid var(--line-strong);font-size:clamp(17px,1.5vw,21px);font-weight:500;letter-spacing:-.02em}
+.ant__lbl{display:block;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+@media (max-width:1100px){ .ant__cells{grid-template-columns:repeat(3,minmax(0,1fr))} }
+@media (max-width:900px){ .ant__grp{grid-template-columns:1fr} .ant__list{grid-template-columns:1fr} .ant__places{grid-template-columns:1fr} }
 @media (max-width:760px){
   .ant__nums{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ant__cells{grid-template-columns:repeat(2,minmax(0,1fr))}
   .ant__row{grid-template-columns:52px minmax(0,1fr)}
   .ant__tg{grid-column:2;text-align:left}
 }
@@ -2376,73 +2375,76 @@ a.vc__th{display:grid}
           { img: '', t: 'Carrousel 24', d: 'Petit texte à remplacer.' }
         ] },
         { kind: 'vidéo', ar: '16/9', cls: 'mid', cap: 'Vidéo horizontale — à remplacer' },
-        /* Vue d'ensemble : invités, voix de l'antenne, scènes et partenaires.
-           guests : big = en grand ; r = qui c'est (affiché au survol). slot = [premier jour, dernier jour (1 = lundi), début, fin en minutes]. */
+        /* Vue d'ensemble, en trois onglets. guests : invités classés par thème (big = mis en avant) ;
+           voices : slot = [premier jour, dernier jour (1 = lundi), début, fin en minutes], pour le badge « à l'antenne ». */
         { antenna: true, title: 'Sur l’antenne',
-          intro: "Depuis septembre 2025, je mets en images ce qui passe à l’antenne : l’actualité politique et économique, la musique classique, l’histoire, les histoires en musique pour enfants, la nature. Des chroniqueurs de la radio aux invités de la Matinale, des grandes scènes aux partenaires de la station, voici avec qui et sur quoi je travaille. Choisissez un thème.",
-          nums: [[13, 'voix de l’antenne'], [70, 'invités filmés ou montés', '+'], [6, 'scènes et salles'], [7, 'thèmes']],
-          themes: ['Politique & actu', 'Économie', 'Musique', 'Histoire', 'Jeunesse', 'Nature & sciences', 'Culture & idées'],
+          intro: "Depuis septembre 2025, je mets en images ce qui passe à l’antenne : l’actualité politique et économique, la musique classique, l’histoire, les histoires en musique pour enfants, la nature. Des invités de la Matinale aux chroniqueurs de la radio, des grandes scènes aux partenaires de la station, voici avec qui je travaille.",
+          nums: [[13, 'voix de l’antenne'], [70, 'invités filmés ou montés', '+'], [6, 'scènes et salles'], [5, 'partenaires et institutions']],
           guests: [
-            { t: 'à la Matinale', items: [
-              { n: 'Christine Lagarde', r: 'présidente de la Banque centrale européenne', th: ['Économie'], big: 1 },
-              { n: 'Gad Elmaleh', r: 'humoriste et acteur', th: ['Culture & idées'], big: 1 },
-              { n: 'Jean Tirole', r: 'prix Nobel d’économie', th: ['Économie'], big: 1 },
-              { n: 'Philippe Aghion', r: 'prix Nobel d’économie', th: ['Économie'], big: 1 },
-              { n: 'Amin Maalouf', r: 'écrivain, de l’Académie française', th: ['Culture & idées'], big: 1 },
-              { n: 'Hubert Védrine', r: 'ancien ministre des Affaires étrangères', th: ['Politique & actu'], big: 1 },
-              { n: 'Bruno Le Maire', r: 'ancien ministre de l’Économie', th: ['Politique & actu', 'Économie'], big: 1 },
-              { n: 'Boris Cyrulnik', r: 'psychiatre et écrivain', th: ['Culture & idées', 'Nature & sciences'], big: 1 },
-              { n: 'Thierry Lhermitte', r: 'acteur', th: ['Culture & idées'], big: 1 },
-              { n: 'Éric-Emmanuel Schmitt', r: 'écrivain et dramaturge', th: ['Culture & idées'], big: 1 },
-              { n: 'Jean-Michel Blanquer', r: 'ancien ministre de l’Éducation nationale', th: ['Politique & actu'] },
-              { n: 'Jean-Claude Trichet', r: 'ancien président de la Banque centrale européenne', th: ['Économie'] },
-              { n: 'François Villeroy de Galhau', r: 'gouverneur de la Banque de France', th: ['Économie'] },
-              { n: 'Éric Lombard', r: 'ancien ministre de l’Économie', th: ['Politique & actu', 'Économie'] },
-              { n: 'Gilles Kepel', r: 'politologue, spécialiste du monde arabe', th: ['Politique & actu'] },
-              { n: 'Joann Sfar', r: 'auteur de bande dessinée et réalisateur', th: ['Culture & idées'] },
-              { n: 'Guy Savoy', r: 'chef cuisinier', th: ['Culture & idées'] },
-              { n: 'Anne-Sophie Pic', r: 'cheffe cuisinière', th: ['Culture & idées'] },
-              { n: 'Alexandre Bompard', r: 'PDG de Carrefour', th: ['Économie'] },
-              { n: 'Bruno Patino', r: 'président d’Arte', th: ['Culture & idées'] },
-              { n: 'Karine Lacombe', r: 'infectiologue', th: ['Nature & sciences'] },
-              { n: 'Patrick Artus', r: 'économiste', th: ['Économie'] },
-              { n: 'Pascal Perrineau', r: 'politologue', th: ['Politique & actu'] },
-              { n: 'Jean Viard', r: 'sociologue', th: ['Culture & idées'] },
-              { n: 'Sylvie Bermann', r: 'ambassadrice de France', th: ['Politique & actu'] }
+            { t: 'Économie', d: 'à la Matinale', items: [
+              { n: 'Christine Lagarde', r: 'présidente de la Banque centrale européenne', big: 1 },
+              { n: 'Jean Tirole', r: 'prix Nobel d’économie', big: 1 },
+              { n: 'Philippe Aghion', r: 'prix Nobel d’économie', big: 1 },
+              { n: 'Jean-Claude Trichet', r: 'ancien président de la BCE' },
+              { n: 'François Villeroy de Galhau', r: 'gouverneur de la Banque de France' },
+              { n: 'Alexandre Bompard', r: 'PDG de Carrefour' },
+              { n: 'Patrick Artus', r: 'économiste' }
             ] },
-            { t: 'en musique', items: [
-              { n: 'Roberto Alagna', r: 'ténor', th: ['Musique'], big: 1 },
-              { n: 'Philippe Jaroussky', r: 'contre-ténor', th: ['Musique'], big: 1 },
-              { n: 'Lambert Wilson', r: 'acteur et chanteur', th: ['Musique', 'Culture & idées'], big: 1 },
-              { n: 'Alexandre Desplat', r: 'compositeur de musiques de film', th: ['Musique'], big: 1 },
-              { n: 'Alexandre Tharaud', r: 'pianiste', th: ['Musique'] },
-              { n: 'Lucas Debargue', r: 'pianiste', th: ['Musique'] },
-              { n: 'David Fray', r: 'pianiste', th: ['Musique'] },
-              { n: 'Raphaël Pichon', r: 'chef d’orchestre', th: ['Musique'] },
-              { n: 'Jean-Claude Casadesus', r: 'chef d’orchestre', th: ['Musique'] },
-              { n: 'Olivier Py', r: 'metteur en scène', th: ['Musique', 'Culture & idées'] },
-              { n: 'Théotime Langlois de Swarte', r: 'violoniste', th: ['Musique'] }
+            { t: 'Politique et international', d: 'à la Matinale', items: [
+              { n: 'Hubert Védrine', r: 'ancien ministre des Affaires étrangères', big: 1 },
+              { n: 'Bruno Le Maire', r: 'ancien ministre de l’Économie', big: 1 },
+              { n: 'Jean-Michel Blanquer', r: 'ancien ministre de l’Éducation nationale' },
+              { n: 'Éric Lombard', r: 'ancien ministre de l’Économie' },
+              { n: 'Gilles Kepel', r: 'politologue, spécialiste du monde arabe' },
+              { n: 'Pascal Perrineau', r: 'politologue' },
+              { n: 'Sylvie Bermann', r: 'ambassadrice de France' }
+            ] },
+            { t: 'Culture et société', d: 'à la Matinale', items: [
+              { n: 'Gad Elmaleh', r: 'humoriste et acteur', big: 1 },
+              { n: 'Amin Maalouf', r: 'écrivain, de l’Académie française', big: 1 },
+              { n: 'Boris Cyrulnik', r: 'psychiatre et écrivain', big: 1 },
+              { n: 'Thierry Lhermitte', r: 'acteur', big: 1 },
+              { n: 'Éric-Emmanuel Schmitt', r: 'écrivain et dramaturge' },
+              { n: 'Joann Sfar', r: 'auteur de bande dessinée et réalisateur' },
+              { n: 'Guy Savoy', r: 'chef cuisinier' },
+              { n: 'Anne-Sophie Pic', r: 'cheffe cuisinière' },
+              { n: 'Bruno Patino', r: 'président d’Arte' },
+              { n: 'Karine Lacombe', r: 'infectiologue' },
+              { n: 'Jean Viard', r: 'sociologue' }
+            ] },
+            { t: 'Musique', d: 'au Journal du classique et en interview', items: [
+              { n: 'Roberto Alagna', r: 'ténor', big: 1 },
+              { n: 'Philippe Jaroussky', r: 'contre-ténor', big: 1 },
+              { n: 'Lambert Wilson', r: 'acteur et chanteur', big: 1 },
+              { n: 'Alexandre Desplat', r: 'compositeur de musiques de film', big: 1 },
+              { n: 'Alexandre Tharaud', r: 'pianiste' },
+              { n: 'Lucas Debargue', r: 'pianiste' },
+              { n: 'David Fray', r: 'pianiste' },
+              { n: 'Raphaël Pichon', r: 'chef d’orchestre' },
+              { n: 'Jean-Claude Casadesus', r: 'chef d’orchestre' },
+              { n: 'Olivier Py', r: 'metteur en scène' },
+              { n: 'Théotime Langlois de Swarte', r: 'violoniste' }
             ] }
           ],
           voices: [
             { h: '6 h', n: 'Stéphane Pedrazzi', s: 'La Matinale économique', th: ['Économie'], slot: [1, 5, 360, 420] },
-            { h: '7 h', n: 'David Abiker', s: 'La Matinale et l’invité de la Matinale', th: ['Politique & actu'], slot: [1, 5, 420, 540] },
+            { h: '7 h', n: 'David Abiker', s: 'La Matinale et l’invité de la Matinale', th: ['Actualité'], slot: [1, 5, 420, 540] },
             { h: '9 h', n: 'Franck Ferrand', s: 'Les Grands dossiers de l’Histoire', th: ['Histoire'], slot: [1, 5, 540, 570] },
             { h: '9 h 30', n: 'Pauline Lambert', s: 'Changez d’air', th: ['Musique'], slot: [1, 5, 570, 720] },
             { h: '12 h', n: 'Jean-Michel Dhuez', s: 'Harmoniques', th: ['Musique'], slot: [1, 5, 720, 840] },
             { h: '14 h 30', n: 'Élodie Fondacci', s: 'Les Heures légères · Des histoires en musique', th: ['Musique', 'Jeunesse'], slot: [1, 5, 870, 1080] },
-            { h: '19 h', n: 'Allain Bougrain-Dubourg', s: 'Le Chant de la Terre, le vendredi', th: ['Nature & sciences'], slot: [5, 5, 1140, 1200] },
+            { h: '19 h', n: 'Allain Bougrain-Dubourg', s: 'Le Chant de la Terre, le vendredi', th: ['Nature'], slot: [5, 5, 1140, 1200] },
             { h: '20 h', n: 'Laure Mézan', s: 'Le Journal du classique', th: ['Musique'], slot: [1, 5, 1200, 1230] },
-            { h: 'chronique', n: 'Guy Boyer', s: 'les arts et les expositions', th: ['Culture & idées'] },
-            { h: 'chronique', n: 'Karine Dijoud', s: 'Et si on parlait français ?', th: ['Culture & idées'] },
-            { h: 'chronique', n: 'Marc Bourreau', s: 'Le Journal imprévisible', th: ['Culture & idées'] },
+            { h: 'chronique', n: 'Guy Boyer', s: 'les arts et les expositions', th: ['Arts'] },
+            { h: 'chronique', n: 'Karine Dijoud', s: 'Et si on parlait français ?', th: ['Langue'] },
+            { h: 'chronique', n: 'Marc Bourreau', s: 'Le Journal imprévisible', th: ['Société'] },
             { h: 'chronique', n: 'David Kadouch', s: 'pianiste', th: ['Musique'] },
             { h: 'chronique', n: 'Esther Abrami', s: 'violoniste', th: ['Musique'] }
           ],
-          groups: [
-            { t: 'scènes et salles', items: [{ n: 'Opéra Garnier', th: ['Musique'] }, { n: 'Opéra Bastille', th: ['Musique'] }, { n: 'Théâtre des Champs-Élysées', th: ['Musique'] }, { n: 'Philharmonie de Paris', th: ['Musique'] }, { n: 'Théâtre du Châtelet', th: ['Musique'] }, { n: 'Opéra Royal de Versailles', th: ['Musique', 'Histoire'] }] },
-            { t: 'festivals et événements', items: [{ n: 'Festival d’Aix-en-Provence', th: ['Musique'] }, { n: 'Grand Concert d’été Radio Classique', th: ['Musique'] }, { n: 'Journée Radio Classique à l’Opéra Royal', th: ['Musique', 'Histoire'] }] },
-            { t: 'partenaires et institutions', items: [{ n: 'Fondation Louis Vuitton', th: ['Culture & idées'] }, { n: 'Fondation Orange', th: ['Culture & idées'] }, { n: 'Château de Versailles Spectacles', th: ['Histoire', 'Culture & idées'] }, { n: 'Bibliothèque nationale de France', th: ['Culture & idées', 'Histoire'] }, { n: 'Orchestre national d’Île-de-France', th: ['Musique'] }] }
+          places: [
+            { t: 'scènes et salles', items: ['Opéra Garnier', 'Opéra Bastille', 'Théâtre des Champs-Élysées', 'Philharmonie de Paris', 'Théâtre du Châtelet', 'Opéra Royal de Versailles'] },
+            { t: 'festivals et événements', items: ['Festival d’Aix-en-Provence', 'Grand Concert d’été Radio Classique', 'Journée Radio Classique à l’Opéra Royal'] },
+            { t: 'partenaires et institutions', items: ['Fondation Louis Vuitton', 'Fondation Orange', 'Château de Versailles Spectacles', 'Bibliothèque nationale de France', 'Orchestre national d’Île-de-France'] }
           ] }
       ]
     },
@@ -3141,33 +3143,32 @@ a.vc__th{display:grid}
     reset();
   }
 
-  /* Radio Classique · vue d'ensemble : les invités (les plus connus en grand), les voix de l'antenne (façon conducteur),
-     les scènes, événements et partenaires. Un thème choisi met en avant ce qui le concerne ; survoler un invité affiche qui il est.
+  /* Radio Classique · vue d'ensemble, rangée en trois onglets :
+     les invités (classés par thème), les voix de l'antenne (façon grille des programmes), les lieux et partenaires.
      « à l'antenne » s'allume sur la voix en direct (heure de Paris). */
   function antHTML(m) {
-    const themes = m.themes;
-    const all = [...m.voices, ...m.guests.flatMap((g) => g.items), ...m.groups.flatMap((g) => g.items)];
-    const count = (th) => all.filter((v) => v.th.includes(th)).length;
-    const row = (v) => `<li class="ant__row" data-th="${v.th.join('|')}"${v.slot ? ` data-slot="${v.slot.join(',')}"` : ''}><span class="ant__h">${esc(v.h)}</span><div class="ant__who"><b>${esc(v.n)}</b><span>${esc(v.s)}</span></div><span class="ant__tg">${v.th.map(esc).join(' · ')}</span></li>`;
+    const nG = m.guests.reduce((a, g) => a + g.items.length, 0), nP = m.places.reduce((a, g) => a + g.items.length, 0);
     const nums = m.nums.map(([n, l, suf]) => `<div><b><span class="ant__cnt" data-to="${n}">0</span>${suf || ''}</b><p>${esc(l)}</p></div>`).join('');
-    const wall = m.guests.map((g) => `<div><span class="ant__sub">${esc(g.t)}</span><p class="ant__wl">${g.items.map((it) => `<button type="button" class="ant__g ${it.big ? 't1' : 't2'}" data-th="${it.th.join('|')}" data-r="${esc(it.r)}">${esc(it.n)}</button>`).join('')}</p></div>`).join('');
+    const tabs = [['inv', 'Les invités', nG], ['voix', 'Les voix de l’antenne', m.voices.length], ['lieux', 'Lieux et partenaires', nP]];
+    const guests = m.guests.map((g) => `<div class="ant__grp"><div class="ant__gh"><b>${esc(g.t)}</b>${g.d ? `<span>${esc(g.d)}</span>` : ''}</div><div class="ant__cg">${[g.items.filter((it) => it.big), g.items.filter((it) => !it.big)].filter((l) => l.length).map((l) => `<ul class="ant__cells">${l.map((it) => `<li${it.big ? ' class="is-big"' : ''}><b>${esc(it.n)}</b><span>${esc(it.r)}</span></li>`).join('')}</ul>`).join('')}</div></div>`).join('');
+    const row = (v) => `<li class="ant__row"${v.slot ? ` data-slot="${v.slot.join(',')}"` : ''}><span class="ant__h">${esc(v.h)}</span><div class="ant__who"><b>${esc(v.n)}</b><span>${esc(v.s)}</span></div><span class="ant__tg">${v.th.map(esc).join(' · ')}</span></li>`;
+    const places = `<div class="ant__places">${m.places.map((g) => `<div><span class="ant__lbl">${esc(g.t)}</span><ul>${g.items.map((n) => `<li>${esc(n)}</li>`).join('')}</ul></div>`).join('')}</div>`;
     return `<section class="ant ab-reveal" data-ant><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3><p class="sec-intro">${esc(m.intro)}</p></div>
       <div class="ant__nums">${nums}</div>
-      <div class="ant__tags" role="group" aria-label="thèmes"><button type="button" aria-pressed="true" data-th="">Tout</button>${themes.map((t) => `<button type="button" aria-pressed="false" data-th="${esc(t)}">${esc(t)}<sup>${count(t)}</sup></button>`).join('')}</div>
-      <div class="ant__wall"><span class="ant__lbl">ils sont passés à l’antenne</span>${wall}<p class="ant__cap" aria-live="polite">Survolez un nom pour savoir qui c’est.</p></div>
-      <div class="ant__grid"><div><span class="ant__lbl">les voix de l’antenne</span><ol class="ant__list">${m.voices.map(row).join('')}</ol></div>
-      <div class="ant__side">${m.groups.map((g) => `<div><span class="ant__lbl">${esc(g.t)}</span><p class="ant__cloud">${g.items.map((it) => `<span class="ant__n" data-th="${it.th.join('|')}">${esc(it.n)}</span>`).join('')}</p></div>`).join('')}${m.note ? `<p class="ant__note">${esc(m.note)}</p>` : ''}</div></div></section>`;
+      <div class="ant__tabs" role="tablist" aria-label="sur l’antenne">${tabs.map(([k, l, n], i) => `<button type="button" role="tab" id="antT-${k}" aria-controls="antP-${k}" aria-selected="${i === 0}">${esc(l)}<sup>${n}</sup></button>`).join('')}</div>
+      <div class="ant__panel" role="tabpanel" id="antP-inv" aria-labelledby="antT-inv">${guests}</div>
+      <div class="ant__panel" role="tabpanel" id="antP-voix" aria-labelledby="antT-voix" hidden><ol class="ant__list">${m.voices.map(row).join('')}</ol></div>
+      <div class="ant__panel" role="tabpanel" id="antP-lieux" aria-labelledby="antT-lieux" hidden>${places}</div></section>`;
   }
   function initAnt(root) {
-    const items = [...root.querySelectorAll('[data-th]:not(.ant__tags button)')], cap = root.querySelector('.ant__cap');
-    root.querySelectorAll('.ant__tags button').forEach((b) => b.addEventListener('click', () => {
-      const th = b.dataset.th;
-      root.querySelectorAll('.ant__tags button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-      items.forEach((el) => el.classList.toggle('is-dim', !!th && !el.dataset.th.split('|').includes(th)));
-      sfx.play('click');
-    }));
-    const who = (g) => { root.querySelectorAll('.ant__g.is-cur').forEach((x) => x.classList.remove('is-cur')); g.classList.add('is-cur'); cap.innerHTML = `<b>${esc(g.textContent)}</b> · ${esc(g.dataset.r)}`; };
-    root.querySelectorAll('.ant__g').forEach((g) => { g.addEventListener('pointerenter', () => who(g)); g.addEventListener('focus', () => who(g)); g.addEventListener('click', () => who(g)); });
+    const tabs = [...root.querySelectorAll('[role="tab"]')];
+    const pick = (t) => {
+      tabs.forEach((x) => { const on = x === t; x.setAttribute('aria-selected', String(on)); const p = root.querySelector(`#${x.getAttribute('aria-controls')}`); p.hidden = !on; if (on && !reduce) { p.classList.remove('is-in'); void p.offsetWidth; p.classList.add('is-in'); } });
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => { pick(t); sfx.play('click'); });
+      t.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length]; n.focus(); pick(n); } });
+    });
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver((en) => { if (!en[0].isIntersecting) return; io.disconnect(); root.querySelectorAll('.ant__cnt').forEach((n) => { const to = Number(n.dataset.to), t0 = performance.now(); const step = (now) => { const k = reduce ? 1 : Math.min(1, (now - t0) / 1200); n.textContent = String(Math.round(to * easeOutExpo(k))); if (k < 1) requestAnimationFrame(step); }; requestAnimationFrame(step); }); }, { root: pj, threshold: 0.3 });
       io.observe(root);
