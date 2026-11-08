@@ -826,7 +826,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
   .ant__tg{grid-column:2;text-align:left}
 }
 
-/* AFP · couverture : deux mini-jeux à comparer (les déclinaisons, photo finish) */
+/* AFP · couverture : mini-jeu « les déclinaisons » */
 .ags{display:flex;flex-direction:column;gap:clamp(36px,4.6vh,52px)}
 .ag__lbl{display:flex;align-items:baseline;gap:12px;margin:0 0 12px}
 .ag__lbl b{font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:var(--pill);color:var(--ink)}
@@ -842,20 +842,22 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .ag__btn.is-main:hover{scale:1.04}
 .ags svg .k{fill:#252422}.ags svg .ks{stroke:#252422;fill:none}.ags svg .w{fill:#f8f3e3}
 /* jeu 1 : déclinaisons */
-.dc__top{display:grid;grid-template-columns:minmax(0,240px) minmax(0,1fr);gap:16px;align-items:center}
+.dc__main{display:grid;grid-template-columns:minmax(0,230px) minmax(0,1fr);gap:clamp(16px,2vw,28px);align-items:center}
+.dc__top{display:flex;flex-direction:column;gap:12px}
 .dc__src{position:relative;border-radius:6px;overflow:hidden;background:var(--bg);box-shadow:0 0 0 1px var(--line-strong)}
 .dc__src svg{display:block;width:100%;height:auto}
 .dc__src span{position:absolute;left:6px;top:6px;font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:4px;background:var(--bg)}
-.dc__brief{margin:0;font-size:14px;line-height:1.45;max-width:58ch}
+.dc__brief{margin:0;font-size:13px;line-height:1.45;max-width:58ch}
 .dc__brief b{font-weight:600}
-.dc__frames{display:flex;gap:clamp(14px,2vw,26px);align-items:flex-end;justify-content:center;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
-.dc__f{flex:none;display:flex;flex-direction:column;gap:8px}
+.dc__frames{display:flex;gap:clamp(14px,2vw,26px);align-items:flex-start;justify-content:center;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.dc{--wh:clamp(190px,27vh,250px)}
+.dc__f{flex:none;display:flex;flex-direction:column;gap:8px;width:max(150px,calc(var(--wh) * var(--ar)))}
 .dc__fh{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .dc__fl{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
 .dc__z{display:flex;gap:4px}
 .dc__z button{width:26px;height:26px;border-radius:50%;border:1px solid var(--line-strong);font-size:15px;line-height:1;display:grid;place-items:center}
 .dc__z button:hover{border-color:var(--fg)}
-.dc__win{position:relative;height:clamp(220px,34vh,330px);border-radius:8px;overflow:hidden;background:var(--bg);box-shadow:0 0 0 1px var(--line-strong);cursor:grab;touch-action:none}
+.dc__win{position:relative;height:var(--wh);width:calc(var(--wh) * var(--ar));align-self:center;border-radius:8px;overflow:hidden;background:var(--bg);box-shadow:0 0 0 1px var(--line-strong);cursor:grab;touch-action:none}
 .dc__win.is-drag{cursor:grabbing}
 .dc__win > svg{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
 .dc__tag{position:absolute;left:8px;top:8px;font-size:9px;font-weight:700;letter-spacing:.08em;padding:3px 6px;border-radius:3px;background:var(--coal);color:var(--cream);pointer-events:none}
@@ -868,39 +870,17 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .dc__stamp{position:absolute;left:50%;top:42%;translate:-50% -50%;rotate:-8deg;padding:6px 12px;border:2.5px solid var(--coal);border-radius:4px;background:rgba(248,243,227,.9);font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;opacity:0;scale:1.4;pointer-events:none;transition:opacity .3s,scale .45s var(--ease-out)}
 .dc__f.is-done .dc__stamp{opacity:1;scale:1}
 .dc__chk{display:flex;gap:4px;flex-wrap:wrap;max-width:100%}
-.dc__chk i{font-style:normal;font-size:10.5px;font-weight:600;padding:3px 7px;border-radius:999px;border:1px solid var(--line-strong);opacity:.55;transition:background .25s,color .25s,opacity .25s}
+.dc__chk i{font-style:normal;font-size:10px;font-weight:600;padding:2px 6px;border-radius:999px;border:1px solid var(--line-strong);opacity:.55;transition:background .25s,color .25s,opacity .25s}
 .dc__chk i.is-ok{background:var(--fg);color:var(--bg);border-color:var(--fg);opacity:1}
-/* jeu 2 : photo finish */
-.pf__stage{position:relative;border-radius:10px;overflow:hidden;background:var(--bg);box-shadow:0 0 0 1px var(--line-strong);cursor:crosshair;touch-action:manipulation}
-.pf__stage > svg{display:block;width:100%;height:auto}
-.pf__hud{position:absolute;left:14px;right:14px;top:12px;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none}
-.pf__clock{font-size:clamp(22px,2.6vw,36px);font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1;padding:6px 10px;border-radius:6px;background:var(--coal);color:var(--cream)}
-.pf__ev{text-align:right;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;line-height:1.5}
-.pf__shots{display:flex;gap:6px;margin-top:6px;justify-content:flex-end}
-.pf__shots i{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--fg);box-sizing:border-box}
-.pf__shots i.is-used{background:var(--fg)}
-.pf__msg{position:absolute;left:50%;top:50%;translate:-50% -50%;font-size:clamp(28px,4vw,56px);font-weight:600;letter-spacing:-.04em;pointer-events:none;opacity:0}
-.pf__msg.is-on{animation:pfMsg .9s var(--ease-out)}
-@keyframes pfMsg{0%{opacity:0;scale:.8}20%{opacity:1;scale:1}75%{opacity:1}100%{opacity:0}}
-.pf__flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
-.pf__flash.is-on{animation:pfFlash .45s ease-out}
-@keyframes pfFlash{from{opacity:.95}to{opacity:0}}
-.pf__vf{position:absolute;top:18%;bottom:14%;left:62%;width:26%;pointer-events:none;opacity:.6;--c:var(--fg);background:linear-gradient(var(--c),var(--c)) 0 0/18px 2px,linear-gradient(var(--c),var(--c)) 0 0/2px 18px,linear-gradient(var(--c),var(--c)) 100% 0/18px 2px,linear-gradient(var(--c),var(--c)) 100% 0/2px 18px,linear-gradient(var(--c),var(--c)) 0 100%/18px 2px,linear-gradient(var(--c),var(--c)) 0 100%/2px 18px,linear-gradient(var(--c),var(--c)) 100% 100%/18px 2px,linear-gradient(var(--c),var(--c)) 100% 100%/2px 18px;background-repeat:no-repeat}
-.pf__res{display:flex;gap:12px;overflow-x:auto;scrollbar-width:none;min-height:0}
-.pf__res:empty{display:none}
-.pf__ph{flex:none;margin:0;width:clamp(180px,22vw,260px);padding:6px 6px 8px;background:#fff;border-radius:3px;box-shadow:0 2px 8px rgba(0,0,0,.12);animation:pfDrop .5s var(--ease-out)}
-.pf__ph svg{display:block;width:100%;height:auto;background:var(--bg)}
-.pf__ph figcaption{display:flex;flex-direction:column;gap:2px;margin-top:6px;font-size:11px;line-height:1.3}
-.pf__ph figcaption b{font-size:12.5px;font-weight:600}
-.pf__ph.is-best{box-shadow:0 0 0 2px var(--fg),0 2px 8px rgba(0,0,0,.12)}
-@keyframes pfDrop{from{opacity:0;translate:0 -10px}}
-.pf__ph svg *{animation:none!important}
+@media (max-width:1280px){
+  .dc__main{grid-template-columns:1fr}
+  .dc__top{display:grid;grid-template-columns:minmax(0,180px) minmax(0,1fr);align-items:center}
+}
 @media (max-width:760px){
   .dc__top{grid-template-columns:1fr}
-  .dc__src{max-width:220px}
+  .dc__src{max-width:200px}
   .dc__frames{justify-content:flex-start}
-  .dc__win{height:240px}
-  .pf__vf{display:none}
+  .dc{--wh:220px}
 }
 
 /* ParisianVibe · bibliothèque de vidéos : thèmes, curseurs, tri */
@@ -1337,7 +1317,7 @@ a.vc__th{display:grid}
 
   /* ---------- Projets (placeholders) ---------- */
   const N = 12;
-  const CATS = ['motion design & montage', 'montage vidéo', 'design graphique', 'identité visuelle', 'social media', '3d'];
+  const CATS = ['motion design & montage', 'montage vidéo', 'design graphique', 'campagne de communication', 'social media', '3d'];
   const PALETTES = [
     ['#2b2bff', '#00e0c6', '#ffde3b'], ['#ff5e3a', '#ffd1c2', '#2a1a5e'], ['#c8ff2e', '#1a6b4f', '#0f0f2e'],
     ['#ff3ea5', '#5b2bff', '#ffe3f3'], ['#00b3ff', '#002a5c', '#ff9f1c'], ['#f4f0e6', '#ff4b2b', '#1b1b1b'],
@@ -1346,8 +1326,8 @@ a.vc__th{display:grid}
   ];
   const PORTRAIT = new Set([3, 8]);
   const projects = Array.from({ length: N }, (_, i) => ({
-    title: ['Radio Classique', 'ParisianVibe', 'AFP'][i] || 'Projet ' + String(i + 1).padStart(2, '0'),
-    slug: ['radio-classique', 'parisianvibe', 'afp'][i] || null,
+    title: ['Radio Classique', 'ParisianVibe', 'AFP', 'UMA'][i] || 'Projet ' + String(i + 1).padStart(2, '0'),
+    slug: ['radio-classique', 'parisianvibe', 'afp', 'uma'][i] || null,
     cat: CATS[i % CATS.length],
     portrait: PORTRAIT.has(i)
   }));
@@ -2622,7 +2602,7 @@ a.vc__th{display:grid}
       /* Petite introduction affichée au-dessus des mini-jeux */
       lead: [
         "L’**AFP** (Agence France-Presse) est l’une des trois grandes agences de presse mondiales : ses dépêches, photos et vidéos sont reprises par les médias du monde entier. Pendant mon stage de 4 mois au **service communication**, j’ai conçu des visuels, des affiches et des vidéos pour la communication de l’agence, dont une série sur les Jeux olympiques de Paris 2024.",
-        "**Deux mini-jeux à tester** : déclinez un visuel dans tous les formats, comme un graphiste, puis prenez la photo décisive d’une finale olympique, comme les photographes de l’agence."
+        "**Un mini-jeu pour s’y mettre** : déclinez une photo des Jeux dans les trois formats de l’agence, comme je le faisais pour chaque campagne."
       ],
       meta: [['rôle', 'Designer graphique'], ['contrat', 'Stage — 4 mois'], ['équipe', 'Service communication'], ['dates', 'Avr. — juil. 2024'], ['lieu', 'Paris']],
       cols: [
@@ -2653,9 +2633,62 @@ a.vc__th{display:grid}
           { t: 'Photo 02', s: 'à remplacer' }
         ] }
       ]
+    },
+    'uma': {
+      title: 'UMA', kicker: 'campagne de communication',
+      /* Petite introduction affichée sous le titre */
+      lead: [
+        "**UMA** est une boisson sans alcool. Pour la marque, j’ai conçu une **campagne de communication 360°** : trois affiches, une double page sponsorisée dans le magazine **Le Bonbon**, un carrousel Instagram et un motion design.",
+        "Le parti pris : associer UMA à une **ambiance** et à une **sensation** plutôt qu’à un produit. La fête, la jeunesse, l’insouciance, le partage : la campagne montre qu’on peut vivre les mêmes soirées, verre en main, **sans alcool**."
+      ],
+      meta: [['rôle', 'Direction artistique'], ['marque', 'UMA · boisson sans alcool'], ['supports', 'Affiche · presse · Instagram · motion'], ['presse', 'Le Bonbon']],
+      cols: [
+        ['Une sensation, pas un produit', "Plutôt que de mettre la bouteille en vitrine, la campagne vend une **ambiance**. Les images reprennent les codes de la fête et de la **jeunesse** : des photos qui auraient pu être prises **sur le vif**, en soirée, par les invités eux-mêmes. UMA n’y est pas une alternative par défaut, c’est la boisson **de la fête**."],
+        ['Trois niveaux de lecture', "Chaque visuel se lit en trois temps. D’abord le **grand slogan**, festif et facile à retenir : avoir **la night en main**, durer **toute la night**. Ensuite la **promesse** des marques sans alcool : **100 % plaisir, 100 % contrôle, 0 % alcool**. Enfin, pour ceux qui s’attardent, la **recette** : ce qu’il y a dans la boisson."],
+        ['Les codes de la marque', "Le graphisme reprend les **formes** déjà présentes sur le produit : l’**étoile jaune**, la **vague**, le **carré percé d’un rond**. Elles deviennent des **repères** d’un support à l’autre, pour que la campagne reste reconnaissable sur une affiche, une page de magazine ou un écran de téléphone."]
+      ],
+      stats: [
+        { to: 100, suf: '%', lbl: 'plaisir' },
+        { to: 100, suf: '%', lbl: 'contrôle' },
+        { to: 0, suf: '%', lbl: 'alcool : la promesse, deuxième niveau de lecture de chaque visuel' }
+      ],
+      media: [
+        /* Les 3 affiches (format à ajuster sur les vrais fichiers) */
+        { row: true, title: 'Les affiches', intro: 'Trois affiches, chacune avec son slogan : le message se retient en un coup d’œil, la promesse et la recette se lisent en s’approchant.', kind: 'image', ar: '3/4', items: [
+          { t: 'Affiche 01', s: 'à remplacer' },
+          { t: 'Affiche 02', s: 'à remplacer' },
+          { t: 'Affiche 03', s: 'à remplacer' }
+        ] },
+        /* Les 3 mock-ups des affiches */
+        { row: true, title: 'En situation', kind: 'image', ar: '4/5', items: [
+          { t: 'Mock-up 01', s: 'à remplacer' },
+          { t: 'Mock-up 02', s: 'à remplacer' },
+          { t: 'Mock-up 03', s: 'à remplacer' }
+        ] },
+        { text: true, cls: 'mid', paras: [
+          "Pour ancrer la marque dans la vie nocturne, j’ai imaginé une **double page sponsorisée** dans **Le Bonbon**, le média des sorties à Paris. Elle prend la forme d’une sélection d’**adresses** où sortir, en France et surtout à Paris, toutes choisies parmi les lieux où l’on trouve UMA.",
+          "La marque n’est pas une publicité posée à côté du contenu : elle fait partie du **bon plan**. Le lecteur découvre un endroit où passer la soirée, et la boisson qu’il pourra y commander."
+        ] },
+        /* Mock-up de la double page Le Bonbon */
+        { kind: 'image', ar: '3/2', cls: '', cap: 'Double page sponsorisée dans Le Bonbon : les bonnes adresses où trouver UMA' },
+        /* Carrousel Instagram : une case par slide */
+        { row: true, title: 'Carrousel Instagram', intro: 'Le même univers, slide après slide, pensé pour le fil Instagram.', kind: 'image', ar: '4/5', items: [
+          { t: 'Slide 01', s: 'à remplacer' },
+          { t: 'Slide 02', s: 'à remplacer' },
+          { t: 'Slide 03', s: 'à remplacer' },
+          { t: 'Slide 04', s: 'à remplacer' },
+          { t: 'Slide 05', s: 'à remplacer' }
+        ] },
+        /* Motion design (9:16 pour l'instant, à ajuster sur le vrai fichier) */
+        { kind: 'vidéo', ar: '9/16', cls: 's4', cap: 'Motion design UMA' },
+        { text: true, cls: 's8', paras: [
+          "En motion, les **formes** de la marque prennent vie : l’étoile, la vague et le carré s’animent au rythme d’une soirée, et les slogans s’enchaînent comme sur un **beat**.",
+          "Un format court et vertical, fait pour les **stories** et les **reels**."
+        ] }
+      ]
     }
   };
-  const PJ_ORDER = ['radio-classique', 'parisianvibe', 'afp'];
+  const PJ_ORDER = ['radio-classique', 'parisianvibe', 'afp', 'uma'];
   function routeOf(hash) {
     const h = (hash || '').replace('#', '');
     if (h === 'a-propos') return { v: 'about' };
@@ -2753,8 +2786,6 @@ a.vc__th{display:grid}
     if (fxr) initRadio(fxr);
     const fxd = pjInner.querySelector('.pj-cover.fx-afp .dc');
     if (fxd) initDecl(fxd);
-    const fxf = pjInner.querySelector('.pj-cover.fx-afp .pf');
-    if (fxf) initFinish(fxf);
     const fxe = pjInner.querySelector('.pj-cover.fx-edit .pr');
     if (fxe) initPr(fxe);
     pjInner.querySelectorAll('[data-vl]').forEach((el) => initLibrary(el, P.media.find((m) => m.library)));
@@ -3300,12 +3331,9 @@ a.vc__th{display:grid}
     } catch (e) {}
   }
 
-  /* Couverture AFP : deux mini-jeux à comparer.
-     Jeu 1 « Les déclinaisons » : un même visuel à recadrer en story 9:16, post 4:5 et bannière 16:9 ;
-     le sujet doit rester entier, hors du bandeau de texte, et bien placé.
-     Jeu 2 « Photo finish » : la finale du 100 m arrive sur la ligne ; on déclenche (clic ou espace) au moment décisif,
-     comme les photographes de l'agence aux Jeux de Paris 2024. Trois déclenchements par course.
-     Tout est dessiné en vectoriel ; rien ne tourne hors de l'écran ni hors de la course. */
+  /* Couverture AFP · mini-jeu « Les déclinaisons » : un même visuel à recadrer en story 9:16, post 4:5 et bannière 16:9 ;
+     le sujet doit rester entier, hors du bandeau de texte, et bien placé. Au départ, les trois cadrages sont ratés exprès.
+     Tout est dessiné en vectoriel. */
   const AG_SRC = `<symbol id="agSrc" viewBox="0 0 1600 900">
     <rect width="1600" height="900" fill="#f8f3e3"/>
     <circle cx="1270" cy="240" r="210" fill="#252422" opacity=".07"/>
@@ -3321,44 +3349,20 @@ a.vc__th{display:grid}
   </symbol>`;
   const DC_SUBJ = { x0: 850, y0: 320, x1: 1120, y1: 535 };
   const DC_FMT = [
-    { k: 'story', l: 'story · 9:16', ar: 9 / 16, band: [0, 1, 0.72, 1], side: false, init: { z: 1, x: 140, y: 0 } },
-    { k: 'post', l: 'post · 4:5', ar: 4 / 5, band: [0, 1, 0.75, 1], side: false, init: { z: 1.15, x: 470, y: 120 } },
-    { k: 'banner', l: 'bannière · 16:9', ar: 16 / 9, band: [0, 0.4, 0, 1], side: true, init: { z: 1.6, x: 600, y: 200 } }
-  ];
-  const PF_W = 1200, PF_H = 420, PF_LINE = 900, PF_PPM = 34;
-  const PF_RUN = [{ T: 9.80, lane: 3, n: '4' }, { T: 9.86, lane: 2, n: '3' }, { T: 9.84, lane: 1, n: '6' }, { T: 9.93, lane: 0, n: '5' }];
-  const PF_POSE = [
-    'M0 0 L6 -62 M5 -55 L22 -40 L30 -52 M5 -55 L-10 -38 L-18 -48 M0 0 L20 22 L14 50 M0 0 L-14 24 L-32 30',
-    'M0 0 L6 -62 M5 -55 L-12 -40 L-20 -50 M5 -55 L20 -42 L28 -54 M0 0 L-16 22 L-26 46 M0 0 L20 16 L34 6'
+    { k: 'story', l: 'story · 9:16', ar: 9 / 16, band: [0, 1, 0.72, 1], side: false, init: { z: 1.6, x: 950, y: 60 } },
+    { k: 'post', l: 'post · 4:5', ar: 4 / 5, band: [0, 1, 0.75, 1], side: false, init: { z: 1.8, x: 650, y: 100 } },
+    { k: 'banner', l: 'bannière · 16:9', ar: 16 / 9, band: [0, 0.4, 0, 1], side: true, init: { z: 2, x: 700, y: 400 } }
   ];
   const AF_HTML = () => `<div class="ags"><svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>${AG_SRC}</defs></svg>
-    <div><p class="ag__lbl"><b>jeu 1</b><span>Les déclinaisons : un visuel, trois formats</span></p>
+    <div><p class="ag__lbl"><b>mini-jeu</b><span>Les déclinaisons : un visuel, trois formats</span></p>
       <div class="ag dc">
-        <div class="dc__top"><div class="dc__src"><svg viewBox="0 0 1600 900" aria-hidden="true"><use href="#agSrc" width="1600" height="900"/></svg><span>visuel source</span></div>
+        <div class="dc__main"><div class="dc__top"><div class="dc__src"><svg viewBox="0 0 1600 900" aria-hidden="true"><use href="#agSrc" width="1600" height="900"/></svg><span>visuel source</span></div>
           <p class="dc__brief"><b>Le brief :</b> déclinez la photo « Paris 2024 » pour Instagram et le site de l’agence. Dans chaque format, l’athlète doit rester <b>entier</b>, <b>hors du texte</b>, et <b>bien placé</b>. Glissez chaque image pour la recadrer, zoomez avec + et −.</p></div>
-        <div class="dc__frames">${DC_FMT.map((f) => `<div class="dc__f" data-f="${f.k}"><div class="dc__fh"><span class="dc__fl">${f.l}</span><span class="dc__z"><button type="button" data-z="-1" aria-label="dézoomer">−</button><button type="button" data-z="1" aria-label="zoomer">+</button></span></div>
-          <div class="dc__win" style="aspect-ratio:${f.ar}"><svg preserveAspectRatio="none" aria-hidden="true"><use href="#agSrc" width="1600" height="900"/></svg><span class="dc__grid"></span><span class="dc__tag">AFP · PARIS 2024</span>
+        <div class="dc__frames">${DC_FMT.map((f) => `<div class="dc__f" data-f="${f.k}" style="--ar:${f.ar}"><div class="dc__fh"><span class="dc__fl">${f.l}</span><span class="dc__z"><button type="button" data-z="-1" aria-label="dézoomer">−</button><button type="button" data-z="1" aria-label="zoomer">+</button></span></div>
+          <div class="dc__win"><svg preserveAspectRatio="none" aria-hidden="true"><use href="#agSrc" width="1600" height="900"/></svg><span class="dc__grid"></span><span class="dc__tag">AFP · PARIS 2024</span>
             <span class="dc__band${f.side ? ' is-side' : ''}" style="left:${f.band[0] * 100}%;right:${(1 - f.band[1]) * 100}%;top:${f.band[2] * 100}%;bottom:${(1 - f.band[3]) * 100}%"><small>Jeux olympiques</small><b>Paris, capitale des sports</b></span><span class="dc__stamp">bon à diffuser</span></div>
-          <div class="dc__chk"><i data-c="in">sujet entier</i><i data-c="txt">hors du texte</i><i data-c="comp">bien placé</i></div></div>`).join('')}</div>
+          <div class="dc__chk"><i data-c="in">entier</i><i data-c="txt">hors texte</i><i data-c="comp">bien placé</i></div></div>`).join('')}</div></div>
         <div class="ag__bar"><span class="ag__info">Trois formats à livrer. Recadrez, puis validez.</span><span class="ag__score"></span><button type="button" class="ag__btn" data-a="reset">recommencer</button><button type="button" class="ag__btn is-main" data-a="ok">valider les 3 formats</button></div>
-      </div></div>
-    <div><p class="ag__lbl"><b>jeu 2</b><span>Photo finish : déclenchez au moment décisif</span></p>
-      <div class="ag pf">
-        <div class="pf__stage"><svg viewBox="0 0 ${PF_W} ${PF_H}" aria-hidden="true">
-          <rect width="${PF_W}" height="${PF_H}" class="w"/>
-          <g class="k" opacity=".07">${Array.from({ length: 60 }, (_, i) => `<circle cx="${(i * 97) % PF_W + 10}" cy="${22 + (i * 37) % 70}" r="${4 + (i % 3)}"/>`).join('')}</g>
-          <rect y="120" width="${PF_W}" height="8" class="k" opacity=".12"/>
-          <g class="ks" stroke-width="2" opacity=".25">${[200, 250, 300, 350, 400].map((y) => `<path d="M0 ${y} H${PF_W}"/>`).join('')}</g>
-          <g class="k" opacity=".35" font-size="13" font-weight="600">${[0, 1, 2, 3].map((l) => `<text x="${PF_LINE + 18}" y="${238 + l * 50}">${['5', '6', '3', '4'][l]}</text>`).join('')}</g>
-          <rect x="${PF_LINE - 3}" y="150" width="6" height="${PF_H - 150}" class="k" opacity=".85"/>
-          <text x="${PF_LINE}" y="146" text-anchor="middle" class="k" font-size="12" font-weight="700" letter-spacing="2">ARRIVÉE</text>
-          <g class="pf__runners"></g>
-        </svg>
-          <span class="pf__vf"></span>
-          <div class="pf__hud"><span class="pf__clock">0,00</span><span class="pf__ev">Paris 2024 · finale du 100 m<span class="pf__shots"><i></i><i></i><i></i></span></span></div>
-          <span class="pf__msg"></span><span class="pf__flash"></span></div>
-        <div class="pf__res" aria-live="polite"></div>
-        <div class="ag__bar"><span class="ag__info">Comme les photographes de l’AFP sur la piste du Stade de France : <b>3 déclenchements</b> par course, au clic ou à la barre d’espace. Visez le moment où le premier franchit la ligne.</span><span class="ag__score"></span><button type="button" class="ag__btn is-main" data-a="go">lancer la course</button></div>
       </div></div></div>`;
 
   function initDecl(el) {
@@ -3414,71 +3418,6 @@ a.vc__th{display:grid}
       info.innerHTML = ok === 3 ? (comp === 3 ? '<b>Parfait :</b> trois formats prêts à publier, avec une composition soignée.' : '<b>Bon à diffuser.</b> Pour aller plus loin, placez l’athlète sur une ligne des tiers.') : `À reprendre : ${pb.join(' · ')}.`;
       sfx.play('click');
     });
-  }
-
-  function initFinish(el) {
-    const svg = el.querySelector('.pf__stage > svg'), g = el.querySelector('.pf__runners'), clock = el.querySelector('.pf__clock'), msg = el.querySelector('.pf__msg'), flash = el.querySelector('.pf__flash');
-    const res = el.querySelector('.pf__res'), go = el.querySelector('[data-a="go"]'), info = el.querySelector('.ag__info'), score = el.querySelector('.ag__score'), dots = [...el.querySelectorAll('.pf__shots i')];
-    g.innerHTML = PF_RUN.map((r) => `<g class="pf__r" data-l="${r.lane}"><circle r="9" cy="-78" cx="8" class="k"/><path class="ks" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" d="${PF_POSE[0]}"/><text x="-4" y="-30" font-size="10" font-weight="700" class="w">${r.n}</text></g>`).join('');
-    const R = [...g.children];
-    let t0 = 0, raf = 0, running = false, shots = [], visible = false, ac = null;
-    const restart = (n, c) => { n.classList.remove(c); void n.offsetWidth; n.classList.add(c); };
-    const say = (m) => { msg.textContent = m; restart(msg, 'is-on'); };
-    const dist = (r, t) => 100 * Math.pow(Math.max(0, t) / r.T, 1.15);
-    const place = (t) => {
-      PF_RUN.forEach((r, i) => {
-        const d = dist(r, t), x = PF_LINE + (d - 100) * PF_PPM - 9, y = 245 + r.lane * 50, s = 0.47 + r.lane * 0.04;
-        R[i].setAttribute('transform', `translate(${x.toFixed(1)} ${y}) scale(${s.toFixed(2)})`);
-        R[i].children[1].setAttribute('d', PF_POSE[Math.floor(d / 1.15) % 2]);
-      });
-      clock.textContent = Math.max(0, t).toFixed(2).replace('.', ',');
-    };
-    const tick = (now) => {
-      raf = 0; if (!running || !el.isConnected) return;
-      const t = (now - t0) / 1000; place(t);
-      if (t > 11.2) { finish(); return; }
-      raf = requestAnimationFrame(tick);
-    };
-    const beep = () => {
-      if (!state.sound) return;
-      try { ac = ac || new (window.AudioContext || window.webkitAudioContext)(); const o = ac.createOscillator(), gg = ac.createGain(); o.frequency.value = 880; gg.gain.setValueAtTime(0.0001, ac.currentTime); gg.gain.exponentialRampToValueAtTime(0.25, ac.currentTime + 0.01); gg.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.35); o.connect(gg); gg.connect(ac.destination); o.start(); o.stop(ac.currentTime + 0.4); } catch (e) {}
-    };
-    const start = () => {
-      shots = []; res.innerHTML = ''; dots.forEach((d) => d.classList.remove('is-used')); score.textContent = '';
-      info.innerHTML = 'Les coureurs arrivent dans le viseur juste avant la ligne. <b>Clic ou espace</b> pour déclencher.';
-      go.textContent = 'arrêter'; running = true; place(-1);
-      say('à vos marques'); setTimeout(() => { if (running) say('prêts'); }, 900);
-      setTimeout(() => { if (!running) return; beep(); say('partez !'); t0 = performance.now(); raf = requestAnimationFrame(tick); }, 1800);
-    };
-    const finish = () => {
-      running = false; cancelAnimationFrame(raf); raf = 0; go.textContent = 'rejouer';
-      if (!shots.length) { info.innerHTML = 'Aucune photo : la course est passée. <b>Rejouez</b> et déclenchez quand le premier arrive sur la ligne.'; return; }
-      const best = shots.reduce((a, b) => (Math.abs(b.cm) < Math.abs(a.cm) ? b : a));
-      best.el.classList.add('is-best');
-      const a = Math.abs(best.cm);
-      info.innerHTML = a <= 20 ? '<b>Photo parfaite :</b> le vainqueur sur la ligne. Elle part sur le fil de l’agence.' : a <= 60 ? '<b>Excellente photo</b>, à quelques centimètres de la ligne.' : a <= 150 ? '<b>Bonne photo</b>, mais le moment décisif est passé à côté.' : 'Trop loin de la ligne : <b>rejouez</b> pour viser le moment décisif.';
-      score.textContent = `meilleure photo : ${a < 1 ? 'sur la ligne' : `à ${Math.round(a)} cm ${best.cm > 0 ? 'avant' : 'après'} la ligne`}`;
-    };
-    const shoot = () => {
-      if (!running || !t0 || shots.length >= 3) return;
-      const t = (performance.now() - t0) / 1000;
-      restart(flash, 'is-on'); sfx.play('shutter');
-      const lead = PF_RUN.reduce((a, r) => (dist(r, t) > dist(a, t) ? r : a));
-      const cm = (100 - (dist(lead, t) + 9 / PF_PPM)) * 100;
-      dots[shots.length].classList.add('is-used');
-      const f = document.createElement('figure'); f.className = 'pf__ph';
-      const c = svg.cloneNode(true); c.setAttribute('viewBox', `${PF_LINE - 330} 150 520 ${PF_H - 150}`); f.appendChild(c);
-      const a = Math.abs(cm);
-      f.insertAdjacentHTML('beforeend', `<figcaption><b>${a < 1 ? 'Sur la ligne' : `${Math.round(a)} cm ${cm > 0 ? 'avant' : 'après'} la ligne`}</b><span>Paris 2024 · finale du 100 m · ${t.toFixed(2).replace('.', ',')} s · photo © AFP / vous</span></figcaption>`);
-      res.appendChild(f); shots.push({ cm, el: f });
-    };
-    go.addEventListener('click', () => { if (running) { running = false; cancelAnimationFrame(raf); raf = 0; go.textContent = 'lancer la course'; place(-1); } else { start(); go.blur(); } });
-    go.addEventListener('keyup', (e) => { if (running && (e.code === 'Space' || e.key === ' ')) e.preventDefault(); });
-    el.querySelector('.pf__stage').addEventListener('pointerdown', (e) => { if (!e.button) shoot(); });
-    window.addEventListener('keydown', (e) => { if (!el.isConnected || !running || !visible) return; if (e.code === 'Space' || e.key === ' ') { e.preventDefault(); if (!e.repeat) shoot(); } });
-    if ('IntersectionObserver' in window) new IntersectionObserver((en) => { visible = en[0].isIntersecting; if (!visible && running) { running = false; cancelAnimationFrame(raf); raf = 0; go.textContent = 'lancer la course'; } }, { root: pj, threshold: 0.3 }).observe(el);
-    else visible = true;
-    place(-1);
   }
 
   /* Bibliothèque de vidéos : boutons de thème, curseurs (vues, durée) et tri.
