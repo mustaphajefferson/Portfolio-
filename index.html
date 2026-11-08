@@ -533,8 +533,7 @@ body.view-about .reel__ring,body.view-project .reel__ring,body.view-about .reel_
 .ab-back:active{scale:.95}
 
 body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-about .fx,
-body.view-project .modes,body.view-project .fx-btn,body.view-project .reel,body.view-project .fx,
-body.menu-open .hc{opacity:0;pointer-events:none;visibility:hidden}
+body.view-project .modes,body.view-project .fx-btn,body.view-project .reel,body.view-project .fx{opacity:0;pointer-events:none;visibility:hidden}
 
 /* ---------- Pages projet ---------- */
 .pj-back{position:fixed;top:calc(var(--top) + 4px);left:50%;translate:-50% 0;z-index:12;height:44px;padding:0 18px;border-radius:999px;background:var(--pill);color:var(--ink);font-size:15px;font-weight:500;letter-spacing:-.01em;display:flex;align-items:center;gap:8px;opacity:0;pointer-events:none;transition:opacity .5s var(--ease-out),scale .25s var(--ease-out)}
@@ -952,23 +951,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 }
 @media (prefers-reduced-motion:reduce){.wl *{animation:none!important}}
 
-/* Accueil · trois petites horloges à comparer (on en gardera une) */
-.hc{position:fixed;z-index:4;display:flex;align-items:center;gap:10px;font-variant-numeric:tabular-nums;color:var(--fg);user-select:none;-webkit-user-select:none}
-.hc__n{position:absolute;top:-9px;left:-9px;width:16px;height:16px;border-radius:50%;background:var(--fg);color:var(--bg);font-size:9.5px;font-weight:700;display:grid;place-items:center}
-.hc__lbl{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
-body.view-about .hc,body.view-project .hc{opacity:0;pointer-events:none;visibility:hidden}
-/* 1 · le timecode : l'heure de Paris comme sur une timeline, image par image */
-.hc--tc{left:50%;bottom:calc(var(--bottom) + 10px);translate:-50% 0;padding:8px 12px;border-radius:8px;box-shadow:0 0 0 1px var(--line-strong);background:var(--bg)}
-.is-entered .hc--tc.ui{translate:-50% 0}
-.hc--tc .hc__tc{font-size:15px;font-weight:600;letter-spacing:.02em}
-.hc--tc .hc__tc i{font-style:normal;color:var(--dim)}
-.hc__rec{width:7px;height:7px;border-radius:50%;background:var(--fg);animation:hcRec 1s steps(1) infinite}
-@keyframes hcRec{50%{opacity:.15}}
-/* 2 · le tableau à palettes : comme un panneau de gare, les chiffres basculent */
-.hc--flap{left:var(--left);top:50%;translate:0 -50%;flex-direction:column;align-items:flex-start;gap:6px}
-.hc--flap .hc__n{top:-20px;left:0}
-.hc--sun .hc__n{left:auto;right:0;top:-14px}
-.is-entered .hc--flap.ui{translate:0 -50%}
+/* Menu · l'heure de Paris en palettes : comme un panneau de gare, les chiffres basculent */
 .hc__board{display:flex;gap:3px;cursor:pointer}
 .fc{position:relative;width:24px;height:34px;perspective:120px;font-size:24px;font-weight:600;line-height:34px;text-align:center;color:var(--cream)}
 .fc.is-sep{width:9px;color:var(--fg)}
@@ -987,19 +970,7 @@ body.view-about .hc,body.view-project .hc{opacity:0;pointer-events:none;visibili
 .fc.is-flip .fb{animation:fcBot .16s .16s ease-out forwards}
 @keyframes fcTop{to{transform:rotateX(-90deg)}}
 @keyframes fcBot{from{transform:rotateX(90deg)}to{transform:rotateX(0)}}
-/* 3 · la course du soleil : sa position au-dessus de Paris, en direct */
-.hc--sun{right:var(--right);top:50%;translate:0 -50%;flex-direction:column;align-items:flex-end;gap:4px}
-.is-entered .hc--sun.ui{translate:0 -50%}
-.hc--sun svg{width:128px;height:72px;overflow:visible;cursor:default}
-.hc--sun .arc{fill:none;stroke:var(--line-strong);stroke-width:1.2;stroke-dasharray:2 3}
-.hc--sun .hz{stroke:var(--fg);stroke-width:1.2}
-.hc--sun .trail{fill:none;stroke:var(--fg);stroke-width:1.6;stroke-linecap:round}
-.hc--sun .sun{fill:var(--fg);transition:r .3s}
-.hc--sun .moon{fill:var(--bg);stroke:var(--fg);stroke-width:1.4}
-.hc--sun svg:hover .sun{r:7}
-.hc--sun .hc__big{font-size:13px;font-weight:600;letter-spacing:-.01em}
-@media (max-width:760px){.hc--flap,.hc--sun{display:none}.hc--tc{bottom:calc(var(--bottom) + 64px)}}
-@media (prefers-reduced-motion:reduce){.hc__rec{animation:none}.fc.is-flip .ft,.fc.is-flip .fb{animation-duration:.01s}}
+@media (prefers-reduced-motion:reduce){.fc.is-flip .ft,.fc.is-flip .fb{animation-duration:.01s}}
 
 /* Contact : formulaire dans le menu */
 .ct-open{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:8px;padding:12px 16px;border-radius:14px;background:var(--soft);font-size:15px;font-weight:500;letter-spacing:-.01em;transition:background .3s}
@@ -1021,6 +992,64 @@ body.view-about .hc,body.view-project .hc{opacity:0;pointer-events:none;visibili
 .ct__send:active{scale:.94}
 .ct__send[disabled]{opacity:.5}
 .ab-foot__row .ab-write{font-size:15px;font-weight:500;text-decoration:underline;text-underline-offset:4px}
+
+/* Onglets ouverts (web design) : un navigateur, un onglet par site */
+.bw{border-radius:14px;overflow:hidden;background:var(--bg);box-shadow:0 0 0 1px var(--line-strong),0 30px 60px -40px rgba(0,0,0,.4)}
+.bw__bar{display:flex;align-items:flex-end;gap:14px;padding:10px 12px 0;background:rgba(0,0,0,.06)}
+.bw__dots{display:flex;gap:6px;padding-bottom:12px}
+.bw__dots i{width:10px;height:10px;border-radius:50%;box-shadow:inset 0 0 0 1.5px var(--fg);opacity:.5}
+.bw__tabs{display:flex;gap:2px;min-width:0;overflow-x:auto;scrollbar-width:none}
+.bw__tab{position:relative;display:flex;align-items:center;gap:8px;max-width:210px;min-width:0;padding:9px 14px 10px;border-radius:9px 9px 0 0;font-size:12.5px;font-weight:500;letter-spacing:-.01em;color:var(--dim);white-space:nowrap;transition:color .25s,background .25s}
+.bw__tab:hover{color:var(--fg);background:rgba(0,0,0,.04)}
+.bw__tab[aria-selected="true"]{background:var(--bg);color:var(--fg)}
+.bw__tab i{flex:none;width:12px;height:12px;border-radius:3px;background:var(--fg);opacity:.85}
+.bw__tab span{overflow:hidden;text-overflow:ellipsis}
+.bw__new{flex:none;align-self:center;width:24px;height:24px;margin-bottom:6px;border-radius:6px;font-size:16px;line-height:1;color:var(--dim)}
+.bw__new:hover{color:var(--fg);background:rgba(0,0,0,.05)}
+.bw__url{display:flex;align-items:center;gap:10px;padding:8px 12px;border-bottom:1px solid var(--line-strong)}
+.bw__nav{display:flex;gap:10px;color:var(--dim);font-size:13px}
+.bw__addr{flex:1;min-width:0;display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;background:rgba(0,0,0,.05);font-size:12.5px;font-variant-numeric:tabular-nums}
+.bw__addr small{color:var(--dim)}
+.bw__u::after{content:"";display:inline-block;width:1px;height:1em;margin-left:1px;vertical-align:-2px;background:var(--fg);animation:bwCaret 1s steps(1) infinite}
+@keyframes bwCaret{50%{opacity:0}}
+.bw__view{position:relative;overflow:hidden}
+.bw__page.ph{border-radius:0;clip-path:none!important;background-size:100% auto;background-position:50% 0;transition:background-position 7s cubic-bezier(.45,0,.55,1),opacity .35s}
+.bw__view:hover .bw__page.has-img{background-position:50% 100%}
+.bw__page.is-swap{opacity:0}
+.bw__hint{position:absolute;right:12px;bottom:12px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;border-radius:5px;background:var(--coal);color:var(--cream);pointer-events:none}
+@media (max-width:760px){.bw__dots,.bw__nav{display:none}.bw__tab{max-width:140px;padding:8px 10px}}
+
+/* Écran d'accueil : chargement, puis titre « entrer avec le son » cinétique */
+.ld{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;pointer-events:none;animation:none!important}
+.ld__n{display:flex;font-size:clamp(64px,11vw,150px);font-weight:600;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums}
+.ld__d{display:inline-block;height:1em;overflow:hidden}
+.ld__d > span{display:flex;flex-direction:column;transition:transform .45s var(--ease-out)}
+.ld__d > span > b{display:block;height:1em;font-weight:600}
+.ld__line{position:relative;width:min(280px,60vw);height:1px;background:var(--line-strong);overflow:hidden}
+.ld__line i{position:absolute;inset:0;background:var(--fg);transform-origin:0 50%;transform:scaleX(var(--p,0));transition:transform .3s var(--ease-out)}
+.ld__lbl{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-variant-numeric:tabular-nums}
+.ld.is-out .ld__d > span{transform:translateY(-110%)!important;transition:transform .55s var(--ease-io) calc(var(--k) * 60ms)}
+.ld.is-out .ld__line,.ld.is-out .ld__lbl{opacity:0;transition:opacity .3s}
+.gate.is-loading > :not(.ld){visibility:hidden;animation:none!important}
+.enter__label .ch{display:inline-block;position:relative;overflow:hidden;vertical-align:top;height:1.15em;line-height:1.15}
+.enter__label .ch > span{display:block;transition:transform .5s var(--ease-out) calc(var(--k) * 22ms)}
+.enter__label .ch > span::after{content:attr(data-c);display:block}
+.enter:hover .enter__label .ch > span,.enter:focus-visible .enter__label .ch > span{transform:translateY(-50%)}
+.enter__label .ch.is-sp{width:.28em}
+.enter:hover .enter__label .ch.is-son > span,.enter:focus-visible .enter__label .ch.is-son > span{animation:enWave .9s ease-in-out calc(.5s + var(--k) * 80ms) infinite}
+@keyframes enWave{0%,100%{transform:translateY(-50%)}50%{transform:translateY(calc(-50% - 3px))}}
+@media (prefers-reduced-motion:reduce){.enter__label .ch > span{transition:none}.enter:hover .enter__label .ch > span{animation:none!important}}
+
+/* Menu : l'heure en palettes */
+.panel__foot .hc__board{display:flex;gap:2px}
+.panel__foot .fc{width:21px;height:30px;font-size:20px;line-height:30px;color:var(--coal)}
+.panel__foot .fc.is-sep{width:7px;color:var(--ink)}
+.panel__foot .fc > span{background:var(--ink)}
+.panel__foot .fc.is-sep > span{background:none}
+.panel__foot .fc .b b,.panel__foot .fc .fb b{line-height:30px}
+.panel__foot .fc.is-sep{width:8px}
+.panel__foot .fc::after{background:rgba(37,36,34,.2)}
+.panel__foot{align-items:center}
 
 /* ParisianVibe · bibliothèque de vidéos : thèmes, curseurs, tri */
 .vl{grid-column:span 12;display:flex;flex-direction:column;gap:22px;min-width:0}
@@ -1177,7 +1206,7 @@ a.vc__th{display:grid}
 <canvas id="scene" aria-label="spirale des projets"></canvas>
 
 <!-- Écran d'entrée -->
-<div class="gate" id="gate">
+<div class="gate is-loading" id="gate">
   <div class="orb orb--gate" id="gateOrb" aria-hidden="true"><span class="orb__body"></span></div>
   <p class="gate__line gate__fade">graphisme, direction artistique<br>&amp; montage vidéo — paris</p>
   <button class="enter gate__fade" id="enterBtn" type="button">
@@ -1186,6 +1215,7 @@ a.vc__th{display:grid}
     <span class="enter__dot" aria-hidden="true"></span>
   </button>
   <button class="quiet gate__fade" id="quietBtn" type="button">entrer sans le son</button>
+  <div class="ld" aria-hidden="true"><div class="ld__n"><span class="ld__d" style="--k:0"><span><b>0</b><b>1</b><b>2</b><b>3</b><b>4</b><b>5</b><b>6</b><b>7</b><b>8</b><b>9</b></span></span><span class="ld__d" style="--k:1"><span><b>0</b><b>1</b><b>2</b><b>3</b><b>4</b><b>5</b><b>6</b><b>7</b><b>8</b><b>9</b></span></span><span class="ld__d" style="--k:2"><span><b>0</b><b>1</b><b>2</b><b>3</b><b>4</b><b>5</b><b>6</b><b>7</b><b>8</b><b>9</b></span></span></div><span class="ld__line"><i></i></span><span class="ld__lbl">chargement</span></div>
 </div>
 
 <!-- Interface fixe -->
@@ -1201,9 +1231,6 @@ a.vc__th{display:grid}
   <span class="menu-btn__labels" id="menuLabels"><span class="mb-l mb-l--menu">menu</span><span class="mb-l mb-l--close" aria-hidden="true">fermer</span></span><span class="menu-btn__dot" aria-hidden="true"></span>
 </button>
 
-<div class="hc hc--tc ui ui--bottom" id="hcTc" style="--d:500ms" aria-label="heure de Paris, en timecode"><span class="hc__n">1</span><i class="hc__rec"></i><span class="hc__lbl">paris</span><span class="hc__tc">--:--:--<i>:--</i></span></div>
-<div class="hc hc--flap ui" id="hcFlap" style="--d:550ms" aria-label="heure de Paris"><span class="hc__n">2</span><span class="hc__lbl">paris · heure locale</span><span class="hc__board"></span></div>
-<div class="hc hc--sun ui" id="hcSun" style="--d:600ms"><span class="hc__n">3</span><svg viewBox="0 0 128 72" aria-hidden="true"><path class="arc" d="M10 62 A54 54 0 0 1 118 62"/><path class="trail" d=""/><line class="hz" x1="2" y1="62" x2="126" y2="62"/><circle class="sun" r="5.5" cx="10" cy="62"/><circle class="moon" r="5" cx="10" cy="62"/></svg><span class="hc__big"></span><span class="hc__lbl"></span></div>
 <button class="reel ui ui--bottom" id="reel" type="button" aria-label="showreel (bientôt)" style="--d:350ms">
   <svg class="reel__ring" viewBox="0 0 160 160" aria-hidden="true">
     <defs><path id="circ" d="M80,80 m-64,0 a64,64 0 1,1 128,0 a64,64 0 1,1 -128,0"/></defs>
@@ -1241,7 +1268,7 @@ a.vc__th{display:grid}
 <div class="backdrop" id="backdrop"></div>
 <nav class="panel" id="panel" aria-label="menu principal">
   <ul class="panel__nav" style="--i:0">
-    <li><button class="pl" type="button" data-go="works"><span>projets</span><sup>10</sup></button></li>
+    <li><button class="pl" type="button" data-go="works"><span>projets</span><sup>11</sup></button></li>
     <li><button class="pl" type="button" data-go="about"><span>à propos</span></button></li>
     <li><button class="pl" type="button" data-go="contact"><span>contact</span></button></li>
   </ul>
@@ -1263,7 +1290,7 @@ a.vc__th{display:grid}
       <li><a href="https://www.linkedin.com" target="_blank" rel="noopener">linkedin <span>↗</span></a></li>
     </ul>
   </div>
-  <p class="panel__foot" style="--i:3"><span>paris, fr</span><span id="clock">--:--</span></p>
+  <p class="panel__foot" style="--i:3"><span>paris, fr</span><span class="hc__board" id="clockBoard" aria-label="heure de Paris"></span></p>
 </nav>
 
 <!-- Page à propos -->
@@ -1688,8 +1715,8 @@ a.vc__th{display:grid}
   const sfx = { play(name, v) { if (state.sound) audio.play(name, v); } };
 
   /* ---------- Projets (placeholders) ---------- */
-  const N = 12;
-  const CATS = ['motion design & montage', 'montage vidéo', 'design graphique', 'campagne de communication', 'motion design', 'campagne print', 'vidéo verticale', 'affiches & typographie', 'montage vidéo', 'édition · risographie'];
+  const N = 11;
+  const CATS = ['motion design & montage', 'montage vidéo', 'design graphique', 'campagne de communication', 'motion design', 'campagne print', 'vidéo verticale', 'affiches & typographie', 'web design', 'montage vidéo', 'édition · risographie'];
   const PALETTES = [
     ['#2b2bff', '#00e0c6', '#ffde3b'], ['#ff5e3a', '#ffd1c2', '#2a1a5e'], ['#c8ff2e', '#1a6b4f', '#0f0f2e'],
     ['#ff3ea5', '#5b2bff', '#ffe3f3'], ['#00b3ff', '#002a5c', '#ff9f1c'], ['#f4f0e6', '#ff4b2b', '#1b1b1b'],
@@ -1698,8 +1725,8 @@ a.vc__th{display:grid}
   ];
   const PORTRAIT = new Set([3, 8]);
   const projects = Array.from({ length: N }, (_, i) => ({
-    title: ['Radio Classique', 'ParisianVibe', 'AFP', 'UMA', 'Méduse', 'Sea Shepherd', 'Snack content', 'Défense d’afficher', 'La Calle m’a dit', 'Le Corbusier'][i] || 'Projet ' + String(i + 1).padStart(2, '0'),
-    slug: ['radio-classique', 'parisianvibe', 'afp', 'uma', 'meduse', 'sea-shepherd', 'reels', 'graphisme', 'la-calle-ma-dit', 'le-corbusier'][i] || null,
+    title: ['Radio Classique', 'ParisianVibe', 'AFP', 'UMA', 'Méduse', 'Sea Shepherd', 'Snack content', 'Défense d’afficher', 'Onglets ouverts', 'La Calle m’a dit', 'Le Corbusier'][i] || 'Projet ' + String(i + 1).padStart(2, '0'),
+    slug: ['radio-classique', 'parisianvibe', 'afp', 'uma', 'meduse', 'sea-shepherd', 'reels', 'graphisme', 'web-design', 'la-calle-ma-dit', 'le-corbusier'][i] || null,
     cat: CATS[i % CATS.length],
     portrait: PORTRAIT.has(i)
   }));
@@ -2274,6 +2301,7 @@ a.vc__th{display:grid}
     menuBtn.setAttribute('aria-expanded', String(open));
     menuBtn.setAttribute('aria-label', open ? 'fermer le menu' : 'ouvrir le menu');
     measureMenu();
+    if (open) setTimeout(() => menuClock.open(), 380);
     if (open) { setFx(false); setHovered(null); setTimeout(() => panel.querySelector('.pl').focus({ preventScroll: true }), 350); }
     sfx.play(open ? 'open' : 'close');
   }
@@ -2306,10 +2334,7 @@ a.vc__th{display:grid}
     try { navigator.clipboard.writeText(mailText.textContent).then(done, selectMail); } catch (e) { selectMail(); }
   });
 
-  const clock = $('#clock');
   const fmt = new Intl.DateTimeFormat('fr-FR', { timeZone: 'Europe/Paris', hour: '2-digit', minute: '2-digit' });
-  const tickClock = () => { clock.textContent = fmt.format(new Date()); };
-  tickClock(); setInterval(tickClock, 15000);
 
   /* ---------- Mise à jour à chaud : garde l'état quand la page est republiée ---------- */
   function instantEnter(data) {
@@ -3207,6 +3232,37 @@ a.vc__th{display:grid}
       stats: [],
       media: []
     },
+    'web-design': {
+      title: 'Onglets ouverts', kicker: 'web design', coverFx: 'browser',
+      /* Un onglet par site : t = nom de l'onglet, u = adresse affichée, img = capture (idéalement une capture longue de toute la page) */
+      sites: [
+        { t: 'Site 01', u: 'site-01.fr' },
+        { t: 'Site 02', u: 'site-02.fr' },
+        { t: 'Site 03', u: 'site-03.fr' }
+      ],
+      lead: [
+        "Plusieurs **onglets ouverts**, comme sur n’importe quel écran en pleine journée de travail : chacun est un site que j’ai **conçu**. Cliquez sur un onglet pour l’afficher, survolez la page pour la faire défiler.",
+        "Mes projets de **web design** : interfaces, maquettes et sites, pensés pour l’écran, du desktop au mobile."
+      ],
+      meta: [['discipline', 'Web design · UI'], ['formats', 'Desktop · mobile']],
+      cols: [],
+      stats: [],
+      media: [
+        /* Captures desktop (16:10) */
+        { row: true, title: 'Écrans', kind: 'image', ar: '16/10', items: [
+          { t: 'Écran 01', s: 'à remplacer' },
+          { t: 'Écran 02', s: 'à remplacer' },
+          { t: 'Écran 03', s: 'à remplacer' }
+        ] },
+        /* Captures mobile */
+        { row: true, cls: 'mid', title: 'Sur mobile', kind: 'image', ar: '9/19', items: [
+          { t: 'Mobile 01', s: 'à remplacer' },
+          { t: 'Mobile 02', s: 'à remplacer' },
+          { t: 'Mobile 03', s: 'à remplacer' },
+          { t: 'Mobile 04', s: 'à remplacer' }
+        ] }
+      ]
+    },
     'la-calle-ma-dit': {
       title: 'La Calle m’a dit', kicker: 'montage vidéo',
       coverMedia: { kind: 'vidéo', ar: '16/9', cap: 'La Calle m’a dit : la session d’enregistrement, montée et habillée' },
@@ -3266,7 +3322,7 @@ a.vc__th{display:grid}
       ]
     }
   };
-  const PJ_ORDER = ['radio-classique', 'parisianvibe', 'afp', 'uma', 'meduse', 'sea-shepherd', 'reels', 'graphisme', 'la-calle-ma-dit', 'le-corbusier'];
+  const PJ_ORDER = ['radio-classique', 'parisianvibe', 'afp', 'uma', 'meduse', 'sea-shepherd', 'reels', 'graphisme', 'web-design', 'la-calle-ma-dit', 'le-corbusier'];
   function routeOf(hash) {
     const h = (hash || '').replace('#', '');
     if (h === 'a-propos') return { v: 'about' };
@@ -3335,6 +3391,8 @@ a.vc__th{display:grid}
       ? `<figure class="pj-media pj-cover is-in fx-vend" style="margin:var(--tgap) 0 0">${REELS_HTML(P)}</figure>`
       : P.coverFx === 'wall'
       ? `<figure class="pj-media pj-cover is-in fx-wall" style="margin:var(--tgap) 0 0">${WALL_HTML(P)}</figure>`
+      : P.coverFx === 'browser'
+      ? `<figure class="pj-media pj-cover is-in fx-bw" style="margin:var(--tgap) 0 0">${BW_HTML(P)}</figure>`
       : P.coverFx === 'edit'
       ? `<figure class="pj-media pj-cover is-in fx-edit" style="margin:var(--tgap) 0 0">${PR_HTML()}</figure>`
       : P.coverMedia
@@ -3377,6 +3435,7 @@ a.vc__th{display:grid}
     if (fxr) initRadio(fxr);
     const fxd = pjInner.querySelector('.pj-cover.fx-afp .dc');
     if (fxd) initDecl(fxd);
+    pjInner.querySelectorAll('.pj-cover [data-bw]').forEach((el) => initBw(el, P));
     pjInner.querySelectorAll('.pj-cover .vm').forEach(initVm);
     pjInner.querySelectorAll('.pj-cover .wl-box').forEach(initWall);
     const fxe = pjInner.querySelector('.pj-cover.fx-edit .pr');
@@ -4043,6 +4102,39 @@ a.vc__th{display:grid}
     setTimeout(() => { if ('IntersectionObserver' in window) new IntersectionObserver((en) => { vis = en[0].isIntersecting; if (vis) el.classList.add('is-on'); run(); }, { root: pj, threshold: 0.35 }).observe(el); }, reduce ? 0 : 1100);
   }
 
+  /* Onglets ouverts : un navigateur dont chaque onglet est un site.
+     Cliquer un onglet charge sa capture (l'adresse se tape toute seule) ; au survol, une capture longue défile comme une page qu'on scrolle.
+     Pour brancher : sites: [{ t: 'Nom', u: 'adresse.fr', img: 'chemin/capture-longue.jpg' }] */
+  const BW_HTML = (P) => `<div class="bw" data-bw>
+      <div class="bw__bar"><span class="bw__dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div class="bw__tabs" role="tablist" aria-label="sites">${P.sites.map((w, k) => `<button type="button" role="tab" class="bw__tab" aria-selected="${k === 0}" data-k="${k}"><i aria-hidden="true"></i><span>${esc(w.t)}</span></button>`).join('')}</div>
+        <button type="button" class="bw__new" aria-label="nouvel onglet">+</button></div>
+      <div class="bw__url"><span class="bw__nav" aria-hidden="true">← →  ↻</span><span class="bw__addr"><small>https://</small><span class="bw__u"></span></span></div>
+      <div class="bw__view"><div class="ph bw__page" style="--ar:16/10"></div><span class="bw__hint">survolez pour scroller</span></div>
+    </div>`;
+  function initBw(el, P) {
+    const tabs = [...el.querySelectorAll('.bw__tab')], page = el.querySelector('.bw__page'), u = el.querySelector('.bw__u');
+    let typ = 0;
+    const show = (k, snd) => {
+      const w = P.sites[k];
+      tabs.forEach((t, j) => t.setAttribute('aria-selected', String(j === k)));
+      page.classList.add('is-swap');
+      setTimeout(() => {
+        page.style.backgroundImage = w.img ? `url(${w.img})` : '';
+        page.classList.toggle('has-img', !!w.img);
+        page.innerHTML = w.img ? '' : `<span class="ph__l">${esc(w.t)} · capture 16:10 — à remplacer</span>`;
+        page.classList.remove('is-swap');
+      }, 180);
+      clearInterval(typ); u.textContent = ''; let n = 0;
+      typ = setInterval(() => { n++; u.textContent = w.u.slice(0, n); if (snd) sfx.play('type'); if (n >= w.u.length) clearInterval(typ); }, reduce ? 0 : 38);
+      if (snd) sfx.play('tab');
+    };
+    tabs.forEach((t, k) => t.addEventListener('click', () => show(k, true)));
+    el.querySelector('.bw__new').addEventListener('click', () => sfx.play('error'));
+    el.querySelector('.bw__view').addEventListener('pointerenter', () => { if (page.classList.contains('has-img')) sfx.play('swipe', 1); });
+    show(0, false);
+  }
+
   /* Défense d'afficher · le mur de colle : une pile d'affiches à arracher (glisser ou clic),
      ou « tout voir » pour afficher toutes les pièces d'un coup, sans animation. */
   const wlPoster = (it, k, style, cls) => `<figure class="wl__p${cls || ''}" style="${style}"><div class="ph" style="--ar:${it.ar}${it.img ? `;background-image:url(${esc(it.img)})` : ''}">${it.img ? '' : `<span class="ph__l">${esc(it.t)} · ${esc(it.ar.replace('/', ':'))}</span>`}</div></figure>`;
@@ -4227,25 +4319,12 @@ a.vc__th{display:grid}
   pj.addEventListener('scroll', () => { if (pjOwn) { pjOwn = false; return; } pjT = pjC = pj.scrollTop; }, { passive: true });
   $('#pjBack').addEventListener('click', () => setView('home'));
 
-  /* ---------- Accueil · trois petites horloges à comparer (on en gardera une) ---------- */
-  const parisNow = () => { const p = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Paris', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).formatToParts(new Date()).map((x) => [x.type, x.value])); return { h: Number(p.hour) % 24, m: Number(p.minute), s: Number(p.second) }; };
-  const homeOn = () => state.entered && state.view === 'home' && !document.hidden;
-  /* 1 · timecode HH:MM:SS:images, 25 images par seconde */
-  (() => {
-    const el = $('#hcTc .hc__tc'); if (!el) return;
-    let base = Date.now(), last = '';
-    setInterval(() => {
-      if (!homeOn()) return;
-      const t = parisNow(), f = Math.floor(((Date.now() - base) % 1000) / 40);
-      const txt = `${pad2(t.h)}:${pad2(t.m)}:${pad2(t.s)}<i>:${pad2(f)}</i>`;
-      if (txt !== last) { last = txt; el.innerHTML = txt; }
-    }, 40);
-    setInterval(() => { base = Date.now() - new Date().getMilliseconds(); }, 60000);
-  })();
-  /* 2 · tableau à palettes : les chiffres basculent à chaque minute ; au survol, tout le tableau se mélange */
-  (() => {
-    const board = $('#hcFlap .hc__board'); if (!board) return;
-    const cells = Array.from({ length: 5 }, (_, k) => { const c = document.createElement('span'); c.className = 'fc' + (k === 2 ? ' is-sep' : ''); c.innerHTML = '<span class="t"><b></b></span><span class="b"><b></b></span><span class="ft"><b></b></span><span class="fb"><b></b></span>'; c._v = k === 2 ? ':' : '-'; c.querySelectorAll('b').forEach((b) => { b.textContent = c._v; }); board.appendChild(c); return c; });
+  /* ---------- Menu · l'heure de Paris en palettes ----------
+     Les chiffres basculent à l'ouverture du menu et à chaque minute ; au survol, le tableau se mélange puis retombe sur l'heure. */
+  const parisNow = () => { const p = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Paris', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date()).map((x) => [x.type, x.value])); return { h: Number(p.hour) % 24, m: Number(p.minute) }; };
+  const menuClock = (() => {
+    const board = $('#clockBoard');
+    const cells = Array.from({ length: 5 }, (_, k) => { const c = document.createElement('span'); c.className = 'fc' + (k === 2 ? ' is-sep' : ''); c.setAttribute('aria-hidden', 'true'); c.innerHTML = '<span class="t"><b></b></span><span class="b"><b></b></span><span class="ft"><b></b></span><span class="fb"><b></b></span>'; c._v = k === 2 ? ':' : '0'; c.querySelectorAll('b').forEach((b) => { b.textContent = c._v; }); board.appendChild(c); return c; });
     const flip = (c, v, snd) => {
       if (c._v === v) return;
       const [t, b, ft, fb] = c.querySelectorAll('b');
@@ -4254,44 +4333,17 @@ a.vc__th{display:grid}
       clearTimeout(c._t); c._t = setTimeout(() => { [t, b, ft, fb].forEach((x) => { x.textContent = v; }); c.classList.remove('is-flip'); }, 330);
       if (snd) sfx.play('flap');
     };
-    const show = (snd) => { const t = parisNow(), s = `${pad2(t.h)}:${pad2(t.m)}`; [...s].forEach((ch, k) => setTimeout(() => flip(cells[k], ch, snd), k * 70)); };
+    const show = (snd) => { const t = parisNow(), s2 = `${pad2(t.h)}:${pad2(t.m)}`; board.setAttribute('aria-label', `heure de Paris : ${s2}`); [...s2].forEach((ch, k) => setTimeout(() => flip(cells[k], ch, snd), k * 70)); };
+    const open = () => { cells.forEach((c, k) => { if (k !== 2) flip(c, String(Math.floor(Math.random() * 10)), false); }); setTimeout(() => show(true), 200); };
     let lastM = -1;
-    setInterval(() => { if (!homeOn()) return; const t = parisNow(); if (t.m !== lastM) { const first = lastM < 0; lastM = t.m; show(true); } }, 1000);
+    setInterval(() => { const t = parisNow(); if (t.m !== lastM) { lastM = t.m; show(state.menu); } }, 1000);
     let busy = false;
     board.addEventListener('pointerenter', () => {
       if (busy) return; busy = true; let n = 0;
       const it = setInterval(() => { cells.forEach((c, k) => { if (k !== 2) flip(c, String(Math.floor(Math.random() * 10)), k === 0); }); if (++n > 5) { clearInterval(it); setTimeout(() => { show(true); busy = false; }, 120); } }, 110);
     });
-  })();
-  /* 3 · la course du soleil au-dessus de Paris (calcul astronomique simplifié, à quelques minutes près) */
-  (() => {
-    const root = $('#hcSun'); if (!root) return;
-    const sun = root.querySelector('.sun'), moon = root.querySelector('.moon'), trail = root.querySelector('.trail'), big = root.querySelector('.hc__big'), lbl = root.querySelector('.hc__lbl');
-    const LAT = 48.8566, LON = 2.3522, R = Math.PI / 180;
-    const offH = () => { const d = new Date(), p = parisNow(); let o = p.h - d.getUTCHours() + (p.m - d.getUTCMinutes()) / 60; if (o > 12) o -= 24; if (o < -12) o += 24; return Math.round(o * 4) / 4; };
-    const times = (d) => {
-      const n = Math.floor((d - new Date(d.getFullYear(), 0, 0)) / 864e5);
-      const dec = 23.44 * Math.sin(R * (360 / 365) * (284 + n)), B = R * (360 / 364) * (n - 81);
-      const eot = 9.87 * Math.sin(2 * B) - 7.53 * Math.cos(B) - 1.5 * Math.sin(B);
-      const noon = 12 - LON / 15 - eot / 60 + offH();
-      const h0 = Math.acos((Math.sin(R * -0.833) - Math.sin(R * LAT) * Math.sin(R * dec)) / (Math.cos(R * LAT) * Math.cos(R * dec))) / R / 15;
-      return { rise: noon - h0, set: noon + h0 };
-    };
-    const hm = (x) => { const m = Math.round(((x % 24) + 24) % 24 * 60); return `${pad2(Math.floor(m / 60) % 24)}:${pad2(m % 60)}`; };
-    const dur = (x) => { const m = Math.max(0, Math.round(x * 60)); return m >= 60 ? `${Math.floor(m / 60)} h ${pad2(m % 60)}` : `${m} min`; };
-    const pos = (p) => { const a = Math.PI * (1 - p); return [64 + Math.cos(a) * 54, 62 - Math.sin(a) * 54]; };
-    const upd = () => {
-      const t = parisNow(), h = t.h + t.m / 60, { rise, set } = times(new Date()), day = h >= rise && h < set;
-      const p = day ? (h - rise) / (set - rise) : ((h - set + 24) % 24) / (24 - (set - rise));
-      const [x, y] = pos(clamp(p, 0, 1)), [x0, y0] = pos(0);
-      sun.style.display = day ? '' : 'none'; moon.style.display = day ? 'none' : '';
-      (day ? sun : moon).setAttribute('cx', x.toFixed(1)); (day ? sun : moon).setAttribute('cy', y.toFixed(1));
-      trail.setAttribute('d', `M${x0} ${y0} A54 54 0 0 1 ${x.toFixed(1)} ${y.toFixed(1)}`);
-      lbl.textContent = day ? `lever ${hm(rise)} · coucher ${hm(set)}` : `coucher ${hm(set)} · lever ${hm(rise)}`;
-      big.textContent = day ? `soleil · coucher dans ${dur(set - h)}` : `nuit · lever dans ${dur(((rise - h) + 24) % 24)}`;
-    };
-    upd(); setInterval(() => { if (homeOn()) upd(); }, 30000);
-    root.querySelector('svg').addEventListener('pointerenter', () => sfx.play('ping'));
+    show(false);
+    return { open };
   })();
 
   /* ---------- Contact : formulaire (envoi par FormSubmit, aucun serveur à gérer) ----------
@@ -4325,6 +4377,39 @@ a.vc__th{display:grid}
     }
     send.disabled = false;
   });
+
+  /* ---------- Écran d'accueil : chargement (000 → 100), puis le bouton « entrer » ----------
+     Le compteur suit le vrai chargement (page, typo, three.js) avec une durée minimale ;
+     c'est ici qu'on lancera plus tard l'intro en motion design (vidéo ou Lottie), juste avant le bouton. */
+  (() => {
+    const gate = $('#gate'), ld = gate.querySelector('.ld'); if (!ld) return;
+    const digs = [...ld.querySelectorAll('.ld__d > span')], line = ld.querySelector('.ld__line'), lbl = ld.querySelector('.ld__lbl');
+    let target = 0.25, shown = 0, t0 = performance.now();
+    const MIN = reduce ? 0 : 1500;
+    const set = (v) => { const s = String(Math.round(v)).padStart(3, '0'); [...s].forEach((c, k) => { digs[k].style.transform = `translateY(${-Number(c) * 10}%)`; }); line.style.setProperty('--p', (v / 100).toFixed(3)); };
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { target = Math.max(target, 0.6); });
+    const loaded = () => { target = 1; };
+    if (document.readyState === 'complete') loaded(); else window.addEventListener('load', loaded);
+    const tick = () => {
+      const el = performance.now() - t0, cap = MIN ? Math.min(1, el / MIN) : 1;
+      shown += (Math.min(target, cap) * 100 - shown) * 0.12;
+      if (Math.min(target, cap) >= 1 && shown > 99.4) shown = 100;
+      set(shown);
+      if (shown < 100) { requestAnimationFrame(tick); return; }
+      lbl.textContent = 'prêt';
+      setTimeout(() => { ld.classList.add('is-out'); setTimeout(() => { gate.classList.remove('is-loading'); ld.remove(); }, reduce ? 0 : 520); }, reduce ? 0 : 250);
+    };
+    requestAnimationFrame(tick);
+  })();
+  /* Bouton « entrer avec le son » : les lettres roulent au survol, et le mot « son » ondule comme une onde sonore */
+  (() => {
+    const lab = $('#enterLabel'), txt = lab.textContent; lab.setAttribute('aria-label', txt); lab.textContent = '';
+    const sonAt = txt.lastIndexOf('son');
+    [...txt].forEach((c, k) => {
+      const w = document.createElement('span'); w.className = 'ch' + (c === ' ' ? ' is-sp' : '') + (k >= sonAt && k < sonAt + 3 ? ' is-son' : ''); w.style.setProperty('--k', k); w.setAttribute('aria-hidden', 'true');
+      const i = document.createElement('span'); i.textContent = c === ' ' ? ' ' : c; i.dataset.c = c === ' ' ? ' ' : c; w.appendChild(i); lab.appendChild(w);
+    });
+  })();
 
   window.claude?.hot?.snapshot?.(() => ({ entered: state.entered, sound: state.sound, mode: state.mode, scroll: scrollT, fx: { ...fx }, view: state.view, slug: pjCur }));
   const start = (data) => { if (data && data.entered) instantEnter(data); };
