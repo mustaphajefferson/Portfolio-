@@ -2835,11 +2835,11 @@ a.vc__th{display:grid}
       media: [
         /* Chaque vidéo est un exemple tiré d'une série */
         { row: true, title: 'Reels', kind: 'vidéo', ar: '9/16', intro: "Texte de présentation des reels, à remplacer. Deux ou trois phrases pour expliquer le principe des séries et ce que vous y avez fait.", items: [
-          { t: 'Esther Abrami', s: 'Showreel motion design', d: "Série de reels qui mettent en image sa chronique à l’antenne. Ici, les passages en motion design." },
-          { t: 'Conférence de rentrée', s: 'Les voix de l’antenne · montage', mp4: 'vid/rc-rentree.mp4', poster: 'vid/rc-rentree-poster.webp', d: "Les voix de la station présentent la nouvelle saison, lors de la conférence de rentrée." },
-          { t: 'Le Journal imprévisible', s: 'Marc Bourreau · motion design', d: "Un reel en motion design qui illustre la chronique." },
+          { t: 'Esther Abrami', s: 'Showreel motion design', yt: 'oVOW2Zvv_Mc', poster: 'https://i.ytimg.com/vi/oVOW2Zvv_Mc/hqdefault.jpg', d: "Série de reels qui mettent en image sa chronique à l’antenne. Ici, les passages en motion design." },
+          { t: 'Conférence de rentrée', s: 'Les voix de l’antenne · montage', d: "Les voix de la station présentent la nouvelle saison, lors de la conférence de rentrée." },
+          { t: 'Le Journal imprévisible', s: 'Marc Bourreau · motion design', yt: 'RscZqnI5XrE', poster: 'https://i.ytimg.com/vi/RscZqnI5XrE/hqdefault.jpg', d: "Un reel en motion design qui illustre la chronique." },
           { t: 'Showreel animations', s: 'Motion design', d: "Une sélection des différentes animations réalisées pour la station." },
-          { t: 'L’invité de la Matinale', s: 'Gad Elmaleh · montage', d: "Extrait de la série d’interviews de la Matinale, le plus souvent avec des personnalités politiques." }
+          { t: 'L’invité de la Matinale', s: 'Gad Elmaleh · montage', yt: 'uUt3h4AtlSE', poster: 'https://i.ytimg.com/vi/uUt3h4AtlSE/hqdefault.jpg', d: "Extrait de la série d’interviews de la Matinale, le plus souvent avec des personnalités politiques." }
         ] },
         /* Carrousels : une bande qui glisse doucement vers la gauche, en boucle.
            Pour chaque slide : img = petite image (bande), big = grande image (agrandie au clic), ar = format largeur/hauteur, t = titre, d = petit texte.
@@ -2865,7 +2865,7 @@ a.vc__th{display:grid}
           { img: 'img/rc/c19-moai-s.webp', big: 'img/rc/c19-moai-l.webp', ar: '1080/1350', t: 'Pourquoi les Moaï géants défient toujours la science', d: 'Article' },
           { img: 'img/rc/c18-merimee-s.webp', big: 'img/rc/c18-merimee-l.webp', ar: '1080/1350', t: 'Prosper Mérimée et les cathédrales', d: 'Article' }
         ] },
-        { kind: 'vidéo', ar: '16/9', cls: 'mid', mp4: 'vid/rc-journal-du-classique.mp4', poster: 'vid/rc-journal-du-classique-poster.webp', cap: 'Le Journal du Classique : une compilation des interviews de Laure Mézan' },
+        { kind: 'vidéo', ar: '16/9', cls: 'mid', cap: 'Le Journal du Classique : une compilation des interviews de Laure Mézan' },
         /* Vue d'ensemble, en trois onglets. guests : invités classés par thème (big = mis en avant) ;
            voices : slot = [premier jour, dernier jour (1 = lundi), début, fin en minutes], pour le badge « à l'antenne ». */
         { antenna: true, title: 'Sur l’antenne',
@@ -2923,6 +2923,7 @@ a.vc__th{display:grid}
               { n: 'Karine Lacombe', r: 'infectiologue' }
             ] },
             { t: 'Musique et danse', d: 'à la Matinale et au Journal du classique', items: [
+              { n: 'Lang Lang', r: 'pianiste', big: 1 },
               { n: 'Benjamin Millepied', r: 'danseur et chorégraphe', big: 1 },
               { n: 'Philippe Jaroussky', r: 'contre-ténor', big: 1 },
               { n: 'Roberto Alagna', r: 'ténor', big: 1 },
@@ -3122,7 +3123,7 @@ a.vc__th{display:grid}
     'meduse': {
       title: 'Méduse', kicker: 'motion design',
       /* La vidéo est la couverture : c'est la pièce principale du projet (yt: '…' ou mp4: '…' pour la brancher) */
-      coverMedia: { kind: 'vidéo', ar: '16/9', cap: 'Méduse : le mythe raconté à rebours, en full motion design' },
+      coverMedia: { kind: 'vidéo', ar: '16/9', yt: 'cLI9NvpU26M', poster: 'https://i.ytimg.com/vi/cLI9NvpU26M/hqdefault.jpg', cap: 'Méduse : le mythe raconté à rebours, en full motion design' },
       lead: [
         "Raconter un mythe grec en **full motion design**. Nous avons choisi **Méduse**, et pris le parti de raconter son histoire autrement.",
         "On connaît surtout sa fin : Persée qui, par la ruse, lui tranche la tête. Le film s’ouvre sur cette scène, puis remonte le fil d’une histoire bien moins connue, celle d’une **injustice**, qui fait aujourd’hui de Méduse un **symbole** pour les femmes victimes de violences sexuelles."
@@ -3153,7 +3154,13 @@ a.vc__th{display:grid}
           { img: 'img/meduse/meduse-03-verite-s.webp', big: 'img/meduse/meduse-03-verite-l.webp', t: 'Une vérité effacée', s: 'plan 2' },
           { img: 'img/meduse/meduse-04-mortelle-s.webp', big: 'img/meduse/meduse-04-mortelle-l.webp', t: 'Avant les serpents', s: 'plan 3' }
         ] },
-        { kind: 'image', ar: '16/9', cls: 'mid', img: 'img/meduse/meduse-05-temple-s.webp', big: 'img/meduse/meduse-05-temple-l.webp', cap: 'Le temple d’Athéna · plan 5' }
+        { kind: 'image', ar: '16/9', cls: 'mid', img: 'img/meduse/meduse-05-temple-s.webp', big: 'img/meduse/meduse-05-temple-l.webp', cap: 'Le temple d’Athéna · plan 5' },
+        /* Teaser vertical (YouTube Shorts) */
+        { kind: 'vidéo', ar: '9/16', cls: 's4', yt: 'MHIjZM4DdIs', poster: 'https://i.ytimg.com/vi/MHIjZM4DdIs/hqdefault.jpg', cap: 'Teaser vertical' },
+        { text: true, cls: 's8', paras: [
+          "Avant le film, un **teaser vertical** pour les réseaux : quelques secondes de la légende, et une question laissée en suspens.",
+          "Le même univers graphique, recadré pour le **format mobile**."
+        ] }
       ]
     },
     'sea-shepherd': {
