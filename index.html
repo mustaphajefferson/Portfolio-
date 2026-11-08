@@ -1048,6 +1048,23 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .panel__foot .fc::after{background:rgba(37,36,34,.2)}
 .panel__foot{align-items:center}
 
+/* Méduse · le récit en huit plans */
+.sc{grid-column:3 / span 8;display:flex;flex-direction:column;gap:18px}
+.sc__list{list-style:none;margin:0;padding:0;counter-reset:none}
+.sc__l{display:grid;grid-template-columns:clamp(54px,6vw,84px) 1fr;gap:clamp(12px,2vw,28px);align-items:baseline;padding:clamp(14px,1.8vw,22px) 0;border-top:1px solid var(--line-strong);opacity:0;translate:0 14px;transition:opacity .7s var(--ease-out) calc(var(--k) * 70ms),translate .7s var(--ease-out) calc(var(--k) * 70ms)}
+.sc.is-in .sc__l{opacity:1;translate:0 0}
+.sc__n{font-size:clamp(26px,3.2vw,44px);font-weight:600;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.sc__l p{margin:0;font-size:clamp(17px,1.55vw,22px);line-height:1.4;letter-spacing:-.015em}
+.sc__l.is-legend p{font-style:italic;color:var(--dim)}
+.sc__l.is-legend .sc__n{color:var(--dim)}
+.sc__l:last-child{border-bottom:1px solid var(--line-strong)}
+.sc__l:last-child p{font-weight:600}
+.sc__turn{display:flex;align-items:center;gap:14px;padding:22px 0 10px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;opacity:0;transition:opacity .8s .5s}
+.sc.is-in .sc__turn{opacity:1}
+.sc__turn::before,.sc__turn::after{content:"";flex:1;height:1px;background:var(--fg)}
+@media (max-width:760px){.sc{grid-column:span 12}}
+@media (prefers-reduced-motion:reduce){.sc__l{opacity:1;translate:none;transition:none}.sc__turn{opacity:1}}
+
 /* ParisianVibe · bibliothèque de vidéos : thèmes, curseurs, tri */
 .vl{grid-column:span 12;display:flex;flex-direction:column;gap:22px;min-width:0}
 .vl__ctl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px 32px;align-items:end}
@@ -3088,12 +3105,11 @@ a.vc__th{display:grid}
           { img: 'img/uma/uma-mockup-double-page-s.webp', big: 'img/uma/uma-mockup-double-page-l.webp', ar: '5000/3333', t: 'Dans Le Bonbon', s: 'double page en situation' }
         ] },
         /* Carrousel Instagram : une case par slide */
-        { row: true, title: 'Carrousel Instagram', intro: 'Le même univers, slide après slide, pensé pour le fil Instagram.', kind: 'image', ar: '4/5', items: [
-          { t: 'Slide 01', s: 'à remplacer' },
-          { t: 'Slide 02', s: 'à remplacer' },
-          { t: 'Slide 03', s: 'à remplacer' },
-          { t: 'Slide 04', s: 'à remplacer' },
-          { t: 'Slide 05', s: 'à remplacer' }
+        { row: true, title: 'Carrousel Instagram', intro: 'Le même univers, slide après slide : des photos de soirée prises sur le vif, et la parole des habitués des bars où l’on trouve UMA.', kind: 'image', ar: '4/5', items: [
+          { img: 'img/uma/uma-carrousel-01-s.webp', big: 'img/uma/uma-carrousel-01-l.webp', t: 'Good Times', s: 'slide 1 · couverture' },
+          { img: 'img/uma/uma-carrousel-02-s.webp', big: 'img/uma/uma-carrousel-02-l.webp', t: '« Un bon bar… »', s: 'slide 2 · la parole des clients' },
+          { img: 'img/uma/uma-carrousel-03-s.webp', big: 'img/uma/uma-carrousel-03-l.webp', t: 'Au cœur du 11ᵉ', s: 'slide 3 · le lieu' },
+          { img: 'img/uma/uma-carrousel-04-s.webp', big: 'img/uma/uma-carrousel-04-l.webp', t: 'Pour le moment', s: 'slide 4 · l’ambiance' }
         ] },
         /* Motion design (9:16) */
         { kind: 'vidéo', ar: '9/16', cls: 's4', mp4: 'vid/uma-motion.mp4', poster: 'vid/uma-motion-poster.webp', cap: 'Motion design UMA' },
@@ -3119,17 +3135,25 @@ a.vc__th{display:grid}
       ],
       stats: [],
       media: [
-        /* Images clés du film (16:9) */
-        { row: true, title: 'Styleframes', intro: 'Les images clés du film, de la tête de Méduse au visage de la jeune femme qu’elle était.', kind: 'image', ar: '16/9', items: [
-          { t: 'Styleframe 01', s: 'à remplacer' },
-          { t: 'Styleframe 02', s: 'à remplacer' },
-          { t: 'Styleframe 03', s: 'à remplacer' }
+        /* Le récit : les huit plans du texte écrit pour le film */
+        { script: true, title: 'Le récit', intro: 'Le texte écrit pour le film, en huit plans : on part de la version que tout le monde connaît, puis l’histoire bascule.', lines: [
+          "D’un coup de glaive triomphant, l’illustre Persée tranche la tête de l’horrible Méduse, délivrant le monde de l’abomination.",
+          "Mais derrière cette victoire se cache une vérité que les dieux ont voulu effacer…",
+          "Bien avant les serpents, Méduse était une mortelle dont la grâce émerveillait la Grèce.",
+          "Jusqu’au jour où sa beauté attira la convoitise du dieu des mers…",
+          "Dans le temple d’Athéna, Poséidon lui imposa son désir, étouffant son refus sur le marbre.",
+          "Consumée par la colère de voir son temple profané, Athéna fit de Méduse la cible de son courroux, changeant sa beauté en abomination.",
+          "Celle qui fut blessée devint celle que le monde craignait.",
+          "L’Histoire retiendra la gloire du vainqueur, mais ses sœurs de silence n’ont jamais oublié celle qui fut brisée."
+        ], turn: 2 },
+        /* Styleframes (16:9), dans l'ordre du film ; clic = agrandir */
+        { row: true, cols: 2, title: 'Styleframes', intro: 'Des images clés du film : du rouge de la légende officielle aux couleurs de la céramique grecque pour raconter la vraie histoire.', kind: 'image', ar: '16/9', items: [
+          { img: 'img/meduse/meduse-01-persee-s.webp', big: 'img/meduse/meduse-01-persee-l.webp', t: 'Persée triomphant', s: 'plan 1' },
+          { img: 'img/meduse/meduse-02-tete-s.webp', big: 'img/meduse/meduse-02-tete-l.webp', t: 'La tête de Méduse', s: 'plan 1' },
+          { img: 'img/meduse/meduse-03-verite-s.webp', big: 'img/meduse/meduse-03-verite-l.webp', t: 'Une vérité effacée', s: 'plan 2' },
+          { img: 'img/meduse/meduse-04-mortelle-s.webp', big: 'img/meduse/meduse-04-mortelle-l.webp', t: 'Avant les serpents', s: 'plan 3' }
         ] },
-        /* Making-of : croquis, construction des vecteurs, animation */
-        { row: true, title: 'Making-of', intro: 'De l’esquisse au vecteur, puis à l’animation : les étapes de fabrication des personnages et des décors.', kind: 'image', ar: '4/3', items: [
-          { t: 'Making-of 01', s: 'à remplacer' },
-          { t: 'Making-of 02', s: 'à remplacer' }
-        ] }
+        { kind: 'image', ar: '16/9', cls: 'mid', img: 'img/meduse/meduse-05-temple-s.webp', big: 'img/meduse/meduse-05-temple-l.webp', cap: 'Le temple d’Athéna · plan 5' }
       ]
     },
     'sea-shepherd': {
@@ -3411,6 +3435,7 @@ a.vc__th{display:grid}
     const item = (m) => {
       if (m.library) return vlHTML(m);
       if (m.antenna) return antHTML(m);
+      if (m.script) return `<section class="sc ab-reveal"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div><ol class="sc__list">${m.lines.map((l, k) => `${k === m.turn - 1 ? '<li class="sc__turn" aria-hidden="true"><span>la version qu’on ne raconte pas</span></li>' : ''}<li class="sc__l${k < m.turn - 1 ? ' is-legend' : ''}" style="--k:${k}"><span class="sc__n">${pad2(k + 1)}</span><p>${esc(l)}</p></li>`).join('')}</ol></section>`;
       if (m.text) return `<div class="pj-text ab-reveal ${m.cls}">${m.paras.map((x) => `<p>${md(x)}</p>`).join('')}</div>`;
       if (m.carousel) {
         const sl = (it, i, dup) => `<figure class="cr__slide" data-i="${i}" style="--ar:${arNum(it.ar).toFixed(4)}"${dup ? ' aria-hidden="true"' : ''}><div class="cr__img">${crMedia(it, i)}</div><figcaption class="rl"><b>${esc(it.t)}</b>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`;
