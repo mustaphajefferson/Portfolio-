@@ -533,7 +533,8 @@ body.view-about .reel__ring,body.view-project .reel__ring,body.view-about .reel_
 .ab-back:active{scale:.95}
 
 body.view-about .modes,body.view-about .fx-btn,body.view-about .reel,body.view-about .fx,
-body.view-project .modes,body.view-project .fx-btn,body.view-project .reel,body.view-project .fx{opacity:0;pointer-events:none;visibility:hidden}
+body.view-project .modes,body.view-project .fx-btn,body.view-project .reel,body.view-project .fx,
+body.menu-open .hc{opacity:0;pointer-events:none;visibility:hidden}
 
 /* ---------- Pages projet ---------- */
 .pj-back{position:fixed;top:calc(var(--top) + 4px);left:50%;translate:-50% 0;z-index:12;height:44px;padding:0 18px;border-radius:999px;background:var(--pill);color:var(--ink);font-size:15px;font-weight:500;letter-spacing:-.01em;display:flex;align-items:center;gap:8px;opacity:0;pointer-events:none;transition:opacity .5s var(--ease-out),scale .25s var(--ease-out)}
@@ -891,7 +892,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .vm__glass{position:relative;border-radius:10px;background:var(--cream);color:var(--coal);padding:clamp(10px,1.2vw,16px) clamp(10px,1.2vw,16px) 10px}
 .vm__row{display:grid;grid-template-columns:repeat(var(--n,5),minmax(0,1fr));gap:clamp(10px,1.4vw,18px)}
 .vm__slot{position:relative;display:flex;flex-direction:column;gap:5px;min-width:0}
-.vm__item.ph{border-radius:8px;clip-path:none!important;transition:transform .45s var(--ease-out),opacity .45s,box-shadow .45s}
+.vm__item.ph{border-radius:8px;clip-path:none!important;transition:transform .45s var(--ease-out),opacity .45s,box-shadow .45s;will-change:transform}
 .vm__item .ph__play{width:46px;height:46px}
 .vm__item .ph__play::after{border-width:8px 0 8px 13px;margin-left:4px}
 .vm__item .ph__l{font-size:9.5px;left:8px;top:14px;padding:3px 6px}
@@ -950,6 +951,76 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
   .wl-grid .ph{height:150px}
 }
 @media (prefers-reduced-motion:reduce){.wl *{animation:none!important}}
+
+/* Accueil · trois petites horloges à comparer (on en gardera une) */
+.hc{position:fixed;z-index:4;display:flex;align-items:center;gap:10px;font-variant-numeric:tabular-nums;color:var(--fg);user-select:none;-webkit-user-select:none}
+.hc__n{position:absolute;top:-9px;left:-9px;width:16px;height:16px;border-radius:50%;background:var(--fg);color:var(--bg);font-size:9.5px;font-weight:700;display:grid;place-items:center}
+.hc__lbl{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+body.view-about .hc,body.view-project .hc{opacity:0;pointer-events:none;visibility:hidden}
+/* 1 · le timecode : l'heure de Paris comme sur une timeline, image par image */
+.hc--tc{left:50%;bottom:calc(var(--bottom) + 10px);translate:-50% 0;padding:8px 12px;border-radius:8px;box-shadow:0 0 0 1px var(--line-strong);background:var(--bg)}
+.is-entered .hc--tc.ui{translate:-50% 0}
+.hc--tc .hc__tc{font-size:15px;font-weight:600;letter-spacing:.02em}
+.hc--tc .hc__tc i{font-style:normal;color:var(--dim)}
+.hc__rec{width:7px;height:7px;border-radius:50%;background:var(--fg);animation:hcRec 1s steps(1) infinite}
+@keyframes hcRec{50%{opacity:.15}}
+/* 2 · le tableau à palettes : comme un panneau de gare, les chiffres basculent */
+.hc--flap{left:var(--left);top:50%;translate:0 -50%;flex-direction:column;align-items:flex-start;gap:6px}
+.hc--flap .hc__n{top:-20px;left:0}
+.hc--sun .hc__n{left:auto;right:0;top:-14px}
+.is-entered .hc--flap.ui{translate:0 -50%}
+.hc__board{display:flex;gap:3px;cursor:pointer}
+.fc{position:relative;width:24px;height:34px;perspective:120px;font-size:24px;font-weight:600;line-height:34px;text-align:center;color:var(--cream)}
+.fc.is-sep{width:9px;color:var(--fg)}
+.fc > span{position:absolute;left:0;right:0;height:50%;overflow:hidden;background:var(--coal);backface-visibility:hidden}
+.fc.is-sep > span{background:none}
+.fc .t,.fc .ft{top:0;border-radius:4px 4px 0 0}
+.fc .b,.fc .fb{bottom:0;border-radius:0 0 4px 4px;line-height:0}
+.fc .b,.fc .fb{line-height:0}
+.fc .b b,.fc .fb b{display:block;transform:translateY(-50%);line-height:34px}
+.fc b{font-weight:600}
+.fc::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(248,243,227,.18);z-index:3}
+.fc.is-sep::after{display:none}
+.fc .ft{transform-origin:50% 100%;z-index:2}
+.fc .fb{transform-origin:50% 0;z-index:2;transform:rotateX(90deg)}
+.fc.is-flip .ft{animation:fcTop .16s ease-in forwards}
+.fc.is-flip .fb{animation:fcBot .16s .16s ease-out forwards}
+@keyframes fcTop{to{transform:rotateX(-90deg)}}
+@keyframes fcBot{from{transform:rotateX(90deg)}to{transform:rotateX(0)}}
+/* 3 · la course du soleil : sa position au-dessus de Paris, en direct */
+.hc--sun{right:var(--right);top:50%;translate:0 -50%;flex-direction:column;align-items:flex-end;gap:4px}
+.is-entered .hc--sun.ui{translate:0 -50%}
+.hc--sun svg{width:128px;height:72px;overflow:visible;cursor:default}
+.hc--sun .arc{fill:none;stroke:var(--line-strong);stroke-width:1.2;stroke-dasharray:2 3}
+.hc--sun .hz{stroke:var(--fg);stroke-width:1.2}
+.hc--sun .trail{fill:none;stroke:var(--fg);stroke-width:1.6;stroke-linecap:round}
+.hc--sun .sun{fill:var(--fg);transition:r .3s}
+.hc--sun .moon{fill:var(--bg);stroke:var(--fg);stroke-width:1.4}
+.hc--sun svg:hover .sun{r:7}
+.hc--sun .hc__big{font-size:13px;font-weight:600;letter-spacing:-.01em}
+@media (max-width:760px){.hc--flap,.hc--sun{display:none}.hc--tc{bottom:calc(var(--bottom) + 64px)}}
+@media (prefers-reduced-motion:reduce){.hc__rec{animation:none}.fc.is-flip .ft,.fc.is-flip .fb{animation-duration:.01s}}
+
+/* Contact : formulaire dans le menu */
+.ct-open{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:8px;padding:12px 16px;border-radius:14px;background:var(--soft);font-size:15px;font-weight:500;letter-spacing:-.01em;transition:background .3s}
+.ct-open:hover{background:var(--soft-strong)}
+.ct-open[aria-expanded="true"] span{rotate:45deg}
+.ct-open span{transition:rotate .35s var(--ease-out)}
+.ct{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.ct__f{display:flex;flex-direction:column;gap:5px;font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-dim)}
+.ct__f input,.ct__f textarea{font:inherit;font-size:15px;letter-spacing:-.01em;text-transform:none;color:var(--ink);background:var(--soft);border:1px solid transparent;border-radius:12px;padding:11px 13px;outline:none;resize:vertical;transition:border-color .25s,background .25s}
+.ct__f textarea{min-height:96px}
+.ct__f input:focus,.ct__f textarea:focus{border-color:var(--soft-strong);background:rgba(248,243,227,.12)}
+.ct__f input::placeholder,.ct__f textarea::placeholder{color:var(--ink-dim)}
+.ct__f.is-bad input,.ct__f.is-bad textarea{border-color:rgba(248,243,227,.6);animation:ctShake .35s}
+@keyframes ctShake{25%{translate:-4px 0}75%{translate:4px 0}}
+.ct__hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.ct__bar{display:flex;align-items:center;gap:10px;justify-content:space-between}
+.ct__st{font-size:12.5px;color:var(--ink-dim);line-height:1.35}
+.ct__send{flex:none;font-size:13px;font-weight:500;padding:9px 16px;border-radius:999px;background:var(--ink);color:var(--pill);transition:scale .25s var(--ease-out),opacity .25s}
+.ct__send:active{scale:.94}
+.ct__send[disabled]{opacity:.5}
+.ab-foot__row .ab-write{font-size:15px;font-weight:500;text-decoration:underline;text-underline-offset:4px}
 
 /* ParisianVibe · bibliothèque de vidéos : thèmes, curseurs, tri */
 .vl{grid-column:span 12;display:flex;flex-direction:column;gap:22px;min-width:0}
@@ -1130,6 +1201,9 @@ a.vc__th{display:grid}
   <span class="menu-btn__labels" id="menuLabels"><span class="mb-l mb-l--menu">menu</span><span class="mb-l mb-l--close" aria-hidden="true">fermer</span></span><span class="menu-btn__dot" aria-hidden="true"></span>
 </button>
 
+<div class="hc hc--tc ui ui--bottom" id="hcTc" style="--d:500ms" aria-label="heure de Paris, en timecode"><span class="hc__n">1</span><i class="hc__rec"></i><span class="hc__lbl">paris</span><span class="hc__tc">--:--:--<i>:--</i></span></div>
+<div class="hc hc--flap ui" id="hcFlap" style="--d:550ms" aria-label="heure de Paris"><span class="hc__n">2</span><span class="hc__lbl">paris · heure locale</span><span class="hc__board"></span></div>
+<div class="hc hc--sun ui" id="hcSun" style="--d:600ms"><span class="hc__n">3</span><svg viewBox="0 0 128 72" aria-hidden="true"><path class="arc" d="M10 62 A54 54 0 0 1 118 62"/><path class="trail" d=""/><line class="hz" x1="2" y1="62" x2="126" y2="62"/><circle class="sun" r="5.5" cx="10" cy="62"/><circle class="moon" r="5" cx="10" cy="62"/></svg><span class="hc__big"></span><span class="hc__lbl"></span></div>
 <button class="reel ui ui--bottom" id="reel" type="button" aria-label="showreel (bientôt)" style="--d:350ms">
   <svg class="reel__ring" viewBox="0 0 160 160" aria-hidden="true">
     <defs><path id="circ" d="M80,80 m-64,0 a64,64 0 1,1 128,0 a64,64 0 1,1 -128,0"/></defs>
@@ -1167,20 +1241,25 @@ a.vc__th{display:grid}
 <div class="backdrop" id="backdrop"></div>
 <nav class="panel" id="panel" aria-label="menu principal">
   <ul class="panel__nav" style="--i:0">
-    <li><button class="pl" type="button" data-go="works"><span>projets</span><sup>12</sup></button></li>
+    <li><button class="pl" type="button" data-go="works"><span>projets</span><sup>10</sup></button></li>
     <li><button class="pl" type="button" data-go="about"><span>à propos</span></button></li>
     <li><button class="pl" type="button" data-go="contact"><span>contact</span></button></li>
   </ul>
   <div id="contactBlock" style="--i:1">
     <p class="panel__label">écrire</p>
-    <div class="mail"><span id="mailText">bonjour@votrenom.fr</span><button type="button" id="copyBtn">copier</button></div>
+    <div class="mail"><span id="mailText">valleur.a@gmail.com</span><button type="button" id="copyBtn">copier</button></div>
+    <button type="button" class="ct-open" id="ctOpen" aria-expanded="false" aria-controls="ctForm">écrire un message <span aria-hidden="true">+</span></button>
+    <form class="ct" id="ctForm" hidden novalidate>
+      <input class="ct__hp" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <label class="ct__f"><span>votre e-mail</span><input type="email" name="email" required autocomplete="email" placeholder="vous@exemple.fr"></label>
+      <label class="ct__f"><span>message</span><textarea name="message" rows="4" required placeholder="Bonjour Achille, …"></textarea></label>
+      <div class="ct__bar"><span class="ct__st" aria-live="polite"></span><button type="submit" class="ct__send">envoyer</button></div>
+    </form>
   </div>
   <div style="--i:2">
     <p class="panel__label">réseaux</p>
     <ul class="socials">
       <li><a href="https://www.instagram.com" target="_blank" rel="noopener">instagram <span>↗</span></a></li>
-      <li><a href="https://www.behance.net" target="_blank" rel="noopener">behance <span>↗</span></a></li>
-      <li><a href="https://vimeo.com" target="_blank" rel="noopener">vimeo <span>↗</span></a></li>
       <li><a href="https://www.linkedin.com" target="_blank" rel="noopener">linkedin <span>↗</span></a></li>
     </ul>
   </div>
@@ -1354,7 +1433,8 @@ a.vc__th{display:grid}
       <p class="ab-eyebrow ab-reveal">contact</p>
       <p class="ab-foot__t ab-reveal">On fait bouger<br>quelque chose ?</p>
       <div class="ab-foot__row ab-reveal">
-        <span class="ab-mail">bonjour@votrenom.fr</span>
+        <span class="ab-mail">valleur.a@gmail.com</span>
+        <button class="ab-write" type="button" id="abWrite">écrire un message</button>
         <button class="ab-back" type="button" id="abBack">voir les projets</button>
       </div>
     </footer>
@@ -1517,6 +1597,21 @@ a.vc__th{display:grid}
       fold(toList) { [0, 1, 2, 3].forEach((k) => setTimeout(() => A.ctx && tone(toList ? 500 + k * 180 : 1040 - k * 180, toList ? 500 + k * 180 : 1040 - k * 180, 0.035, 'triangle', 0.04), k * 45)); },
       cut() { tone(1000, 760, 0.03, 'triangle', 0.035); },
       filter() { tone(1300, 900, 0.05, 'sine', 0.04); },
+      flap() { crackle(0.035, 0.05, 2400, 1200); tone(900, 500, 0.02, 'triangle', 0.03); },
+      type() { tone(1700 + Math.random() * 700, 1400, 0.012, 'square', 0.006); crackle(0.012, 0.02, 4000, 3000); },
+      paste(i = 0) { const sc = [0, 1, 2, 3, 4]; note(chordNote(sc[i % 5]) + 24 + (i % 10 >= 5 ? 12 : 0), 0.035, 0.8, A.fx); },
+      layer(i = 0) {
+        const m = chordNote(i % 5) + 24 + (i >= 5 ? 12 : 0);
+        if (i % 4 === 0) note(m, 0.05, 1.4, A.fx);
+        else if (i % 4 === 1) { tone(mtof(m), mtof(m), 0.25, 'triangle', 0.07); tone(mtof(m) * 4, mtof(m) * 4, 0.05, 'sine', 0.02); }
+        else if (i % 4 === 2) { tone(mtof(m - 12), mtof(m), 0.18, 'sine', 0.06); }
+        else { tone(mtof(m), mtof(m), 0.5, 'sine', 0.035); tone(mtof(m) * 1.5, mtof(m) * 1.5, 0.5, 'sine', 0.025); }
+      },
+      complete() { [0, 1, 2, 3, 4].forEach((k) => setTimeout(() => A.ctx && note(chordNote(k) + 24, 0.04, 2.2, A.fx), k * 70)); setTimeout(() => A.ctx && whoosh(1500, 5000, 0.8, 0.03), 300); setTimeout(() => A.ctx && note(chordNote(0) + 48, 0.03, 2.6, A.fx), 420); },
+      sk_motion() { tone(260, 980, 0.42, 'sine', 0.05); setTimeout(() => A.ctx && tone(980, 980, 0.04, 'triangle', 0.05), 400); setTimeout(() => A.ctx && tone(980, 980, 0.03, 'triangle', 0.025), 520); },
+      sk_edit() { tone(2600, 2600, 0.01, 'square', 0.012); setTimeout(() => A.ctx && tone(2600, 2600, 0.01, 'square', 0.012), 90); setTimeout(() => A.ctx && whoosh(1200, 400, 0.2, 0.05), 140); },
+      sk_story() { [0, 1, 2].forEach((k) => setTimeout(() => A.ctx && SFX.type(), k * 85)); setTimeout(() => A.ctx && note(chordNote(4) + 36, 0.035, 1, A.fx), 290); },
+      sk_brand() { [0, 2, 1, 4].forEach((k, i) => setTimeout(() => A.ctx && tone(mtof(chordNote(k) + 24), mtof(chordNote(k) + 24), 0.14, 'triangle', 0.06), i * 75)); },
       tick() { tone(2300 + Math.random() * 500, 1900, 0.025, 'sine', 0.018); },
       dial() { tone(1500 + Math.random() * 200, 1300, 0.018, 'sine', 0.016); },
       slide(v = 0.5) { tone(380 + v * 1300, 380 + v * 1300, 0.03, 'sine', 0.028); },
@@ -1534,7 +1629,7 @@ a.vc__th{display:grid}
       error() { tone(330, 320, 0.13, 'triangle', 0.08); setTimeout(() => A.ctx && tone(233, 225, 0.2, 'triangle', 0.08), 120); },
       success() { [0, 2, 4].forEach((k, i) => setTimeout(() => A.ctx && note(chordNote(k) + 24, 0.05, 1.4, A.fx), i * 85)); setTimeout(() => A.ctx && note(chordNote(0) + 36, 0.04, 2, A.fx), 280); },
       stamp() { tone(150, 70, 0.16, 'sine', 0.14); crackle(0.05, 0.05, 900, 400); },
-      tear() { crackle(0.34, 0.07, 1400, 5200); },
+      tear(i = 0) { const r = Math.random(); crackle(0.22 + r * 0.24, 0.06 + r * 0.03, 900 + (i % 4) * 300 + r * 300, 3600 + ((i * 1.7) % 4) * 700); if (i % 3 === 1) setTimeout(() => A.ctx && crackle(0.08, 0.05, 5000, 2500), 140); if (i % 3 === 2) setTimeout(() => A.ctx && whoosh(2200, 600, 0.25, 0.035), 120); },
       lock() { note(chordNote(0) + 24, 0.05, 1.6, A.fx); setTimeout(() => A.ctx && note(chordNote(2) + 24, 0.045, 1.8, A.fx), 90); },
       open() { whoosh(500, 2600, 0.32, 0.06); },
       close() { whoosh(2600, 500, 0.3, 0.05); },
@@ -2194,7 +2289,7 @@ a.vc__th{display:grid}
       if (go === 'contact') {
         const blk = $('#contactBlock');
         blk.classList.remove('flash'); void blk.offsetWidth; blk.classList.add('flash'); sfx.play('ping');
-        $('#copyBtn').focus({ preventScroll: true });
+        if (ctForm.hidden) setCt(true); else $('#copyBtn').focus({ preventScroll: true });
       }
     });
   });
@@ -2580,7 +2675,8 @@ a.vc__th{display:grid}
       eye.setAttribute('aria-label', `${off ? 'afficher' : 'masquer'} : ${n}`);
       lyShapes[i].classList.toggle('is-off', off);
       lyEmpty();
-      sfx.play(off ? 'off' : 'on');
+      sfx.play(off ? 'off' : 'layer', i);
+      if (!off && lyShapes.every((sh) => !sh.classList.contains('is-off'))) setTimeout(() => sfx.play('complete'), 380);
     });
     li.querySelector('.ly-sel').addEventListener('click', () => { selectSoft(i); sfx.play('tab'); });
     lyList.appendChild(li);
@@ -2588,9 +2684,17 @@ a.vc__th{display:grid}
   });
   /* La composition démarre vide : on allume les calques un par un (ou « tout afficher ») */
   function lyEmpty() { $('#comp').classList.toggle('is-empty', lyShapes.every((sh) => sh.classList.contains('is-off'))); }
-  $('#lyAll').addEventListener('click', () => { lyRows.forEach((r, i) => { r.classList.remove('is-off'); r.querySelector('.ly-eye').setAttribute('aria-pressed', 'true'); lyShapes[i].classList.remove('is-off'); }); lyEmpty(); sfx.play('success'); });
+  $('#lyAll').addEventListener('click', () => { lyRows.forEach((r, i) => { r.classList.remove('is-off'); r.querySelector('.ly-eye').setAttribute('aria-pressed', 'true'); lyShapes[i].classList.remove('is-off'); }); lyEmpty(); lyRows.forEach((_, i) => setTimeout(() => sfx.play('layer', i), i * 90)); setTimeout(() => sfx.play('complete'), lyRows.length * 90 + 300); });
   lyEmpty();
   selectSoft(0);
+
+  /* Compétences : chaque animation a son son au survol (motion, montage, storytelling, direction artistique) */
+  document.querySelectorAll('.sk').forEach((sk) => {
+    const k = ['motion', 'edit', 'story', 'brand'].find((x) => sk.classList.contains('sk--' + x));
+    let t = 0;
+    const go = () => { const n = performance.now(); if (n - t < 600) return; t = n; sfx.play('sk_' + k); };
+    sk.addEventListener('pointerenter', go); sk.addEventListener('focus', go);
+  });
 
   /* Logiciels : effet dock + rebond au clic */
   const apps = $('.apps'), appEls = [...apps.querySelectorAll('.app')];
@@ -2667,6 +2771,7 @@ a.vc__th{display:grid}
     sfx.play(v === 'project' ? 'project' : 'view');
   }
   $('#abBack').addEventListener('click', () => { setView('home'); setMode('spiral'); });
+  $('#abWrite').addEventListener('click', () => { setMenu(true); setTimeout(() => { if (ctForm.hidden) setCt(true); }, 400); });
   window.addEventListener('hashchange', () => { if (!state.entered) return; const hv = routeOf(location.hash); setView(hv.v, hv.slug); });
 
   /* ---------- Pages projet ---------- */
@@ -3299,13 +3404,13 @@ a.vc__th{display:grid}
      L'aiguille suit la souris (ou le doigt) ; près de 101.1 elle s'aimante sur la station,
      le grésillement disparaît et l'onde devient un signal pur. Le dessin ne tourne que quand le tuner est à l'écran. */
   const RADIO_HTML = `<div class="rd" role="img" aria-label="Tuner FM réglé sur 101.1, Radio Classique"><canvas></canvas>
-    <div class="rd__top"><div class="rd__freq"><span class="rd__f">88.0</span><small>MHz FM</small></div><div class="rd__st"><span class="rd__live"><i></i><span class="rd__lt">recherche…</span></span><span class="rd__name">Radio Classique</span><div class="rd__audio"><button type="button" class="rd__play" aria-pressed="false"><span class="ic" aria-hidden="true"></span><span class="lbl">écouter la radio</span></button><button type="button" class="rd__mute" aria-pressed="false" aria-label="couper le son de la radio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="w" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/><path class="x" d="M16 9l5 6M21 9l-5 6"/></svg></button><input class="rd__vol" type="range" min="0" max="1" step="0.01" value="0.6" aria-label="volume de la radio"></div></div></div>
+    <div class="rd__top"><div class="rd__freq"><span class="rd__f">88.0</span><small>MHz FM</small></div><div class="rd__st"><span class="rd__live"><i></i><span class="rd__lt">recherche…</span></span><span class="rd__name">Radio Classique</span><div class="rd__audio"><button type="button" class="rd__play" aria-pressed="false"><span class="ic" aria-hidden="true"></span><span class="lbl">écouter la radio</span></button><button type="button" class="rd__mute" aria-pressed="false" aria-label="couper le son de la radio"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="w" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/><path class="x" d="M16 9l5 6M21 9l-5 6"/></svg></button><input class="rd__vol" type="range" min="0" max="1" step="0.01" value="0.4" aria-label="volume de la radio"></div></div></div>
     <span class="rd__hint">déplacez la souris pour chercher la station</span>
     <div class="rd__dial"><div class="rd__ticks"></div><span class="rd__mark"></span><span class="rd__needle"></span></div></div>`;
   /* Son du tuner : le direct de Radio Classique quand l'aiguille est sur 101.1, un grésillement ailleurs.
      Rien ne se charge tant qu'on n'a pas cliqué sur « écouter la radio » ; tout s'arrête dès que le tuner sort de l'écran. */
   const RADIO_URL = 'https://str0.creacast.com/classique1';
-  const radio = { wanted: false, on: false, vol: 0.6, muted: false, ctx: null, noise: null, audio: null, err: false };
+  const radio = { wanted: false, on: false, vol: 0.4, muted: false, ctx: null, noise: null, audio: null, err: false };
   function radioStart() {
     const AC = window.AudioContext || window.webkitAudioContext;
     if (!radio.ctx && AC) {
@@ -3313,7 +3418,7 @@ a.vc__th{display:grid}
       const len = radio.ctx.sampleRate * 2, buf = radio.ctx.createBuffer(1, len, radio.ctx.sampleRate), d = buf.getChannelData(0);
       for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
       const src = radio.ctx.createBufferSource(); src.buffer = buf; src.loop = true;
-      const bp = radio.ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 2400; bp.Q.value = 0.7;
+      const bp = radio.ctx.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 1500; bp.Q.value = 0.9;
       radio.noise = radio.ctx.createGain(); radio.noise.gain.value = 0;
       src.connect(bp); bp.connect(radio.noise); radio.noise.connect(radio.ctx.destination); src.start();
     }
@@ -3334,8 +3439,8 @@ a.vc__th{display:grid}
   function radioMix(q, near = 1) {
     if (!radio.on) return;
     const m = (radio.muted || !state.sound) ? 0 : radio.vol * near;
-    if (radio.audio) { const v = clamp(m * q, 0, 1); radio.audio.volume = v; radio.audio.muted = v < 0.005; }
-    if (radio.noise && radio.ctx) radio.noise.gain.setTargetAtTime(m * (1 - q) * 0.25, radio.ctx.currentTime, 0.06);
+    if (radio.audio) { const v = clamp(m * q * 0.6, 0, 1); radio.audio.volume = v; radio.audio.muted = v < 0.005; }
+    if (radio.noise && radio.ctx) radio.noise.gain.setTargetAtTime(m * (1 - q) * 0.06, radio.ctx.currentTime, 0.06);
   }
 
   function initRadio(el) {
@@ -3934,7 +4039,8 @@ a.vc__th{display:grid}
     el.addEventListener('pointerenter', () => { hover = true; clearInterval(timer); });
     el.addEventListener('pointerleave', () => { hover = false; run(); });
     slots.forEach((s, k) => s.addEventListener('pointerenter', () => { if (cur !== k) sfx.play('hover'); slots.forEach((x) => x.classList.remove('is-act')); cur = k; s.classList.add('is-act'); }));
-    if ('IntersectionObserver' in window) new IntersectionObserver((en) => { vis = en[0].isIntersecting; el.classList.toggle('is-on', vis); run(); }, { root: pj, threshold: 0.35 }).observe(el);
+    /* on attend la fin de l'ouverture de la page avant de lancer l'aperçu, et on ne l'éteint plus une fois allumé (évite les sauts) */
+    setTimeout(() => { if ('IntersectionObserver' in window) new IntersectionObserver((en) => { vis = en[0].isIntersecting; if (vis) el.classList.add('is-on'); run(); }, { root: pj, threshold: 0.35 }).observe(el); }, reduce ? 0 : 1100);
   }
 
   /* Défense d'afficher · le mur de colle : une pile d'affiches à arracher (glisser ou clic),
@@ -3970,8 +4076,8 @@ a.vc__th{display:grid}
       busy = true; const d = Math.hypot(dx, dy) || 1, ux = dx / d || 0.6, uy = dy / d || 0.8;
       scrap(p); p.classList.remove('is-drag'); p.classList.add('is-gone');
       p.style.transform = `translate(${dx + ux * 420}px,${dy + uy * 260}px) rotate(${(ux >= 0 ? 1 : -1) * 28}deg)`;
-      sfx.play('tear');
-      setTimeout(() => { p.classList.remove('is-gone'); p.style.transform = ''; order = order.slice(1).concat(p); seen++; restack(); busy = false; }, 520);
+      sfx.play('tear', seen);
+      setTimeout(() => { p.classList.remove('is-gone'); p.style.transform = ''; order = order.slice(1).concat(p); seen++; restack(); sfx.play('paste', seen); busy = false; }, 520);
     };
     let drag = null;
     stack.addEventListener('pointerdown', (e) => {
@@ -4120,6 +4226,105 @@ a.vc__th{display:grid}
   }, { passive: false });
   pj.addEventListener('scroll', () => { if (pjOwn) { pjOwn = false; return; } pjT = pjC = pj.scrollTop; }, { passive: true });
   $('#pjBack').addEventListener('click', () => setView('home'));
+
+  /* ---------- Accueil · trois petites horloges à comparer (on en gardera une) ---------- */
+  const parisNow = () => { const p = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Paris', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).formatToParts(new Date()).map((x) => [x.type, x.value])); return { h: Number(p.hour) % 24, m: Number(p.minute), s: Number(p.second) }; };
+  const homeOn = () => state.entered && state.view === 'home' && !document.hidden;
+  /* 1 · timecode HH:MM:SS:images, 25 images par seconde */
+  (() => {
+    const el = $('#hcTc .hc__tc'); if (!el) return;
+    let base = Date.now(), last = '';
+    setInterval(() => {
+      if (!homeOn()) return;
+      const t = parisNow(), f = Math.floor(((Date.now() - base) % 1000) / 40);
+      const txt = `${pad2(t.h)}:${pad2(t.m)}:${pad2(t.s)}<i>:${pad2(f)}</i>`;
+      if (txt !== last) { last = txt; el.innerHTML = txt; }
+    }, 40);
+    setInterval(() => { base = Date.now() - new Date().getMilliseconds(); }, 60000);
+  })();
+  /* 2 · tableau à palettes : les chiffres basculent à chaque minute ; au survol, tout le tableau se mélange */
+  (() => {
+    const board = $('#hcFlap .hc__board'); if (!board) return;
+    const cells = Array.from({ length: 5 }, (_, k) => { const c = document.createElement('span'); c.className = 'fc' + (k === 2 ? ' is-sep' : ''); c.innerHTML = '<span class="t"><b></b></span><span class="b"><b></b></span><span class="ft"><b></b></span><span class="fb"><b></b></span>'; c._v = k === 2 ? ':' : '-'; c.querySelectorAll('b').forEach((b) => { b.textContent = c._v; }); board.appendChild(c); return c; });
+    const flip = (c, v, snd) => {
+      if (c._v === v) return;
+      const [t, b, ft, fb] = c.querySelectorAll('b');
+      ft.textContent = c._v; fb.textContent = v; t.textContent = v; b.textContent = c._v; c._v = v;
+      c.classList.remove('is-flip'); void c.offsetWidth; c.classList.add('is-flip');
+      clearTimeout(c._t); c._t = setTimeout(() => { [t, b, ft, fb].forEach((x) => { x.textContent = v; }); c.classList.remove('is-flip'); }, 330);
+      if (snd) sfx.play('flap');
+    };
+    const show = (snd) => { const t = parisNow(), s = `${pad2(t.h)}:${pad2(t.m)}`; [...s].forEach((ch, k) => setTimeout(() => flip(cells[k], ch, snd), k * 70)); };
+    let lastM = -1;
+    setInterval(() => { if (!homeOn()) return; const t = parisNow(); if (t.m !== lastM) { const first = lastM < 0; lastM = t.m; show(true); } }, 1000);
+    let busy = false;
+    board.addEventListener('pointerenter', () => {
+      if (busy) return; busy = true; let n = 0;
+      const it = setInterval(() => { cells.forEach((c, k) => { if (k !== 2) flip(c, String(Math.floor(Math.random() * 10)), k === 0); }); if (++n > 5) { clearInterval(it); setTimeout(() => { show(true); busy = false; }, 120); } }, 110);
+    });
+  })();
+  /* 3 · la course du soleil au-dessus de Paris (calcul astronomique simplifié, à quelques minutes près) */
+  (() => {
+    const root = $('#hcSun'); if (!root) return;
+    const sun = root.querySelector('.sun'), moon = root.querySelector('.moon'), trail = root.querySelector('.trail'), big = root.querySelector('.hc__big'), lbl = root.querySelector('.hc__lbl');
+    const LAT = 48.8566, LON = 2.3522, R = Math.PI / 180;
+    const offH = () => { const d = new Date(), p = parisNow(); let o = p.h - d.getUTCHours() + (p.m - d.getUTCMinutes()) / 60; if (o > 12) o -= 24; if (o < -12) o += 24; return Math.round(o * 4) / 4; };
+    const times = (d) => {
+      const n = Math.floor((d - new Date(d.getFullYear(), 0, 0)) / 864e5);
+      const dec = 23.44 * Math.sin(R * (360 / 365) * (284 + n)), B = R * (360 / 364) * (n - 81);
+      const eot = 9.87 * Math.sin(2 * B) - 7.53 * Math.cos(B) - 1.5 * Math.sin(B);
+      const noon = 12 - LON / 15 - eot / 60 + offH();
+      const h0 = Math.acos((Math.sin(R * -0.833) - Math.sin(R * LAT) * Math.sin(R * dec)) / (Math.cos(R * LAT) * Math.cos(R * dec))) / R / 15;
+      return { rise: noon - h0, set: noon + h0 };
+    };
+    const hm = (x) => { const m = Math.round(((x % 24) + 24) % 24 * 60); return `${pad2(Math.floor(m / 60) % 24)}:${pad2(m % 60)}`; };
+    const dur = (x) => { const m = Math.max(0, Math.round(x * 60)); return m >= 60 ? `${Math.floor(m / 60)} h ${pad2(m % 60)}` : `${m} min`; };
+    const pos = (p) => { const a = Math.PI * (1 - p); return [64 + Math.cos(a) * 54, 62 - Math.sin(a) * 54]; };
+    const upd = () => {
+      const t = parisNow(), h = t.h + t.m / 60, { rise, set } = times(new Date()), day = h >= rise && h < set;
+      const p = day ? (h - rise) / (set - rise) : ((h - set + 24) % 24) / (24 - (set - rise));
+      const [x, y] = pos(clamp(p, 0, 1)), [x0, y0] = pos(0);
+      sun.style.display = day ? '' : 'none'; moon.style.display = day ? 'none' : '';
+      (day ? sun : moon).setAttribute('cx', x.toFixed(1)); (day ? sun : moon).setAttribute('cy', y.toFixed(1));
+      trail.setAttribute('d', `M${x0} ${y0} A54 54 0 0 1 ${x.toFixed(1)} ${y.toFixed(1)}`);
+      lbl.textContent = day ? `lever ${hm(rise)} · coucher ${hm(set)}` : `coucher ${hm(set)} · lever ${hm(rise)}`;
+      big.textContent = day ? `soleil · coucher dans ${dur(set - h)}` : `nuit · lever dans ${dur(((rise - h) + 24) % 24)}`;
+    };
+    upd(); setInterval(() => { if (homeOn()) upd(); }, 30000);
+    root.querySelector('svg').addEventListener('pointerenter', () => sfx.play('ping'));
+  })();
+
+  /* ---------- Contact : formulaire (envoi par FormSubmit, aucun serveur à gérer) ----------
+     Au tout premier message, FormSubmit envoie un e-mail d'activation à l'adresse ci-dessous : il suffit de cliquer « Activate ». */
+  const CONTACT_MAIL = 'valleur.a@gmail.com';
+  const ctOpen = $('#ctOpen'), ctForm = $('#ctForm');
+  function setCt(open) {
+    ctForm.hidden = !open; ctOpen.setAttribute('aria-expanded', String(open));
+    sfx.play(open ? 'open' : 'close');
+    if (open) setTimeout(() => ctForm.querySelector('input[type="email"]').focus({ preventScroll: true }), 60);
+  }
+  ctOpen.addEventListener('click', () => setCt(ctForm.hidden));
+  let typT = 0;
+  ctForm.addEventListener('input', () => { const n = performance.now(); if (n - typT > 45) { typT = n; sfx.play('type'); } });
+  ctForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const st = ctForm.querySelector('.ct__st'), send = ctForm.querySelector('.ct__send');
+    const em = ctForm.elements.email, msg = ctForm.elements.message;
+    let bad = false;
+    [[em, em.value.trim() && em.checkValidity()], [msg, msg.value.trim().length > 1]].forEach(([f, ok]) => { const w = f.closest('.ct__f'); w.classList.remove('is-bad'); if (!ok) { void w.offsetWidth; w.classList.add('is-bad'); bad = true; } });
+    if (bad) { st.textContent = 'Il manque votre e-mail ou votre message.'; sfx.play('error'); return; }
+    if (ctForm.elements._honey.value) return;
+    send.disabled = true; st.textContent = 'envoi…'; sfx.play('open');
+    try {
+      const r = await fetch(`https://formsubmit.co/ajax/${CONTACT_MAIL}`, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ email: em.value.trim(), message: msg.value.trim(), _subject: 'Portfolio : nouveau message', _template: 'table', _captcha: 'false', _replyto: em.value.trim() }) });
+      if (!r.ok) throw new Error(String(r.status));
+      st.textContent = 'Message envoyé, merci ! Je vous réponds vite.'; msg.value = ''; sfx.play('success');
+    } catch (err) {
+      st.textContent = 'L’envoi n’a pas marché : réessayez, ou copiez l’adresse ci-dessus.'; sfx.play('error');
+    }
+    send.disabled = false;
+  });
 
   window.claude?.hot?.snapshot?.(() => ({ entered: state.entered, sound: state.sound, mode: state.mode, scroll: scrollT, fx: { ...fx }, view: state.view, slug: pjCur }));
   const start = (data) => { if (data && data.entered) instantEnter(data); };
