@@ -2554,13 +2554,22 @@ a.vc__th{display:grid}
         { to: 3, lbl: 'photographes suivis pour les Jeux olympiques de Paris 2024' }
       ],
       media: [
-        { kind: 'vidéo', ar: '16/9', cls: 's8', cap: 'Jeux olympiques 2024 : Paris, capitale des sports vue par trois photographes de l’AFP' },
-        { kind: 'image', ar: '3/4', cls: 's4', cap: 'Visuel promotionnel d’un événement en interne' },
-        { text: true, cls: 's8', paras: [
+        /* La vidéo (16:9) */
+        { kind: 'vidéo', ar: '16/9', cls: 'mid', cap: 'Jeux olympiques 2024 : Paris, capitale des sports vue par trois photographes de l’AFP' },
+        { text: true, cls: 'mid', paras: [
           "Ma pratique s'est **appuyée** sur un socle technique **robuste**, alliant la maîtrise **avancée** des outils de **post-production** — du **motion design** au **sound design**, en passant par **l'étalonnage** et les **effets visuels** — à une rigueur d'exécution **constante**. Au-delà de la simple **technicité**, j'ai développé une approche **pragmatique** de la **résolution créative** de problèmes : j'ai **systématiquement** anticipé les **contraintes techniques** dès la phase de **conception** pour garantir une **fluidité optimale** dans la chaîne de production.",
           "Cette **agilité** m'a permis de **naviguer** avec **aisance** entre la création de contenus **dynamiques** pour les réseaux sociaux et la gestion de **projets complexes**, tout en assurant une qualité de **finition exemplaire** sur l'ensemble des supports de diffusion."
         ] },
-        { kind: 'image', ar: '4/5', cls: 's4', cap: 'Image — à remplacer' }
+        /* Deux affiches de même format (3:4 pour l'instant, à ajuster sur les vrais fichiers) */
+        { row: true, title: 'Affiches', kind: 'image', ar: '3/4', cls: 'mid', items: [
+          { t: 'Visuel promotionnel d’un événement en interne', s: 'affiche' },
+          { t: 'Affiche 02', s: 'à remplacer' }
+        ] },
+        /* Deux photos, format plus carré (4:5) */
+        { row: true, title: 'Photos', kind: 'image', ar: '4/5', cls: 'mid', items: [
+          { t: 'Photo 01', s: 'à remplacer' },
+          { t: 'Photo 02', s: 'à remplacer' }
+        ] }
       ]
     }
   };
@@ -2637,7 +2646,7 @@ a.vc__th{display:grid}
       }
       if (m.row) {
         const its = m.items || Array.from({ length: m.n }, (_, i) => ({ t: `${m.cap} ${String(i + 1).padStart(2, '0')}`, s: 'à remplacer' }));
-        return `<div class="pj-row-wrap"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div><div class="pj-row" style="--n:${its.length}">${its.map((it) => `<figure class="pj-media">${ph(m)}<figcaption class="rl"><b>${esc(it.t)}</b><span class="rl__s">${esc(it.s)}</span>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`).join('')}</div></div>`;
+        return `<div class="pj-row-wrap ${m.cls || ''}"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div><div class="pj-row" style="--n:${its.length}">${its.map((it) => `<figure class="pj-media">${ph(m)}<figcaption class="rl"><b>${esc(it.t)}</b><span class="rl__s">${esc(it.s)}</span>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`).join('')}</div></div>`;
       }
       return `<figure class="pj-media ${m.cls}">${ph(m)}<figcaption>${esc(m.cap)}</figcaption></figure>`;
     };
