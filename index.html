@@ -942,7 +942,9 @@ a.vc__th{display:grid}
 .rl__s{font-size:12px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--fg)}
 .rl__d{font-size:13px;line-height:1.45;color:var(--dim);margin-top:3px}
 .pj-row-wrap{grid-column:span 12;display:flex;flex-direction:column;gap:18px;min-width:0}
-.pj-row{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:clamp(10px,1.4vw,18px)}
+.pj-row{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:clamp(10px,1.4vw,18px);align-items:start}
+.pj-row.is-grid{row-gap:clamp(22px,3vw,36px)}
+.pj-pair{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.4vw,18px);width:min(100%,calc(80vh * 1.45));margin:0 auto}
 @media (max-width:760px){
   .cr__slide{flex-basis:62vw}
   .pj-row{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
@@ -1317,7 +1319,7 @@ a.vc__th{display:grid}
 
   /* ---------- Projets (placeholders) ---------- */
   const N = 12;
-  const CATS = ['motion design & montage', 'montage vidéo', 'design graphique', 'campagne de communication', 'motion design', '3d'];
+  const CATS = ['motion design & montage', 'montage vidéo', 'design graphique', 'campagne de communication', 'motion design', 'campagne print'];
   const PALETTES = [
     ['#2b2bff', '#00e0c6', '#ffde3b'], ['#ff5e3a', '#ffd1c2', '#2a1a5e'], ['#c8ff2e', '#1a6b4f', '#0f0f2e'],
     ['#ff3ea5', '#5b2bff', '#ffe3f3'], ['#00b3ff', '#002a5c', '#ff9f1c'], ['#f4f0e6', '#ff4b2b', '#1b1b1b'],
@@ -1326,8 +1328,8 @@ a.vc__th{display:grid}
   ];
   const PORTRAIT = new Set([3, 8]);
   const projects = Array.from({ length: N }, (_, i) => ({
-    title: ['Radio Classique', 'ParisianVibe', 'AFP', 'UMA', 'Méduse'][i] || 'Projet ' + String(i + 1).padStart(2, '0'),
-    slug: ['radio-classique', 'parisianvibe', 'afp', 'uma', 'meduse'][i] || null,
+    title: ['Radio Classique', 'ParisianVibe', 'AFP', 'UMA', 'Méduse', 'Sea Shepherd'][i] || 'Projet ' + String(i + 1).padStart(2, '0'),
+    slug: ['radio-classique', 'parisianvibe', 'afp', 'uma', 'meduse', 'sea-shepherd'][i] || null,
     cat: CATS[i % CATS.length],
     portrait: PORTRAIT.has(i)
   }));
@@ -2715,9 +2717,63 @@ a.vc__th{display:grid}
           { t: 'Making-of 02', s: 'à remplacer' }
         ] }
       ]
+    },
+    'sea-shepherd': {
+      title: 'Sea Shepherd', kicker: 'campagne print · low impact',
+      /* Couverture : le duo d'affiches, l'ancrage de toute la campagne (format A, à ajuster sur les vrais fichiers) */
+      coverMedia: { kind: 'image', ar: '5/7', pair: true, cap: 'Le duo d’affiches : le message à gauche, le navire à droite' },
+      lead: [
+        "**Sea Shepherd** est une ONG de défense des océans fondée en 1977 par Paul Watson. Elle vit uniquement de dons et revendique une **mentalité pirate** : s’interposer entre les baleiniers et les baleines, bloquer les navires, agir directement en mer.",
+        "Pour l’**Opération Antarctique**, nous avons imaginé une **campagne de recrutement** de bénévoles pensée en **low impact design** : du papier à l’encre jusqu’au mode d’affichage, chaque choix réduit l’impact de la campagne sur l’environnement."
+      ],
+      meta: [['rôle', 'Direction artistique et design graphique'], ['démarche', 'Low impact design'], ['supports', 'Affichage sauvage · print'], ['avec', 'Blanche Pillet, Jean Vandame, Carla Ragache']],
+      cols: [
+        ['Une affiche, un message', "Tout part d’un **duo d’affiches**. À gauche, le texte frappe comme un tract : « Pendant que vous lisez ça, une baleine vient d’être **harponnée** ». À droite, le navire de Sea Shepherd fend la houle. L’appel est direct : bénévole, **pas de salaire, pas d’excuses**. Tout le reste de la campagne en découle."],
+        ['Un affichage pirate', "Pas de panneaux publicitaires qui consomment de l’**électricité** : les affiches sont collées en **affichage sauvage**, avec une **colle écologique**, dans l’esprit pirate de Sea Shepherd. Autour, des **objets du quotidien détournés** s’infiltrent partout, sans jamais ressembler à de la pub, pour provoquer une **prise de conscience** et donner envie de s’engager."],
+        ['Éco-conçue par nature', "Une campagne **100 % print**, en **noir et blanc**, sans grands aplats de fond noir pour **économiser l’encre**, avec des **encres naturelles**. Les petits formats sont imprimés en série sur une même feuille, sur **papier recyclé**, et distribués à la main. Pas d’achat d’espace : moins de canaux, plus d’impact."]
+      ],
+      stats: [
+        { to: 13, lbl: 'supports imprimés, de l’affiche au sticker de métro' },
+        { to: 90, suf: 'jours', lbl: 'en mer pour l’Opération Antarctique, le départ annoncé par l’affiche' },
+        { to: 0, suf: 'kWh', lbl: 'd’affichage lumineux : tout est collé à la main' }
+      ],
+      media: [
+        /* L'affiche en situation, en affichage sauvage */
+        { kind: 'image', ar: '16/9', cls: '', cap: 'Affichage sauvage : le duo d’affiches collé dans la rue' },
+        /* Ticket à gratter */
+        { row: true, title: 'Le ticket à gratter', intro: '« Le Rêve Américain, le jeu 100 % gagnant (comme la pêche industrielle américaine) ». Distribué devant les bars-tabac, il reprend les codes des jeux à gratter. On gratte les trois étoiles, on croit avoir gagné… et le lot révèle ce que les États-Unis ont voté contre : la protection des mammifères marins dans les eaux australes.', kind: 'image', ar: '6/5', items: [
+          { t: 'Recto', s: 'à remplacer' },
+          { t: 'Verso', s: 'à remplacer' },
+          { t: 'En main', s: 'à remplacer' }
+        ] },
+        /* Fausse publicité de médicament, à languettes */
+        { row: true, title: 'La fausse pub de médicament', intro: 'Une affiche à languettes, comme celles qu’on croise sur les poteaux. « Vous en avez assez de ne rien faire ? » L’Antarcticine Sea Shepherd 2026 promet le remède parfait contre l’indifférence, avec ses effets secondaires : incapacité totale à regarder ailleurs. Sur chaque languette, le numéro de recrutement : « Si vous lisez encore, vous êtes peut-être le profil qu’on cherche. »', kind: 'image', ar: '16/9', items: [
+          { t: 'L’affiche', s: 'à remplacer' },
+          { t: 'En situation', s: 'à remplacer', ar: '3/4' }
+        ] },
+        /* Marque-page recto / verso */
+        { row: true, title: 'Le marque-page', intro: 'Au recto, le Cercle des Pêcheurs de l’Austral du Grand Large, un club de pêche chic qui vante la tradition et « l’amour de la mer et de ses richesses ». Au verso, le ton bascule : « La mer ne donne plus rien. » Les codes des boys clubs de pêche, retournés contre eux.', kind: 'image', ar: '16/9', items: [
+          { t: 'Recto', s: 'à remplacer' },
+          { t: 'Verso', s: 'à remplacer' }
+        ] },
+        /* Motion design (16:9) */
+        { kind: 'vidéo', ar: '16/9', cls: '', cap: 'Motion design de la campagne' },
+        /* Le reste de la campagne, en plus petit */
+        { row: true, cols: 3, cls: 'mid', title: 'Toute la campagne', intro: 'Autour de l’affiche, la campagne se décline sur des supports du quotidien : petits formats monochromes, imprimés en série sur papier recyclé et distribués à la main.', kind: 'image', ar: '3/2', items: [
+          { t: 'Carte de fidélité', s: 'commerces', d: 'Les codes d’une carte de fidélité, avec des indices visuels du massacre.' },
+          { t: 'Cartel de porte', s: 'poignées de porte', d: '« Ne pas déranger : extinction en cours. » Réutilisable, compris en deux temps.' },
+          { t: 'Stickers fragile', s: 'poissonneries, animaleries, restaurants', d: 'Repositionnables, collés sur les aquariums avec les codes de la signalétique.' },
+          { t: 'Étiquette cosmétique', s: 'magasins', d: 'Glissée sur les produits d’hygiène et de cosmétique en rayon.' },
+          { t: 'Contravention', s: 'pare-brise', d: 'Une fausse contravention de stationnement.' },
+          { t: 'Sticker métro', s: 'rames de métro', d: 'À la place du sticker « N’oubliez pas vos affaires personnelles ».' },
+          { t: 'Étiquette de barquette', s: 'rayon poisson', d: 'Collée parmi les étiquettes existantes, discrète, sans perturber le commerce.' },
+          { t: 'Ticket de caisse', s: 'sortie de magasin', d: 'Remis en main propre ou glissé dans les sacs.' },
+          { t: 'Billet d’aquarium', s: 'entrée des aquariums', d: 'Un faux billet d’entrée, remis aux visiteurs par un bénévole.' }
+        ] }
+      ]
     }
   };
-  const PJ_ORDER = ['radio-classique', 'parisianvibe', 'afp', 'uma', 'meduse'];
+  const PJ_ORDER = ['radio-classique', 'parisianvibe', 'afp', 'uma', 'meduse', 'sea-shepherd'];
   function routeOf(hash) {
     const h = (hash || '').replace('#', '');
     if (h === 'a-propos') return { v: 'about' };
@@ -2778,7 +2834,7 @@ a.vc__th{display:grid}
       : P.coverFx === 'edit'
       ? `<figure class="pj-media pj-cover is-in fx-edit" style="margin:var(--tgap) 0 0">${PR_HTML()}</figure>`
       : P.coverMedia
-      ? `<figure class="pj-media pj-cover is-in" style="margin:var(--tgap) 0 0">${ph(P.coverMedia)}<figcaption>${esc(P.coverMedia.cap)}</figcaption></figure>`
+      ? `<figure class="pj-media pj-cover is-in" style="margin:var(--tgap) 0 0">${P.coverMedia.pair ? `<div class="pj-pair">${ph(P.coverMedia)}${ph(P.coverMedia)}</div>` : ph(P.coverMedia)}<figcaption>${esc(P.coverMedia.cap)}</figcaption></figure>`
       : `<figure class="pj-media pj-cover is-in" style="margin:var(--tgap) 0 0">${ph({ kind: 'image', ar: '16/9' }, true)}<figcaption>Image de couverture — à remplacer</figcaption></figure>`;
     h += `<section class="pj-cols">${P.cols.map(([t, x]) => `<div class="pj-col ab-reveal"><h3>${esc(t)}</h3><p>${md(x)}</p></div>`).join('')}</section>`;
     if (P.stats.length) h += `<section class="pj-stats" style="--n:${P.stats.length}">${P.stats.map((st) => st.ph
@@ -2794,7 +2850,7 @@ a.vc__th{display:grid}
       }
       if (m.row) {
         const its = m.items || Array.from({ length: m.n }, (_, i) => ({ t: `${m.cap} ${String(i + 1).padStart(2, '0')}`, s: 'à remplacer' }));
-        return `<div class="pj-row-wrap ${m.cls || ''}"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div><div class="pj-row" style="--n:${its.length}">${its.map((it) => `<figure class="pj-media">${ph(m)}<figcaption class="rl"><b>${esc(it.t)}</b><span class="rl__s">${esc(it.s)}</span>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`).join('')}</div></div>`;
+        return `<div class="pj-row-wrap ${m.cls || ''}"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div><div class="pj-row${m.cols ? ' is-grid' : ''}" style="--n:${m.cols || its.length}${its.some((it) => it.ar) ? `;grid-template-columns:${its.map((it) => { const [a, b] = (it.ar || m.ar).split('/').map(Number); return `minmax(0,${(a / b).toFixed(3)}fr)`; }).join(' ')}` : ''}">${its.map((it) => `<figure class="pj-media">${ph(it.ar ? { ...m, ar: it.ar } : m)}<figcaption class="rl"><b>${esc(it.t)}</b><span class="rl__s">${esc(it.s)}</span>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`).join('')}</div></div>`;
       }
       return `<figure class="pj-media ${m.cls}">${ph(m)}<figcaption>${esc(m.cap)}</figcaption></figure>`;
     };
