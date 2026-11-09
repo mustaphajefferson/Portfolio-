@@ -62,9 +62,13 @@ a{color:inherit;text-decoration:none}
   box-shadow:inset -6px -10px 18px rgba(0,0,0,.55),inset 4px 6px 12px rgba(255,255,255,.22),0 12px 30px var(--shadow)}
 .orb__body::after{content:"";position:absolute;inset:-35%;background:conic-gradient(from 0deg,rgba(255,80,160,0),rgba(255,80,160,.4),rgba(80,200,255,.4),rgba(170,255,120,.35),rgba(255,80,160,0));mix-blend-mode:overlay;filter:blur(8px);animation:spin 7s linear infinite}
 .orb--gate .orb__body{animation:float 5s ease-in-out infinite}
-/* Écran d'entrée : le sceau animé (gravure / tampon) */
-.seal{position:relative;width:clamp(220px,min(34vw,40vh),340px);aspect-ratio:1;display:block}
-.seal__svg{position:absolute;inset:0;width:100%;height:100%;display:block;overflow:visible}
+/* Écran d'entrée : l'encre vivante, en grand pendant l'intro puis à sa place au-dessus du bouton */
+.seal{position:relative;width:clamp(200px,min(30vw,34vh),300px);aspect-ratio:1;display:block}
+.gate > .seal{animation:none}
+.seal__cv{position:absolute;left:50%;top:50%;width:var(--big,300px);height:var(--big,300px);margin:calc(var(--big,300px) / -2) 0 0 calc(var(--big,300px) / -2);transform:translate3d(0,var(--dy,0px),0);transition:transform 1.05s var(--ease-io);display:block}
+.gate.is-small .seal__cv{transform:translate3d(0,0,0) scale(var(--k,1))}
+.gate.is-intro > :not(.seal){visibility:hidden;animation:none}
+.gate.is-intro{cursor:pointer}
 .orb--logo{position:fixed;top:var(--top);left:var(--left);width:52px;z-index:5;opacity:0;pointer-events:none;transition:scale .5s var(--ease-out)}
 .orb--logo.is-on{opacity:1;pointer-events:auto}
 .orb--logo:hover{scale:1.08}
@@ -1223,8 +1227,8 @@ a.vc__th{display:grid}
 <canvas id="scene" aria-label="spirale des projets"></canvas>
 
 <!-- Écran d'entrée -->
-<div class="gate" id="gate">
-  <div class="seal" id="gateOrb" aria-hidden="true"><svg class="seal__svg"></svg></div>
+<div class="gate is-intro" id="gate">
+  <div class="seal" id="gateOrb" aria-hidden="true"><canvas class="seal__cv"></canvas></div>
   <p class="gate__line gate__fade">graphisme, direction artistique<br>&amp; montage vidéo — paris</p>
   <button class="enter gate__fade" id="enterBtn" type="button">
     <span class="enter__fill" aria-hidden="true"></span>
@@ -4428,335 +4432,158 @@ a.vc__th{display:grid}
     send.disabled = false;
   });
 
-  /* ---------- Écran d'entrée · le sceau animé (façon gravure / tampon) ----------
-     Trois histoires se succèdent dans le sceau : le cow-boy, le bateau pirate, la voiture ;
-     puis le soleil se pose et le sceau vit en boucle : soleil (≈ 5 s), la pièce tourne, la lune (≈ 5 s), et ainsi de suite.
-     Tout est vectoriel ; le trait « bout » légèrement (deux tracés alternés), comme une animation dessinée à la main.
-     L'animation dépend uniquement du temps : SEAL.render(t) dessine l'image exacte à l'instant t (sert aussi à exporter la vidéo). */
-  const SEAL = (() => {
-    const NS = 'http://www.w3.org/2000/svg', TAU = Math.PI * 2;
-    const C = (x, y, r) => `M${x - r},${y} A${r},${r} 0 1 0 ${x + r},${y} A${r},${r} 0 1 0 ${x - r},${y} Z`;
-    const El = (x, y, rx, ry) => `M${x - rx},${y} A${rx},${ry} 0 1 0 ${x + rx},${y} A${rx},${ry} 0 1 0 ${x - rx},${y} Z`;
-    const pol = (cx, cy, pts) => 'M' + pts.map(([r, a]) => `${(cx + Math.cos(a) * r).toFixed(2)},${(cy + Math.sin(a) * r).toFixed(2)}`).join(' L') + ' Z';
-    const rays = (cx, cy, n, r0, r1, r1b, w, off = 0) => Array.from({ length: n }, (_, i) => { const a = off + i / n * TAU - Math.PI / 2; return pol(cx, cy, [[r0, a - w], [i % 2 ? r1b : r1, a], [r0, a + w]]); }).join(' ');
-    const flames = (cx, cy, n, r0, len, off) => Array.from({ length: n }, (_, i) => {
-      const a0 = off + i / n * TAU - Math.PI / 2, L = [], R = [];
-      for (let k = 0; k <= 10; k++) { const s = k / 10, r = r0 + s * len, lat = 3.6 * Math.sin(s * TAU * 1.05), h = 5.2 * (1 - s) + 0.5; L.push([r, a0 + (lat - h) / r]); R.push([r, a0 + (lat + h) / r]); }
-      return pol(cx, cy, L.concat(R.reverse()));
-    }).join(' ');
-    const star = (x, y, R, r) => pol(x, y, Array.from({ length: 8 }, (_, i) => [i % 2 ? r : R, i / 8 * TAU - Math.PI / 2]));
-    const wavesD = (y, h) => { let d = `M2,${y}`; for (let x = 2; x < 250; x += 24) d += ` Q${x + 12},${y - h} ${x + 24},${y}`; return d; };
-    const curls = (y) => { let d = ''; for (let x = 2; x < 250; x += 24) d += `M${x + 16},${y - 3} A4,4 0 1 0 ${x + 12.5},${y - 9.5} `; return d; };
-    const spokes = (x, y) => Array.from({ length: 6 }, (_, i) => { const a = i / 6 * TAU; return `M${(x + Math.cos(a) * 3).toFixed(1)},${(y + Math.sin(a) * 3).toFixed(1)} L${(x + Math.cos(a) * 10.5).toFixed(1)},${(y + Math.sin(a) * 10.5).toFixed(1)}`; }).join(' ');
-    const wheel = (x, y) => [['k', C(x, y, 16)], ['c', C(x, y, 10.5)], ['k', C(x, y, 3.4)], ['s', spokes(x, y), 2]];
-
-    /* Les dessins. Une partie = [style, tracé, épaisseur] : k = encre, c = papier, p = papier cerné d'encre, s = trait d'encre, w = trait papier.
-       Chaque groupe apparaît comme un coup de tampon (at = délai après le début de la scène, o = point d'ancrage). */
-    const SCENES = {
-      cowboy: [
-        { id: 'rays', o: [120, 112], at: 0, parts: [['k', rays(120, 112, 32, 26, 99, 80, 0.045)]] },
-        { o: [120, 186], at: 0.04, parts: [
-          ['k', 'M44,216 C50,180 80,166 106,161 L134,161 C160,166 190,180 196,216 Z'],
-          ['w', 'M107,163 L113,200 M133,163 L127,200', 2.2],
-          ['p', 'M109,136 L131,136 L133,163 L107,163 Z', 2.4],
-          ['k', 'M95,155 L145,155 C140,167 128,179 120,188 C112,179 100,167 95,155 Z'],
-          ['c', C(110, 161, 2.1) + C(130, 161, 2.1) + C(120, 167, 2.2) + C(120, 177, 1.8)]
-        ] },
-        { o: [120, 118], at: 0.08, parts: [
-          ['p', El(98, 121, 4.5, 7.5) + El(142, 121, 4.5, 7.5), 2.4],
-          ['p', El(120, 118, 21.5, 26), 3],
-          ['k', 'M99,99 L141,99 L141,102 C134,110 106,110 99,102 Z'],
-          ['w', 'M106,104 L113,104 M127,104 L134,104', 2.2],
-          ['s', 'M120,107 L116.5,121 L122,122.5', 2.4],
-          ['k', 'M102,131 C107,124 115,124 120,128 C125,124 133,124 138,131 C134,129 131,132 128,133.5 C124,134.5 122,132.5 120,131.5 C118,132.5 116,134.5 112,133.5 C109,132 106,129 102,131 Z'],
-          ['s', 'M116.5,139.5 Q120,142 123.5,139.5', 2],
-          ['s', 'M102,116 Q104,122 103,128 M138,116 Q136,122 137,128', 1.3]
-        ] },
-        { id: 'hat', o: [120, 92], at: 0.13, parts: [
-          ['k', 'M89,92 C86,72 92,52 104,46 C110,43 115,50 120,50 C125,50 130,43 136,46 C148,52 154,72 151,92 Z'],
-          ['c', 'M90,80.5 L150,80.5 L151,87 L89,87 Z'],
-          ['k', C(120, 83.8, 2.6)],
-          ['w', 'M98,59 C97,67 97,73 98,78 M103,55 C102,63 102,70 103,77', 1.4],
-          ['k', 'M52,82 C60,92 88,95 120,95 C152,95 180,92 188,82 C186,93 168,101 142,101 L98,101 C72,101 54,93 52,82 Z']
-        ] }
-      ],
-      ship: [
-        { id: 'birds', o: [100, 56], at: 0, parts: [['s', 'M56,72 Q61,66 66,72 Q71,66 76,72 M74,52 Q78,47 82,52 Q86,47 90,52 M160,40 Q164,36 168,40 Q172,36 176,40', 2]] },
-        { id: 'cloud', o: [164, 68], at: 0.02, parts: [
-          ['k', 'M152,78 C147,78 145,73 148,70 C148,65 154,63 157,66 C159,60 167,58 171,63 C175,60 182,63 181,69 C185,70 186,77 182,78 Z'],
-          ['w', 'M163,72 A3,3 0 1 1 167,74', 1.5]
-        ] },
-        { id: 'waves2', o: [120, 166], at: 0.04, parts: [['s', wavesD(166, 12), 1.8]] },
-        { id: 'ship', o: [120, 168], at: 0.06, parts: [
-          ['s', 'M106,46 L106,142 M140,64 L140,142', 3.2],
-          ['s', 'M168,138 L194,122', 3],
-          ['s', 'M106,46 L64,138 M106,46 L178,138 M140,64 L192,124', 1],
-          ['p', 'M92,56 Q106,52 120,56 Q123,68 120,80 Q106,76 92,80 Q95,68 92,56 Z', 2.4],
-          ['p', 'M86,86 Q106,82 126,86 Q130,102 126,118 Q106,114 86,118 Q90,102 86,86 Z', 2.4],
-          ['p', 'M127,72 Q140,68 153,72 Q156,88 153,104 Q140,100 127,104 Q130,88 127,72 Z', 2.4],
-          ['p', 'M150,106 L186,126 L150,130 Z', 2.4],
-          ['s', 'M96,64 Q106,61 116,64 M96,71 Q106,68 116,71 M90,94 Q106,91 122,94 M90,102 Q106,99 122,102 M90,110 Q106,107 122,110 M131,80 Q140,77 149,80 M131,88 Q140,85 149,88 M131,96 Q140,93 149,96 M155,112 L156,126 M161,115 L162,127', 1.1],
-          ['k', 'M60,138 L180,138 L178,144 C174,156 166,164 156,168 L84,168 C72,164 64,154 60,144 Z'],
-          ['k', 'M58,138 L58,122 L84,122 L86,138 Z'],
-          ['c', 'M64,126 L76,126 L76,132 L64,132 Z'],
-          ['c', C(92, 151, 3) + C(108, 151, 3) + C(124, 151, 3) + C(140, 151, 3) + C(156, 151, 3)],
-          ['w', 'M66,143 L176,143', 1.4]
-        ] },
-        { id: 'flag', o: [106, 46], at: 0.12, parts: [['k', 'M106,40 L128,36 L122,43 L128,50 L106,48 Z'], ['c', C(113.5, 43.5, 2.3)]] },
-        { id: 'waves', o: [120, 180], at: 0.1, parts: [['k', wavesD(176, 16) + ' L250,240 L2,240 Z'], ['w', curls(176), 2]] }
-      ],
-      car: [
-        { id: 'tower', o: [150, 100], at: 0.04, parts: [
-          ['s', 'M150,52 L150,60 M147,60 L153,60 L156,84 M147,60 L144,84 M140,84 L160,84 M144,84 L139,112 M156,84 L161,112 M135,112 L165,112 M139,112 L131,146 M161,112 L169,146 M141,146 Q150,128 159,146 M146,66 L154,78 M154,66 L146,78 M143,92 L157,106 M157,92 L143,106', 1.7],
-          ['s', 'M36,150 Q60,138 84,146 Q100,140 112,146', 1.4]
-        ] },
-        { id: 'road', o: [120, 178], at: 0, parts: [['s', 'M28,178 L212,178', 2.6], ['s', Array.from({ length: 10 }, (_, i) => `M${10 + i * 28},187 L${24 + i * 28},187`).join(' '), 2.2]] },
-        { id: 'speed', o: [50, 140], at: 0.02, parts: [['s', 'M34,126 L64,126 M26,138 L70,138 M36,150 L58,150 M30,114 L48,114', 2.4]] },
-        { id: 'puffs', o: [46, 162], at: 0.06, parts: [['p', C(46, 162, 6) + C(36, 156, 4.5) + C(28, 164, 3.5), 2]] },
-        { id: 'car', o: [120, 160], at: 0, parts: [
-          ['k', 'M46,164 C46,152 54,145 66,143 L94,141 L106,120 C109,115 114,113 122,113 L146,113 C154,113 159,118 161,126 L164,141 L180,144 C188,146 192,153 192,164 Z'],
-          ['c', 'M110,123 C112,119 115,118 120,118 L144,118 C148,118 151,121 152,125 L154,139 L104,140 Z'],
-          ['k', C(122, 129, 6.5)],
-          ['k', 'M114.5,126 C114.5,118 130,118 130,126 Z'],
-          ['w', 'M117,128.5 L127,128.5', 2],
-          ['s', 'M136,118 L137,140', 2.4],
-          ['w', 'M98,146 L100,160 M124,144 L124,160 M110,150 L116,150', 1.7],
-          ['p', C(184, 150, 4.5), 2],
-          ['s', 'M191,146 L202,142 M192,150 L204,150 M191,154 L202,158', 1.6],
-          ['k', 'M182,158 L197,158 L197,162 L182,162 Z']
-        ] },
-        { id: 'scarf', o: [116, 134], at: 0, parts: [['k', 'M116,133 C108,130 100,136 90,131 C94,138 104,140 116,137 Z']] },
-        { id: 'w1', o: [76, 164], at: 0, parts: wheel(76, 164) },
-        { id: 'w2', o: [164, 164], at: 0, parts: wheel(164, 164) }
-      ],
-      sun: [
-        { id: 'srays', o: [120, 120], at: 0, parts: [['k', rays(120, 120, 16, 40, 86, 86, 0.085)], ['k', flames(120, 120, 16, 44, 30, Math.PI / 16)]] },
-        { id: 'sface', o: [120, 120], at: 0.02, parts: [
-          ['p', C(120, 120, 42), 3.4],
-          ['s', 'M90,124 Q95,128 100,127 M92,131 Q96,134 101,133 M150,124 Q145,128 140,127 M148,131 Q144,134 139,133', 1.4],
-          ['s', 'M98,103 Q106,97 115,102 M125,102 Q134,97 142,103', 3.2],
-          ['s', 'M120,108 C118,118 116,124 119,127 C121,128 123,127 124,125', 2.4],
-          ['k', 'M107,137 Q114,132 120,134.5 Q126,132 133,137 Q126,143.5 120,142.5 Q114,143.5 107,137 Z'],
-          ['w', 'M110,137.4 Q120,139.4 130,137.4', 1.3],
-          ['s', 'M116,152 Q120,155 124,152', 1.8]
-        ] },
-        { id: 'seyes', o: [120, 112], at: 0.06, parts: [
-          ['p', 'M99,112 Q107,105.5 115,112 Q107,117 99,112 Z M125,112 Q133,105.5 141,112 Q133,117 125,112 Z', 2.2]
-        ] },
-        { id: 'spup', o: [120, 112], at: 0.06, parts: [['k', C(107, 111.6, 2.8) + C(133, 111.6, 2.8)]] }
-      ],
-      moon: [
-        { id: 'st0', o: [62, 70], at: 0, parts: [['k', star(62, 70, 7, 2.2)]] },
-        { id: 'st1', o: [172, 54], at: 0, parts: [['k', star(172, 54, 6.5, 2)]] },
-        { id: 'st2', o: [186, 96], at: 0, parts: [['k', star(186, 96, 4.5, 1.6)]] },
-        { id: 'st3', o: [64, 168], at: 0, parts: [['k', star(64, 168, 5, 1.8)]] },
-        { id: 'st4', o: [178, 132], at: 0, parts: [['k', star(178, 132, 3.6, 1.3)]] },
-        { id: 'st5', o: [52, 120], at: 0, parts: [['k', star(52, 120, 4, 1.5)]] },
-        { id: 'moon', o: [120, 120], at: 0, parts: [
-          ['k', 'M139,61 A62,62 0 1 0 139,179 C127,173 114,166 112,158 C111,154 116,152 118,150 C114,148 113,146 116,144 C118,143 120,143 121,142 C117,140 116,138 118,136 C122,134 126,130 130,126 C124,122 118,120 116,114 C114,108 112,100 114,92 C116,80 126,70 139,61 Z'],
-          ['w', 'M97,106 Q103,112 109,106', 2.4],
-          ['w', 'M99,109 L97,112.5 M103,110.6 L102.4,114 M107,109 L108,112.5', 1.3],
-          ['w', 'M95,98 Q102,93 109,96', 2],
-          ['w', 'M92,124 Q97,128 103,126 M94,131 Q98,134 104,132', 1.3],
-          ['w', 'M70,92 Q66,110 68,130 M76,82 Q70,104 72,138', 1.1]
-        ] },
-        { id: 'mcloud', o: [150, 168], at: 0, parts: [
-          ['k', 'M132,176 C126,176 124,170 128,167 C128,161 136,159 140,163 C143,156 154,155 158,162 C164,159 172,163 170,170 C175,171 176,176 172,177 Z'],
-          ['w', 'M145,168 A4,4 0 1 1 151,170', 1.6]
-        ] }
-      ]
-    };
-
-    /* tracé « à la main » : on échantillonne chaque contour et on le fait légèrement onduler */
-    const mul = (a) => () => { a |= 0; a = (a + 0x6D2B79F5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
-    let probe = null;
-    function rough(d, amp, seed) {
-      if (!probe) { const s = document.createElementNS(NS, 'svg'); s.setAttribute('width', '0'); s.setAttribute('height', '0'); s.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden'; probe = document.createElementNS(NS, 'path'); s.appendChild(probe); document.body.appendChild(s); }
-      const rnd = mul(seed);
-      return (d.match(/M[^M]*/g) || []).map((sp) => {
-        const closed = /z\s*$/i.test(sp);
-        probe.setAttribute('d', sp);
-        const L = probe.getTotalLength(); if (!L) return '';
-        const n = Math.max(closed ? 8 : 2, Math.round(L / 3)), pts = [];
-        for (let i = 0; i <= (closed ? n - 1 : n); i++) { const p = probe.getPointAtLength(L * i / n); pts.push([p.x, p.y]); }
-        const m = pts.length, A = amp * Math.min(1, L / 34), p1 = rnd() * TAU, p2 = rnd() * TAU, f1 = 0.3 + rnd() * 0.25, f2 = 0.9 + rnd() * 0.6;
-        return 'M' + pts.map(([x, y], i) => {
-          const a = pts[closed ? (i - 1 + m) % m : Math.max(0, i - 1)], b = pts[closed ? (i + 1) % m : Math.min(m - 1, i + 1)];
-          let nx = a[1] - b[1], ny = b[0] - a[0]; const l = Math.hypot(nx, ny) || 1; nx /= l; ny /= l;
-          const o = A * (0.6 * Math.sin(i * f1 + p1) + 0.4 * Math.sin(i * f2 + p2) + 0.3 * (rnd() - 0.5));
-          return `${(x + nx * o).toFixed(1)},${(y + ny * o).toFixed(1)}`;
-        }).join('L') + (closed ? 'Z' : '');
-      }).join('');
-    }
-
-    /* texture de tampon : de petits manques d'encre (masque fixe, calculé une fois) */
-    function speckle() {
-      const c = document.createElement('canvas'); c.width = c.height = 256; const g = c.getContext('2d'), r = mul(11);
-      g.fillStyle = '#fff'; g.fillRect(0, 0, 256, 256); g.globalCompositeOperation = 'destination-out';
-      for (let i = 0; i < 520; i++) { const big = r() > 0.95; g.globalAlpha = big ? 0.5 + r() * 0.3 : 0.25 + r() * 0.5; g.beginPath(); g.arc(r() * 256, r() * 256, big ? 1.2 + r() * 1.4 : 0.4 + r() * 0.6, 0, TAU); g.fill(); }
-      for (let i = 0; i < 14; i++) { g.globalAlpha = 0.18 + r() * 0.2; g.lineWidth = 0.6 + r(); g.beginPath(); const x = r() * 256, y = r() * 256; g.moveTo(x, y); g.lineTo(x + 8 + r() * 26, y + (r() - 0.5) * 6); g.stroke(); }
-      return c.toDataURL('image/png');
-    }
-
-    let root = null, G = {}, paths = [], curV = -1, scenesEl = {}, ready = Promise.resolve();
-    const INK = '#252422', PAPER = '#f8f3e3';
-    function el(tag, attrs, parent) { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
-    function addParts(g, parts) {
-      parts.forEach(([cls, d, sw]) => {
-        const a = { d };
-        if (cls === 'k') a.fill = INK; else if (cls === 'c') a.fill = PAPER;
-        else if (cls === 'p') Object.assign(a, { fill: PAPER, stroke: INK, 'stroke-width': sw || 2.4, 'stroke-linejoin': 'round' });
-        else Object.assign(a, { fill: 'none', stroke: cls === 's' ? INK : PAPER, 'stroke-width': sw || 2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
-        const p = el('path', a, g); p._src = d; paths.push(p);
-      });
-    }
-    function mount(svg, uid = 'seal') {
-      root = svg; G = {}; paths = []; curV = -1; scenesEl = {};
-      svg.setAttribute('viewBox', '0 0 240 240');
-      const defs = el('defs', {}, svg);
-      const cp = el('clipPath', { id: uid + 'Clip' }, defs); el('circle', { cx: 120, cy: 120, r: 86.5 }, cp);
-      el('path', { id: uid + 'Tp', d: 'M120,22.5 A97.5,97.5 0 1 1 119.99,22.5' }, defs);
-      const all = G.all = el('g', {}, svg);
-      const ring = G.ring = el('g', {}, all);
-      addParts(ring, [['c', C(120, 120, 116.5)], ['s', C(120, 120, 115), 3.2], ['s', C(120, 120, 88), 2.4]]);
-      const tg = G.rtxt = el('g', {}, ring);
-      const tx = el('text', { 'font-size': 10.6, 'font-weight': 600, 'letter-spacing': '1.2', fill: INK, style: 'font-family:"Instrument Sans","Helvetica Neue",Arial,sans-serif' }, tg);
-      const tp = el('textPath', { href: '#' + uid + 'Tp', textLength: 606, lengthAdjust: 'spacing' }, tx);
-      tp.textContent = 'ACHILLE VALLEUR · DIRECTION ARTISTIQUE · PARIS · ';
-      const inner = G.inner = el('g', { 'clip-path': `url(#${uid}Clip)` }, all);
-      G.flip = el('g', {}, inner);
-      Object.keys(SCENES).forEach((k) => {
-        const sg = scenesEl[k] = el('g', { style: 'display:none' }, G.flip);
-        sg._groups = SCENES[k].map((gd) => { const g = el('g', {}, sg); g._d = gd; if (gd.id) G[gd.id] = g; addParts(g, gd.parts); return g; });
-      });
-      G.wipe = el('g', { fill: INK, style: 'display:none' }, inner);
-      G.bars = Array.from({ length: 10 }, (_, i) => el('rect', { x: 30, y: 30 + i * 18, width: 180, height: 18.6 }, G.wipe));
-      G.iris = el('circle', { cx: 120, cy: 120, r: 0, fill: INK, style: 'display:none' }, inner);
-      /* les deux tracés « à la main » se calculent par petits morceaux (≈ 6 ms par image) pour ne pas bloquer la page */
-      let i = 0;
-      ready = new Promise((res) => {
-        const step = () => {
-          const t0 = performance.now();
-          while (i < paths.length && performance.now() - t0 < 6) { const p = paths[i]; p._v = [rough(p._src, 0.75, 101 + i * 7), rough(p._src, 0.75, 9001 + i * 13)]; i++; }
-          if (i < paths.length) setTimeout(step, 0); else { curV = -1; res(); }
-        };
-        step();
-      });
-      try { const u = speckle(); svg.style.webkitMaskImage = svg.style.maskImage = `url(${u})`; svg.style.webkitMaskSize = svg.style.maskSize = '62%'; } catch (e) {}
-    }
-
-    /* ----- le temps ----- */
+  /* ---------- Écran d'entrée · l'encre vivante ----------
+     Quatre dessins à l'encre se transforment l'un en l'autre comme une goutte d'encre (pas de rideau) :
+     chaque dessin est stocké sous forme de « carte de distance » (une seule image, img/ink-sdf.png, 140 Ko) ;
+     on mélange deux cartes, et les formes fondent, s'étirent et se recomposent d'elles-mêmes.
+     Par-dessus : le trait qui bout (wiggle), l'encre usée d'un tampon, les bords qui bavent et quelques éclaboussures.
+     L'animation ne dépend que du temps : INK.render(t) dessine l'image exacte à l'instant t (sert aussi à exporter la vidéo). */
+  const INK = (() => {
+    const N = 4, ORDER = [0, 1, 2, 3];
+    /* le récit : apparition, trois métamorphoses, puis l'attente (≈ 7 s par dessin, et le dessin suivant) */
+    const GROW = 0.45, STEPS = [[0.75, 1.35], [1.65, 2.25], [2.55, 3.15]], IDLE0 = 3.15, HOLD = 7, MORPH = 0.9, INTRO_END = 3.35;
+    const eio = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
     const cl = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-    const eo = (x) => 1 - Math.pow(1 - cl(x), 3);
-    const eb = (x) => { x = cl(x); const c1 = 1.9; return 1 + (c1 + 1) * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
-    const S_IN = { cowboy: 0.2, ship: 1.2, car: 2.25, sun: 3.3 }, WIPES = [1.2, 2.25], IRIS = 3.3, IDLE = 3.3, CYC = 10.8;
-    const tf = (g, s) => g.setAttribute('transform', s);
-    const about = (o, s) => `translate(${o[0]} ${o[1]}) ${s} translate(${-o[0]} ${-o[1]})`;
-    function show(key) { for (const k in scenesEl) { const on = k === key; if (scenesEl[k]._on !== on) { scenesEl[k]._on = on; scenesEl[k].style.display = on ? '' : 'none'; } } }
-    function pops(key, lt) {
-      scenesEl[key]._groups.forEach((g) => {
-        const p = (lt - g._d.at) / 0.15;
-        if (p >= 1) { if (g._pop !== 1) { g._pop = 1; g.removeAttribute('opacity'); g._base = ''; } return; }
-        g._pop = p; g.setAttribute('opacity', cl(p * 2.6).toFixed(3)); g._base = about(g._d.o, `scale(${(1.3 - 0.3 * eo(p)).toFixed(4)})`);
+    function timeline(t) {
+      const grow = eio(cl(t / GROW));
+      if (t < IDLE0) {
+        let a = 0, b = 0, k = 0;
+        for (let i = 0; i < STEPS.length; i++) {
+          const [s, e] = STEPS[i];
+          if (t >= e) { a = b = ORDER[i + 1]; k = 0; }
+          else if (t >= s) { a = ORDER[i]; b = ORDER[i + 1]; k = eio((t - s) / (e - s)); break; }
+          else break;
+        }
+        return { a, b, k, grow };
+      }
+      const u = t - IDLE0, seg = Math.floor(u / (HOLD + MORPH)), r = u - seg * (HOLD + MORPH);
+      const cur = ORDER[(3 + seg) % N], nxt = ORDER[(4 + seg) % N];
+      return r < HOLD ? { a: cur, b: cur, k: 0, grow } : { a: cur, b: nxt, k: eio((r - HOLD) / MORPH), grow };
+    }
+    /* petit mouvement propre à chaque dessin pendant l'attente : le soleil tourne, les mains saluent, le tourbillon tourne, la main respire */
+    function pose(i, t) {
+      if (i === 0) return [t * 0.22, 1 + 0.02 * Math.sin(t * 1.6)];
+      if (i === 1) return [0.07 * Math.sin(t * 1.4), 1 + 0.015 * Math.sin(t * 2.1)];
+      if (i === 2) return [-t * 0.55, 1 + 0.015 * Math.sin(t * 1.2)];
+      return [0.06 * Math.sin(t * 1.1), 1 + 0.025 * Math.sin(t * 1.7)];
+    }
+    const VS = 'attribute vec2 p;varying vec2 v;void main(){v=vec2(p.x*.5+.5,.5-p.y*.5);gl_Position=vec4(p,0.,1.);}';
+    const FS = `precision highp float;
+uniform sampler2D tx;uniform float A,B,K,G,T,S,RA,SA,RB,SB,PX;varying vec2 v;
+float h(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}
+float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}
+const mat2 M=mat2(.8,.6,-.6,.8);
+float fb(vec2 p){float a=.5,s=0.;for(int i=0;i<4;i++){s+=a*n(p);p=M*p*2.03+17.1;a*=.5;}return s;}
+float f2(vec2 p){return .6*n(p)+.4*n(M*p*2.1+5.3);}
+vec2 xf(vec2 p,float r,float s){p-=.5;float c=cos(r),q=sin(r);return mat2(c,q,-q,c)*p/s+.5;}
+float sd(float i,vec2 p){if(p.x<0.||p.y<0.||p.x>1.||p.y>1.)return .5;p=clamp(p,.001,.999);vec2 o=vec2(mod(i,2.),floor(i/2.))*.5;return texture2D(tx,o+p*.5).r-.5;}
+float sb(float i,vec2 p,float r){return .25*(sd(i,p+vec2(r,.3*r))+sd(i,p+vec2(-.3*r,r))+sd(i,p-vec2(r,.3*r))+sd(i,p-vec2(-.3*r,r)));}
+float shape(vec2 q){float m=sin(3.14159*K),r=(1.2+9.*m)/512.;
+  float a=sb(A,xf(q,RA,SA),r),b=sb(B,xf(q,RB,SB),r);
+  float d=mix(a,b,K);
+  d+=(fb(q*2.6+T*.4)-.5)*.075*m-.015*m;
+  d+=(1.-G)*.3*(.55+.9*fb(q*5.+3.));
+  return d;}
+void main(){
+  vec2 q=v+(vec2(n(v*8.+S*3.1),n(v*8.+S*5.7+9.))-.5)*.007;
+  float d=shape(q);
+  d+=(n(q*64.+S*11.)-.5)*.007+(n(q*21.+S*7.)-.5)*.007;
+  float px=512./PX*.00694,aa=px*.9;
+  float cov=smoothstep(aa,-aa,d);
+  /* éclaboussures : de petites gouttes autour des formes */
+  vec2 g=q*70.,c=floor(g),r=vec2(h(c+S*.0),h(c+19.7));
+  float sp=step(.82,h(c+3.3))*smoothstep(.05,.0,d)*step(0.,d);
+  cov=max(cov,sp*smoothstep(.16+.1*r.x,.08,length(fract(g)-r*.6-.2)));
+  /* encre usée de tampon : des manques, plus nombreux au cœur des aplats */
+  float deep=smoothstep(-.01,-.07,d),wear=smoothstep(.42,.7,fb(q*5.+11.));
+  float hole=smoothstep(.74-.16*wear,.8-.16*wear,f2(q*95.+7.))*smoothstep(.45,.6,f2(M*q*31.+2.))*deep;
+  float grain=.9+.1*n(q*240.);
+  float a=cov*(1.-.92*hole)*mix(1.,grain,deep);
+  /* seconde impression, très légère et un peu décalée */
+  float d2=shape(q+vec2(.007,-.005));
+  a=max(a,smoothstep(aa,-aa,d2)*.09);
+  vec3 ink=vec3(.145,.141,.133);
+  gl_FragColor=vec4(ink*a,a);}`;
+
+    function mount(canvas, src, size) {
+      const gl = canvas.getContext('webgl', { premultipliedAlpha: true, alpha: true, antialias: false, preserveDrawingBuffer: !!mount.keep });
+      if (!gl) return null;
+      const sh = (type, code) => { const s = gl.createShader(type); gl.shaderSource(s, code); gl.compileShader(s); if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s)); return s; };
+      const pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(pr); gl.useProgram(pr);
+      const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+      const loc = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+      const U = {}; ['tx', 'A', 'B', 'K', 'G', 'T', 'S', 'RA', 'SA', 'RB', 'SB', 'PX'].forEach((k) => { U[k] = gl.getUniformLocation(pr, k); });
+      const tex = gl.createTexture();
+      let loaded = false;
+      const ready = new Promise((res, rej) => {
+        const im = new Image(); im.decoding = 'async';
+        im.onload = () => {
+          gl.bindTexture(gl.TEXTURE_2D, tex); gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.LUMINANCE, gl.LUMINANCE, gl.UNSIGNED_BYTE, im);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+          gl.uniform1i(U.tx, 0); loaded = true; res();
+        };
+        im.onerror = rej; im.src = src;
       });
+      const resize = (px) => { canvas.width = canvas.height = px; gl.viewport(0, 0, px, px); };
+      resize(size);
+      function render(t, still) {
+        if (!loaded) return;
+        const s = timeline(t), [ra, sa] = pose(s.a, t), [rb, sb] = pose(s.b, t);
+        const tw = 0.7 * Math.sin(Math.PI * s.k);
+        gl.uniform1f(U.A, s.a); gl.uniform1f(U.B, s.b); gl.uniform1f(U.K, s.k); gl.uniform1f(U.G, s.grow);
+        gl.uniform1f(U.T, t); gl.uniform1f(U.S, still ? 0 : Math.floor(t * (t < IDLE0 ? 9 : 6)));
+        gl.uniform1f(U.RA, ra + tw * 0.6); gl.uniform1f(U.SA, sa * (1 - 0.12 * s.k)); gl.uniform1f(U.RB, rb - tw * 0.6); gl.uniform1f(U.SB, sb * (0.88 + 0.12 * s.k));
+        gl.uniform1f(U.PX, canvas.width);
+        gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      }
+      const free = () => { const x = gl.getExtension('WEBGL_lose_context'); if (x) x.loseContext(); };
+      return { render, ready, resize, free };
     }
-    const base = (g) => (g._base || '');
-    function render(t, still) {
-      if (!root) return;
-      const v = still ? 0 : Math.floor(t * (t < IDLE ? 8 : 5)) % 2;
-      if (v !== curV) { curV = v; paths.forEach((p) => { if (p._v) p.setAttribute('d', p._v[v]); }); }
-      /* le sceau se pose comme un coup de tampon */
-      const k0 = t / 0.4;
-      tf(G.all, k0 >= 1 ? '' : about([120, 120], `scale(${(1.22 - 0.22 * eb(k0)).toFixed(4)}) rotate(${(-12 * (1 - eo(k0))).toFixed(2)})`));
-      G.all.setAttribute('opacity', cl(k0 * 3).toFixed(3));
-      tf(G.rtxt, `rotate(${(t * 6) % 360} 120 120)`);
-      /* volets d'encre entre deux histoires, puis l'iris qui révèle le soleil */
-      let wipe = null;
-      WIPES.forEach((w, i) => { if (t > w - 0.19 && t < w + 0.19) wipe = { c: w, dir: i % 2 }; });
-      if (wipe) {
-        G.wipe.style.display = '';
-        G.bars.forEach((b, i) => {
-          const d = i * 0.009, cov = t < wipe.c, p = cov ? eo((t - (wipe.c - 0.19) - d) / 0.1) : eo((t - wipe.c - d) / 0.1);
-          const sx = cov ? p : 1 - p, leftFirst = wipe.dir === 0;
-          const ox = (cov === leftFirst) ? 30 : 210;
-          b.setAttribute('transform', `translate(${ox} 0) scale(${sx.toFixed(4)} 1) translate(${-ox} 0)`);
-        });
-      } else if (G.wipe.style.display !== 'none') G.wipe.style.display = 'none';
-      if (t > IRIS - 0.18 && t < IRIS + 0.22) { G.iris.style.display = ''; const r = t < IRIS ? 92 * eo((t - IRIS + 0.18) / 0.18) : 92 * (1 - eo((t - IRIS) / 0.22)); G.iris.setAttribute('r', r.toFixed(2)); }
-      else if (G.iris.style.display !== 'none') G.iris.style.display = 'none';
-      tf(G.flip, '');
-      if (t < S_IN.cowboy) { show(null); return; }
-      if (t < S_IN.ship) {
-        const lt = t - S_IN.cowboy; show('cowboy'); pops('cowboy', lt);
-        tf(G.rays, base(G.rays) + ` rotate(${(lt * 24).toFixed(2)} 120 112)`);
-        const h = lt > 0.42 && lt < 0.8 ? Math.sin(Math.PI * (lt - 0.42) / 0.38) : 0;
-        tf(G.hat, base(G.hat) + ` translate(0 ${(-8 * h).toFixed(2)}) rotate(${(-9 * h).toFixed(2)} 120 92)`);
-        return;
-      }
-      if (t < S_IN.car) {
-        const lt = t - S_IN.ship; show('ship'); pops('ship', lt);
-        tf(G.ship, base(G.ship) + ` translate(0 ${(1.6 * Math.sin(lt * 5.5 + 1)).toFixed(2)}) rotate(${(4 * Math.sin(lt * 5.5)).toFixed(2)} 120 168)`);
-        tf(G.flag, base(G.flag) + ` translate(0 ${(1.6 * Math.sin(lt * 5.5 + 1)).toFixed(2)}) rotate(${(4 * Math.sin(lt * 5.5)).toFixed(2)} 120 168) ` + about([106, 46], `scale(${(1 - 0.2 * (0.5 + 0.5 * Math.sin(lt * 22))).toFixed(3)} 1)`));
-        tf(G.waves, base(G.waves) + ` translate(${(-(lt * 40) % 24).toFixed(2)} 0)`);
-        tf(G.waves2, base(G.waves2) + ` translate(${(-(lt * 22) % 24 - 12).toFixed(2)} 0)`);
-        tf(G.birds, base(G.birds) + ' ' + about([100, 56], `scale(1 ${(1 - 0.55 * (0.5 + 0.5 * Math.sin(lt * 18))).toFixed(3)})`));
-        tf(G.cloud, base(G.cloud) + ` translate(${(-lt * 6).toFixed(2)} 0)`);
-        return;
-      }
-      if (t < S_IN.sun) {
-        const lt = t - S_IN.car; show('car'); pops('car', lt);
-        const inX = -80 * (1 - eo(lt / 0.32)), bounce = -1.4 * Math.abs(Math.sin(lt * 17));
-        const carT = `translate(${inX.toFixed(2)} ${bounce.toFixed(2)})`;
-        tf(G.car, carT); tf(G.scarf, carT + ' ' + about([116, 134], `scale(1 ${(1 + 0.35 * Math.sin(lt * 34)).toFixed(3)})`));
-        tf(G.w1, `translate(${inX.toFixed(2)} 0) rotate(${(lt * 900) % 360} 76 164)`); tf(G.w2, `translate(${inX.toFixed(2)} 0) rotate(${(lt * 900) % 360} 164 164)`);
-        tf(G.road, base(G.road) + ` translate(${(-(lt * 230) % 28).toFixed(2)} 0)`);
-        tf(G.speed, base(G.speed) + ` translate(${(-((lt * 260) % 30)).toFixed(2)} 0)`);
-        G.speed.setAttribute('opacity', (0.55 + 0.45 * Math.abs(Math.sin(lt * 23))).toFixed(2));
-        const q = (lt * 2.4) % 1; tf(G.puffs, about([46, 162], `translate(${(-16 * q).toFixed(2)} ${(-4 * q).toFixed(2)}) scale(${(0.5 + 0.9 * q).toFixed(3)})`)); G.puffs.setAttribute('opacity', (lt < 0.3 ? 0 : 1 - q).toFixed(2));
-        return;
-      }
-      /* boucle : soleil, la pièce tourne, lune, la pièce tourne… */
-      const ph = (t - IDLE) % CYC, SUN = 5.2, FL = 0.4;
-      let key, lt, sx = 1;
-      if (ph < SUN) { key = 'sun'; lt = ph; }
-      else if (ph < SUN + FL) { const f = (ph - SUN) / FL; key = f < 0.5 ? 'sun' : 'moon'; lt = f < 0.5 ? ph : 0; sx = Math.abs(Math.cos(f * Math.PI)); }
-      else if (ph < CYC - FL) { key = 'moon'; lt = ph - SUN - FL; }
-      else { const f = (ph - CYC + FL) / FL; key = f < 0.5 ? 'moon' : 'sun'; lt = f < 0.5 ? ph - SUN - FL : 0; sx = Math.abs(Math.cos(f * Math.PI)); }
-      if (sx < 1) tf(G.flip, `translate(120 0) scale(${Math.max(0.02, sx).toFixed(4)} 1) translate(-120 0)`);
-      show(key);
-      const first = t < IDLE + SUN;
-      if (key === 'sun') {
-        const st = first ? t - IDLE : 99;
-        scenesEl.sun._groups.forEach((g) => { g.removeAttribute('opacity'); });
-        const grow = first ? eb(st / 0.42) : 1, pop = first ? eo(st / 0.16) : 1;
-        tf(G.srays, `rotate(${((t - IDLE) * 8 - 30 * (1 - grow)).toFixed(2)} 120 120) ` + about([120, 120], `scale(${((0.55 + 0.45 * grow) * (1 + 0.025 * Math.sin(lt * 3))).toFixed(4)})`));
-        const fs = about([120, 120], `scale(${(1.25 - 0.25 * pop).toFixed(4)})`);
-        tf(G.sface, fs);
-        const bl = lt > 2.4 && lt < 2.6 ? 1 - 0.92 * Math.sin(Math.PI * (lt - 2.4) / 0.2) : 1;
-        tf(G.seyes, fs + ' ' + about([120, 112], `scale(1 ${bl.toFixed(3)})`));
-        tf(G.spup, fs + ' ' + about([120, 112], `scale(1 ${bl.toFixed(3)})`) + ` translate(${(2.4 * Math.sin(lt * 1.3)).toFixed(2)} 0)`);
-      } else {
-        tf(G.moon, `rotate(${(3 * Math.sin(lt * 1.2)).toFixed(2)} 120 120)`);
-        for (let i = 0; i < 6; i++) { const g = G['st' + i], o = g._d.o; tf(g, about(o, `scale(${(0.55 + 0.45 * (0.5 + 0.5 * Math.sin(lt * 3.2 + i * 1.7))).toFixed(3)}) rotate(${(lt * 20 + i * 15).toFixed(1)})`)); }
-        tf(G.mcloud, `translate(${(10 * Math.sin(lt * 0.7)).toFixed(2)} 0)`);
-      }
-    }
-    return { mount, render, LOOP0: IDLE, CYC, ready: () => ready };
+    return { mount, INTRO_END, IDLE0, HOLD, MORPH };
   })();
-  /* Lecture du sceau sur l'écran d'entrée : l'intro (≈ 3 s), puis la boucle soleil / lune ; tout s'arrête une fois entré */
+  /* Lecture sur l'écran d'entrée : en grand au centre pendant l'intro (≈ 3 s), puis l'encre rapetisse,
+     le bouton apparaît dessous, et les dessins continuent de se transformer lentement (≈ 7 s chacun). Un clic passe l'intro. */
   (() => {
-    const svg = gateOrb.querySelector('.seal__svg'); if (!svg) return;
-    SEAL.mount(svg, 'gs');
-    let t0 = 0, raf = 0, last = 0;
+    const cv = gateOrb.querySelector('.seal__cv'); if (!cv) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    let big = 0, fin = 0;
+    const layout = () => {
+      fin = gateOrb.offsetWidth; big = Math.max(fin, Math.round(Math.min(innerWidth * 0.84, innerHeight * 0.66, 640)));
+      const r = gateOrb.getBoundingClientRect(), dy = innerHeight / 2 - (r.top + r.height / 2);
+      cv.style.setProperty('--big', `${big}px`); cv.style.setProperty('--dy', `${dy.toFixed(1)}px`); cv.style.setProperty('--k', (fin / big).toFixed(4));
+    };
+    layout(); window.addEventListener('resize', layout);
+    let R = null;
+    try { R = INK.mount(cv, 'img/ink-sdf.png', Math.round(big * dpr)); } catch (e) { R = null; }
+    const done = () => {
+      if (!gate.classList.contains('is-intro')) return;
+      gate.classList.remove('is-intro'); gate.classList.add('is-small');
+      if (R) setTimeout(() => { if (!(state.entered && gate.hidden)) R.resize(Math.round(fin * dpr)); }, 1100);
+    };
+    if (!R) {
+      /* sans WebGL : la main dessinée, fixe */
+      const im = new Image();
+      im.onload = () => { const g = cv.getContext('2d'); if (!g) return; cv.width = cv.height = 512; g.drawImage(im, 512, 512, 512, 512, 0, 0, 512, 512); const d = g.getImageData(0, 0, 512, 512), a = d.data; for (let k = 0; k < a.length; k += 4) { const on = a[k] < 128; a[k] = 37; a[k + 1] = 36; a[k + 2] = 34; a[k + 3] = on ? 255 : 0; } g.putImageData(d, 0, 0); };
+      im.src = 'img/ink-sdf.png'; done(); return;
+    }
+    let t0 = 0, raf = 0, last = 0, skip = 0;
     const loop = (now) => {
       raf = 0;
-      if (state.entered && gate.hidden) return;
+      if (state.entered && gate.hidden) { R.free(); return; }
       if (!t0) t0 = now;
-      if (now - last >= 32 || reduce) { last = now; SEAL.render(reduce ? SEAL.LOOP0 + 1 : (now - t0) / 1000, reduce); }
-      if (!reduce) raf = requestAnimationFrame(loop);
+      const t = (now - t0) / 1000 + skip;
+      if (t >= INK.INTRO_END) done();
+      if (now - last >= 32) { last = now; R.render(t, false); }
+      raf = requestAnimationFrame(loop);
     };
-    raf = requestAnimationFrame(loop);
-    document.addEventListener('visibilitychange', () => { if (!document.hidden && !raf && !(state.entered && gate.hidden)) raf = requestAnimationFrame(loop); });
+    R.ready.then(() => {
+      if (reduce) { R.render(INK.IDLE0 + 0.5, true); done(); return; }
+      raf = requestAnimationFrame(loop);
+    }).catch(done);
+    gate.addEventListener('click', () => { if (gate.classList.contains('is-intro') && t0) { const t = (performance.now() - t0) / 1000 + skip; if (t < INK.IDLE0) skip += INK.IDLE0 - t; } });
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && !raf && t0 && !reduce && !(state.entered && gate.hidden)) raf = requestAnimationFrame(loop); });
   })();
   /* Bouton « entrer avec le son » : les lettres roulent au survol, et le mot « son » ondule comme une onde sonore */
   (() => {
