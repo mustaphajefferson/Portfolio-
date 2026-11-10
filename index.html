@@ -935,7 +935,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 /* Défense d'afficher · le mur de colle : la pile à arracher, ou tout voir d'un coup */
 .wl-hd{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 12px}
 .wl-hd .ab-pv-switch{font-size:14px}
-.wl{position:relative;aspect-ratio:16/7;border-radius:14px;overflow:hidden;background-color:rgba(0,0,0,.06);background-image:linear-gradient(rgba(0,0,0,.05) 1px,transparent 1px);background-size:100% 44px;user-select:none;-webkit-user-select:none}
+.wl{position:relative;aspect-ratio:2/1;border-radius:14px;overflow:hidden;background-color:rgba(0,0,0,.06);background-image:linear-gradient(rgba(0,0,0,.05) 1px,transparent 1px);background-size:100% 44px;user-select:none;-webkit-user-select:none}
 .wl__sign{position:absolute;right:clamp(14px,3%,40px);top:clamp(14px,8%,40px);z-index:0;padding:6px 10px;border:2px solid rgba(37,36,34,.35);color:rgba(37,36,34,.4);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-align:center;line-height:1.3;rotate:-2deg}
 .wl__sign small{display:block;font-size:8.5px;font-weight:600;letter-spacing:.06em}
 .wl__p{position:absolute;margin:0;rotate:var(--r);transition:rotate .4s var(--ease-out)}
@@ -955,15 +955,29 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .wl__stack .wl__p.is-gone{transition:transform .5s cubic-bezier(.5,0,.9,.5),opacity .5s;opacity:0;pointer-events:none}
 .wl__side{position:absolute;left:clamp(14px,3%,40px);top:50%;translate:0 -50%;z-index:30;max-width:24%;display:flex;flex-direction:column;gap:8px;font-size:13px;line-height:1.4}
 .wl__side b{font-size:clamp(26px,3vw,40px);font-weight:600;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.wl__t{display:flex;flex-direction:column;gap:3px;min-height:2.6em}
+.wl__t strong{font-size:15px;font-weight:600;line-height:1.2;letter-spacing:-.01em}
+.wl__t small{font-size:12.5px;opacity:.7}
+.wl__how{opacity:.75}
+.wl__zoom{align-self:flex-start;font:inherit;font-size:12.5px;font-weight:600;color:inherit;background:none;border:1px solid var(--line-strong);border-radius:999px;padding:5px 12px;cursor:zoom-in;transition:background .25s,color .25s}
+.wl__zoom:hover{background:var(--coal);color:var(--cream)}
 @keyframes wlCorner{50%{transform:translate(-3px,-3px)}}
-.wl-grid{display:flex;flex-wrap:wrap;gap:clamp(14px,2vw,24px);align-items:flex-end}
+.wl-grid{display:flex;flex-wrap:wrap;gap:clamp(14px,2vw,24px);align-items:flex-start}
 .wl-grid figure{margin:0;display:flex;flex-direction:column;gap:8px;flex:none}
 .wl-grid .ph{height:clamp(170px,19vw,250px);width:auto;border-radius:4px;clip-path:none!important}
-.wl-grid figcaption{font-size:13px;font-weight:500}
+.wl-grid figcaption{font-size:13px;font-weight:500;display:flex;flex-direction:column;gap:2px;width:0;min-width:100%}
+.wl-grid figcaption small{font-size:11.5px;font-weight:400;opacity:.65}
+.lb__t small{font-size:inherit;opacity:.7}
+.lb__t small::before{content:" · "}
 @media (max-width:760px){
-  .wl{aspect-ratio:auto;height:440px}
-  .wl__side{top:auto;bottom:14px;translate:none;max-width:none;flex-direction:row;align-items:baseline}
-  .wl__stack{top:5%;bottom:24%}
+  .wl{aspect-ratio:auto;height:520px}
+  .wl__side{top:auto;bottom:12px;right:14px;translate:none;max-width:none;flex-direction:row;flex-wrap:wrap;align-items:baseline;column-gap:12px;row-gap:6px}
+  .wl__t{flex:1 1 150px;min-height:0}
+  .wl__t strong{font-size:14px}
+  .wl__t small{font-size:12px}
+  .wl__how{display:none}
+  .wl__zoom{padding:4px 10px}
+  .wl__stack{top:4%;bottom:27%}
   .wl__sign{display:none}
   .wl-grid .ph{height:150px}
 }
@@ -3253,13 +3267,13 @@ a.vc__th{display:grid}
     },
     'reels': {
       title: 'Snack content', kicker: 'reels · vidéo verticale', coverFx: 'vend',
-      /* Les reels du distributeur : c = code de la spirale, t = titre, d = durée ; ajoutez yt: '…' ou mp4: '…' (et poster: '…') pour brancher la vidéo */
+      /* Les reels du distributeur : c = code de la spirale, t = titre, yt = identifiant YouTube ; d = durée et poster = image de couverture (facultatifs) */
       reels: [
-        { c: 'A1', t: 'Reel 01', d: '0:15' },
-        { c: 'A2', t: 'Reel 02', d: '0:30' },
-        { c: 'A3', t: 'Reel 03', d: '0:20' },
-        { c: 'A4', t: 'Reel 04', d: '0:45' },
-        { c: 'A5', t: 'Reel 05', d: '0:30' }
+        { c: 'A1', t: 'Thoughts', yt: 'fZoTWBnCcYA' },
+        { c: 'A2', t: 'Tupac', yt: 'ntNJKZldcKk' },
+        { c: 'A3', t: 'La Wave · Shérif la zone', yt: 'PFUHfgf9F1I' },
+        { c: 'A4', t: 'Zoblazo', yt: 'QTS0HZqC5-A' },
+        { c: 'A5', t: 'RED', yt: 'mURO-ju24c4' }
       ],
       lead: [
         "À côté de mes projets, je réalise des **reels** : des vidéos **verticales** et courtes, pensées pour le fil Instagram. Du **snack content** : des petits formats à piocher, qui se consomment en quelques secondes. Des projets **personnels**, aux sujets et aux styles très différents, qui me servent de **terrain d’expérimentation**.",
@@ -3276,16 +3290,15 @@ a.vc__th{display:grid}
     },
     'graphisme': {
       title: 'Défense d’afficher', kicker: 'affiches & typographie', coverFx: 'wall',
-      /* Les affiches du mur : t = nom, ar = format ; ajoutez img: 'chemin/image.jpg' pour mettre l'image */
+      /* Les affiches du mur, de la première (sur le dessus) à la dernière : t = nom, s = précision, ar = format,
+         img = image affichée (petite), big = grande version (chargée seulement à l'agrandissement) */
       posters: [
-        { t: 'Affiche 01', ar: '3/4' },
-        { t: 'Affiche 02', ar: '1/1' },
-        { t: 'Affiche 03', ar: '2/3' },
-        { t: 'Typo 01', ar: '16/9' },
-        { t: 'Affiche 04', ar: '4/5' },
-        { t: 'Affiche 05', ar: '3/4' },
-        { t: 'Typo 02', ar: '1/1' },
-        { t: 'Affiche 06', ar: '2/3' }
+        { t: 'Dacia', s: 'L’excellence à votre portée', ar: '2182/3189', img: 'img/gr/gr-dacia-s.webp', big: 'img/gr/gr-dacia-l.webp' },
+        { t: 'Festival des affiches de Chaumont', s: '31e édition', ar: '2182/3189', img: 'img/gr/gr-chaumont-s.webp', big: 'img/gr/gr-chaumont-l.webp' },
+        { t: 'Join the playlist', s: 'Biennale internationale de design graphique', ar: '3278/4631', img: 'img/gr/gr-biennale-s.webp', big: 'img/gr/gr-biennale-l.webp' },
+        { t: 'Palmier', s: 'texte et ASCII', ar: '3191/4453', img: 'img/gr/gr-palmier-s.webp', big: 'img/gr/gr-palmier-l.webp' },
+        { t: 'The Great Stallion', s: 'ASCII', ar: '3191/4453', img: 'img/gr/gr-stallion-s.webp', big: 'img/gr/gr-stallion-l.webp' },
+        { t: 'La Haine 2', s: 'affiche de film', ar: '4131/6037', img: 'img/gr/gr-la-haine-s.webp', big: 'img/gr/gr-la-haine-l.webp' }
       ],
       lead: [
         "**Défense d’afficher** : c’est écrit sur le mur, et c’est justement là que les affiches s’accumulent, se recouvrent et finissent par raconter une époque. J’y colle tout ce que je fais à côté : des **affiches**, beaucoup de **typographie**, des essais et des projets variés.",
@@ -3394,15 +3407,18 @@ a.vc__th{display:grid}
     return { v: 'home' };
   }
   /* si la vignette nette n'existe pas (YouTube renvoie alors une petite image grise), on prend la vignette standard */
-  window.ytFb = (im, err) => { if (!im.dataset.fb) return; if (err || im.naturalWidth <= 130) { const u = im.dataset.fb; im.removeAttribute('data-fb'); im.src = u; } };
+  window.ytFb = (im, err) => { if (!im.dataset.fb) { if (err) im.style.visibility = 'hidden'; return; } if (err || im.naturalWidth <= 130) { const u = im.dataset.fb; im.removeAttribute('data-fb'); im.src = u; } };
   const pj = $('#pj'), pjInner = $('#pjInner');
   /* Cliquer une image d'une page projet l'agrandit (avec les autres images de la même rangée) */
   pjInner.addEventListener('click', (e) => {
     const z = e.target.closest('.ph.is-zoom'); if (!z) return;
-    const grp = z.closest('.pj-row') || z.closest('figure') || z.parentElement;
+    const grp = z.closest('.pj-row') || z.closest('.wl-grid') || z.closest('figure') || z.parentElement;
     const all = [...grp.querySelectorAll('.ph.is-zoom')];
-    openLightbox(all.map((q) => { const cap = q.closest('figure') && q.closest('figure').querySelector('figcaption'); return `<img src="${q.dataset.big}" alt="" data-ar="${q.dataset.ar}" style="aspect-ratio:${q.dataset.ar}">${cap ? `<p class="lb__t">${cap.innerHTML}</p>` : ''}`; }), all.indexOf(z));
+    zoomOpen(all, all.indexOf(z));
   });
+  function zoomOpen(all, i) {
+    openLightbox(all.map((q) => { const cap = q.closest('figure') && q.closest('figure').querySelector('figcaption'); return `<img src="${q.dataset.big}" alt="" data-ar="${q.dataset.ar}" style="aspect-ratio:${q.dataset.ar}">${cap ? `<p class="lb__t">${cap.innerHTML}</p>` : ''}`; }), i);
+  }
   let pjCur = null, pjT = 0, pjC = 0, pjOwn = false, pjHideTimer = 0, pjLastSt = -1;
   const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   const md = (t) => esc(t).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
@@ -4176,9 +4192,13 @@ a.vc__th{display:grid}
   const VM_HTML = (P, v) => `<div class="vm" data-vm="${v}">
       <div class="vm__head"><span class="vm__brand">snack content</span><span class="vm__sign">formats courts · à consommer sans modération</span></div>
       <div class="vm__glass"><div class="vm__row" style="--n:${P.reels.length}">${P.reels.map((r, k) => {
-        const src = r.yt ? ` data-yt="${esc(r.yt)}"` : r.mp4 ? ` data-mp4="${esc(r.mp4)}"` : '', bg = r.poster ? `;background-image:url(${esc(r.poster)})` : '';
+        const src = r.yt ? ` data-yt="${esc(r.yt)}"` : r.mp4 ? ` data-mp4="${esc(r.mp4)}"` : '';
+        /* couverture : l'image fournie, sinon la vignette verticale de YouTube (repli sur la vignette standard) */
+        const pic = r.poster || (r.yt ? `https://i.ytimg.com/vi/${encodeURIComponent(r.yt)}/oardefault.jpg` : '');
+        const fb = !r.poster && r.yt ? ` data-fb="https://i.ytimg.com/vi/${encodeURIComponent(r.yt)}/hqdefault.jpg" onload="ytFb(this)" onerror="ytFb(this,1)"` : '';
+        const im = pic ? `<img class="ph__img" src="${esc(pic)}" alt="" loading="lazy" decoding="async" draggable="false"${fb}>` : '';
         const extra = '<span class="vm__bar"><i></i></span>';
-        return `<div class="vm__slot" style="--i:${k}"><div class="ph ph--video vm__item" style="--ar:9/16${bg}"${src}>${src || bg ? '' : `<span class="ph__l">${esc(r.c)} · à remplacer</span>`}<button type="button" class="ph__play" aria-label="lire ${esc(r.t)}"></button>${extra}</div>${VM_COIL}<span class="vm__tag"><b>${esc(r.c)}</b><span>${esc(r.t)}</span><i>${esc(r.d)}</i></span></div>`;
+        return `<div class="vm__slot" style="--i:${k}"><div class="ph ph--video vm__item" style="--ar:9/16"${src}>${im}${src || pic ? '' : `<span class="ph__l">${esc(r.c)} · à remplacer</span>`}<button type="button" class="ph__play" aria-label="lire ${esc(r.t)}"></button>${extra}</div>${VM_COIL}<span class="vm__tag"><b>${esc(r.c)}</b><span>${esc(r.t)}</span>${r.d ? `<i>${esc(r.d)}</i>` : ''}</span></div>`;
       }).join('')}</div></div>
       <p class="vm__hint">Les formats défilent en aperçu. Cliquez sur celui qui vous tente : il se lance.</p>
     </div>`;
@@ -4309,13 +4329,15 @@ a.vc__th{display:grid}
 
   /* Défense d'afficher · le mur de colle : une pile d'affiches à arracher (glisser ou clic),
      ou « tout voir » pour afficher toutes les pièces d'un coup, sans animation. */
-  const wlPoster = (it, k, style, cls) => `<figure class="wl__p${cls || ''}" style="${style}"><div class="ph" style="--ar:${it.ar}${it.img ? `;background-image:url(${esc(it.img)})` : ''}">${it.img ? '' : `<span class="ph__l">${esc(it.t)} · ${esc(it.ar.replace('/', ':'))}</span>`}</div></figure>`;
+  /* les deux premières affiches de la pile se chargent tout de suite, les suivantes au fur et à mesure qu'on arrache */
+  const qa = (t) => esc(t || '').replace(/"/g, '&quot;');
+  const wlPoster = (it, k, style, cls) => `<figure class="wl__p${cls || ''}" style="${style}" data-k="${k}" data-t="${qa(it.t)}" data-s="${qa(it.s)}"><div class="ph" style="--ar:${it.ar}">${it.img ? `<img class="ph__img" ${k < 2 ? 'src' : 'data-src'}="${qa(it.img)}" alt="${qa(it.t)}" decoding="async" draggable="false">` : `<span class="ph__l">${esc(it.t)} · ${esc(it.ar.replace('/', ':'))}</span>`}</div></figure>`;
   const WALL_HTML = (P) => `<div class="wl-box">
       <div class="wl-hd"><p class="ag__lbl" style="margin:0"><b>le mur</b><span>Arrachez l’affiche du dessus pour voir la suivante</span></p>
         <div class="ab-pv-switch" role="tablist" aria-label="affichage des affiches"><button type="button" role="tab" aria-selected="true" data-wv="pile">arracher</button><span aria-hidden="true">•</span><button type="button" role="tab" aria-selected="false" data-wv="all">tout voir</button></div></div>
-      <div class="wl" data-wl="2"><span class="wl__sign">défense d’afficher<small>loi du 29 juillet 1881</small></span><div class="wl__side"><b><span class="wl__n">01</span> / ${pad2(P.posters.length)}</b><span>Attrapez l’affiche et arrachez-la, ou cliquez, pour découvrir la suivante.</span></div>
+      <div class="wl" data-wl="2"><span class="wl__sign">défense d’afficher<small>loi du 29 juillet 1881</small></span><div class="wl__side"><b><span class="wl__n">01</span> / ${pad2(P.posters.length)}</b><span class="wl__t"><strong></strong><small></small></span><span class="wl__how">Attrapez l’affiche et arrachez-la, ou cliquez, pour découvrir la suivante.</span>${P.posters.some((it) => it.img) ? '<button type="button" class="wl__zoom">voir en grand</button>' : ''}</div>
         <div class="wl__stack">${P.posters.map((it, k) => { const [a, b] = it.ar.split('/').map(Number); return wlPoster(it, k, `--r:${((k * 37) % 7) - 3}deg;z-index:${P.posters.length - k}`, a / b > 0.75 ? ' is-wide' : ''); }).join('')}</div></div>
-      <div class="wl-grid" hidden>${P.posters.map((it) => `<figure><div class="ph" style="--ar:${it.ar}${it.img ? `;background-image:url(${esc(it.img)})` : ''}">${it.img ? '' : `<span class="ph__l">${esc(it.ar.replace('/', ':'))}</span>`}</div><figcaption>${esc(it.t)}</figcaption></figure>`).join('')}</div>
+      <div class="wl-grid" hidden>${P.posters.map((it) => `<figure><div class="ph${it.img ? ' is-zoom' : ''}" style="--ar:${it.ar}"${it.img ? ` data-big="${qa(it.big || it.img)}" data-ar="${arNum(it.ar).toFixed(4)}"` : ''}>${it.img ? `<img class="ph__img" src="${qa(it.img)}" alt="${qa(it.t)}" loading="lazy" decoding="async" draggable="false">` : `<span class="ph__l">${esc(it.ar.replace('/', ':'))}</span>`}</div><figcaption>${esc(it.t)}${it.s ? `<small>${esc(it.s)}</small>` : ''}</figcaption></figure>`).join('')}</div>
     </div>`;
   function initWall(box) {
     const el = box.querySelector('.wl'), grid = box.querySelector('.wl-grid');
@@ -4326,8 +4348,16 @@ a.vc__th{display:grid}
       box.querySelector('.wl-hd .ag__lbl span').textContent = all ? 'Toutes les pièces, d’un coup d’œil' : 'Arrachez l’affiche du dessus pour voir la suivante';
     }));
     const stack = el.querySelector('.wl__stack'), num = el.querySelector('.wl__n'), total = stack.children.length;
+    const tt = el.querySelector('.wl__t strong'), ts = el.querySelector('.wl__t small'), zb = el.querySelector('.wl__zoom');
     let order = [...stack.children], seen = 0, busy = false;
-    const restack = () => { order.forEach((p, k) => { p.style.zIndex = String(total - k); p.classList.toggle('is-top', k === 0); }); num.textContent = pad2((seen % total) + 1); };
+    const restack = () => {
+      order.forEach((p, k) => { p.style.zIndex = String(total - k); p.classList.toggle('is-top', k === 0); });
+      num.textContent = pad2((seen % total) + 1);
+      tt.textContent = order[0].dataset.t || ''; ts.textContent = order[0].dataset.s || '';
+      /* l'affiche du dessus et les deux suivantes sont prêtes ; les autres attendent leur tour */
+      order.slice(0, 3).forEach((p) => { const im = p.querySelector('img[data-src]'); if (im) { im.src = im.dataset.src; im.removeAttribute('data-src'); } });
+    };
+    if (zb) zb.addEventListener('click', () => { const all = [...grid.querySelectorAll('.ph.is-zoom')]; zoomOpen(all, Math.max(0, all.findIndex((q) => q.closest('figure') === grid.children[+order[0].dataset.k]))); });
     const scrap = (p) => {
       const sr = stack.getBoundingClientRect(), wr = el.getBoundingClientRect(), s = document.createElement('span');
       const r = { left: sr.left + p.offsetLeft, top: sr.top + p.offsetTop, width: p.offsetWidth };
