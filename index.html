@@ -643,6 +643,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .pj-gallery .s6{grid-column:span 6}
 .pj-gallery .s4{grid-column:span 4}
 .pj-gallery .mid{grid-column:3 / span 8}
+.pj-gallery .lft{grid-column:1 / span 8}
 .pj-gallery .c3{grid-column:3 / span 3}
 .pj-gallery .c5{grid-column:6 / span 5}
 .pj-text{display:flex;flex-direction:column;gap:16px;align-self:center}
@@ -957,7 +958,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
   .dc{--wh:220px}
 }
 
-/* Encore un ? : la machine à formats courts, en aperçu comme une story */
+/* Neuf-seizièmes : la machine à formats courts, en aperçu comme une story */
 .vm{position:relative;border-radius:18px;background:var(--coal);color:var(--cream);padding:clamp(12px,1.4vw,18px);display:flex;flex-direction:column;gap:12px}
 .vm__head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:0 4px}
 .vm__brand{font-size:clamp(18px,2vw,26px);font-weight:600;letter-spacing:-.03em;line-height:1}
@@ -1395,7 +1396,7 @@ a.vc__th{display:grid}
   .pj-meta{grid-template-columns:repeat(2,minmax(0,1fr))}
   .pj-cols{grid-template-columns:1fr}
   .pj-stats{grid-template-columns:1fr}
-  .pj-gallery .s8,.pj-gallery .s6,.pj-gallery .s4,.pj-gallery .mid,.pj-gallery .c3,.pj-gallery .c5{grid-column:span 12}
+  .pj-gallery .s8,.pj-gallery .s6,.pj-gallery .s4,.pj-gallery .mid,.pj-gallery .lft,.pj-gallery .c3,.pj-gallery .c5{grid-column:span 12}
   .pj-gallery .c3{justify-self:center;width:62%}
   .pj-back{top:auto;bottom:var(--bottom);height:42px}
   .pj-big{font-size:clamp(44px,13vw,72px)}
@@ -2001,10 +2002,10 @@ a.vc__th{display:grid}
     { slug: 'uma', title: 'UMA', cat: 'campagne de communication', img: 'img/thumbs/uma.webp' },
     { slug: 'meduse', title: 'Méduse', cat: 'motion design', img: 'img/thumbs/meduse.webp' },
     { slug: 'sea-shepherd', title: 'Sea Shepherd', cat: 'campagne print', img: 'img/thumbs/sea-shepherd.webp' },
-    { slug: 'reels', title: 'Encore un ?', cat: 'vidéo verticale', img: 'img/thumbs/reels.webp', portrait: true },
+    { slug: 'reels', title: 'Neuf-seizièmes', cat: 'vidéo verticale', img: 'img/thumbs/reels.webp', portrait: true },
+    { slug: 'le-corbusier', title: 'Pierre figée', cat: 'édition · risographie', img: 'img/thumbs/le-corbusier.webp' },
     { slug: 'graphisme', title: 'Défense d’afficher', cat: 'affiches & typographie', img: 'img/thumbs/graphisme.webp' },
-    { slug: 'la-calle-ma-dit', title: 'La Calle m’a dit', cat: 'montage vidéo', img: 'img/thumbs/la-calle-ma-dit.webp' },
-    { slug: 'le-corbusier', title: 'Pierre figée', cat: 'édition · risographie', img: 'img/thumbs/le-corbusier.webp' }
+    { slug: 'la-calle-ma-dit', title: 'La Calle m’a dit', cat: 'montage vidéo', img: 'img/thumbs/la-calle-ma-dit.webp' }
   ];
   const N = PJ_CARDS.length;
   const projects = PJ_CARDS.map((p) => ({ ...p }));
@@ -2645,7 +2646,7 @@ a.vc__th{display:grid}
       x: "Supports visuels pour la communication institutionnelle d'une agence de presse mondiale : visuels événementiels, dont la soirée des 80 ans de l'agence, et vidéos autour des Jeux olympiques de Paris 2024." },
     { tr: 'v2', s: M(2024, 8), e: M(2025, 8), t: 'ParisianVibe', p: "Monteur vidéo — alternance · équipe de production · Paris", d: 'décembre 2024 — juillet 2025',
       x: "Montage de séquences pour l'univers du luxe et de la mode, aux côtés de la directrice artistique Viktoria De Chevron Villette. +150 000 abonnés et plus de 3 millions de vues en 8 mois." },
-    { tr: 'v2', s: M(2025, 8), e: TL_END, next: true, t: 'Radio Classique', p: 'Motion designer & monteur vidéo — alternance de 2 ans · service communication · Paris', d: 'depuis août 2025',
+    { tr: 'v2', s: M(2025, 8), e: TL_END, next: true, t: 'Radio Classique', p: 'Motion designer & monteur vidéo — alternance · service communication · Paris', d: 'depuis août 2025',
       x: "Traduire l'élégance de la programmation classique en contenus animés pour les réseaux sociaux : motion design, montage et formats courts, dans le respect de l'identité de la marque." },
     /* V1 — études */
     { tr: 'v1', s: M(2016, 9), e: M(2021, 9), t: 'Lycée Denis Diderot', p: 'Baccalauréat · Nairobi, Kenya', d: '2016 — 2021',
@@ -3035,16 +3036,17 @@ a.vc__th{display:grid}
         "**Radio Classique**, c’est la musique classique et l’actualité, en direct sur le 101.1 à Paris. Je suis le créatif de la station : je transforme ce qui passe à l’antenne en contenus pour les réseaux sociaux.",
         "**Pour commencer, cherchez la fréquence** : l’aiguille suit la souris, et sur 101.1, vous tombez sur le direct."
       ],
-      meta: [['rôle', 'Motion designer & monteur vidéo'], ['contrat', 'Alternance — 2 ans'], ['équipe', 'Service communication'], ['dates', "Depuis août 2025"], ['lieu', 'Paris']],
+      meta: [['rôle', 'Motion designer & monteur vidéo'], ['équipe', 'Service communication'], ['dates', "Depuis août 2025"], ['lieu', 'Paris']],
       cols: [
-        ['Alternance de 2 ans', "En rejoignant **Radio Classique** en tant que Motion Designer et Monteur Vidéo, j'ai intégré l'univers exigeant d'un média de **référence** pour y insuffler une dynamique visuelle **contemporaine**. Cette mission m'a permis de traduire **l'élégance** et la **profondeur** de la programmation classique en contenus **animés**, tout en respectant l'identité **forte** et la rigueur **institutionnelle** qui définissent la marque."],
+        ['Un média de référence', "En rejoignant **Radio Classique** en tant que Motion Designer et Monteur Vidéo, j'ai intégré l'univers exigeant d'un média de **référence** pour y insuffler une dynamique visuelle **contemporaine**. Cette mission m'a permis de traduire **l'élégance** et la **profondeur** de la programmation classique en contenus **animés**, tout en respectant l'identité **forte** et la rigueur **institutionnelle** qui définissent la marque."],
         ['Monteur vidéo & motion designer', "Mon travail s'est concentré sur la création de contenus **engageants** destinés aux **réseaux sociaux**, où l'enjeu était de **capter** l'attention tout en préservant la **justesse** du ton. J'ai mis **à profit** ma **maîtrise** du motion design et du montage pour **donner vie** aux formats courts, en veillant à ce que chaque mouvement et chaque coupe rythmique soient en parfaite **harmonie** avec l'exigence sonore du média. C'est un exercice de **précision** où le visuel vient **magnifier** l'écoute."],
         ['Service communication', "Au-delà de l'aspect purement **technique**, cette **immersion** m'a permis **d'affiner** mon **adaptabilité** au sein d'une équipe de communication **dynamique**. J'ai pu démontrer ma capacité à **produire** des contenus **fluides** et **cohérents** dans des délais **serrés**, tout en apportant une touche de **modernité graphique**. Cette expérience a **renforcé** ma conviction : le design est le pont **essentiel** pour rendre la **culture** et l'information **accessibles** et **vibrantes** à l'ère du **numérique**."]
       ],
       stats: [
-        { to: 2, suf: 'ans', lbl: "d'alternance au service communication" },
-        { ph: true, lbl: 'À compléter : abonnés gagnés, vues ou taux d’engagement' },
-        { ph: true, lbl: 'À compléter : nombre de reels ou de carrousels publiés' }
+        /* chiffres de la station (source : LVMH, groupe propriétaire de Radio Classique) */
+        { to: 1000000, lbl: "d'auditeurs chaque jour : le public que je fais passer de l'antenne aux réseaux sociaux" },
+        { to: 3700000, lbl: 'podcasts écoutés chaque mois' },
+        { to: 2, suf: 'h', lbl: "d'écoute par jour en moyenne : un public fidèle, qui a l'oreille exigeante" }
       ],
       media: [
         /* Chaque vidéo est un exemple tiré d'une série */
@@ -3083,7 +3085,7 @@ a.vc__th{display:grid}
         /* Vue d'ensemble, en trois onglets. guests : invités classés par thème (big = mis en avant) ;
            voices : slot = [premier jour, dernier jour (1 = lundi), début, fin en minutes], pour le badge « à l'antenne ». */
         { antenna: true, title: 'Sur l’antenne',
-          intro: "Depuis septembre 2025, je mets en images ce qui passe à l’antenne : l’actualité politique et économique, la musique classique, l’histoire, les histoires en musique pour enfants, la nature. Chaque matin, je monte l’invité de la Matinale : anciens Premiers ministres, prix Nobel, écrivains, comédiens, grands noms de la musique. Voici une sélection des invités les plus connus, les voix de l’antenne et les lieux et partenaires de la station.",
+          intro: "Depuis septembre 2025, je mets en images ce qui passe **à l’antenne** : l’actualité **politique et économique**, la **musique classique**, l’histoire, les histoires en musique pour enfants, la nature. **Chaque matin**, je monte **l’invité de la Matinale** : anciens Premiers ministres, prix Nobel, écrivains, comédiens, grands noms de la musique. Voici une sélection des **invités** les plus connus, les **voix de l’antenne** et les **lieux et partenaires** de la station.",
           nums: [[13, 'voix de l’antenne'], [290, 'émissions de l’invité de la Matinale', '+'], [6, 'scènes et salles'], [5, 'partenaires et institutions']],
           guests: [
             { t: 'Politique et international', d: 'à l’invité de la Matinale', items: [
@@ -3247,7 +3249,7 @@ a.vc__th{display:grid}
           { img: 'img/pv/pv-filles-a-paris-s.webp', big: 'img/pv/pv-filles-a-paris-l.webp', ar: '3024/1646', t: 'Les Filles à Paris', d: 'PV Series · épisode 05' },
           { img: 'img/pv/pv-flowers-renoir-s.webp', big: 'img/pv/pv-flowers-renoir-l.webp', ar: '720/585', t: 'Flowers of Pierre-Auguste Renoir', d: 'titre d’un épisode Art & culture' }
         ] },
-        { text: true, cls: 'mid', paras: [
+        { text: true, cls: 'lft', paras: [
           "Mon approche créative repose sur une synergie entre une maîtrise technique **exigeante** et une vision **stratégique** claire. En tant que **graphiste** et **monteur vidéo**, j'associe une expertise pointue en post-production — du motion design au sound design — à un sens aigu du storytelling afin de concevoir des identités visuelles percutantes.",
           "Guidé par **l'empathie** et une rigueur technique **constante**, mon travail vise à créer des contenus qui ne se contentent pas de **captiver**, mais qui établissent également une véritable **connexion** avec le public. Habitué à **évoluer** au sein d'équipes **pluridisciplinaires**, je conjugue **adaptabilité** et **résolution créative** de problèmes pour transformer chaque concept en une communication **innovante**, **cohérente** et parfaitement **alignée** avec les **exigences** des marques de luxe et corporate."
         ] }
@@ -3267,14 +3269,15 @@ a.vc__th{display:grid}
         ['Service communication', "Cette expérience a été un véritable **catalyseur** pour mon **développement professionnel**, me permettant **d'affiner** ma maîtrise technique tout en renforçant mes soft skills, notamment la **collaboration** au sein d'équipes **exigeantes**. En alliant **rigueur** et **créativité**, j'ai pu **contribuer** activement au rayonnement de l'agence, tout en confirmant mon ambition : créer un design qui, au-delà de l'esthétique, guide **l'empathie** et crée du **lien**. Ce passage à l'AFP a définitivement **ancré** ma volonté de mettre mon expertise au service d'une communication **innovante** et **inspirante**."]
       ],
       stats: [
-        { to: 4, suf: 'mois', lbl: 'de stage au service communication' },
-        { to: 80, suf: 'ans', lbl: "de l'agence, célébrés lors d'une soirée au siège" },
-        { to: 3, lbl: 'photographes suivis pour les Jeux olympiques de Paris 2024' }
+        /* chiffres de l'agence (source : ministère de la Culture) */
+        { to: 151, lbl: "pays couverts, avec 201 bureaux : chaque visuel parle au monde entier" },
+        { to: 80, suf: 'ans', lbl: "de l'agence, fêtés en 2024 : j'ai conçu les visuels de la soirée" },
+        { to: 100, lbl: "nationalités dans les équipes de l'agence" }
       ],
       media: [
         /* La vidéo (16:9) */
         { kind: 'vidéo', ar: '16/9', cls: 'mid', yt: '5PJTNqlyBs4', cap: 'Jeux olympiques 2024 : Paris, capitale des sports vue par trois photographes de l’AFP' },
-        { text: true, cls: 'mid', paras: [
+        { text: true, cls: 'lft', paras: [
           "Ma pratique s'est **appuyée** sur un socle technique **robuste**, alliant la maîtrise **avancée** des outils de **post-production** — du **motion design** au **sound design**, en passant par **l'étalonnage** et les **effets visuels** — à une rigueur d'exécution **constante**. Au-delà de la simple **technicité**, j'ai développé une approche **pragmatique** de la **résolution créative** de problèmes : j'ai **systématiquement** anticipé les **contraintes techniques** dès la phase de **conception** pour garantir une **fluidité optimale** dans la chaîne de production.",
           "Cette **agilité** m'a permis de **naviguer** avec **aisance** entre la création de contenus **dynamiques** pour les réseaux sociaux et la gestion de **projets complexes**, tout en assurant une qualité de **finition exemplaire** sur l'ensemble des supports de diffusion."
         ] },
@@ -3431,7 +3434,7 @@ a.vc__th{display:grid}
       ]
     },
     'reels': {
-      title: 'Encore un ?', kicker: 'reels · vidéo verticale', coverFx: 'vend',
+      title: 'Neuf-seizièmes', kicker: 'reels · vidéo verticale', coverFx: 'vend',
       /* Les reels du distributeur : c = code de la spirale, t = titre, yt = identifiant YouTube ; d = durée et poster = image de couverture (facultatifs) */
       reels: [
         { c: 'A1', t: 'Zoblazo', yt: 'QTS0HZqC5-A' },
@@ -3441,7 +3444,7 @@ a.vc__th{display:grid}
         { c: 'A5', t: 'La Wave · Shérif la zone', yt: 'PFUHfgf9F1I' }
       ],
       lead: [
-        "À côté de mes projets, je réalise des **reels** : des vidéos **verticales** et courtes, pensées pour le fil Instagram. Des formats qui se consomment en quelques secondes, et qui posent toujours la même question à la fin : **encore un ?** Des projets **personnels**, aux sujets et aux styles très différents, qui me servent de **terrain d’expérimentation**.",
+        "À côté de mes projets, je réalise des **reels** : des vidéos **verticales** et courtes, pensées pour le fil Instagram. Le titre vient de leur format : **neuf-seizièmes**, l’écran du téléphone tenu à la verticale. Des formats qui se consomment en quelques secondes : des projets **personnels**, aux sujets et aux styles très différents, qui me servent de **terrain d’expérimentation**.",
         "Chaque reel est l’occasion de tester quelque chose : un **rythme de montage**, une **transition**, une **typo animée**, un **étalonnage**. Le format impose ses règles : accrocher dès la première seconde, se comprendre sans le son, tout dire en quelques secondes."
       ],
       meta: [['format', 'Vertical 9:16'], ['diffusion', 'Instagram'], ['nature', 'Projets personnels']],
@@ -3475,15 +3478,15 @@ a.vc__th{display:grid}
       media: [
         /* Les travaux de typo, sur un banc de montage : un écran, et la timeline des plans (g = piste) */
         { monitor: true, title: 'La typo à l’écran', intro: 'Des titres, des cartons et des génériques pour la vidéo : à chaque fois, la typographie donne le ton dès la première image. Les plans défilent comme sur un banc de montage ; cliquez sur la timeline pour passer de l’un à l’autre.', items: [
-          { g: 'titres', img: 'img/typo/putain-de-salaire-s.webp', big: 'img/typo/putain-de-salaire-l.webp', t: 'Putain de salaire', s: 'Kekra · annonce de sortie' },
-          { g: 'titres', img: 'img/typo/showreel-2024-s.webp', big: 'img/typo/showreel-2024-l.webp', t: 'Showreel 2024', s: 'carton d’ouverture' },
           { g: 'titres', img: 'img/typo/rouen-s.webp', big: 'img/typo/rouen-l.webp', t: 'Rouen', s: 'carton de titre' },
+          { g: 'titres', img: 'img/typo/showreel-2024-s.webp', big: 'img/typo/showreel-2024-l.webp', t: 'Showreel 2024', s: 'carton d’ouverture' },
           { g: 'titres', img: 'img/typo/3-jours-a-film-s.webp', big: 'img/typo/3-jours-a-film-l.webp', t: '3 jours à film', s: 'semaine photographie' },
           { g: 'Tanzanie 2K24', img: 'img/typo/tanzanie-2k24-s.webp', big: 'img/typo/tanzanie-2k24-l.webp', t: 'Tanzanie 2K24', s: 'vlog · ouverture' },
           { g: 'Tanzanie 2K24', img: 'img/typo/dar-es-salaam-s.webp', big: 'img/typo/dar-es-salaam-l.webp', t: 'Dar es Salaam', s: 'vlog · étape' },
           { g: 'Tanzanie 2K24', img: 'img/typo/nungwi-s.webp', big: 'img/typo/nungwi-l.webp', t: 'Nungwi', s: 'vlog · 5 jours, 4 nuits' },
           { g: 'essais', img: 'img/typo/deformation-s.webp', big: 'img/typo/deformation-l.webp', t: 'Déformation', s: 'lettres étirées en mouvement' },
-          { g: 'essais', img: 'img/typo/paroles-s.webp', big: 'img/typo/paroles-l.webp', t: 'Paroles à l’écran', s: 'texte calé sur le son' }
+          { g: 'essais', img: 'img/typo/paroles-s.webp', big: 'img/typo/paroles-l.webp', t: 'Paroles à l’écran', s: 'texte calé sur le son' },
+          { g: 'Kekra', img: 'img/typo/putain-de-salaire-s.webp', big: 'img/typo/putain-de-salaire-l.webp', t: 'Putain de salaire', s: 'Kekra · annonce de sortie' }
         ] }
       ]
     },
@@ -4203,7 +4206,7 @@ a.vc__th{display:grid}
     const guests = m.guests.map((g) => `<div class="ant__grp"><div class="ant__gh"><b>${esc(g.t)}</b>${g.d ? `<span>${esc(g.d)}</span>` : ''}</div><div class="ant__cg">${[g.items.filter((it) => it.big), g.items.filter((it) => !it.big)].filter((l) => l.length).map((l) => `<ul class="ant__cells">${l.map((it) => `<li${it.big ? ' class="is-big"' : ''}><b>${esc(it.n)}</b><span>${esc(it.r)}</span></li>`).join('')}</ul>`).join('')}</div></div>`).join('');
     const row = (v) => `<li class="ant__row"${v.slot ? ` data-slot="${v.slot.join(',')}"` : ''}><span class="ant__h">${esc(v.h)}</span><div class="ant__who"><b>${esc(v.n)}</b><span>${esc(v.s)}</span></div><span class="ant__tg">${v.th.map(esc).join(' · ')}</span></li>`;
     const places = `<div class="ant__places">${m.places.map((g) => `<div><span class="ant__lbl">${esc(g.t)}</span><ul>${g.items.map((n) => `<li>${esc(n)}</li>`).join('')}</ul></div>`).join('')}</div>`;
-    return `<section class="ant ab-reveal" data-ant><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3><p class="sec-intro">${esc(m.intro)}</p></div>
+    return `<section class="ant ab-reveal" data-ant><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3><p class="sec-intro">${md(m.intro)}</p></div>
       <div class="ant__nums">${nums}</div>
       <div class="ant__tabs" role="tablist" aria-label="sur l’antenne">${tabs.map(([k, l, n], i) => `<button type="button" role="tab" id="antT-${k}" aria-controls="antP-${k}" aria-selected="${i === 0}">${esc(l)}<sup>${n}</sup></button>`).join('')}</div>
       <div class="ant__panel" role="tabpanel" id="antP-inv" aria-labelledby="antT-inv">${guests}</div>
@@ -4323,11 +4326,11 @@ a.vc__th{display:grid}
     });
   }
 
-  /* Reels · « Encore un ? » : les formats courts rangés dans une machine, chacun avec son code et sa durée.
+  /* Reels · « Neuf-seizièmes » : les formats courts rangés dans une machine, chacun avec son code et sa durée.
      Un seul clic lance la vidéo. L'aperçu : comme une story, chaque format s'avance à tour de rôle et sa barre de lecture se remplit. */
   const VM_COIL = `<svg class="vm__coil" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6" opacity=".55">${Array.from({ length: 13 }, (_, k) => `<ellipse cx="${k * 12 - 6}" cy="7" rx="7" ry="5.5"/>`).join('')}</g></svg>`;
   const VM_HTML = (P, v) => `<div class="vm" data-vm="${v}">
-      <div class="vm__head"><span class="vm__brand">encore un ?</span><span class="vm__sign">formats courts · à consommer sans modération</span></div>
+      <div class="vm__head"><span class="vm__brand">9:16</span><span class="vm__sign">formats courts · à consommer sans modération</span></div>
       <div class="vm__glass"><div class="vm__row" style="--n:${P.reels.length}">${P.reels.map((r, k) => {
         const src = r.yt ? ` data-yt="${esc(r.yt)}"` : r.mp4 ? ` data-mp4="${esc(r.mp4)}"` : '';
         /* couverture : l'image fournie, sinon la vignette verticale de YouTube (repli sur la vignette standard) */
