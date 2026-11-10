@@ -587,6 +587,8 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .pj-gallery .s6{grid-column:span 6}
 .pj-gallery .s4{grid-column:span 4}
 .pj-gallery .mid{grid-column:3 / span 8}
+.pj-gallery .c3{grid-column:3 / span 3}
+.pj-gallery .c5{grid-column:6 / span 5}
 .pj-text{display:flex;flex-direction:column;gap:16px;align-self:center}
 .pj-next{display:flex;flex-direction:column;gap:12px;align-items:flex-start;padding-block:var(--sec) calc(var(--bottom) + var(--sec));margin-top:var(--sec);border-top:1px solid var(--line-strong);text-align:left;width:100%}
 .pj-next__t{font-size:clamp(48px,9vw,150px);font-weight:500;letter-spacing:-.055em;line-height:.92;display:flex;align-items:center;gap:.2em;transition:translate .6s var(--ease-out)}
@@ -1057,21 +1059,42 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .panel__foot{align-items:center}
 
 /* Méduse · le récit en huit plans */
-.sc{grid-column:3 / span 8;display:flex;flex-direction:column;gap:18px}
-.sc__list{list-style:none;margin:0;padding:0;counter-reset:none}
-.sc__l{display:grid;grid-template-columns:clamp(54px,6vw,84px) 1fr;gap:clamp(12px,2vw,28px);align-items:baseline;padding:clamp(14px,1.8vw,22px) 0;border-top:1px solid var(--line-strong);opacity:0;translate:0 14px;transition:opacity .7s var(--ease-out) calc(var(--k) * 70ms),translate .7s var(--ease-out) calc(var(--k) * 70ms)}
+.sc{grid-column:2 / span 10;display:flex;flex-direction:column;gap:14px}
+.sc__list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(20px,3vw,44px)}
+.sc__l.is-legend,.sc__turn,.sc__l:last-child{grid-column:1 / -1}
+.sc__l{display:grid;grid-template-columns:clamp(30px,3vw,42px) 1fr;gap:clamp(8px,1vw,14px);align-items:baseline;padding:clamp(9px,1vw,13px) 0;border-top:1px solid var(--line-strong);opacity:0;translate:0 14px;transition:opacity .7s var(--ease-out) calc(var(--k) * 70ms),translate .7s var(--ease-out) calc(var(--k) * 70ms)}
 .sc.is-in .sc__l{opacity:1;translate:0 0}
-.sc__n{font-size:clamp(26px,3.2vw,44px);font-weight:600;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
-.sc__l p{margin:0;font-size:clamp(17px,1.55vw,22px);line-height:1.4;letter-spacing:-.015em}
+.sc__n{font-size:clamp(17px,1.6vw,22px);font-weight:600;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.sc__l p{margin:0;font-size:clamp(15px,1.15vw,17px);line-height:1.38;letter-spacing:-.01em}
 .sc__l.is-legend p{font-style:italic;color:var(--dim)}
 .sc__l.is-legend .sc__n{color:var(--dim)}
 .sc__l:last-child{border-bottom:1px solid var(--line-strong)}
 .sc__l:last-child p{font-weight:600}
-.sc__turn{display:flex;align-items:center;gap:14px;padding:22px 0 10px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;opacity:0;transition:opacity .8s .5s}
+.sc__turn{display:flex;align-items:center;gap:14px;padding:10px 0 6px;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;opacity:0;transition:opacity .8s .5s}
 .sc.is-in .sc__turn{opacity:1}
 .sc__turn::before,.sc__turn::after{content:"";flex:1;height:1px;background:var(--fg)}
-@media (max-width:760px){.sc{grid-column:span 12}}
+@media (max-width:760px){.sc{grid-column:span 12}.sc__list{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.sc__l{opacity:1;translate:none;transition:none}.sc__turn{opacity:1}}
+
+/* Sea Shepherd · le ticket à gratter */
+.sx{grid-column:1 / -1;display:flex;flex-direction:column;gap:18px}
+.sx__body{display:grid;grid-template-columns:minmax(0,8fr) minmax(0,4fr);gap:clamp(18px,3vw,44px);align-items:center}
+.sx__tk{position:relative;width:100%;border-radius:6px;overflow:hidden;background:#fff;box-shadow:0 0 0 1px var(--line-strong);user-select:none;-webkit-user-select:none;cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34'%3E%3Ccircle cx='17' cy='17' r='13' fill='%23f8f3e3' stroke='%23252422' stroke-width='2.5'/%3E%3Ccircle cx='17' cy='17' r='8' fill='none' stroke='%23252422' stroke-width='1.2'/%3E%3C/svg%3E") 17 17,crosshair}
+.sx__base{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+.sx__z{position:absolute;display:block;touch-action:none;transition:opacity .55s var(--ease-out)}
+.sx__z.is-gone{opacity:0;pointer-events:none}
+.sx__steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.sx__steps li{display:flex;align-items:center;gap:12px;font-size:15px;font-weight:500;color:var(--dim);transition:color .3s}
+.sx__steps li b{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13px;box-shadow:inset 0 0 0 1.5px currentColor;transition:background .3s,color .3s}
+.sx__steps li.is-on{color:var(--fg)}
+.sx__steps li.is-ok{color:var(--fg)}
+.sx__steps li.is-ok b,.sx__steps li.is-on b{background:var(--fg);color:var(--bg);box-shadow:none}
+.sx__steps li.is-ok span{text-decoration:line-through;text-decoration-thickness:1.5px}
+.sx__msg{margin:16px 0 0;font-size:14px;line-height:1.45;min-height:3em}
+.sx__btns{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.sx__btns button{font-size:13px;font-weight:500;padding:8px 14px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line-strong);transition:background .25s}
+.sx__btns button:hover{background:var(--tint)}
+@media (max-width:760px){.sx__body{grid-template-columns:1fr}}
 
 /* ParisianVibe · bibliothèque de vidéos : thèmes, curseurs, tri */
 .vl{grid-column:span 12;display:flex;flex-direction:column;gap:22px;min-width:0}
@@ -1146,7 +1169,8 @@ a.vc__th{display:grid}
   .pj-meta{grid-template-columns:repeat(2,minmax(0,1fr))}
   .pj-cols{grid-template-columns:1fr}
   .pj-stats{grid-template-columns:1fr}
-  .pj-gallery .s8,.pj-gallery .s6,.pj-gallery .s4,.pj-gallery .mid{grid-column:span 12}
+  .pj-gallery .s8,.pj-gallery .s6,.pj-gallery .s4,.pj-gallery .mid,.pj-gallery .c3,.pj-gallery .c5{grid-column:span 12}
+  .pj-gallery .c3{justify-self:center;width:62%}
   .pj-back{top:auto;bottom:var(--bottom);height:42px}
   .pj-big{font-size:clamp(44px,13vw,72px)}
 }
@@ -1645,6 +1669,7 @@ a.vc__th{display:grid}
       fold(toList) { [0, 1, 2, 3].forEach((k) => setTimeout(() => A.ctx && tone(toList ? 500 + k * 180 : 1040 - k * 180, toList ? 500 + k * 180 : 1040 - k * 180, 0.035, 'triangle', 0.04), k * 45)); },
       cut() { tone(1000, 760, 0.03, 'triangle', 0.035); },
       filter() { tone(1300, 900, 0.05, 'sine', 0.04); },
+      scratch() { crackle(0.05 + Math.random() * 0.05, 0.045, 1600 + Math.random() * 1400, 3800 + Math.random() * 1500); },
       flap() { crackle(0.035, 0.05, 2400, 1200); tone(900, 500, 0.02, 'triangle', 0.03); },
       type() { tone(1700 + Math.random() * 700, 1400, 0.012, 'square', 0.006); crackle(0.012, 0.02, 4000, 3000); },
       paste(i = 0) { const sc = [0, 1, 2, 3, 4]; note(chordNote(sc[i % 5]) + 24 + (i % 10 >= 5 ? 12 : 0), 0.035, 0.8, A.fx); },
@@ -2873,7 +2898,7 @@ a.vc__th{display:grid}
           { img: 'img/rc/c19-moai-s.webp', big: 'img/rc/c19-moai-l.webp', ar: '1080/1350', t: 'Pourquoi les Moaï géants défient toujours la science', d: 'Article' },
           { img: 'img/rc/c18-merimee-s.webp', big: 'img/rc/c18-merimee-l.webp', ar: '1080/1350', t: 'Prosper Mérimée et les cathédrales', d: 'Article' }
         ] },
-        { kind: 'vidéo', ar: '16/9', cls: 'mid', cap: 'Le Journal du Classique : une compilation des interviews de Laure Mézan' },
+        { kind: 'vidéo', ar: '16/9', cls: 'mid', yt: 'ZgFPbRaUAU4', cap: 'Le Journal du Classique : une compilation des interviews de Laure Mézan' },
         /* Vue d'ensemble, en trois onglets. guests : invités classés par thème (big = mis en avant) ;
            voices : slot = [premier jour, dernier jour (1 = lundi), début, fin en minutes], pour le badge « à l'antenne ». */
         { antenna: true, title: 'Sur l’antenne',
@@ -3083,6 +3108,7 @@ a.vc__th{display:grid}
     },
     'uma': {
       title: 'UMA', kicker: 'campagne de communication',
+      coverMedia: { kind: 'image', ar: '5318/3545', img: 'img/uma/uma-mockup-affiche-s.webp', big: 'img/uma/uma-mockup-affiche-l.webp', cap: 'L’affiche en situation' },
       /* Petite introduction affichée sous le titre */
       lead: [
         "**UMA** est une boisson sans alcool. Pour la marque, j’ai conçu une **campagne de communication 360°** : trois affiches, une double page sponsorisée dans le magazine **Le Bonbon**, un carrousel Instagram et un motion design.",
@@ -3102,8 +3128,6 @@ a.vc__th{display:grid}
           { img: 'img/uma/uma-affiche-night-en-main-s.webp', big: 'img/uma/uma-affiche-night-en-main-l.webp', t: 'La Night en Main', s: '100 % plaisir · 100 % contrôle · 0 % alcool' },
           { img: 'img/uma/uma-affiche-souvenirs-s.webp', big: 'img/uma/uma-affiche-souvenirs-l.webp', t: 'Les Souvenirs de la Night', s: '100 % partage · 100 % amis · 0 % alcool' }
         ] },
-        /* L'affiche en situation */
-        { kind: 'image', ar: '5318/3545', cls: 'mid', img: 'img/uma/uma-mockup-affiche-s.webp', big: 'img/uma/uma-mockup-affiche-l.webp', cap: 'L’affiche en situation' },
         { text: true, cls: 'mid', paras: [
           "Pour ancrer la marque dans la vie nocturne, j’ai imaginé une **double page sponsorisée** dans **Le Bonbon**, le média des sorties à Paris. Elle prend la forme d’une sélection d’**adresses** où sortir, en France et surtout à Paris, toutes choisies parmi les lieux où l’on trouve UMA.",
           "La marque n’est pas une publicité posée à côté du contenu : elle fait partie du **bon plan**. Le lecteur découvre un endroit où passer la soirée, et la boisson qu’il pourra y commander."
@@ -3121,7 +3145,7 @@ a.vc__th{display:grid}
           { img: 'img/uma/uma-carrousel-04-s.webp', big: 'img/uma/uma-carrousel-04-l.webp', t: 'Pour le moment', s: 'slide 4 · l’ambiance' }
         ] },
         /* Motion design (9:16) */
-        { kind: 'vidéo', ar: '9/16', cls: 's4', mp4: 'vid/uma-motion.mp4', poster: 'vid/uma-motion-poster.webp', cap: 'Motion design UMA' },
+        { kind: 'vidéo', ar: '9/16', cls: 's4', yt: 'q-t60k43hL8', poster: 'img/posters/uma-motion.webp', cap: 'Motion design UMA' },
         { text: true, cls: 's8', paras: [
           "En motion, les **formes** de la marque prennent vie : l’étoile, la vague et le carré s’animent au rythme d’une soirée, et les slogans s’enchaînent comme sur un **beat**.",
           "Un format court et vertical, fait pour les **stories** et les **reels**."
@@ -3174,7 +3198,7 @@ a.vc__th{display:grid}
     'sea-shepherd': {
       title: 'Sea Shepherd', kicker: 'campagne print · low impact',
       /* Couverture : le duo d'affiches, l'ancrage de toute la campagne (format A, à ajuster sur les vrais fichiers) */
-      coverMedia: { kind: 'image', ar: '5/7', pair: true, cap: 'Le duo d’affiches : le message à gauche, le navire à droite' },
+      coverMedia: { kind: 'image', ar: '3508/4961', pair: [{ img: 'img/ss/ss-affiche-texte-s.webp', big: 'img/ss/ss-affiche-texte-l.webp' }, { img: 'img/ss/ss-affiche-navire-s.webp', big: 'img/ss/ss-affiche-navire-l.webp' }], cap: 'Le duo d’affiches : le message à gauche, le navire à droite' },
       lead: [
         "**Sea Shepherd** est une ONG de défense des océans fondée en 1977 par Paul Watson. Elle vit uniquement de dons et revendique une **mentalité pirate** : s’interposer entre les baleiniers et les baleines, bloquer les navires, agir directement en mer.",
         "Pour l’**Opération Antarctique**, nous avons imaginé une **campagne de recrutement** de bénévoles pensée en **low impact design** : du papier à l’encre jusqu’au mode d’affichage, chaque choix réduit l’impact de la campagne sur l’environnement."
@@ -3187,37 +3211,43 @@ a.vc__th{display:grid}
       ],
       stats: [],
       media: [
-        /* L'affiche en situation, en affichage sauvage */
-        { kind: 'image', ar: '16/9', cls: '', cap: 'Affichage sauvage : le duo d’affiches collé dans la rue' },
-        /* Ticket à gratter */
-        { row: true, title: 'Le ticket à gratter', intro: '« Le Rêve Américain, le jeu 100 % gagnant (comme la pêche industrielle américaine) ». Distribué devant les bars-tabac, il reprend les codes des jeux à gratter. On gratte les trois étoiles, on croit avoir gagné… et le lot révèle ce que les États-Unis ont voté contre : la protection des mammifères marins dans les eaux australes.', kind: 'image', ar: '6/5', items: [
-          { t: 'Recto', s: 'à remplacer' },
-          { t: 'Verso', s: 'à remplacer' },
-          { t: 'En main', s: 'à remplacer' }
+        /* L'affichage sauvage, en situation */
+        { kind: 'image', ar: '3/2', cls: '', img: 'img/ss/ss-mur-s.webp', big: 'img/ss/ss-mur-l.webp', cap: 'Affichage sauvage : le duo d’affiches collé dans la rue' },
+        /* Le ticket à gratter, interactif : base = ticket gratté ; zones = le ticket intact, à gratter (étoiles, puis la case) */
+        { scratch: true, title: 'Le ticket à gratter', intro: '« Le Rêve Américain, le jeu 100 % gagnant (comme la pêche industrielle américaine) ». Distribué devant les bars-tabac, il reprend les codes des jeux à gratter. À vous de jouer : grattez les trois étoiles, puis la case.', base: 'img/ss/ss-ticket-gratte.webp', ar: '2953/2480', zones: [
+          { k: 'star', src: 'img/ss/ss-ticket-star1.webp', x: 0.12665, y: 0.37137, w: 0.23129, h: 0.25161 },
+          { k: 'star', src: 'img/ss/ss-ticket-star2.webp', x: 0.30782, y: 0.59718, w: 0.20454, h: 0.24113 },
+          { k: 'star', src: 'img/ss/ss-ticket-star3.webp', x: 0.04944, y: 0.6754, w: 0.22655, h: 0.23952 },
+          { k: 'box', src: 'img/ss/ss-ticket-box.webp', x: 0.53911, y: 0.77177, w: 0.43481, h: 0.22339 }
+        ] },
+        { row: true, kind: 'image', ar: '2953/2480', items: [
+          { img: 'img/ss/ss-ticket-verso-s.webp', big: 'img/ss/ss-ticket-verso-l.webp', t: 'Le verso', s: 'le drapeau pirate, sur un champ d’étoiles' },
+          { img: 'img/ss/ss-ticket-main-s.webp', big: 'img/ss/ss-ticket-main-l.webp', ar: '3/2', t: 'En main', s: 'distribué devant les bars-tabac' }
         ] },
         /* Fausse publicité de médicament, à languettes */
-        { row: true, title: 'La fausse pub de médicament', intro: 'Une affiche à languettes, comme celles qu’on croise sur les poteaux. « Vous en avez assez de ne rien faire ? » L’Antarcticine Sea Shepherd 2026 promet le remède parfait contre l’indifférence, avec ses effets secondaires : incapacité totale à regarder ailleurs. Sur chaque languette, le numéro de recrutement : « Si vous lisez encore, vous êtes peut-être le profil qu’on cherche. »', kind: 'image', ar: '16/9', items: [
-          { t: 'L’affiche', s: 'à remplacer' },
-          { t: 'En situation', s: 'à remplacer', ar: '3/4' }
+        { kind: 'image', ar: '2480/5603', cls: 'c3', img: 'img/ss/ss-medicament-s.webp', big: 'img/ss/ss-medicament-l.webp', cap: 'L’affiche à languettes' },
+        { text: true, cls: 'c5', title: 'La fausse pub de médicament', paras: [
+          "Une affiche à **languettes**, comme celles qu’on croise sur les poteaux. « Vous en avez assez de ne rien faire ? »",
+          "L’**Antarcticine Sea Shepherd 2026** promet le remède parfait contre l’indifférence, avec ses effets secondaires : « incapacité totale à regarder ailleurs ».",
+          "Sur chaque languette, le numéro de recrutement : « Si vous lisez encore, vous êtes peut-être le profil qu’on cherche. »"
         ] },
         /* Marque-page recto / verso */
-        { row: true, title: 'Le marque-page', intro: 'Au recto, le Cercle des Pêcheurs de l’Austral du Grand Large, un club de pêche chic qui vante la tradition et « l’amour de la mer et de ses richesses ». Au verso, le ton bascule : « La mer ne donne plus rien. » Les codes des boys clubs de pêche, retournés contre eux.', kind: 'image', ar: '16/9', items: [
-          { t: 'Recto', s: 'à remplacer' },
-          { t: 'Verso', s: 'à remplacer' }
+        { row: true, cls: 'mid', title: 'Le marque-page', intro: 'Au recto, le Cercle des Pêcheurs de l’Austral du Grand Large, un club de pêche chic qui vante la tradition et « l’amour de la mer et de ses richesses ». Au verso, le ton bascule : « La mer ne donne plus rien. » Les codes des boys clubs de pêche, retournés contre eux.', kind: 'image', ar: '3/2', items: [
+          { img: 'img/ss/ss-marque-page-s.webp', big: 'img/ss/ss-marque-page-l.webp', t: 'Recto et verso', s: 'le club de pêche, puis le message' }
         ] },
         /* Motion design (16:9) */
         { kind: 'vidéo', ar: '16/9', cls: '', cap: 'Motion design de la campagne' },
-        /* Le reste de la campagne, en plus petit */
+        /* Le reste de la campagne, en plus petit (vignettes recadrées, image entière au clic) */
         { row: true, cols: 3, cls: 'mid', title: 'Toute la campagne', intro: 'Autour de l’affiche, la campagne se décline sur des supports du quotidien : petits formats monochromes, imprimés en série sur papier recyclé et distribués à la main.', kind: 'image', ar: '3/2', items: [
-          { t: 'Carte de fidélité', s: 'commerces', d: 'Les codes d’une carte de fidélité, avec des indices visuels du massacre.' },
-          { t: 'Cartel de porte', s: 'poignées de porte', d: '« Ne pas déranger : extinction en cours. » Réutilisable, compris en deux temps.' },
-          { t: 'Stickers fragile', s: 'poissonneries, animaleries, restaurants', d: 'Repositionnables, collés sur les aquariums avec les codes de la signalétique.' },
-          { t: 'Étiquette cosmétique', s: 'magasins', d: 'Glissée sur les produits d’hygiène et de cosmétique en rayon.' },
-          { t: 'Contravention', s: 'pare-brise', d: 'Une fausse contravention de stationnement.' },
-          { t: 'Sticker métro', s: 'rames de métro', d: 'À la place du sticker « N’oubliez pas vos affaires personnelles ».' },
-          { t: 'Étiquette de barquette', s: 'rayon poisson', d: 'Collée parmi les étiquettes existantes, discrète, sans perturber le commerce.' },
-          { t: 'Ticket de caisse', s: 'sortie de magasin', d: 'Remis en main propre ou glissé dans les sacs.' },
-          { t: 'Billet d’aquarium', s: 'entrée des aquariums', d: 'Un faux billet d’entrée, remis aux visiteurs par un bénévole.' }
+          { img: 'img/ss/dec-carte-fidelite-s.webp', big: 'img/ss/dec-carte-fidelite-l.webp', zar: '2400/1600', t: 'Carte de fidélité', s: 'commerces', d: 'Les codes d’une carte de fidélité, avec des indices visuels du massacre.' },
+          { img: 'img/ss/dec-cartel-porte-s.webp', big: 'img/ss/dec-cartel-porte-l.webp', zar: '2304/1296', t: 'Cartel de porte', s: 'poignées de porte', d: '« Ne pas déranger : extinction en cours. » Réutilisable, compris en deux temps.' },
+          { img: 'img/ss/dec-sticker-fragile-s.webp', big: 'img/ss/dec-sticker-fragile-l.webp', zar: '1854/1777', t: 'Stickers fragile', s: 'poissonneries, animaleries, restaurants', d: 'Repositionnables, collés sur les aquariums avec les codes de la signalétique.' },
+          { img: 'img/ss/dec-etiquette-cosmetique-s.webp', big: 'img/ss/dec-etiquette-cosmetique-l.webp', zar: '2700/1800', t: 'Étiquette cosmétique', s: 'magasins', d: 'Glissée sur les produits d’hygiène et de cosmétique en rayon.' },
+          { img: 'img/ss/dec-contravention-s.webp', big: 'img/ss/dec-contravention-l.webp', zar: '2634/1600', t: 'Contravention', s: 'pare-brise', d: 'Une fausse contravention de stationnement.' },
+          { img: 'img/ss/dec-sticker-metro-s.webp', big: 'img/ss/dec-sticker-metro-l.webp', zar: '2477/1383', t: 'Sticker métro', s: 'rames de métro', d: 'À la place du sticker « N’oubliez pas vos affaires personnelles ».' },
+          { img: 'img/ss/dec-etiquette-barquette-s.webp', big: 'img/ss/dec-etiquette-barquette-l.webp', zar: '1638/950', t: 'Étiquette de barquette', s: 'rayon poisson', d: 'Collée parmi les étiquettes existantes, discrète, sans perturber le commerce.' },
+          { img: 'img/ss/dec-ticket-caisse-s.webp', big: 'img/ss/dec-ticket-caisse-l.webp', zar: '2621/1748', t: 'Ticket de caisse', s: 'sortie de magasin', d: 'Remis en main propre ou glissé dans les sacs.' },
+          { img: 'img/ss/dec-billet-aquarium-s.webp', big: 'img/ss/dec-billet-aquarium-l.webp', zar: '2500/1666', t: 'Billet d’aquarium', s: 'entrée des aquariums', d: 'Un faux billet d’entrée, remis aux visiteurs par un bénévole.' }
         ] }
       ]
     },
@@ -3423,7 +3453,7 @@ a.vc__th{display:grid}
       /* les images ne se chargent qu'à l'approche (loading="lazy") ; la grande version seulement au clic */
       const im = pic ? `<img class="ph__img" src="${esc(pic)}" alt="${esc(m.t || m.cap || '')}" loading="lazy" decoding="async" draggable="false"${fb}>` : '';
       const label = (m.yt || m.mp4 || pic) ? '' : `<span class="ph__l">${esc(m.kind)} · ${esc(m.ar.replace('/', ':'))} — à remplacer</span>`;
-      const zoom = m.img ? ` data-big="${esc(m.big || m.img)}" data-ar="${arNum(m.ar).toFixed(4)}"` : '';
+      const zoom = m.img ? ` data-big="${esc(m.big || m.img)}" data-ar="${arNum(m.zar || m.ar).toFixed(4)}"` : '';
       return `<div class="ph${m.kind === 'vidéo' ? ' ph--video' : ''}${m.img ? ' is-zoom' : ''}" style="--ar:${m.ar}${bg}"${src}${zoom}>${im}${label}${m.kind === 'vidéo' ? '<button type="button" class="ph__play" aria-label="lire la vidéo"></button>' : ''}</div>`;
     };
     let h = '';
@@ -3445,7 +3475,7 @@ a.vc__th{display:grid}
       : P.coverFx === 'edit'
       ? `<figure class="pj-media pj-cover is-in fx-edit" style="margin:var(--tgap) 0 0">${PR_HTML()}</figure>`
       : P.coverMedia
-      ? `<figure class="pj-media pj-cover is-in" style="margin:var(--tgap) 0 0">${P.coverMedia.pair ? `<div class="pj-pair">${ph(P.coverMedia)}${ph(P.coverMedia)}</div>` : ph(P.coverMedia)}<figcaption>${esc(P.coverMedia.cap)}</figcaption></figure>`
+      ? `<figure class="pj-media pj-cover is-in" style="margin:var(--tgap) 0 0">${P.coverMedia.pair ? `<div class="pj-pair">${(Array.isArray(P.coverMedia.pair) ? P.coverMedia.pair : [{}, {}]).map((q) => ph({ ...P.coverMedia, ...q })).join('')}</div>` : ph(P.coverMedia)}<figcaption>${esc(P.coverMedia.cap)}</figcaption></figure>`
       : `<figure class="pj-media pj-cover is-in" style="margin:var(--tgap) 0 0">${ph({ kind: 'image', ar: '16/9' }, true)}<figcaption>Image de couverture — à remplacer</figcaption></figure>`;
     if (P.cols.length) h += `<section class="pj-cols">${P.cols.map(([t, x]) => `<div class="pj-col ab-reveal"><h3>${esc(t)}</h3><p>${md(x)}</p></div>`).join('')}</section>`;
     if (P.stats.length) h += `<section class="pj-stats" style="--n:${P.stats.length}">${P.stats.map((st) => st.ph
@@ -3454,15 +3484,20 @@ a.vc__th{display:grid}
     const item = (m) => {
       if (m.library) return vlHTML(m);
       if (m.antenna) return antHTML(m);
+      if (m.scratch) return `<section class="sx ab-reveal" data-z="${esc(JSON.stringify(m.zones)).replace(/"/g, '&quot;')}"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div>
+        <div class="sx__body"><div class="sx__tk" style="aspect-ratio:${m.ar}"><img class="sx__base" src="${esc(m.base)}" alt="Le ticket « Le Rêve Américain », gratté" loading="lazy" decoding="async" draggable="false">${m.zones.map((z, i) => `<canvas class="sx__z${z.k === 'box' ? ' is-box' : ''}" data-i="${i}" style="left:${(z.x * 100).toFixed(3)}%;top:${(z.y * 100).toFixed(3)}%;width:${(z.w * 100).toFixed(3)}%;height:${(z.h * 100).toFixed(3)}%"></canvas>`).join('')}</div>
+        <div class="sx__side"><ol class="sx__steps"><li class="is-on"><b>1</b><span>Grattez les 3 étoiles</span></li><li><b>2</b><span>3 symboles identiques ? Grattez la case</span></li><li><b>3</b><span>Découvrez votre lot</span></li></ol>
+        <p class="sx__msg" aria-live="polite">Grattez avec la souris, ou le doigt.</p>
+        <div class="sx__btns"><button type="button" data-a="all">tout gratter</button><button type="button" data-a="new">nouveau ticket</button></div></div></div></section>`;
       if (m.script) return `<section class="sc ab-reveal"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div><ol class="sc__list">${m.lines.map((l, k) => `${k === m.turn - 1 ? '<li class="sc__turn" aria-hidden="true"><span>la version qu’on ne raconte pas</span></li>' : ''}<li class="sc__l${k < m.turn - 1 ? ' is-legend' : ''}" style="--k:${k}"><span class="sc__n">${pad2(k + 1)}</span><p>${esc(l)}</p></li>`).join('')}</ol></section>`;
-      if (m.text) return `<div class="pj-text ab-reveal ${m.cls}">${m.paras.map((x) => `<p>${md(x)}</p>`).join('')}</div>`;
+      if (m.text) return `<div class="pj-text ab-reveal ${m.cls}">${m.title ? `<h3 class="cr__h">${esc(m.title)}</h3>` : ''}${m.paras.map((x) => `<p>${md(x)}</p>`).join('')}</div>`;
       if (m.carousel) {
         const sl = (it, i, dup) => `<figure class="cr__slide" data-i="${i}" style="--ar:${arNum(it.ar).toFixed(4)}"${dup ? ' aria-hidden="true"' : ''}><div class="cr__img">${crMedia(it, i)}</div><figcaption class="rl"><b>${esc(it.t)}</b>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`;
         return `<div class="cr ab-reveal" data-cr><div class="cr__bar"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div><div class="cr__nav"><span class="cr__count" aria-live="polite"></span><button type="button" class="cr__btn" data-dir="-1" aria-label="slide précédente">←</button><button type="button" class="cr__btn" data-dir="1" aria-label="slide suivante">→</button></div></div><div class="cr__view" tabindex="0" aria-label="carrousels : glisser, ou flèches du clavier"><div class="cr__track">${m.items.map((it, i) => sl(it, i)).join('')}${m.items.map((it, i) => sl(it, i, true)).join('')}</div></div><div class="cr__prog" aria-hidden="true"><i></i></div></div>`;
       }
       if (m.row) {
         const its = m.items || Array.from({ length: m.n }, (_, i) => ({ t: `${m.cap} ${String(i + 1).padStart(2, '0')}`, s: 'à remplacer' }));
-        return `<div class="pj-row-wrap ${m.cls || ''}"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div><div class="pj-row${m.cols ? ' is-grid' : ''}${m.cls === 'is-stagger' ? ' is-stagger' : ''}" style="--n:${m.cols || its.length}${its.some((it) => it.ar) ? `;grid-template-columns:${its.map((it) => { const [a, b] = (it.ar || m.ar).split('/').map(Number); return `minmax(0,${(a / b).toFixed(3)}fr)`; }).join(' ')}` : ''}">${its.map((it) => `<figure class="pj-media">${ph({ ...m, ...it, kind: m.kind, ar: it.ar || m.ar })}<figcaption class="rl"><b>${esc(it.t)}</b><span class="rl__s">${esc(it.s)}</span>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`).join('')}</div></div>`;
+        return `<div class="pj-row-wrap ${m.cls || ''}">${m.title ? `<div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div>` : ''}<div class="pj-row${m.cols ? ' is-grid' : ''}${m.cls === 'is-stagger' ? ' is-stagger' : ''}" style="--n:${m.cols || its.length}${its.some((it) => it.ar) ? `;grid-template-columns:${its.map((it) => { const [a, b] = (it.ar || m.ar).split('/').map(Number); return `minmax(0,${(a / b).toFixed(3)}fr)`; }).join(' ')}` : ''}">${its.map((it) => `<figure class="pj-media">${ph({ ...m, ...it, kind: m.kind, ar: it.ar || m.ar })}<figcaption class="rl"><b>${esc(it.t)}</b><span class="rl__s">${esc(it.s)}</span>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`).join('')}</div></div>`;
       }
       return `<figure class="pj-media ${m.cls}">${ph(m)}<figcaption>${esc(m.cap)}</figcaption></figure>`;
     };
@@ -3485,6 +3520,7 @@ a.vc__th{display:grid}
     if (fxr) initRadio(fxr);
     const fxd = pjInner.querySelector('.pj-cover.fx-afp .dc');
     if (fxd) initDecl(fxd);
+    pjInner.querySelectorAll('.sx').forEach(initScratch);
     pjInner.querySelectorAll('.pj-cover [data-bw]').forEach((el) => initBw(el, P));
     pjInner.querySelectorAll('.pj-cover .vm').forEach(initVm);
     pjInner.querySelectorAll('.pj-cover .wl-box').forEach(initWall);
@@ -4191,6 +4227,84 @@ a.vc__th{display:grid}
     el.querySelector('.bw__new').addEventListener('click', () => sfx.play('error'));
     el.querySelector('.bw__view').addEventListener('pointerenter', () => { if (page.classList.contains('has-img')) sfx.play('swipe', 1); });
     show(0, false);
+  }
+
+  /* Sea Shepherd · le ticket à gratter : sous le ticket intact (découpé en zones), le ticket gratté.
+     On gratte à la souris ou au doigt ; la case ne se gratte qu'une fois les trois étoiles découvertes. */
+  function initScratch(sec) {
+    const zones = JSON.parse(sec.dataset.z), tk = sec.querySelector('.sx__tk'), cvs = [...sec.querySelectorAll('.sx__z')];
+    const steps = [...sec.querySelectorAll('.sx__steps li')], msg = sec.querySelector('.sx__msg');
+    const Z = zones.map((z, i) => ({ ...z, cv: cvs[i], g: cvs[i].getContext('2d', { willReadFrequently: true }), img: null, full: 1, done: false, dirty: false }));
+    let ready = false, starsN = 0, won = false, drag = null, sndT = 0, errT = 0, chkT = 0, auto = 0;
+    const say = (t) => { msg.textContent = t; };
+    const step = (n) => steps.forEach((li, i) => { li.classList.toggle('is-on', i === n); li.classList.toggle('is-ok', i < n); });
+    const count = (z) => {
+      try { const { width: w, height: h } = z.cv, d = z.g.getImageData(0, 0, w, h).data; let c = 0; for (let k = 3; k < d.length; k += 16) if (d[k] > 40) c++; return c; }
+      catch (e) { /* lecture impossible (page ouverte en local) : estimation d'après la surface grattée */ const need = (z.cv.width * z.cv.height) / (Math.PI * Math.pow(0.026 * z.cv.width / z.w * 1.4, 2)); return z.hits ? Math.max(0, z.full * (1 - z.hits / need)) : (z.full = 1e6); }
+    };
+    const setup = () => {
+      const r = tk.getBoundingClientRect(); if (!r.width) return false;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      Z.forEach((z) => {
+        z.cv.width = Math.max(8, Math.round(r.width * z.w * dpr)); z.cv.height = Math.max(8, Math.round(r.height * z.h * dpr));
+        z.g.globalCompositeOperation = 'source-over'; z.g.globalAlpha = 1; z.g.drawImage(z.img, 0, 0, z.cv.width, z.cv.height);
+        z.hits = 0; z.full = Math.max(1, count(z)); z.done = false; z.dirty = false; z.cv.classList.remove('is-gone');
+      });
+      starsN = 0; won = false; step(0); say('Grattez avec la souris, ou le doigt.'); ready = true; return true;
+    };
+    const finish = (z) => {
+      if (z.done) return; z.done = true; z.cv.classList.add('is-gone');
+      if (z.k === 'star') {
+        starsN++; sfx.play('paste', starsN + 1);
+        if (starsN === 3) { step(1); say('Trois dauphins identiques : c’est gagné ! Grattez la case pour découvrir votre lot.'); setTimeout(() => sfx.play('success'), 200); }
+        else say(`${starsN} étoile${starsN > 1 ? 's' : ''} sur 3…`);
+      } else { won = true; step(2); say('Votre lot : savoir ce que les États-Unis ont voté contre. Le seul gagnant, c’est la pêche industrielle.'); sfx.play('complete'); }
+    };
+    const check = () => Z.forEach((z) => { if (z.done || !z.dirty) return; z.dirty = false; if (count(z) / z.full < (z.k === 'box' ? 0.45 : 0.4)) finish(z); });
+    const pos = (e) => { const r = tk.getBoundingClientRect(); return { x: (e.clientX - r.left) / r.width, y: (e.clientY - r.top) / r.height }; };
+    const inBox = (p) => Z.some((z) => z.k === 'box' && p.x > z.x && p.x < z.x + z.w && p.y > z.y && p.y < z.y + z.h);
+    /* le grattage : trois traits irréguliers, comme une pièce qui gratte la pellicule */
+    const dab = (a, b) => {
+      Z.forEach((z) => {
+        if (z.done || (z.k === 'box' && starsN < 3)) return;
+        const kx = z.cv.width / z.w, ky = z.cv.height / z.h, R = 0.026 * kx;
+        const ax = (a.x - z.x) * kx, ay = (a.y - z.y) * ky, bx = (b.x - z.x) * kx, by = (b.y - z.y) * ky;
+        if (Math.max(ax, bx) < -R || Math.min(ax, bx) > z.cv.width + R || Math.max(ay, by) < -R || Math.min(ay, by) > z.cv.height + R) return;
+        const g = z.g; g.globalCompositeOperation = 'destination-out'; g.lineCap = 'round'; g.lineJoin = 'round';
+        for (let k = 0; k < 3; k++) {
+          const o = (k - 1) * R * 0.6, j = () => (Math.random() - 0.5) * R * 0.45;
+          g.globalAlpha = k === 1 ? 1 : 0.8; g.lineWidth = R * (k === 1 ? 1.15 : 0.75);
+          g.beginPath(); g.moveTo(ax + j(), ay + o + j()); g.lineTo(bx + j(), by + o + j()); g.stroke();
+        }
+        z.dirty = true; z.hits = (z.hits || 0) + Math.max(1, Math.hypot(bx - ax, by - ay) / R);
+      });
+    };
+    tk.addEventListener('pointerdown', (e) => {
+      if (!ready || auto || e.button) return;
+      if (e.pointerType !== 'mouse' && !e.target.classList.contains('sx__z')) return;
+      e.preventDefault(); drag = pos(e); tk.setPointerCapture(e.pointerId); dab(drag, drag);
+    });
+    tk.addEventListener('pointermove', (e) => {
+      if (!drag) return; const p = pos(e), n = performance.now();
+      if (starsN < 3 && inBox(p)) { if (n - errT > 1400) { errT = n; sfx.play('error'); say('Pas si vite : grattez d’abord les 3 étoiles.'); } }
+      dab(drag, p);
+      if (Math.hypot(p.x - drag.x, p.y - drag.y) > 0.004 && n - sndT > 70) { sndT = n; sfx.play('scratch'); }
+      drag = p;
+      if (n - chkT > 160) { chkT = n; check(); }
+    });
+    const up = () => { if (!drag) return; drag = null; check(); };
+    tk.addEventListener('pointerup', up); tk.addEventListener('pointercancel', up);
+    sec.querySelector('[data-a="new"]').addEventListener('click', () => { if (auto) return; setup(); sfx.play('reset'); });
+    sec.querySelector('[data-a="all"]').addEventListener('click', () => {
+      if (!ready || auto || won) return;
+      const todo = Z.filter((z) => !z.done).sort((a, b) => (a.k === 'box') - (b.k === 'box'));
+      todo.forEach((z, i) => setTimeout(() => { sfx.play('scratch'); finish(z); if (i === todo.length - 1) auto = 0; }, (auto = 1) && i * 420));
+    });
+    /* les images ne se chargent qu'à l'approche du ticket */
+    const load = () => Promise.all(Z.map((z) => new Promise((res) => { const im = new Image(); im.decoding = 'async'; im.onload = () => { z.img = im; res(); }; im.onerror = res; im.src = z.src; })))
+      .then(() => { if (!setup()) requestAnimationFrame(() => setup()); });
+    if ('IntersectionObserver' in window) { const io = new IntersectionObserver((en) => { if (en[0].isIntersecting) { io.disconnect(); load(); } }, { root: pj, rootMargin: '600px 0px' }); io.observe(sec); }
+    else load();
   }
 
   /* Défense d'afficher · le mur de colle : une pile d'affiches à arracher (glisser ou clic),
