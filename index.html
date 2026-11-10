@@ -85,7 +85,7 @@ a{color:inherit;text-decoration:none}
    puis le trait s'allonge, les lettres redescendent, le trait se rétracte : il reste le logo. */
 .av{display:inline-block;white-space:nowrap;font-weight:700;line-height:1;letter-spacing:-.045em;color:var(--fg)}
 .av__g{display:inline-block;width:.816em;height:.74em;margin:0 -.04em;overflow:visible;vertical-align:baseline}
-.av__gh{opacity:.15;transition:opacity .55s var(--ease-out)}
+.av__gh{opacity:0;transition:opacity .55s var(--ease-out)}
 .av__dot,.av__hl{transform-box:fill-box;transform-origin:50% 50%;transition:transform .5s var(--ease-io),opacity .35s}
 .av__rest{display:inline-block;max-width:0;clip-path:inset(-.35em -.06em 0 0);transition:max-width .7s var(--ease-io) .38s}
 .av__in{display:inline-block;padding-left:.015em}
@@ -1763,6 +1763,10 @@ a.vc__th{display:grid}
   const state = { entered: false, sound: true, mode: 'spiral', menu: false, view: 'home' };
   /* le logo réagit au défilement : la spirale lui envoie son mouvement (défini plus bas) */
   let logoFeed = () => {};
+  /* avant l'entrée, la spirale est invisible : on ne la dessine pas, pour que l'animation du nom reste fluide.
+     Une fois l'écran d'entrée posé, un seul rendu « à blanc » envoie les images à la carte graphique : l'entrée ne saccade pas. */
+  let gateReady = false, warmNow = false;
+  const warmSpiral = () => { if (gateReady && !state.entered) warmNow = true; };
 
   /* Son du site : tout est généré en direct (Web Audio), aucun fichier à charger.
      · une ambiance : une nappe lente sur quatre accords (ré, si mineur, sol, la), un souffle léger et quelques notes au hasard ;
@@ -2017,6 +2021,7 @@ a.vc__th{display:grid}
     if (ir > r) { sw = sh * r; sx = (im.naturalWidth - sw) / 2; } else { sh = sw / r; sy = (im.naturalHeight - sh) / 2; }
     g.drawImage(im, sx, sy, sw, sh, 0, 0, c.width, c.height);
     if (p.tex) p.tex.needsUpdate = true;
+    warmSpiral();
   }
   function cardType(p) {
     const c = p.canvas, g = c.getContext('2d'), w = c.width, h = c.height;
@@ -2062,9 +2067,9 @@ a.vc__th{display:grid}
   const webgl = !!renderer;
 
   /* Hélice verticale : les cartes tournent autour d'un axe presque vertical et montent / descendent au scroll, sans fin */
-  const PITCH = 0.42;
+  const PITCH = 0.56;
   /* Réglages : valeurs cibles (curseurs) et valeurs lissées (ce que la spirale affiche) */
-  const FX_DEF = { width: 1, twist: 0.7, speed: 1, warp: 1 };
+  const FX_DEF = { width: 1, twist: 0.86, speed: 1, warp: 1 };
   const fx = { ...FX_DEF }, fxC = { ...FX_DEF };
   const layout = { R: 2.75, cam: 7.6, tx: 0.04, oy: 0, s: 1 };
   let scene, camera, helix, cards = [], ray, ndc;
@@ -2233,7 +2238,7 @@ a.vc__th{display:grid}
     }
 
     /* Sur la page à propos, la spirale cesse d'être calculée une fois sortie de l'écran */
-    const asleep = state.view !== 'home' && modeT === 0 && modeA < 0.01;
+    const asleep = (!state.entered && !warmNow) || (state.view !== 'home' && modeT === 0 && modeA < 0.01);
     if (webgl && !asleep) {
       const idleOn = !reduce && state.entered && state.view === 'home' && state.mode === 'spiral' && !state.menu && !hovered && !drag && (now - lastInput > IDLE_DELAY);
       for (const k in fx) fxC[k] += (fx[k] - fxC[k]) * damp(0.06, dt);
@@ -2285,6 +2290,7 @@ a.vc__th{display:grid}
         c.mat.uniforms.uSat.value = smooth(0.2, 0.7, Math.cos(th));
       }
       renderer.render(scene, camera);
+      warmNow = false;
       /* Si la machine peine (plus de 22 ms par image en moyenne), on baisse la résolution du rendu */
       ftAvg += ((now - prevNow) - ftAvg) * 0.05;
       if (state.view === 'home' && ftAvg > 22 && now - lastAdapt > 2500 && dprMax > 0.75) {
@@ -2657,7 +2663,7 @@ a.vc__th{display:grid}
       x: "Retour à Paris pour les études supérieures, puis la vie professionnelle." }
   ];
   CLIPS.forEach((c) => { c.long = c.x; });
-  let ppm = 30, aboutT = 0, aboutC = 0, ownAbout = false, lastT = -1, aboutHideTimer = 0;
+  let ppm = 30, aboutT = 0, aboutC = 0, ownAbout = false, lastT = -1, aboutHideTimer = 0, lastKey = '';
   const clipEls = [];
   const tc = (m) => {
     const sec = Math.floor(m), fr = Math.floor((m - sec) * 25);
@@ -2711,12 +2717,13 @@ a.vc__th{display:grid}
         track.appendChild(sq);
       }
     });
-    lastT = -1;
+    lastT = -1; lastKey = ''; detail.style.minHeight = '';
   }
   buildTimeline();
   window.addEventListener('resize', buildTimeline);
 
   function renderDetail(t) {
+    if (t >= TL_END) detail.style.minHeight = `${Math.max(detail.offsetHeight, parseFloat(detail.style.minHeight) || 0)}px`;
     detail.innerHTML = '';
     if (t >= TL_END) {
       const card = document.createElement('article');
@@ -2816,7 +2823,6 @@ a.vc__th{display:grid}
   }
   about.addEventListener('click', (e) => { const b = e.target.closest('[data-pv]'); if (b) setPv(b.dataset.pv); });
 
-  let lastKey = '';
   function aboutTick(dt) {
     aboutC += (aboutT - aboutC) * damp(0.085, dt);
     if (Math.abs(aboutT - aboutC) > 0.2) { ownAbout = true; about.scrollTop = aboutC; }
@@ -5042,6 +5048,7 @@ a.vc__th{display:grid}
       if (finished) return; finished = true;
       nm.style.removeProperty('--ty');
       gate.classList.remove('is-intro'); gate.classList.add('is-small');
+      setTimeout(() => { gateReady = true; warmSpiral(); }, 1300);
     }
     function finish() {
       timers.forEach(clearTimeout);
@@ -5050,14 +5057,19 @@ a.vc__th{display:grid}
       done();
     }
     /* le récit : le logo, puis le nom qui se déplie, le trait qui s'allonge, et tout se replie */
+    const seq = () => {
+      later(() => { avMeasure(av); av.classList.add('is-open'); }, 650);
+      later(() => av.classList.add('is-long'), 1950);
+      later(() => av.classList.remove('is-open'), 2650);
+      later(() => av.classList.remove('is-long'), 3050);
+      later(done, 3700);
+    };
     if (reduce) finish();
     else {
-      later(() => { avMeasure(av); av.classList.add('is-open'); }, 850);
-      later(() => av.classList.add('is-long'), 2150);
-      later(() => av.classList.remove('is-open'), 2850);
-      later(() => av.classList.remove('is-long'), 3250);
-      later(done, 3900);
-      later(() => { if (!finished) finish(); }, 7000);
+      let go = false; const start = () => { if (go || finished) return; go = true; seq(); };
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(start);
+      setTimeout(start, 1500);
+      setTimeout(() => { if (!finished) finish(); }, 8000);
     }
     gate.addEventListener('click', () => { if (gate.classList.contains('is-intro')) finish(); });
     /* une fois posé, le logo de l'écran d'entrée se déplie au survol */
