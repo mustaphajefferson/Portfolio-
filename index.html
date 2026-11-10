@@ -87,16 +87,15 @@ a{color:inherit;text-decoration:none}
 .av__g{display:inline-block;width:.816em;height:.74em;margin:0 -.04em;overflow:visible;vertical-align:baseline}
 .av__gh{opacity:0;transition:opacity .4s var(--ease-out)}
 .av__dot,.av__hl{transform-box:fill-box;transform-origin:50% 50%;transition:transform .4s var(--ease-io),opacity .3s}
-.av__rest{display:inline-block;max-width:0;clip-path:inset(-.35em -.06em 0 0);transition:max-width .48s var(--ease-io) .2s}
+.av__rest{display:inline-block;max-width:0;clip-path:inset(-.35em -.06em 0 0);transition:max-width .4s var(--ease-io) .1s}
 .av__in{display:inline-block;padding-left:.015em}
-.av__l{display:inline-block;transform:translateY(108%);transition:transform .32s cubic-bezier(.5,0,.75,0);transition-delay:calc(var(--j) * 16ms)}
-.av__dash{display:inline-block;width:var(--dl,0px);height:max(2px,.07em);margin:0 var(--dm,0px);vertical-align:.3em;background:currentColor;transition:width .42s var(--ease-io) .3s,margin .42s var(--ease-io) .3s}
+.av__l{display:inline-block;transform:translateY(108%);transition:transform .3s cubic-bezier(.5,0,.75,0);transition-delay:calc(var(--j) * 15ms)}
+.av__dash{display:inline-block;width:var(--dl,0px);height:max(2px,.07em);margin:0 var(--dm,0px);vertical-align:.3em;background:currentColor;transition:width .4s var(--ease-io),margin .4s var(--ease-io)}
 .av.is-bar{--dl:.6em;--dm:.19em}
-.av.is-bar .av__dash{transition-delay:0s}
 .av.is-open .av__gh{opacity:1}
 .av.is-open .av__dot,.av.is-open .av__hl{transform:scale(0);opacity:0}
-.av.is-open .av__rest{max-width:var(--rw,4em);transition:max-width .48s var(--ease-io)}
-.av.is-open .av__l{transform:none;transition:transform .42s cubic-bezier(.2,.75,.2,1);transition-delay:calc(.1s + var(--j) * 26ms)}
+.av.is-open .av__rest{max-width:var(--rw,4em);transition:max-width .45s var(--ease-io)}
+.av.is-open .av__l{transform:none;transition:transform .4s cubic-bezier(.2,.75,.2,1);transition-delay:calc(.06s + var(--j) * 25ms)}
 .av.is-now,.av.is-now *{transition:none!important}
 /* l'écran d'entrée */
 .nm{margin:0;font-size:clamp(36px,min(8.4vw,14vh),136px);transform:translate3d(0,var(--ty,0px),0) scale(var(--nk,1));transition:transform 1.1s var(--ease-io)}
@@ -5059,10 +5058,12 @@ a.vc__th{display:grid}
     }
     /* le récit : le logo, puis le nom qui se déplie, le trait qui s'allonge, et tout se replie */
     const seq = () => {
-      later(() => av.classList.add('is-bar'), 250);
-      later(() => { avMeasure(av); av.classList.add('is-open'); }, 560);
-      later(() => av.classList.remove('is-open', 'is-bar'), 1650);
-      later(done, 2350);
+      /* même pause (0,3 s) entre chaque étape : le trait s'étend, le nom monte, le nom redescend, le trait se réduit */
+      later(() => av.classList.add('is-bar'), 450);
+      later(() => { avMeasure(av); av.classList.add('is-open'); }, 1150);
+      later(() => av.classList.remove('is-open'), 2000);
+      later(() => av.classList.remove('is-bar'), 2800);
+      later(done, 3350);
     };
     if (reduce) finish();
     else {
@@ -5073,12 +5074,15 @@ a.vc__th{display:grid}
     }
     gate.addEventListener('click', () => { if (gate.classList.contains('is-intro')) finish(); });
     /* une fois posé, le logo de l'écran d'entrée se déplie au survol */
-    av.addEventListener('pointerenter', () => { if (finished && !state.entered) { avMeasure(av); av.classList.add('is-bar', 'is-open'); } });
-    av.addEventListener('pointerleave', () => { if (finished) av.classList.remove('is-open', 'is-bar'); });
+    /* au survol, même ordre : le trait, puis le nom ; en sortant, le nom redescend, puis le trait se réduit */
+    const avOpen = (el) => { clearTimeout(el._t); avMeasure(el); el.classList.add('is-bar'); el._t = setTimeout(() => el.classList.add('is-open'), 260); };
+    const avClose = (el) => { clearTimeout(el._t); el.classList.remove('is-open'); el._t = setTimeout(() => el.classList.remove('is-bar'), el.classList.contains('is-bar') ? 480 : 0); };
+    av.addEventListener('pointerenter', () => { if (finished && !state.entered) avOpen(av); });
+    av.addEventListener('pointerleave', () => { if (finished) avClose(av); });
 
     /* le logo en haut à gauche : il se déplie au survol, et son trait s'étire quand on fait défiler */
-    logo.addEventListener('pointerenter', () => { avMeasure(lav); lav.classList.add('is-bar', 'is-open'); sfx.play('hover'); });
-    logo.addEventListener('pointerleave', () => lav.classList.remove('is-open', 'is-bar'));
+    logo.addEventListener('pointerenter', () => { avOpen(lav); sfx.play('hover'); });
+    logo.addEventListener('pointerleave', () => avClose(lav));
     let sep = 0, raf = 0;
     const step = () => {
       raf = 0; sep *= 0.9;
@@ -5094,7 +5098,7 @@ a.vc__th{display:grid}
 
     /* à l'entrée : « A — V » file en haut à gauche et devient le logo */
     const leave = (cb) => {
-      av.classList.add('is-now'); av.classList.remove('is-open', 'is-bar');
+      clearTimeout(av._t); av.classList.add('is-now'); av.classList.remove('is-open', 'is-bar');
       const a = av.getBoundingClientRect(), b = lav.getBoundingClientRect(), k = b.height / a.height;
       const fly = av.animate([{ transform: 'none' }, { transform: `translate(${(b.left - a.left - (a.width * (1 - k)) / 2).toFixed(1)}px, ${(b.top - a.top - (a.height * (1 - k)) / 2).toFixed(1)}px) scale(${k.toFixed(4)})` }],
         { duration: reduce ? 1 : 950, easing: 'cubic-bezier(.7,0,.2,1)', fill: 'forwards' });
