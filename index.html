@@ -85,24 +85,25 @@ a{color:inherit;text-decoration:none}
    puis le trait s'allonge, les lettres redescendent, le trait se rétracte : il reste le logo. */
 .av{display:inline-block;white-space:nowrap;font-weight:700;line-height:1;letter-spacing:-.045em;color:var(--fg)}
 .av__g{display:inline-block;width:.816em;height:.74em;margin:0 -.04em;overflow:visible;vertical-align:baseline}
-.av__gh{opacity:0;transition:opacity .55s var(--ease-out)}
-.av__dot,.av__hl{transform-box:fill-box;transform-origin:50% 50%;transition:transform .5s var(--ease-io),opacity .35s}
-.av__rest{display:inline-block;max-width:0;clip-path:inset(-.35em -.06em 0 0);transition:max-width .7s var(--ease-io) .38s}
+.av__gh{opacity:0;transition:opacity .4s var(--ease-out)}
+.av__dot,.av__hl{transform-box:fill-box;transform-origin:50% 50%;transition:transform .4s var(--ease-io),opacity .3s}
+.av__rest{display:inline-block;max-width:0;clip-path:inset(-.35em -.06em 0 0);transition:max-width .48s var(--ease-io) .2s}
 .av__in{display:inline-block;padding-left:.015em}
-.av__l{display:inline-block;transform:translateY(108%);transition:transform .5s cubic-bezier(.5,0,.75,0);transition-delay:calc(var(--j) * 24ms)}
-.av__dash{display:inline-block;width:var(--dl,.6em);height:max(2px,.07em);margin:0 .19em;vertical-align:.3em;background:currentColor;transition:width .75s var(--ease-io)}
+.av__l{display:inline-block;transform:translateY(108%);transition:transform .32s cubic-bezier(.5,0,.75,0);transition-delay:calc(var(--j) * 16ms)}
+.av__dash{display:inline-block;width:var(--dl,0px);height:max(2px,.07em);margin:0 var(--dm,0px);vertical-align:.3em;background:currentColor;transition:width .42s var(--ease-io) .3s,margin .42s var(--ease-io) .3s}
+.av.is-bar{--dl:.6em;--dm:.19em}
+.av.is-bar .av__dash{transition-delay:0s}
 .av.is-open .av__gh{opacity:1}
 .av.is-open .av__dot,.av.is-open .av__hl{transform:scale(0);opacity:0}
-.av.is-open .av__rest{max-width:var(--rw,4em);transition:max-width .75s var(--ease-io)}
-.av.is-open .av__l{transform:none;transition:transform .62s cubic-bezier(.2,.75,.2,1);transition-delay:calc(.16s + var(--j) * 38ms)}
-.av.is-long{--dl:2.3em}
+.av.is-open .av__rest{max-width:var(--rw,4em);transition:max-width .48s var(--ease-io)}
+.av.is-open .av__l{transform:none;transition:transform .42s cubic-bezier(.2,.75,.2,1);transition-delay:calc(.1s + var(--j) * 26ms)}
 .av.is-now,.av.is-now *{transition:none!important}
 /* l'écran d'entrée */
 .nm{margin:0;font-size:clamp(36px,min(8.4vw,14vh),136px);transform:translate3d(0,var(--ty,0px),0) scale(var(--nk,1));transition:transform 1.1s var(--ease-io)}
-.nm .av{animation:avIn .9s var(--ease-out) backwards .1s}
+.nm .av{animation:avIn .6s var(--ease-out) backwards .05s}
 @keyframes avIn{from{opacity:0;transform:translateY(.25em);filter:blur(10px)}}
 .gate.is-small .nm{--ty:0px}
-@media (max-width:640px){.nm{font-size:10vw}.nm .av.is-long{--dl:1.1em}.gate.is-small .nm{--nk:1.5;margin:12px 0}}
+@media (max-width:640px){.nm{font-size:10vw}.gate.is-small .nm{--nk:1.5;margin:12px 0}}
 .gate.is-small .nm .av{cursor:default}
 .gate.is-intro > :not(.nm){visibility:hidden;animation:none}
 .gate.is-intro{cursor:pointer}
@@ -110,10 +111,10 @@ a{color:inherit;text-decoration:none}
 /* Le logo, en haut à gauche : se déplie au survol, son trait s'étire quand on fait défiler */
 .lg{position:fixed;top:var(--top);left:var(--left);z-index:5;display:flex;align-items:center;height:44px;font-size:30px;color:var(--fg);text-decoration:none;opacity:0;pointer-events:none}
 .lg.is-on{opacity:1;pointer-events:auto}
-.lg .av{--dl:calc(.6em + var(--sep,0px))}
-.lg .av.is-long{--dl:calc(1.4em + var(--sep,0px))}
-.lg .av__dash{transition:width .75s var(--ease-io)}
+.lg .av{--dl:var(--sep,0px);--dm:min(.19em,calc(var(--sep,0px) * .35))}
+.lg .av.is-bar{--dl:calc(.6em + var(--sep,0px));--dm:.19em}
 .lg.is-scroll .av__dash{transition:none}
+.lg .av__dash{vertical-align:.3em}
 /* Indication de défilement sur la spirale (disparaît dès qu'on a fait défiler une fois) */
 .hint{position:fixed;left:50%;bottom:calc(var(--bottom) + 6px);z-index:5;translate:-50% 8px;display:flex;align-items:center;gap:10px;margin:0;font-size:13px;font-weight:500;letter-spacing:-.005em;opacity:0;pointer-events:none;transition:opacity .6s var(--ease-out),translate .6s var(--ease-out)}
 .hint.is-on{opacity:1;translate:-50% 0}
@@ -5052,17 +5053,16 @@ a.vc__th{display:grid}
     }
     function finish() {
       timers.forEach(clearTimeout);
-      av.classList.add('is-now'); av.classList.remove('is-open', 'is-long'); void av.offsetWidth;
+      av.classList.add('is-now'); av.classList.remove('is-open', 'is-bar'); void av.offsetWidth;
       requestAnimationFrame(() => av.classList.remove('is-now'));
       done();
     }
     /* le récit : le logo, puis le nom qui se déplie, le trait qui s'allonge, et tout se replie */
     const seq = () => {
-      later(() => { avMeasure(av); av.classList.add('is-open'); }, 650);
-      later(() => av.classList.add('is-long'), 1950);
-      later(() => av.classList.remove('is-open'), 2650);
-      later(() => av.classList.remove('is-long'), 3050);
-      later(done, 3700);
+      later(() => av.classList.add('is-bar'), 250);
+      later(() => { avMeasure(av); av.classList.add('is-open'); }, 560);
+      later(() => av.classList.remove('is-open', 'is-bar'), 1650);
+      later(done, 2350);
     };
     if (reduce) finish();
     else {
@@ -5073,12 +5073,12 @@ a.vc__th{display:grid}
     }
     gate.addEventListener('click', () => { if (gate.classList.contains('is-intro')) finish(); });
     /* une fois posé, le logo de l'écran d'entrée se déplie au survol */
-    av.addEventListener('pointerenter', () => { if (finished && !state.entered) av.classList.add('is-open'); });
-    av.addEventListener('pointerleave', () => { if (finished) av.classList.remove('is-open'); });
+    av.addEventListener('pointerenter', () => { if (finished && !state.entered) { avMeasure(av); av.classList.add('is-bar', 'is-open'); } });
+    av.addEventListener('pointerleave', () => { if (finished) av.classList.remove('is-open', 'is-bar'); });
 
     /* le logo en haut à gauche : il se déplie au survol, et son trait s'étire quand on fait défiler */
-    logo.addEventListener('pointerenter', () => { avMeasure(lav); lav.classList.add('is-open'); sfx.play('hover'); });
-    logo.addEventListener('pointerleave', () => lav.classList.remove('is-open'));
+    logo.addEventListener('pointerenter', () => { avMeasure(lav); lav.classList.add('is-bar', 'is-open'); sfx.play('hover'); });
+    logo.addEventListener('pointerleave', () => lav.classList.remove('is-open', 'is-bar'));
     let sep = 0, raf = 0;
     const step = () => {
       raf = 0; sep *= 0.9;
@@ -5094,7 +5094,7 @@ a.vc__th{display:grid}
 
     /* à l'entrée : « A — V » file en haut à gauche et devient le logo */
     const leave = (cb) => {
-      av.classList.remove('is-open');
+      av.classList.add('is-now'); av.classList.remove('is-open', 'is-bar');
       const a = av.getBoundingClientRect(), b = lav.getBoundingClientRect(), k = b.height / a.height;
       const fly = av.animate([{ transform: 'none' }, { transform: `translate(${(b.left - a.left - (a.width * (1 - k)) / 2).toFixed(1)}px, ${(b.top - a.top - (a.height * (1 - k)) / 2).toFixed(1)}px) scale(${k.toFixed(4)})` }],
         { duration: reduce ? 1 : 950, easing: 'cubic-bezier(.7,0,.2,1)', fill: 'forwards' });
