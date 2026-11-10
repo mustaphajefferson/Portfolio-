@@ -62,17 +62,29 @@ a{color:inherit;text-decoration:none}
   box-shadow:inset -6px -10px 18px rgba(0,0,0,.55),inset 4px 6px 12px rgba(255,255,255,.22),0 12px 30px var(--shadow)}
 .orb__body::after{content:"";position:absolute;inset:-35%;background:conic-gradient(from 0deg,rgba(255,80,160,0),rgba(255,80,160,.4),rgba(80,200,255,.4),rgba(170,255,120,.35),rgba(255,80,160,0));mix-blend-mode:overlay;filter:blur(8px);animation:spin 7s linear infinite}
 .orb--gate .orb__body{animation:float 5s ease-in-out infinite}
-/* Écran d'entrée : l'encre vivante, en grand pendant l'intro puis à sa place au-dessus du bouton */
-.seal{position:relative;width:clamp(200px,min(30vw,34vh),300px);aspect-ratio:1;display:block}
-.gate > .seal{animation:none}
-.seal__cv{position:absolute;left:50%;top:50%;width:var(--big,300px);height:var(--big,300px);margin:calc(var(--big,300px) / -2) 0 0 calc(var(--big,300px) / -2);transform:translate3d(0,var(--dy,0px),0);transition:transform 1.05s var(--ease-io);display:block}
-.gate.is-small .seal__cv{transform:translate3d(0,0,0) scale(var(--k,1))}
-.gate.is-intro > :not(.seal){visibility:hidden;animation:none}
+/* Écran d'entrée · « le montage dans les lettres » : le nom en très grand, des images de projets qui défilent à l'intérieur des lettres,
+   puis le nom se pose et le bouton apparaît. À l'entrée, le A et le V s'envolent et deviennent le logo. */
+.gx{margin:0;font-size:clamp(64px,min(13vw,17vh),200px);font-weight:700;line-height:.84;letter-spacing:-.065em;color:var(--fg);user-select:none;-webkit-user-select:none}
+.gx__in{position:relative;display:flex;flex-direction:column;align-items:center;transform:translate3d(var(--tx,0px),var(--ty,0px),0) scale(var(--k,1));transform-origin:50% 50%;transition:transform 1.15s var(--ease-io)}
+.gate.is-small .gx__in{transform:none}
+.gx__w{display:flex;white-space:nowrap}
+.gx__l{display:inline-block;padding:.14em .1em .1em;margin:-.14em -.1em -.1em;color:var(--fg);background-image:var(--img,none);background-repeat:no-repeat;background-size:var(--bw,100%) var(--bh,100%);background-position:calc(var(--bx,0px) - var(--lx,0px)) calc(var(--by,0px) - var(--ly,0px));-webkit-background-clip:text;background-clip:text;transition:color .28s;animation:gxIn .8s var(--ease-out) backwards;animation-delay:calc(.08s + var(--i) * 42ms)}
+@keyframes gxIn{from{opacity:0;transform:translateY(.35em) scaleY(1.25);filter:blur(10px)}}
+.gx.is-cut .gx__l,.gx__l.is-hot{color:transparent;transition:none}
+.gx.is-ink .gx__l{transition:color .32s calc(var(--i) * 34ms)}
+.gate.is-small .gx__l{cursor:crosshair}
+.gx__tc{position:absolute;left:50%;bottom:calc(30px + env(safe-area-inset-bottom,0px));translate:-50% 0;margin:0;display:flex;gap:14px;font-size:12px;font-weight:500;letter-spacing:.04em;font-variant-numeric:tabular-nums;color:var(--dim);transition:opacity .5s}
+.gx__tc i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#e2402b;align-self:center;animation:recBlink 1s steps(2) infinite}
+@keyframes recBlink{50%{opacity:0}}
+.gate.is-small .gx__tc{opacity:0}
+.gate.is-intro > :not(.gx):not(.gx__tc){visibility:hidden;animation:none}
 .gate.is-intro{cursor:pointer}
-.orb--logo{position:fixed;top:var(--top);left:var(--left);width:60px;z-index:5;opacity:0;pointer-events:none;transition:scale .5s var(--ease-out);border-radius:0}
-.logo__cv{display:block;width:100%;height:100%}
-.orb--logo.is-on{opacity:1;pointer-events:auto}
-.orb--logo:hover{scale:1.08}
+.gate > .gx{animation:none}
+/* Le logo : le A et le V, qui montrent eux aussi des images au survol */
+.lg{position:fixed;top:calc(var(--top) + 2px);left:var(--left);z-index:5;display:flex;align-items:flex-end;height:52px;font-size:46px;font-weight:700;line-height:.84;letter-spacing:-.065em;color:var(--fg);opacity:0;pointer-events:none;text-decoration:none}
+.lg.is-on{opacity:1;pointer-events:auto}
+.lg .gx__l{animation:none}
+.lg:hover .gx__l{color:transparent;transition:none}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
@@ -147,7 +159,9 @@ a{color:inherit;text-decoration:none}
 @keyframes eq{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
 .sound.is-muted .bars i{animation:none;transform:scaleY(.16)}
 
-.reel{position:fixed;left:var(--left);bottom:var(--bottom);z-index:5;width:132px;aspect-ratio:1}
+/* Le showreel dépasse à peine du coin, à moitié caché sous le bord de l'écran ; il sort au survol */
+.reel{position:fixed;left:calc(var(--left) - 34px);bottom:-50px;z-index:5;width:150px;aspect-ratio:1;rotate:14deg;transition:transform .7s var(--ease-out),rotate .7s var(--ease-out)}
+.reel:hover,.reel:focus-visible{transform:translate(30px,-52px);rotate:0deg}
 .reel__ring{position:absolute;inset:0;width:100%;height:100%;animation:spin 18s linear infinite;overflow:visible}
 /* hors de l'accueil, le showreel est caché : ses rotations s'arrêtent */
 body.view-about .reel__ring,body.view-project .reel__ring,body.view-about .reel__thumb::before,body.view-project .reel__thumb::before{animation-play-state:paused}
@@ -901,7 +915,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
   .dc{--wh:220px}
 }
 
-/* Amuse-bouche : la machine à formats courts, en aperçu comme une story */
+/* Encore un ? : la machine à formats courts, en aperçu comme une story */
 .vm{position:relative;border-radius:18px;background:var(--coal);color:var(--cream);padding:clamp(12px,1.4vw,18px);display:flex;flex-direction:column;gap:12px}
 .vm__head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:0 4px}
 .vm__brand{font-size:clamp(18px,2vw,26px);font-weight:600;letter-spacing:-.03em;line-height:1}
@@ -1025,6 +1039,118 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .ct__send[disabled]{opacity:.5}
 .ab-foot__row .ab-write{font-size:15px;font-weight:500;text-decoration:underline;text-underline-offset:4px}
 
+/* Le marque-page dans son carnet */
+.bm{grid-column:1 / -1;display:flex;flex-direction:column;gap:18px;padding:clamp(18px,2.4vw,30px);margin-inline:calc(clamp(18px,2.4vw,30px) * -1);border-radius:18px;transition:background-color .12s,color .12s}
+.bm.is-dark{background:var(--coal);color:var(--cream)}
+.bm.is-dark .sec-intro,.bm.is-dark .cr__h{color:var(--cream)}
+.bm.is-dark .wl__zoom{border-color:rgba(248,243,227,.4)}
+.bm.is-dark .wl__zoom:hover{background:var(--cream);color:var(--coal)}
+.bm__stage{position:relative;height:clamp(460px,68svh,660px);border-radius:12px;overflow:hidden;outline:none;cursor:pointer;user-select:none;-webkit-user-select:none;touch-action:pan-y;
+  background:radial-gradient(ellipse at 50% 40%,rgba(37,36,34,.035),rgba(37,36,34,.09));transition:background .12s}
+.bm__stage:focus-visible{box-shadow:0 0 0 2px var(--coal)}
+.bm.is-dark .bm__stage{background:radial-gradient(ellipse at 50% 40%,#3a3835,#141312)}
+.bm__pages,.bm__cover{position:absolute;left:var(--bl);top:var(--bt);width:var(--bw);height:var(--bh);transition:transform 1.1s var(--ease-io),opacity .6s}
+.bm__pages{z-index:1;border-radius:2px 6px 6px 2px;background:#f4efe1;box-shadow:inset 6px 0 10px -6px rgba(0,0,0,.35),0 18px 34px -14px rgba(37,36,34,.55),3px 3px 0 #e6dfcc,5px 5px 0 #d9d1bc}
+.bm__ln{position:absolute;inset:12% 12% 12% 14%;background:repeating-linear-gradient(transparent 0 13px,rgba(37,36,34,.12) 13px 14px)}
+.bm__cover{z-index:3;transform-origin:0 50%;transform-style:preserve-3d;cursor:pointer}
+.bm__front,.bm__inside{position:absolute;inset:0;border-radius:2px 7px 7px 2px;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.bm__front{background:linear-gradient(90deg,#1b1a19 0 7%,#2b2a28 9% 100%);color:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:14%;box-shadow:0 22px 40px -16px rgba(0,0,0,.6);font-family:Georgia,"Times New Roman",serif}
+.bm__front::after{content:"";position:absolute;inset:7% 8% 7% 12%;border:1px solid rgba(248,243,227,.4);border-radius:2px;pointer-events:none}
+.bm__k{font-family:var(--sans);font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;opacity:.7}
+.bm__t{font-size:clamp(17px,calc(var(--bw) * .1),26px);font-style:italic;line-height:1.05}
+.bm__s{font-size:11px;font-style:italic;opacity:.8}
+.bm__y{font-family:var(--sans);font-size:9px;letter-spacing:.2em;text-transform:uppercase;opacity:.55;margin-top:6px}
+.bm__inside{background:#e6dcc4;transform:rotateY(180deg);box-shadow:inset -10px 0 14px -8px rgba(0,0,0,.35),0 18px 34px -14px rgba(37,36,34,.5);display:flex;align-items:center;justify-content:center}
+.bm__inside::after{content:"ex-libris";font-family:Georgia,"Times New Roman",serif;font-style:italic;font-size:15px;color:rgba(37,36,34,.45);border:1px solid rgba(37,36,34,.25);padding:10px 14px;border-radius:50%}
+.bm__mk{position:absolute;z-index:2;left:var(--ml);top:var(--mt);width:var(--mw);height:var(--mh);transform-style:preserve-3d;transition:transform 1s var(--ease-io),filter .4s;cursor:grab}
+.bm__face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 1px 2px rgba(0,0,0,.25),0 14px 28px -10px rgba(0,0,0,.45);background:#fff}
+.bm__face img{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.bm__face--v{transform:rotateY(180deg)}
+.bm__cord{position:absolute;left:50%;bottom:calc(100% - var(--mw) * .3);width:calc(var(--mw) * .62);translate:-50% 0;overflow:visible;pointer-events:none;transform-origin:50% 100%;animation:bmSway 3.2s ease-in-out infinite}
+@keyframes bmSway{0%,100%{rotate:-4deg}50%{rotate:5deg}}
+.bm__stage[data-st="0"] .bm__mk{animation:bmPeek 2.6s ease-in-out infinite}
+@keyframes bmPeek{0%,100%{translate:0 0}50%{translate:0 -5px}}
+.bm__stage[data-st="1"] .bm__pages{transform:translateX(var(--sh))}
+.bm__stage[data-st="1"] .bm__cover{transform:translateX(var(--sh)) perspective(1800px) rotateY(-178deg)}
+.bm__stage[data-st="1"] .bm__mk{transform:translateX(var(--sh))}
+.bm__stage[data-st="1"] .bm__mk:hover{transform:translateX(var(--sh)) translateY(-10px)}
+.bm__stage[data-st="2"] .bm__pages,.bm__stage[data-st="3"] .bm__pages{transform:translateX(var(--sh)) translateY(40%) scale(.9);opacity:0}
+.bm__stage[data-st="2"] .bm__cover,.bm__stage[data-st="3"] .bm__cover{transform:translateX(var(--sh)) translateY(40%) scale(.9) perspective(1800px) rotateY(-178deg);opacity:0}
+.bm__stage[data-st="2"] .bm__mk{z-index:4;transform:translate(var(--ox),var(--oy)) scale(var(--ms))}
+.bm__stage[data-st="3"] .bm__mk{z-index:4;transform:translate(var(--ox),var(--oy)) scale(var(--ms)) perspective(1600px) rotateY(180deg)}
+.bm__stage[data-st="2"] .bm__mk,.bm__stage[data-st="3"] .bm__mk{cursor:pointer}
+.bm__stage.is-hit .bm__flash{animation:bmFlash .45s ease-out}
+.bm__flash{position:absolute;inset:0;z-index:6;background:#fff;opacity:0;pointer-events:none}
+@keyframes bmFlash{0%{opacity:.85}100%{opacity:0}}
+.bm__stage.is-hit{animation:bmShake .38s steps(2)}
+@keyframes bmShake{0%{transform:translate(0,0)}20%{transform:translate(-6px,2px)}40%{transform:translate(5px,-3px)}60%{transform:translate(-3px,3px)}80%{transform:translate(3px,-1px)}100%{transform:none}}
+.bm__hint{position:absolute;left:0;right:0;bottom:14px;z-index:5;margin:0;text-align:center;font-size:13px;font-weight:500;opacity:.75;pointer-events:none}
+.bm__ctl{display:flex;gap:10px;flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){.bm__pages,.bm__cover,.bm__mk{transition-duration:.01s}.bm__cord,.bm__stage[data-st="0"] .bm__mk{animation:none}.bm__stage.is-hit{animation:none}}
+
+/* Le banc de montage */
+.mo{grid-column:1 / -1;display:flex;flex-direction:column;gap:18px}
+.mo__body{width:min(100%,calc((100svh - 250px) * 1.7778 + 0px));min-width:min(100%,640px);margin-inline:auto;display:flex;flex-direction:column;gap:12px}
+.mo__screen{position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#111;cursor:zoom-in}
+.mo__img{display:block;width:100%;height:100%;object-fit:cover}
+.mo__screen.is-cut .mo__img{animation:moCut .16s steps(2)}
+@keyframes moCut{0%{filter:brightness(2.2) contrast(1.4)}100%{filter:none}}
+.mo__tc,.mo__cap{position:absolute;z-index:2;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.6);pointer-events:none}
+.mo__tc{top:12px;right:14px;display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;letter-spacing:.06em;font-variant-numeric:tabular-nums}
+.mo__tc i{width:7px;height:7px;border-radius:50%;background:#e2402b;animation:recBlink 1s steps(2) infinite}
+.mo__cap{left:14px;bottom:12px;display:flex;flex-direction:column;gap:2px}
+.mo__cap b{font-size:15px;font-weight:600}
+.mo__cap small{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
+.mo__tl{display:flex;flex-direction:column;gap:6px}
+.mo__gs{display:flex;gap:6px}
+.mo__gs span{font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:4px;background:var(--line);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mo__clips{position:relative;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px;padding:6px 0;border-top:1px solid var(--line-strong);border-bottom:1px solid var(--line-strong)}
+.mo__clip{display:block;padding:0;border:0;aspect-ratio:16/9;border-radius:4px;overflow:hidden;background:var(--line);cursor:pointer;opacity:.55;transition:opacity .3s,transform .3s var(--ease-out);outline-offset:2px}
+.mo__clip img{display:block;width:100%;height:100%;object-fit:cover}
+.mo__clip:hover{opacity:.9;transform:translateY(-2px)}
+.mo__clip[aria-selected="true"]{opacity:1}
+.mo__ph{position:absolute;top:-6px;bottom:-6px;width:2px;margin-left:-1px;background:#e2402b;pointer-events:none}
+.mo__ph::before{content:"";position:absolute;top:0;left:50%;width:10px;height:8px;translate:-50% 0;background:#e2402b;clip-path:polygon(0 0,100% 0,50% 100%)}
+.mo__ctl{display:flex;justify-content:center;gap:10px}
+@media (max-width:640px){.mo__body{min-width:0}.mo__gs span{font-size:9.5px;padding:2px 5px}}
+
+/* Le filtre riso */
+.bk.is-riso .bk__stage{display:none}
+.rz{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:clamp(18px,3vw,40px);align-items:center;padding:clamp(18px,3vw,36px) 0}
+.rz[hidden]{display:none}
+.rz__view{perspective:1700px;display:flex;justify-content:center}
+.rz__spread{display:flex;width:min(100%,calc((100svh - 320px) * .7048 * var(--n,2)));transition:transform 1.1s var(--ease-io);transform-origin:50% 55%}
+.rz__spread[data-step="1"]{transform-style:preserve-3d;transform:translateY(-4%) rotateX(56deg) rotateZ(-24deg) scale(.66)}
+.rz__pg{position:relative;flex:1;aspect-ratio:900/1277}
+.rz__spread[data-step="1"] .rz__pg{transform-style:preserve-3d}
+.rz__paper{position:absolute;inset:0;background:#fcfcfa;box-shadow:0 14px 30px -12px rgba(37,36,34,.45)}
+.rz__pg + .rz__pg .rz__paper{box-shadow:0 14px 30px -12px rgba(37,36,34,.45),inset 8px 0 10px -8px rgba(0,0,0,.18)}
+.rz__b,.rz__p{position:absolute;inset:0;width:100%;height:100%;display:block;transition:transform 1.1s var(--ease-io),opacity .45s,filter .45s}
+.rz__spread[data-step="1"] .rz__b{transform:translateZ(80px)}
+.rz__spread[data-step="1"] .rz__p{transform:translateZ(160px)}
+.rz__spread[data-step="2"] .rz__b{filter:brightness(0)}
+.rz__spread[data-step="2"] .rz__p,.rz__spread[data-step="3"] .rz__b,.rz__spread[data-step="4"] .rz__p{opacity:0}
+.rz__spread[data-step="3"] .rz__p{filter:brightness(0)}
+.rz__spread[data-step="4"] .rz__b{animation:rzPass 1.1s cubic-bezier(.5,0,.3,1) backwards}
+.rz__spread[data-step="5"] .rz__p{mix-blend-mode:multiply;animation:rzPass 1.1s cubic-bezier(.5,0,.3,1) backwards}
+@keyframes rzPass{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+.rz__tag{position:absolute;right:-6px;top:6%;z-index:2;font-size:11px;font-weight:600;letter-spacing:.04em;padding:3px 8px;border-radius:999px;background:var(--coal);color:var(--cream);white-space:nowrap;opacity:0;transition:opacity .4s,transform 1.1s var(--ease-io);pointer-events:none;translate:100% 0}
+.rz__spread[data-step="1"] .rz__tag{opacity:1}
+.rz__spread[data-step="1"] .rz__tag--paper{transform:translateZ(0)}
+.rz__spread[data-step="1"] .rz__tag--b{transform:translateZ(80px);background:#047cbc}
+.rz__spread[data-step="1"] .rz__tag--p{transform:translateZ(160px);background:#fc4cb4}
+.rz__side{display:flex;flex-direction:column;gap:14px}
+.rz__steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;counter-reset:none}
+.rz__steps button{display:flex;align-items:baseline;gap:12px;width:100%;padding:8px 10px;border-radius:8px;font:inherit;font-size:14.5px;font-weight:500;color:var(--dim);text-align:left;transition:color .25s,background .25s}
+.rz__steps button b{font-size:11px;font-weight:600;font-variant-numeric:tabular-nums}
+.rz__steps button:hover{color:var(--fg)}
+.rz__steps button[aria-pressed="true"]{color:var(--fg);background:var(--line)}
+.rz__txt{margin:0;font-size:14px;line-height:1.55;min-height:6.2em}
+.rz__play{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;background:var(--coal);color:var(--cream);font:inherit;font-size:13.5px;font-weight:600;transition:scale .25s var(--ease-out)}
+.rz__play:hover{scale:1.04}
+.rz.is-playing .rz__play{opacity:.5;pointer-events:none}
+@media (max-width:760px){.rz{grid-template-columns:1fr}.rz__spread{width:100%}.rz__txt{min-height:0}.rz__tag{translate:0 -120%;right:auto;left:4px;top:0}}
+@media (prefers-reduced-motion:reduce){.rz__spread,.rz__b,.rz__p{transition-duration:.01s;animation:none!important}}
 /* Le carnet à feuilleter */
 .bk{outline:none}
 .bk__stage{display:flex;justify-content:center;padding:clamp(18px,3.5vw,44px) 0 clamp(14px,2vw,22px);perspective:2600px;touch-action:pan-y;user-select:none;-webkit-user-select:none}
@@ -1097,15 +1223,12 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .bw__hint{position:absolute;right:12px;bottom:12px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;border-radius:5px;background:var(--coal);color:var(--cream);pointer-events:none}
 @media (max-width:760px){.bw__dots,.bw__nav{display:none}.bw__tab{max-width:140px;padding:8px 10px}}
 
-/* Écran d'accueil : bouton « entrer avec le son » cinétique */
-.enter__label .ch{display:inline-block;position:relative;overflow:hidden;vertical-align:top;height:1.15em;line-height:1.15}
-.enter__label .ch > span{display:block;transition:transform .5s var(--ease-out) calc(var(--k) * 22ms)}
-.enter__label .ch > span::after{content:attr(data-c);display:block}
-.enter:hover .enter__label .ch > span,.enter:focus-visible .enter__label .ch > span{transform:translateY(-50%)}
-.enter__label .ch.is-sp{width:.28em}
-.enter:hover .enter__label .ch.is-son > span,.enter:focus-visible .enter__label .ch.is-son > span{animation:enWave .9s ease-in-out calc(.5s + var(--k) * 80ms) infinite}
-@keyframes enWave{0%,100%{transform:translateY(-50%)}50%{transform:translateY(calc(-50% - 3px))}}
-@media (prefers-reduced-motion:reduce){.enter__label .ch > span{transition:none}.enter:hover .enter__label .ch > span{animation:none!important}}
+/* Écran d'accueil : bouton « entrer avec le son » : au survol, les lettres se tassent et se bousculent */
+.enter__label .ch{display:inline-block;transition:transform .45s var(--ease-out),letter-spacing .4s}
+.enter__label .ch.is-sp{width:.28em;transition:width .4s var(--ease-out)}
+.enter:hover .enter__label .ch.is-sp,.enter:focus-visible .enter__label .ch.is-sp{width:.18em}
+.enter.is-crunch .enter__label .ch{transition:transform .09s linear}
+@media (prefers-reduced-motion:reduce){.enter__label .ch{transition:none}}
 
 /* Menu : l'heure en palettes */
 .panel__foot .hc__board{display:flex;gap:2px}
@@ -1138,7 +1261,8 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 
 /* Sea Shepherd · le ticket à gratter */
 .sx{grid-column:1 / -1;display:flex;flex-direction:column;gap:18px}
-.sx__body{display:grid;grid-template-columns:minmax(0,8fr) minmax(0,4fr);gap:clamp(18px,3vw,44px);align-items:center}
+.sx__body{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:clamp(18px,3vw,44px);align-items:center}
+.sx__body > .sx__tk{max-width:calc((100svh - 230px) * 1.19);justify-self:center}
 .sx__tk{position:relative;width:100%;border-radius:6px;overflow:hidden;background:#fff;box-shadow:0 0 0 1px var(--line-strong);user-select:none;-webkit-user-select:none;cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='34' height='34'%3E%3Ccircle cx='17' cy='17' r='13' fill='%23f8f3e3' stroke='%23252422' stroke-width='2.5'/%3E%3Ccircle cx='17' cy='17' r='8' fill='none' stroke='%23252422' stroke-width='1.2'/%3E%3C/svg%3E") 17 17,crosshair}
 .sx__base{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
 .sx__z{position:absolute;display:block;touch-action:none;transition:opacity .55s var(--ease-out)}
@@ -1290,12 +1414,12 @@ a.vc__th{display:grid}
 
 @media (max-width:640px){
   :root{--edge:16px}
-  .orb--logo{width:52px}
+  .lg{height:44px;font-size:38px}
   .modes{top:calc(var(--top) + 22px);font-size:14px}
   .menu-btn{top:var(--top);height:40px;padding:0 14px 0 16px;font-size:14px}
   .panel{top:var(--top);padding:74px 22px 22px}
   .pl{font-size:40px}
-  .reel{width:104px}
+  .reel{width:118px;bottom:-52px;left:-30px}
   .reel__thumb{inset:23px;border-radius:11px}
   .reel__ring text{font-size:11.5px}
   .sound{width:42px;height:42px}
@@ -1313,7 +1437,8 @@ a.vc__th{display:grid}
 
 <!-- Écran d'entrée -->
 <div class="gate is-intro" id="gate">
-  <div class="seal" id="gateOrb" aria-hidden="true"><canvas class="seal__cv"></canvas></div>
+  <h1 class="gx" id="gx" aria-label="Achille Valleur"><span class="gx__in" id="gxIn"><span class="gx__w">Achille</span><span class="gx__w">Valleur</span></span></h1>
+  <p class="gx__tc" aria-hidden="true"><i></i><span id="gxTc">00:00:00:00</span><span>générique</span></p>
   <p class="gate__line gate__fade">graphisme, direction artistique<br>&amp; montage vidéo — paris</p>
   <button class="enter gate__fade" id="enterBtn" type="button">
     <span class="enter__fill" aria-hidden="true"></span>
@@ -1324,7 +1449,7 @@ a.vc__th{display:grid}
 </div>
 
 <!-- Interface fixe -->
-<a class="orb orb--logo" id="logo" href="#" aria-label="retour à la spirale"><canvas class="logo__cv"></canvas></a>
+<a class="lg" id="logo" href="#" aria-label="Achille Valleur, retour à la spirale"><span class="gx__l" aria-hidden="true">A</span><span class="gx__l" aria-hidden="true">V</span></a>
 
 <div class="modes ui ui--top" id="modes" data-mode="spiral" role="tablist" aria-label="affichage des projets" style="--d:150ms">
   <button type="button" role="tab" aria-selected="true" data-mode="spiral">spirale</button>
@@ -1828,11 +1953,10 @@ a.vc__th{display:grid}
     { slug: 'uma', title: 'UMA', cat: 'campagne de communication', img: 'img/thumbs/uma.webp' },
     { slug: 'meduse', title: 'Méduse', cat: 'motion design', img: 'img/thumbs/meduse.webp' },
     { slug: 'sea-shepherd', title: 'Sea Shepherd', cat: 'campagne print', img: 'img/thumbs/sea-shepherd.webp' },
-    /* pas d'image locale : la vignette YouTube verticale du premier reel (repli : le titre en typo) */
-    { slug: 'reels', title: 'Amuse-bouche', cat: 'vidéo verticale', yt: 'QTS0HZqC5-A', portrait: true },
-    { slug: 'graphisme', title: 'Défense d’afficher', cat: 'affiches & typographie', img: 'img/thumbs/graphisme.webp', portrait: true },
+    { slug: 'reels', title: 'Encore un ?', cat: 'vidéo verticale', img: 'img/thumbs/reels.webp', portrait: true },
+    { slug: 'graphisme', title: 'Défense d’afficher', cat: 'affiches & typographie', img: 'img/thumbs/graphisme.webp' },
     { slug: 'la-calle-ma-dit', title: 'La Calle m’a dit', cat: 'montage vidéo', img: 'img/thumbs/la-calle-ma-dit.webp' },
-    { slug: 'le-corbusier', title: 'Le Corbusier', cat: 'édition · risographie', img: 'img/thumbs/le-corbusier.webp' }
+    { slug: 'le-corbusier', title: 'Pierre figée', cat: 'édition · risographie', img: 'img/thumbs/le-corbusier.webp' }
   ];
   const N = PJ_CARDS.length;
   const projects = PJ_CARDS.map((p) => ({ ...p }));
@@ -2192,7 +2316,7 @@ a.vc__th{display:grid}
   });
 
   /* ---------- Écran d'entrée ---------- */
-  const gate = $('#gate'), gateOrb = $('#gateOrb'), logo = $('#logo');
+  const gate = $('#gate'), logo = $('#logo');
   const enterBtn = $('#enterBtn'), enterLabel = $('#enterLabel'), quietBtn = $('#quietBtn');
 
   enterBtn.addEventListener('pointerenter', (e) => {
@@ -2235,15 +2359,7 @@ a.vc__th{display:grid}
     sfx.play('enter');
     document.body.classList.add('is-leaving');
 
-    const from = gateOrb.getBoundingClientRect(), to = logo.getBoundingClientRect();
-    const dx = (to.left + to.width / 2) - (from.left + from.width / 2);
-    const dy = (to.top + to.height / 2) - (from.top + from.height / 2);
-    const s = to.width / from.width;
-    const fly = gateOrb.animate(
-      [{ transform: 'translate(0,0) scale(1)' }, { transform: `translate(${dx}px, ${dy}px) scale(${s})` }],
-      { duration: reduce ? 1 : 1050, easing: 'cubic-bezier(.7,0,.2,1)', fill: 'forwards' }
-    );
-    fly.onfinish = () => { LOGO.start(gateT + (reduce ? 0 : 1.05)); logo.classList.add('is-on'); gate.hidden = true; };
+    GX.leave(() => { logo.classList.add('is-on'); gate.hidden = true; });
 
     setTimeout(() => document.body.classList.add('is-entered'), reduce ? 0 : 500);
 
@@ -3237,17 +3353,15 @@ a.vc__th{display:grid}
         ] },
         /* Fausse publicité de médicament, à languettes : on peut cueillir les languettes ; top = début des languettes,
            cuts = découpes (fractions de la largeur), taken = languettes déjà parties */
-        { tear: true, cls: 'c3', ar: '1000/2259', img: 'img/ss/ss-medicament-s.webp', big: 'img/ss/ss-medicament-l.webp', top: 0.4914, cuts: [0, 0.197, 0.402, 0.609, 0.82, 1], taken: [1, 3], cap: 'L’affiche à languettes : servez-vous' },
+        { tear: true, cls: 'c3', ar: '1000/2259', img: 'img/ss/ss-medicament-s.webp', big: 'img/ss/ss-medicament-l.webp', top: 0.4914, cuts: [0, 0.197, 0.402, 0.609, 0.82, 1], taken: [0, 1, 3], cap: 'L’affiche à languettes : servez-vous' },
         { text: true, cls: 'c5', title: 'La fausse pub de médicament', paras: [
           "Une affiche à **languettes**, comme celles qu’on croise sur les poteaux. « Vous en avez assez de ne rien faire ? »",
           "L’**Antarcticine Sea Shepherd 2026** promet le remède parfait contre l’indifférence, avec ses effets secondaires : « incapacité totale à regarder ailleurs ».",
           "Sur chaque languette, le numéro de recrutement : « Si vous lisez encore, vous êtes peut-être le profil qu’on cherche. »",
           "Comme dans la rue, certaines languettes sont déjà parties. **Cueillez** celles qui restent : cliquez, ou tirez-les vers le bas."
         ] },
-        /* Marque-page recto / verso */
-        { row: true, cls: 'mid', title: 'Le marque-page', intro: 'Au recto, le Cercle des Pêcheurs de l’Austral du Grand Large, un club de pêche chic qui vante la tradition et « l’amour de la mer et de ses richesses ». Au verso, le ton bascule : « La mer ne donne plus rien. » Les codes des boys clubs de pêche, retournés contre eux.', kind: 'image', ar: '3/2', items: [
-          { img: 'img/ss/ss-marque-page-s.webp', big: 'img/ss/ss-marque-page-l.webp', t: 'Recto et verso', s: 'le club de pêche, puis le message' }
-        ] },
+        /* Marque-page : rangé dans un carnet ; on ouvre, on le sort, on le retourne et l'ambiance bascule */
+        { bookmark: true, title: 'Le marque-page', intro: 'Au recto, le Cercle des Pêcheurs de l’Austral du Grand Large, un club de pêche chic qui vante la tradition et « l’amour de la mer et de ses richesses ». Au verso, le ton bascule : « La mer ne donne plus rien. » Les codes des boys clubs de pêche, retournés contre eux.', recto: 'img/ss/ss-mp-recto.webp', verso: 'img/ss/ss-mp-verso.webp', ar: '400/1210' },
         /* Le reste de la campagne, en plus petit (vignettes recadrées, image entière au clic) */
         { row: true, cols: 3, cls: 'mid', title: 'Toute la campagne', intro: 'Autour de l’affiche, la campagne se décline sur des supports du quotidien : petits formats monochromes, imprimés en série sur papier recyclé et distribués à la main.', kind: 'image', ar: '3/2', items: [
           { img: 'img/ss/dec-carte-fidelite-s.webp', big: 'img/ss/dec-carte-fidelite-l.webp', zar: '2400/1600', t: 'Carte de fidélité', s: 'commerces', d: 'Les codes d’une carte de fidélité, avec des indices visuels du massacre.' },
@@ -3263,7 +3377,7 @@ a.vc__th{display:grid}
       ]
     },
     'reels': {
-      title: 'Amuse-bouche', kicker: 'reels · vidéo verticale', coverFx: 'vend',
+      title: 'Encore un ?', kicker: 'reels · vidéo verticale', coverFx: 'vend',
       /* Les reels du distributeur : c = code de la spirale, t = titre, yt = identifiant YouTube ; d = durée et poster = image de couverture (facultatifs) */
       reels: [
         { c: 'A1', t: 'Zoblazo', yt: 'QTS0HZqC5-A' },
@@ -3273,7 +3387,7 @@ a.vc__th{display:grid}
         { c: 'A5', t: 'La Wave · Shérif la zone', yt: 'PFUHfgf9F1I' }
       ],
       lead: [
-        "À côté de mes projets, je réalise des **reels** : des vidéos **verticales** et courtes, pensées pour le fil Instagram. Des **amuse-bouches** : des petits formats à piocher, qui se consomment en quelques secondes et donnent envie de la suite. Des projets **personnels**, aux sujets et aux styles très différents, qui me servent de **terrain d’expérimentation**.",
+        "À côté de mes projets, je réalise des **reels** : des vidéos **verticales** et courtes, pensées pour le fil Instagram. Des formats qui se consomment en quelques secondes, et qui posent toujours la même question à la fin : **encore un ?** Des projets **personnels**, aux sujets et aux styles très différents, qui me servent de **terrain d’expérimentation**.",
         "Chaque reel est l’occasion de tester quelque chose : un **rythme de montage**, une **transition**, une **typo animée**, un **étalonnage**. Le format impose ses règles : accrocher dès la première seconde, se comprendre sans le son, tout dire en quelques secondes."
       ],
       meta: [['format', 'Vertical 9:16'], ['diffusion', 'Instagram'], ['nature', 'Projets personnels']],
@@ -3305,21 +3419,17 @@ a.vc__th{display:grid}
       cols: [],
       stats: [],
       media: [
-        /* Les travaux de typo (images 16:9, grande version au clic) */
-        { row: true, cols: 2, title: 'La typo à l’écran', intro: 'Des titres, des cartons et des génériques pour la vidéo : à chaque fois, la typographie donne le ton dès la première image.', kind: 'image', ar: '16/9', items: [
-          { img: 'img/typo/putain-de-salaire-s.webp', big: 'img/typo/putain-de-salaire-l.webp', t: 'Putain de salaire', s: 'Kekra · annonce de sortie' },
-          { img: 'img/typo/showreel-2024-s.webp', big: 'img/typo/showreel-2024-l.webp', t: 'Showreel 2024', s: 'carton d’ouverture' },
-          { img: 'img/typo/rouen-s.webp', big: 'img/typo/rouen-l.webp', zar: '3024/1702', t: 'Rouen', s: 'carton de titre' },
-          { img: 'img/typo/3-jours-a-film-s.webp', big: 'img/typo/3-jours-a-film-l.webp', zar: '3024/1696', t: '3 jours à film', s: 'semaine photographie' }
-        ] },
-        { row: true, cols: 3, title: 'Tanzanie 2K24', intro: 'Les titres d’un vlog de voyage, de Paris à Nungwi : un carton d’ouverture, puis un titre par étape.', kind: 'image', ar: '16/9', items: [
-          { img: 'img/typo/tanzanie-2k24-s.webp', big: 'img/typo/tanzanie-2k24-l.webp', zar: '3024/1696', t: 'Tanzanie 2K24', s: 'ouverture du vlog' },
-          { img: 'img/typo/dar-es-salaam-s.webp', big: 'img/typo/dar-es-salaam-l.webp', zar: '3024/1700', t: 'Dar es Salaam', s: 'étape' },
-          { img: 'img/typo/nungwi-s.webp', big: 'img/typo/nungwi-l.webp', zar: '3016/1690', t: 'Nungwi', s: '5 jours, 4 nuits' }
-        ] },
-        { row: true, cols: 2, cls: 'mid', title: 'Essais', kind: 'image', ar: '16/9', items: [
-          { img: 'img/typo/deformation-s.webp', big: 'img/typo/deformation-l.webp', zar: '3024/1664', t: 'Déformation', s: 'lettres étirées en mouvement' },
-          { img: 'img/typo/paroles-s.webp', big: 'img/typo/paroles-l.webp', zar: '3024/1664', t: 'Paroles à l’écran', s: 'texte calé sur le son' }
+        /* Les travaux de typo, sur un banc de montage : un écran, et la timeline des plans (g = piste) */
+        { monitor: true, title: 'La typo à l’écran', intro: 'Des titres, des cartons et des génériques pour la vidéo : à chaque fois, la typographie donne le ton dès la première image. Les plans défilent comme sur un banc de montage ; cliquez sur la timeline pour passer de l’un à l’autre.', items: [
+          { g: 'titres', img: 'img/typo/putain-de-salaire-s.webp', big: 'img/typo/putain-de-salaire-l.webp', t: 'Putain de salaire', s: 'Kekra · annonce de sortie' },
+          { g: 'titres', img: 'img/typo/showreel-2024-s.webp', big: 'img/typo/showreel-2024-l.webp', t: 'Showreel 2024', s: 'carton d’ouverture' },
+          { g: 'titres', img: 'img/typo/rouen-s.webp', big: 'img/typo/rouen-l.webp', t: 'Rouen', s: 'carton de titre' },
+          { g: 'titres', img: 'img/typo/3-jours-a-film-s.webp', big: 'img/typo/3-jours-a-film-l.webp', t: '3 jours à film', s: 'semaine photographie' },
+          { g: 'Tanzanie 2K24', img: 'img/typo/tanzanie-2k24-s.webp', big: 'img/typo/tanzanie-2k24-l.webp', t: 'Tanzanie 2K24', s: 'vlog · ouverture' },
+          { g: 'Tanzanie 2K24', img: 'img/typo/dar-es-salaam-s.webp', big: 'img/typo/dar-es-salaam-l.webp', t: 'Dar es Salaam', s: 'vlog · étape' },
+          { g: 'Tanzanie 2K24', img: 'img/typo/nungwi-s.webp', big: 'img/typo/nungwi-l.webp', t: 'Nungwi', s: 'vlog · 5 jours, 4 nuits' },
+          { g: 'essais', img: 'img/typo/deformation-s.webp', big: 'img/typo/deformation-l.webp', t: 'Déformation', s: 'lettres étirées en mouvement' },
+          { g: 'essais', img: 'img/typo/paroles-s.webp', big: 'img/typo/paroles-l.webp', t: 'Paroles à l’écran', s: 'texte calé sur le son' }
         ] }
       ]
     },
@@ -3328,53 +3438,39 @@ a.vc__th{display:grid}
       coverMedia: { kind: 'vidéo', ar: '16/9', yt: 'SXA5eXyBwDc', poster: 'img/calle/calle-titre2-s.webp', cap: 'La Calle m’a dit : la session d’enregistrement, montée et habillée' },
       lead: [
         "**La Calle m’a dit** est un collectif qui parle de **rap** sur les réseaux sociaux. Pour la vidéo d’une **session d’enregistrement**, ils m’ont confié leurs rushs.",
-        "J’ai réalisé tout le **montage**, créé l’**habillage graphique** et les **textes à l’écran**, puis un **reel teaser** pour la communication sur les réseaux."
+        "J’ai réalisé tout le **montage**, et créé l’**habillage graphique** et les **textes à l’écran**, du titre d’ouverture au générique."
       ],
-      meta: [['rôle', 'Montage et habillage graphique'], ['client', 'La Calle m’a dit · collectif rap'], ['livrables', 'Vidéo de session · reel teaser']],
+      meta: [['rôle', 'Montage et habillage graphique'], ['client', 'La Calle m’a dit · collectif rap'], ['livrable', 'Vidéo de session']],
       cols: [
         ['Du rush au montage', "À partir des **rushs bruts** de la session, j’ai construit le montage : choisir les **angles**, caler les coupes sur le **flow**, garder l’**énergie** du studio du premier au dernier couplet."],
-        ['L’habillage', "Titres, textes et éléments **graphiques** : j’ai créé l’habillage de la vidéo pour lui donner une **identité** propre, cohérente avec l’univers du collectif."],
-        ['Le teaser', "Un **reel vertical**, monté à partir de la session, pour **annoncer** la vidéo et accrocher l’audience du collectif sur Instagram."]
+        ['L’habillage', "Titres, textes et éléments **graphiques** : j’ai créé l’habillage de la vidéo pour lui donner une **identité** propre, cohérente avec l’univers du collectif."]
       ],
       stats: [],
       media: [
         /* Captures de la vidéo : le graphisme et les textes */
         { row: true, title: 'L’habillage', intro: 'Des titres en lettres gothiques, une image VHS qui bave et un générique façon cassette : l’habillage créé pour la session.', kind: 'image', ar: '16/9', items: [
           { img: 'img/calle/calle-titre-s.webp', big: 'img/calle/calle-titre-l.webp', zar: '3024/1664', t: 'Le titre', s: 'l’ouverture, en VHS' },
-          { img: 'img/calle/calle-stud-s.webp', big: 'img/calle/calle-stud-l.webp', t: 'Dans le stud', s: 'carton de titre' },
           { img: 'img/calle/calle-generique-s.webp', big: 'img/calle/calle-generique-l.webp', zar: '3024/1664', t: 'Le générique', s: 'toute l’équipe de la session' }
-        ] },
-        /* Le reel teaser (9:16) */
-        { kind: 'vidéo', ar: '9/16', cls: 's4', cap: 'Reel teaser' },
-        { text: true, cls: 's8', paras: [
-          "Avant la sortie, un **teaser** au format vertical : quelques secondes de la session, l’habillage de la vidéo, et l’envie de voir la suite.",
-          "Le même univers graphique d’un format à l’autre, pour que la vidéo et sa communication se reconnaissent au premier coup d’œil."
         ] }
       ]
     },
     'le-corbusier': {
-      title: 'Le Corbusier', kicker: 'édition · risographie', coverFx: 'book',
-      /* Le carnet à feuilleter : pages img/livre/livre-01.webp … livre-16.webp, dans l'ordre de lecture (désimposées) ; mine = mes pages */
-      book: { n: 16, ar: '900/1277', src: (k) => `img/livre/livre-${String(k).padStart(2, '0')}.webp`, mine: [13, 16] },
+      title: 'Pierre figée', kicker: 'édition · risographie', coverFx: 'book',
+      /* Le carnet à feuilleter : pages img/livre/livre-01 … 16, dans l'ordre de lecture (désimposées) ; mine = mes pages ;
+         riso = les deux couches d'encre de chaque page (séparées à partir des pages), pour le filtre riso */
+      book: { n: 16, ar: '900/1277', src: (k) => `img/livre/livre-${String(k).padStart(2, '0')}.webp`, riso: (k, c) => `img/riso/riso-${String(k).padStart(2, '0')}-${c}.webp`, mine: [13, 16] },
       lead: [
-        "Un carnet à plusieurs mains, imprimé en **risographie** en deux encres, **bleu** et **rose fluo**. Chaque partie tient en quatre pages : une page d’ouverture, une **double page** et une page de fin.",
-        "La mienne referme le carnet (pages 13 à 16) et porte sur la pensée de **Le Corbusier**. Mon parti pris : appliquer à la **mise en page** les règles que Le Corbusier appliquait à l’architecture, comme le **Modulor**."
+        "**Pierre figée** est un carnet de seize pages imprimé en **risographie**, avec deux encres seulement : le **bleu** et le **rose fluo**. Il réunit quatre récits, chacun sur quatre pages : une ouverture, une **double page** et une page de fin.",
+        "La **légende de la Gargouille** de Rouen, la **porcelaine de Sèvres** sous Louis XV, l’épave du **Lancastria** devenue refuge pour la vie marine, et l’architecture de **Le Corbusier**. Un carnet à plusieurs mains : j’ai conçu le dernier récit, sur Le Corbusier."
       ],
-      meta: [['rôle', 'Mise en page et design éditorial'], ['technique', 'Risographie · bleu et rose fluo'], ['mes pages', 'Ouverture · double page · fin'], ['projet', 'Carnet collectif']],
+      meta: [['projet', 'Carnet collectif · 16 pages'], ['technique', 'Risographie · bleu et rose fluo'], ['mes pages', 'Le Corbusier · pages 13 à 16'], ['rôle', 'Mise en page et design éditorial']],
       cols: [
-        ['La pensée de Le Corbusier', "Mes pages expliquent ce qui guide l’architecte : ses **principes**, comme le **plan libre** et les **cinq points** de l’architecture moderne, et sa **logique** de construction, où chaque élément obéit à une règle."],
-        ['Le Modulor comme grille', "Le **Modulor** est un système de proportions fondé sur le **corps humain** et le **nombre d’or**. J’en ai fait la **grille** de mes pages : les marges, les colonnes et la place des textes découlent de ces proportions."],
-        ['La risographie', "Une impression par **couches de couleur**, avec son **grain** et ses légers décalages. Deux encres seulement, le bleu et le rose fluo, et tout le jeu des **superpositions** pour créer les autres teintes."]
+        ['Deux encres, un carnet', "Quatre récits très différents, tenus ensemble par la **contrainte** : deux encres, un même format, le même rythme de quatre pages. Les **superpositions** du bleu et du rose créent toutes les autres teintes."],
+        ['Mes pages : Le Corbusier', "Le **plan libre**, puis les **cinq points** de l’architecture moderne en double page. J’ai appliqué à la **mise en page** les règles de l’architecte : une grille tirée du **Modulor**, des lignes qui structurent la page comme des murs porteurs."],
+        ['La risographie', "Une impression couche par couche, avec son **grain**, ses aplats vibrants et ses petits **décalages**. Activez le **filtre riso** sur le carnet pour voir comment chaque page se construit, encre après encre."]
       ],
       stats: [],
-      media: [
-        /* Mes pages, en grand : l'ouverture, la double page, la fin */
-        { row: true, title: 'Mes pages', intro: 'L’ouverture sur le plan libre, la double page des cinq points, et la page de fin qui referme le carnet.', kind: 'image', ar: '900/1277', items: [
-          { img: 'img/livre/livre-13.webp', t: 'Page 13', s: 'Plan libre' },
-          { img: 'img/livre/livre-14-15.webp', ar: '1800/1277', t: 'Pages 14 et 15', s: 'Les 5 points de Le Corbusier' },
-          { img: 'img/livre/livre-16.webp', t: 'Page 16', s: 'la fin du carnet' }
-        ] }
-      ]
+      media: []
     }
   };
   const PJ_ORDER = PJ_CARDS.map((c) => c.slug);
@@ -3487,6 +3583,8 @@ a.vc__th{display:grid}
         <div class="sx__btns"><button type="button" data-a="all">tout gratter</button><button type="button" data-a="new">nouveau ticket</button></div></div></div></section>`;
       if (m.script) return `<section class="sc ab-reveal"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div><ol class="sc__list">${m.lines.map((l, k) => `${k === m.turn - 1 ? '<li class="sc__turn" aria-hidden="true"><span>la version qu’on ne raconte pas</span></li>' : ''}<li class="sc__l${k < m.turn - 1 ? ' is-legend' : ''}" style="--k:${k}"><span class="sc__n">${pad2(k + 1)}</span><p>${esc(l)}</p></li>`).join('')}</ol></section>`;
       if (m.tear) return TEAR_HTML(m);
+      if (m.bookmark) return BM_HTML(m);
+      if (m.monitor) return MO_HTML(m);
       if (m.text) return `<div class="pj-text ab-reveal ${m.cls}">${m.title ? `<h3 class="cr__h">${esc(m.title)}</h3>` : ''}${m.paras.map((x) => `<p>${md(x)}</p>`).join('')}</div>`;
       if (m.carousel) {
         const sl = (it, i, dup) => `<figure class="cr__slide" data-i="${i}" style="--ar:${arNum(it.ar).toFixed(4)}"${dup ? ' aria-hidden="true"' : ''}><div class="cr__img">${crMedia(it, i)}</div><figcaption class="rl"><b>${esc(it.t)}</b>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`;
@@ -3519,6 +3617,8 @@ a.vc__th{display:grid}
     if (fxd) initDecl(fxd);
     pjInner.querySelectorAll('.sx').forEach(initScratch);
     pjInner.querySelectorAll('[data-tr]').forEach(initTear);
+    pjInner.querySelectorAll('[data-bm]').forEach(initBookmark);
+    pjInner.querySelectorAll('[data-mo]').forEach(initMonitor);
     pjInner.querySelectorAll('[data-bk]').forEach((el) => initBook(el, P.book));
     pjInner.querySelectorAll('.pj-cover [data-bw]').forEach((el) => initBw(el, P));
     pjInner.querySelectorAll('.pj-cover .vm').forEach(initVm);
@@ -4169,11 +4269,11 @@ a.vc__th{display:grid}
     });
   }
 
-  /* Reels · « amuse-bouche » : les formats courts rangés dans une machine, chacun avec son code et sa durée.
+  /* Reels · « Encore un ? » : les formats courts rangés dans une machine, chacun avec son code et sa durée.
      Un seul clic lance la vidéo. L'aperçu : comme une story, chaque format s'avance à tour de rôle et sa barre de lecture se remplit. */
   const VM_COIL = `<svg class="vm__coil" viewBox="0 0 120 14" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.6" opacity=".55">${Array.from({ length: 13 }, (_, k) => `<ellipse cx="${k * 12 - 6}" cy="7" rx="7" ry="5.5"/>`).join('')}</g></svg>`;
   const VM_HTML = (P, v) => `<div class="vm" data-vm="${v}">
-      <div class="vm__head"><span class="vm__brand">amuse-bouche</span><span class="vm__sign">formats courts · à consommer sans modération</span></div>
+      <div class="vm__head"><span class="vm__brand">encore un ?</span><span class="vm__sign">formats courts · à consommer sans modération</span></div>
       <div class="vm__glass"><div class="vm__row" style="--n:${P.reels.length}">${P.reels.map((r, k) => {
         const src = r.yt ? ` data-yt="${esc(r.yt)}"` : r.mp4 ? ` data-mp4="${esc(r.mp4)}"` : '';
         /* couverture : l'image fournie, sinon la vignette verticale de YouTube (repli sur la vignette standard) */
@@ -4199,9 +4299,136 @@ a.vc__th{display:grid}
     setTimeout(() => { if ('IntersectionObserver' in window) new IntersectionObserver((en) => { vis = en[0].isIntersecting; if (vis) el.classList.add('is-on'); run(); }, { root: pj, threshold: 0.35 }).observe(el); }, reduce ? 0 : 1100);
   }
 
+  /* ---------- Le marque-page (Sea Shepherd) ----------
+     Le marque-page est rangé dans un carnet de bord : seul son cordon dépasse. On ouvre le carnet, on saisit le marque-page,
+     puis on le retourne : au recto le club de pêche chic, au verso le message, et toute l'ambiance bascule d'un coup.
+     data-st : 0 fermé · 1 ouvert · 2 sorti, recto · 3 sorti, verso (sombre). */
+  const BM_CORD = '<svg class="bm__cord" viewBox="0 0 100 120" aria-hidden="true"><path d="M50 112 C 30 80, 18 40, 38 14 C 48 2, 62 4, 66 18 C 72 40, 64 80, 52 110" fill="none" stroke="#8e3438" stroke-width="7" stroke-linecap="round"/><path d="M50 112 C 30 80, 18 40, 38 14 C 48 2, 62 4, 66 18 C 72 40, 64 80, 52 110" fill="none" stroke="#c0565b" stroke-width="3" stroke-linecap="round" stroke-dasharray="3 5"/></svg>';
+  const BM_HTML = (m) => `<section class="bm ab-reveal" data-bm>
+      <div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div>
+      <div class="bm__stage" data-st="0" tabindex="0" role="button" aria-label="le carnet : ouvrez-le pour trouver le marque-page" style="--mar:${m.ar}">
+        <div class="bm__pages" aria-hidden="true"><span class="bm__ln"></span></div>
+        <div class="bm__mk"><div class="bm__face bm__face--r"><img src="${qa(m.recto)}" alt="le marque-page, recto : le Cercle des Pêcheurs de l’Austral du Grand Large" draggable="false" loading="lazy"></div><div class="bm__face bm__face--v"><img src="${qa(m.verso)}" alt="le marque-page, verso : « La mer ne donne plus rien »" draggable="false" loading="lazy"></div>${BM_CORD}</div>
+        <div class="bm__cover" aria-hidden="true"><div class="bm__front"><span class="bm__k">carnet de bord</span><span class="bm__t">Le Cercle<br>des Pêcheurs</span><span class="bm__s">de l’Austral du Grand Large</span><span class="bm__y">depuis 1950</span></div><div class="bm__inside"></div></div>
+        <span class="bm__flash" aria-hidden="true"></span>
+        <p class="bm__hint" aria-live="polite"></p>
+      </div>
+      <div class="bm__ctl"><button type="button" class="wl__zoom bm__show">montrer le marque-page</button><button type="button" class="wl__zoom bm__again" hidden>ranger dans le carnet</button></div>
+    </section>`;
+  function initBookmark(el) {
+    const st = el.querySelector('.bm__stage'), mk = el.querySelector('.bm__mk'), hint = el.querySelector('.bm__hint');
+    const showB = el.querySelector('.bm__show'), again = el.querySelector('.bm__again');
+    const HINTS = ['Un marque-page dépasse du carnet : ouvrez-le.', 'Saisissez le marque-page : cliquez dessus, ou tirez-le vers le haut.', 'Retournez-le : cliquez, ou faites-le glisser sur le côté.', 'Retournez-le encore, ou rangez-le dans le carnet.'];
+    let s = 0;
+    const layout = () => {
+      const W = st.clientWidth, H = st.clientHeight, ar = arNum(el.querySelector('.bm__stage').style.getPropertyValue('--mar') || '400/1210');
+      const bw = Math.min(250, W * 0.4, H * 0.62 / 1.36), bh = bw * 1.36, bl = (W - bw) / 2, bt = (H - bh) / 2 + H * 0.05;
+      const mh = bh * 0.92, mw = mh * ar, ml = bl + bw * 0.6 - mw / 2, mt = bt - bh * 0.17;
+      const ms = (H * 0.84) / mh, ox = W / 2 - (ml + mw / 2), oy = H / 2 - (mt + mh / 2) - H * 0.01;
+      const v = { bw, bh, bl, bt, mh, mw, ml, mt, ox, oy, sh: bw / 2 };
+      Object.entries(v).forEach(([k, x]) => st.style.setProperty(`--${k}`, `${x.toFixed(1)}px`));
+      st.style.setProperty('--ms', ms.toFixed(4));
+    };
+    const go = (n, quiet) => {
+      if (n === s) return;
+      const was = s; s = n; st.dataset.st = String(n);
+      el.classList.toggle('is-dark', n === 3);
+      hint.textContent = HINTS[n];
+      again.hidden = n < 2; showB.hidden = n >= 2;
+      st.setAttribute('aria-label', ['le carnet : ouvrez-le pour trouver le marque-page', 'le carnet ouvert : saisissez le marque-page', 'le marque-page, recto : retournez-le', 'le marque-page, verso : retournez-le'][n]);
+      if (quiet) return;
+      if (n === 1) sfx.play('fold');
+      else if (n === 2 && was < 2) sfx.play('pick');
+      else if (n === 3) { sfx.play('stamp'); setTimeout(() => sfx.play('cut'), 60); st.classList.remove('is-hit'); void st.offsetWidth; st.classList.add('is-hit'); }
+      else if (n === 2) sfx.play('flap');
+      else if (n === 0) sfx.play('drop');
+    };
+    const next = () => go(s === 0 ? 1 : s === 1 ? 2 : s === 2 ? 3 : 2);
+    /* glisser : vers le haut pour sortir le marque-page, sur le côté pour le retourner */
+    let p0 = null;
+    st.addEventListener('pointerdown', (e) => { p0 = { x: e.clientX, y: e.clientY, onMk: !!e.target.closest('.bm__mk') }; });
+    st.addEventListener('pointerup', (e) => {
+      if (!p0) return; const dx = e.clientX - p0.x, dy = e.clientY - p0.y, onMk = p0.onMk; p0 = null;
+      const moved = Math.hypot(dx, dy) > 12;
+      if (s === 0) { go(1); return; }
+      if (s === 1) { if (onMk && (!moved || dy < -20)) go(2); else if (!onMk && !moved) sfx.play('error'); return; }
+      if (!moved || Math.abs(dx) > 30) go(s === 2 ? 3 : 2);
+    });
+    st.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); next(); } });
+    showB.addEventListener('click', () => go(2));
+    again.addEventListener('click', () => go(0));
+    layout(); window.addEventListener('resize', layout);
+    hint.textContent = HINTS[0];
+    /* le marque-page met une seconde à s'imposer : on garde la ligne de l'image sans saut au chargement */
+    if ('ResizeObserver' in window) new ResizeObserver(layout).observe(st);
+  }
+
+  /* ---------- Le banc de montage (typos de Défense d'afficher) ----------
+     Un écran 16:9 et une timeline : les plans défilent tout seuls, en coupes franches ; la tête de lecture avance sur la timeline.
+     Cliquer sur un plan y saute. La lecture s'arrête quand le banc sort de l'écran ou qu'on survole l'image. */
+  const MO_HTML = (m) => {
+    const groups = []; m.items.forEach((it) => { const g = groups[groups.length - 1]; if (g && g.g === it.g) g.n++; else groups.push({ g: it.g, n: 1 }); });
+    return `<section class="mo ab-reveal" data-mo>
+      <div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div>
+      <div class="mo__body">
+        <div class="mo__screen ph is-zoom" data-big="${qa(m.items[0].big)}" data-ar="1.7778">
+          <img class="mo__img" src="${qa(m.items[0].img)}" alt="${qa(m.items[0].t)}" loading="lazy" decoding="async" draggable="false">
+          <span class="mo__tc"><i></i><span class="mo__n">01</span> / ${pad2(m.items.length)}</span>
+          <span class="mo__cap"><b>${esc(m.items[0].t)}</b><small>${esc(m.items[0].s || '')}</small></span>
+        </div>
+        <div class="mo__tl">
+          <div class="mo__gs" aria-hidden="true">${groups.map((g) => `<span style="flex:${g.n}">${esc(g.g)}</span>`).join('')}</div>
+          <div class="mo__clips" role="tablist" aria-label="les plans">${m.items.map((it, k) => `<button type="button" role="tab" class="mo__clip" data-k="${k}" data-img="${qa(it.img)}" data-big="${qa(it.big || it.img)}" data-t="${qa(it.t)}" data-s="${qa(it.s || '')}" aria-label="${qa(it.t)}" aria-selected="${k === 0}"><img alt="" decoding="async" draggable="false" data-src="${qa(it.img)}"></button>`).join('')}<i class="mo__ph" aria-hidden="true"></i></div>
+        </div>
+        <div class="mo__ctl"><button type="button" class="cr__btn" data-d="-1" aria-label="plan précédent">←</button><button type="button" class="cr__btn mo__pp" aria-label="pause">❚❚</button><button type="button" class="cr__btn" data-d="1" aria-label="plan suivant">→</button></div>
+      </div>
+    </section>`;
+  };
+  function initMonitor(el) {
+    const scr = el.querySelector('.mo__screen'), img = el.querySelector('.mo__img'), clips = [...el.querySelectorAll('.mo__clip')], ph = el.querySelector('.mo__ph');
+    const cap = el.querySelector('.mo__cap'), num = el.querySelector('.mo__n'), pp = el.querySelector('.mo__pp'), n = clips.length, DUR = 2800;
+    let k = 0, t = 0, last = 0, raf = 0, seen = false, hover = false, paused = false;
+    const pre = clips.map((c) => { const im = new Image(); im.decoding = 'async'; return { im, src: c.dataset.img }; });
+    const warm = () => { clips.forEach((c, i) => { const ti = c.querySelector('img[data-src]'); if (ti) { ti.src = ti.dataset.src; ti.removeAttribute('data-src'); } if (!pre[i].im.src) pre[i].im.src = pre[i].src; }); };
+    const set = (i, user) => {
+      k = (i + n) % n; t = 0; const c = clips[k];
+      img.src = c.dataset.img; img.alt = c.dataset.t; scr.dataset.big = c.dataset.big;
+      cap.querySelector('b').textContent = c.dataset.t; cap.querySelector('small').textContent = c.dataset.s;
+      num.textContent = pad2(k + 1);
+      clips.forEach((x, j) => x.setAttribute('aria-selected', String(j === k)));
+      scr.classList.remove('is-cut'); void scr.offsetWidth; scr.classList.add('is-cut');
+      if (user) sfx.play('cut');
+      draw();
+    };
+    const draw = () => { ph.style.left = `${((k + Math.min(1, t / DUR)) / n) * 100}%`; };
+    const loop = (now) => {
+      raf = 0; if (!seen || document.hidden) return;
+      const dt = last ? Math.min(100, now - last) : 0; last = now;
+      if (!hover && !paused) { t += dt; if (t >= DUR) set(k + 1, false); else draw(); }
+      raf = requestAnimationFrame(loop);
+    };
+    const run = () => { if (!raf && seen && !reduce) { last = 0; raf = requestAnimationFrame(loop); } };
+    new IntersectionObserver((es) => { es.forEach((e) => { seen = e.isIntersecting; if (seen) { warm(); run(); } }); }, { rootMargin: '300px 0px' }).observe(el);
+    document.addEventListener('visibilitychange', run);
+    clips.forEach((c, i) => c.addEventListener('click', () => set(i, true)));
+    el.querySelectorAll('[data-d]').forEach((b) => b.addEventListener('click', () => set(k + +b.dataset.d, true)));
+    pp.addEventListener('click', () => { paused = !paused; pp.textContent = paused ? '▶' : '❚❚'; pp.setAttribute('aria-label', paused ? 'lecture' : 'pause'); sfx.play(paused ? 'off' : 'on'); run(); });
+    scr.addEventListener('pointerenter', () => { hover = true; }); scr.addEventListener('pointerleave', () => { hover = false; });
+    if (reduce) { paused = true; pp.textContent = '▶'; }
+    draw();
+  }
+
   /* ---------- Le carnet à feuilleter ----------
      Les pages sont des feuillets : le feuillet k porte la page 2k+1 au recto et 2k+2 au verso ; tourner un feuillet = le faire pivoter
      autour de la reliure. t = nombre de feuillets tournés (0 : couverture, n/2 : dernière page). Seules les pages proches se chargent. */
+  /* Le filtre riso : la page courante décomposée, encre par encre (les couches sont séparées à partir des pages imprimées) */
+  const RZ_STEPS = [
+    ['Une couche par encre', 'Le risographe imprime une seule couleur à la fois. Chaque page est donc séparée en couches, une par encre : ici le **bleu** et le **rose fluo**, posés l’un après l’autre sur le papier.'],
+    ['Le master du bleu', 'La couche bleue passe en noir et blanc, puis la machine la perfore sur un **master** : une fine feuille percée de milliers de petits trous, tendue sur un tambour rempli d’encre bleue. Là où c’est noir, l’encre passera.'],
+    ['Le master du rose', 'Même chose pour le rose fluo : un second master, sur un second tambour. Plus la zone est sombre sur le master, plus il y aura d’encre.'],
+    ['1er passage : le bleu', 'La feuille passe une première fois dans la machine : en tournant, le tambour dépose l’**encre bleue** à travers les trous du master.'],
+    ['2e passage : le rose', 'Puis la feuille repasse avec le rose. Les encres sont **translucides** : là où elles se superposent, le bleu et le rose donnent un **violet profond**. Le grain et les légers décalages entre les passages font le charme de la riso.']
+  ];
   const BOOK_HTML = (P) => {
     const B = P.book, L = B.n / 2, mine = B.mine ? ` <button type="button" data-go="mine">mes pages</button>` : '';
     let leaves = '';
@@ -4214,12 +4441,45 @@ a.vc__th{display:grid}
       <div class="wl-hd"><p class="ag__lbl" style="margin:0"><b>le carnet</b><span>Feuilletez : cliquez sur une page, ou faites-la glisser</span></p>
         <div class="ab-pv-switch bk__go"><button type="button" data-go="0">couverture</button>${mine ? `<span aria-hidden="true">•</span>${mine}` : ''}</div></div>
       <div class="bk__stage"><div class="bk__book is-closed" style="--par:${B.ar}"><span class="bk__sh bk__sh--l"></span><span class="bk__sh bk__sh--r"></span>${leaves}</div></div>
-      <div class="bk__foot"><button type="button" class="cr__btn" data-d="-1" aria-label="page précédente">←</button><span class="bk__count" aria-live="polite">couverture</span><button type="button" class="cr__btn" data-d="1" aria-label="page suivante">→</button><button type="button" class="wl__zoom bk__zoom">voir en grand</button></div>
+      ${B.riso ? `<div class="rz" hidden><div class="rz__view"><div class="rz__spread" data-step="1"></div></div>
+        <div class="rz__side"><p class="ag__lbl" style="margin:0"><b>filtre riso</b><span>Comment la page s’imprime, encre par encre</span></p>
+          <ol class="rz__steps">${RZ_STEPS.map(([t], k) => `<li><button type="button" data-s="${k + 1}" aria-pressed="${k === 0}"><b>0${k + 1}</b><span>${esc(t)}</span></button></li>`).join('')}</ol>
+          <p class="rz__txt" aria-live="polite"></p>
+          <button type="button" class="rz__play"><span aria-hidden="true">▶</span> imprimer la page</button></div></div>` : ''}
+      <div class="bk__foot"><button type="button" class="cr__btn" data-d="-1" aria-label="page précédente">←</button><span class="bk__count" aria-live="polite">couverture</span><button type="button" class="cr__btn" data-d="1" aria-label="page suivante">→</button><button type="button" class="wl__zoom bk__zoom">voir en grand</button>${B.riso ? '<button type="button" class="wl__zoom bk__riso" aria-pressed="false">filtre riso</button>' : ''}</div>
     </div>`;
   };
   function initBook(el, B) {
     const book = el.querySelector('.bk__book'), leaves = [...el.querySelectorAll('.bk__leaf')], L = leaves.length, count = el.querySelector('.bk__count');
     let t = 0, queue = null, zc = 0;
+    /* filtre riso */
+    const rz = el.querySelector('.rz'), rzSp = rz && rz.querySelector('.rz__spread'), rzTxt = rz && rz.querySelector('.rz__txt'), rzBtn = el.querySelector('.bk__riso');
+    let rzStep = 1, rzPlay = 0;
+    const rzPages = () => (t === 0 ? [1] : t === L ? [B.n] : [2 * t, 2 * t + 1]);
+    function rzBuild() {
+      const pg = rzPages(); rzSp.style.setProperty('--n', pg.length);
+      rzSp.innerHTML = pg.map((q, i) => `<div class="rz__pg"><i class="rz__paper"></i><img class="rz__b" src="${qa(B.riso(q, 'b'))}" alt="" draggable="false"><img class="rz__p" src="${qa(B.riso(q, 'p'))}" alt="" draggable="false">${i === pg.length - 1 ? '<span class="rz__tag rz__tag--paper">papier</span><span class="rz__tag rz__tag--b">encre bleue</span><span class="rz__tag rz__tag--p">rose fluo</span>' : ''}</div>`).join('');
+    }
+    function rzSet(n, quiet) {
+      rzStep = n; rzSp.dataset.step = String(n);
+      rz.querySelectorAll('[data-s]').forEach((b) => b.setAttribute('aria-pressed', String(+b.dataset.s === n)));
+      rzTxt.innerHTML = md(RZ_STEPS[n - 1][1]);
+      if (!quiet) sfx.play(n >= 4 ? 'scratch' : 'layer');
+    }
+    const rzStop = () => { clearTimeout(rzPlay); rzPlay = 0; rz.classList.remove('is-playing'); };
+    if (rz) {
+      rz.querySelectorAll('[data-s]').forEach((b) => b.addEventListener('click', () => { rzStop(); rzSet(+b.dataset.s); }));
+      rz.querySelector('.rz__play').addEventListener('click', () => {
+        rzStop(); rz.classList.add('is-playing'); const D = [1900, 1900, 1900, 1700, 2200]; let i = 0;
+        const stepOn = () => { rzSet(i + 1); const d = D[i]; i++; rzPlay = i < 5 ? setTimeout(stepOn, d) : setTimeout(rzStop, d); };
+        stepOn();
+      });
+      rzBtn.addEventListener('click', () => {
+        const on = !el.classList.contains('is-riso'); el.classList.toggle('is-riso', on); rz.hidden = !on; rzBtn.setAttribute('aria-pressed', String(on));
+        rzBtn.textContent = on ? 'revenir au carnet' : 'filtre riso';
+        if (on) { rzBuild(); rzSet(1, true); sfx.play('filter'); } else { rzStop(); sfx.play('filter'); }
+      });
+    }
     const isMine = (pg) => B.mine && pg >= B.mine[0] && pg <= B.mine[1];
     const load = () => {
       for (let k = Math.max(0, t - 2); k <= Math.min(L - 1, t + 1); k++) leaves[k].querySelectorAll('img[data-src]').forEach((im) => { im.src = im.dataset.src; im.removeAttribute('data-src'); });
@@ -4234,6 +4494,7 @@ a.vc__th{display:grid}
       leaves.forEach((lf, k) => { lf.classList.toggle('is-turned', k < t); });
       book.classList.toggle('is-closed', t === 0); book.classList.toggle('is-end', t === L);
       count.textContent = label(); load();
+      if (rz && el.classList.contains('is-riso')) rzBuild();
     };
     const turn = (d) => {
       const nt = Math.max(0, Math.min(L, t + d)); if (nt === t) { sfx.play('error'); return false; }
@@ -4691,332 +4952,146 @@ a.vc__th{display:grid}
     send.disabled = false;
   });
 
-  /* Tracés des trois dessins (exportés d'Illustrator, arrondis au dixième) */
-  const INK_DATA={"a":{"vb":[736.0,748.0],"d":["M0,405v-16l13,.1c2.1,0,6.2,2.9,8.3,3.4l13.7-.6c10.4-.4,19.1,2.4,28.7,6.1,2.8,1.1,8,1.1,11.3,1.9,5.8,1.3,10.3-.6,15.3-2.5,8.4-3.2,17.4-.4,25.9-.2,6.4,.1,13-3.1,19.5-3.9,17.1-2,26,3.4,38.9,.2,8-2,16.4,.5,24.5-.2,6.1-.5,25-4.3,27.5,3.2,.9,2.7,1.2,9,0,11.6-3.4,7.5-17.4,6-20.8,10.3-3.1,3.9-5.8,5.8-10.6,5.8l-17.7,.2c4.8,6.2,13.1,7.9,19.6,4.3,12.2-6.9,31.1-12.8,42.8-2.5,.3,3.4,1.1,9.3-.3,12.5-2.1,5-9.1,8.3-14.2,8.8-5.3,.4-11,.2-14.5,4.1-4.3,4.7-9.1,7.2-15.9,6.5-10.8-1.1-4.8,3-23,3.4s-8.4-7.9-27.3-20.1c-3.3-2.1-7.1-3.8-11.5-2.5-11.7,3.5-22.3,8.6-33.6,13.6-3.6,1.6-8.8,2.6-12.6,2.9-8.7,.7-16.6,1.7-25.1,3.1-5.3,.9-10.2,1.4-14.5,5-4,3.3-9.2,3.5-14.3,3.8-7.5,.5-12.8-2.7-16-9.5l-7.3-15.5c-8.9-18.9,1.1-19.2-9.8-37.2Z","M441,748h-29.9c-2.6-2.5-15.7-4-16.1-12l-.6-11c-1.1-19.4,3.3-46.1-.4-60.1l-6.2-23.4c-1.6-6.1-.2-13.2,0-19.6l.6-20.7,4.3-21.4c1.3-6.4,.3-13.2,0-19.8l-.8-17-.6-21c4.5-.1,8.6-.8,12.7,.3,5,1.4,10.6,7.9,11.2,12.8,.6,5.2,.7,9.7,3.6,14.3,2.7,4.3,5.4,9.1,5.5,14.5l.3,22.9c.1,6,2.6,12.1,5.5,17.2,3.9,6.9,7.3,13.1,10.8,20.2,1.3,2.7,1.8,6.5,2.9,9.3,1.7,4.6,10.1,28.6,10.3,31.3l1.4,22c.6,9,7.8,14.7,7.9,32.1,0,8.8-1,17.3-7,24.1s-12,1.8-15.2,4.8Z","M736,361.1v13.9c-2.1,1.9-4.2,4.2-6.9,6.3-10.6,8.4-38.1,2-44.4,4.2-2.9,1-6.8,3.4-9.6,3.4l-18.8-.1c-13.7-7.5-24-1.7-30.1-8.7-4.4-5.1-3.7-14.8-1.7-18.1,.9-1.4,4.3-2.1,6.2-2.2l12.1-.5,20-.8c13.3-.5,26-.3,39.1-2.5,8.9-1.5,28.3-2.5,33.9,5Z","M396,0c8.3,12.1,2.8,24.2,1.7,32.3-1.7,12.2-.8,24.7-1.1,37.1l-.7,31.4c-.2,7.8-7.2,11.1-13.9,10.6-4.7-.3-8.9-2.1-9-7.8l-.5-33.5c-.1-9.1-2.2-17.6-1.1-26.9,.3-3,3.5-7.4,3.5-10.3l.3-20c.1-5.2,2.9-10,6.7-13h14Z","M681.1,405.6c6.9,.7,41.6-12.5,49.2,1.2,3.3,6,3.6,12.4,3.9,19.1,.4,9.7-1.2,18-4,27.2s-4.2,17.7-6.3,26.9c-.5,2.2-3.5,4.8-5.7,4.8l-23.1-.2c-6.8-.1-12.7-4.3-18.7-6.7-9.6-3.8-18.3-7.5-26.2-14.2-6.9-5.7-14.7-11.9-23.6-12.4l-16.1-1-13-5.8c-10.7-.4-22.2-.4-31.2-7-24.3-17.9-22.4-9.8-41.7-18.2-3.9-1.7-8.9-3.9-10.8-8.1-1.8-4-1.3-10.9,1.2-14.2,4.5-5.9,19.2,.8,24.4-6,1.4-4.6-4.4-9.3-8.3-11l-17.3-7.3c-8.1-3.4-3.1-31.3,.8-38.3-.9-2.8-3-6-5.4-7.9-8-6.3-13.8-13.4-18.6-22.6-1.4-2.8-1.3-7.7-2.3-10.6-1.8-5.2-2.1-9.3,2.6-12.9l73.2-56.3,12.4-10.1,5.5-5.2,16.8-13.5c3.9-3.1,6.6-8.3,9.9-11.9l6.2-6.9c11.5-12.7,6.6-5,17.9-14.9l10.2-8.9c3.1-2.7,6.3-6,10.3-7.8s13.3-2.3,17,1.1c8.6,8,13.9,18.3,21.3,27,4.6,5.5,4.9,10.8,5.2,17.6,.4,10.2-3.2,17.9-12.8,22.5l-7.3,3.5-19.1,8.1c-1.9,.8-4.9,3.6-6.7,5-6.5,5-13.3,8-20.7,11.4l-11.8,5.4c-10.9,5-18.8,11.8-28.6,18.9-6.9,5.1-.2,6.8-6.4,25.1-1.3,4,3.2,11.9,7.5,12.5,5.5,.8,10.5-3.3,14.8-5.4,9.2-4.5,19.3-3.1,29-4.6,13.7-2.2,26.3-8.4,38.9-13.9,6.9-3,13.4-4.8,20.5-6.6,9.3-2.3,28.3-10,34.1,.1,3.1,5.3,6.1,12.4,6.5,18.9,.7,13.2,1,42.8-7.9,52.6l-29.9,.4c-11.3,.1-21.9,2-32.9,4-19.4,3.6-33.3-6.6-44.4,.6-.2,4.4,1.7,10.1-1.4,13.8-10.1,12.1-24.7,8.7-28.3,21.7,6,9,15.7,13.6,25.3,17.8l7.1,3c12.3,.1,24.3,.3,36.6-.2,7.6-.3,14.4-.6,22.2,.1Z","M579.4,549l-33.3-24.7c-10.5,13.3-24.5,16.5-33.1,30.9-.7,1.1,1.3,4,2.2,4.8,5.6,5,23.7,25.4,28.3,31.3l14.5,18.7,12.3,11.8c9.3,8.9,14.3,21.1,20.6,32.7,.2,5,1.1,12.3-.2,17.2-3,11.2-11.8,20.7-21.6,25.9-13.4,7.1-19.4,6.9-34.5,6.9-10.9-9.3-13-17.1-18.1-29.8-5.8-14.5-8.2-16.7-14.3-33.7-3.4-9.3-7.5-18.4-11.7-27.3-4.2-8.9-14.3-27.7-14.9-36.6-.8-12.1-4.7-22.2-9.1-33.2l-4.1-10.1c-6.8-16.8-14.6-18.4-6.3-32.9l12.6-.2c1.1,0,3.4-2.1,3.7-3,1.3-3.6-8.3-9.8-3.2-20.9,2.1-3.1,8.5-3.8,11.5-6.3,5.2-4.5,7.4-12.2,17.1-18.7l0-25.8c2.2-2.1,6.2-2.3,9.2-2.5,16.3-1.2,14.4,10.3,31.9,14l9.9,2.1c6,1.3,11.4,3.8,17.3,5.8,6.3,2.1,14.2,4.2,17.8,10.8,2.1,4,.8,11.8-.2,16.5-5,1.3-10.6,.9-15.7,.4,5.4,3.8,20.6,20.6,27,18.5,1.4-.4,3.5-3.4,3.7-4.8l1.9-14c.3-2.7,5-6.7,7.6-7.1,3.7-.6,9.5-.2,13.7-.2l20.9,14.1c10.2,6.8,22.2,10,34.2,12.8,7.7,1.8,14.6,5.8,21.8,8.5,9.6,3.6,14.8,10.8,13.1,21.7-.7,4.4-4.9,6.9-10,6.8l-14.4-.3-26.2-12.1c-2.5-1.2-6.8-1.9-9.8-2-2.4-.1-5.8,4.5-5.1,6.5,4.5,7.2,13.2,10.5,20.6,13.9,4.3,1.9,8.7,5,12.2,7.4,7.2,4.9,9.8,11.1,9.5,19.5-.2,5.7-.9,10.4-3.3,15.4-3.7,8-6.7,16-11.8,23.3-2.1,3-5.5,5.4-8.2,7.6-8.3,7-20.9,7-28.9,2.2-10.1-6-17.1-14.7-23.9-24.2-7.1-9.8-14.4-18.6-22.8-27.2-3.3-3.4-6.3-7.1-10.5-10.2Z","M402.2,472.6c-5.2-6.5-8.8-12.2-14.3-17.7l-2.1,10c-1.3,6.2-7.4,7.2-12.7,7.1-11.2-.2-7.6-9.6-12.1-18.8-2.6-2.7-5-4.1-6.6-8.1-5.4,6.2-4.3,16.7-12.7,19.6-3.6,1.2-11.5,1.3-12.7-2.1-3.4-13-3.9-9.4-12.3-19.3-6,5.1-14.9,7.2-22.6,3.5-4.4-3.5,.1-22.6-8.5-23.1l-9.1-.5c-8.8-.5-10.7-18.9-5.1-28.6-5.2-8.4-15.5-7.2-14.6-22.9,.2-2.9,.6-7.1,2.6-8.9,6.1-5.7,17.2-.5,16.6-7-.7-7.7-16.1-14.9-5-29,1.8-2.3,3.5-4.1,7-4,8.1,0,16.8-.1,23.4,5,4.3,3.3,6.6,8.5,11.7,11.3-3-9.3-7.5-17-13.4-24-3.4-4.1-4.8-7.7-4.3-13.3,1.1-14.9,1.4-12.3,22.7-20.9,7.5-3,3.6-19.9,19.4-18.6,11.9,.9,5.7,3,17.4,11.8,1.9,1.5,5.6-.2,6.4-2.6,2.1-6.3,5.6-13.1,12-15.9,2.3-.9,7.7-.5,10.2,0,7.5,4,6.2,20.6,3.5,26.3-.9,2-1.5,5.1-.7,6.8s4.7,4.3,6,3c6.2-6.4,8.6-22.6,13.9-23.7,3.7-.8,7.9-.6,11.6-.5,9.4,.2,7.3,9.1,15,20.1,3.5,5,15.5-.2,18.3,6,3.7,8.2,.5,17.6-4.8,23.9,.8,11.2,18.1-7.5,27.6,2.7,7.1,7.7,3.2,21.1-5.1,26.7l-9.8,6.6c2.9,5.7,5.9,2.6,15.2,7.5,3.1,1.6,3,6,3.4,9.2,.7,6.5-1.7,13-9.6,14.3-9.4,1.5-27.4-.4-28.7,.4s-3,3.1-3.3,4.5c2.8,3.8,13.6,12.2,16.8,14,5.9,3.2,12.9,6.2,17.2,11.7,1.6,2.1,1.6,8.3,.1,10.4-4,5.7-15.9,1-21.6,4.4,4.2,6.6,5.7,18.8,2.2,21.8-4.2,3.5-18.8,2.7-25.3-4-11.9,1.1-2.7,15.7-10.2,24.9-2.1,2.6-10.9,3-13.1,.2ZM375.6,385.9c6.5-4.2,9.7-11,10.6-18.8,.4-3.9-2.8-8.9-5.5-10.6-4.2-2.5-9.1-3.4-13-1.1-5.7,3.4-11.6,8.1-11.2,15.6,.2,4.4,3.6,10.4,6.6,13.5,3.7,3.9,8,4.2,12.6,1.3Z","M190.2,126.2c-2.6-2.6-6.9-4.9-8.9-7.4l-16.6-20.6c-3.3-4.1-4.7-8-4.8-12.9-.2-7.5,3.1-9.4,8.6-12.2,6.2-3,11.1-9.7,16.9-13.8,9.5-6.7,8.9-13.4,27.9-10.4,5.3,2.9,8.7,9.1,11.3,14.2l8.8,17.4c4.9,9.8,11,19.3,13.3,30l3.9,18.1,11.1,24c2.4,5.1,1.3,12.5,5.2,17.6,4.3,5.7,9.5,10.8,12.8,17.1,4,7.9,3.2,22.7,17.7,24.5,1.6-1.3,4.8-7.1,3.8-9.4l-8.3-19.8c0,.1-4.4-23.3-.7-23.8,2.3-3.4,11.8-2.4,14.5,.4,4.4,4.7,8.1,8.4,14.5,10.4-1-3.9-3-7.8-3.5-11.6-3.6-25.5,1.8-29.6,1.9-35.1,.4-16.3-7.5-31.9-15.3-45.7-7.9-14,1.2-8.6-10.4-30.9-6-11.6-6.4-34,4.8-36.8l11.8-3c8.2-2,35.6-12.9,41.8,4.9,8.7,25.1-5.9,41.1-1.9,63.6l4.8,27.3c.6,3.3,2.4,7.5,2.4,10.8,0,10.4,.9,20.5-.3,30.6l-6.3,53.3c-2.2,18.4,4.2,17.7,1.5,23.6-5.1,11.1-17.4,3.3-28.1,18.9-2.9,2.4-11.2,1.9-14.1-.3l-10.3-8.1-.4,19.9c-5,3.9-12.7,1.9-17.5-1.9l-7.8-5.9c3.5,10.6,7.1,21.1,2.5,31.9-5.2,2.9-13.5,.5-18.4-3.4l-21.5-16.7c-8.1-6.3-13.6-14.8-20.2-22.9-5.8-7-9.1-17.7-4.4-26.1,8.3-2.9,18.1,.1,25.8,3.6,19.8,8.7,15.3,23.2,30.8,28-6-9.6-12.7-15-19.5-23.9-8.7-11.3-16.8-22.5-24.9-34.3,.2-9.4-10.3-29.5-16.2-35.4l-17.9-17.8Z","M326.8,741c-18.8,4-39.4-1.8-56.6-10.3-5-2.5-11.8-4-15-8.9-4-6.1-1.2-14.7,3-20.4,7.6-10.2,12.9-20.9,18.3-32.3,8.7-18.3,5.4-27.4,21.6-58,4-7.6,10-12.5,7.7-22.5-.8-3.4,2.5-7.5,5.2-9.7,6.3-5.5,13.3-18.1,3.8-24.9-4.9,1.3-8.4,6-10,10.7l-7.3,20.1c-1.3,3.6-3.6,8.4-7.1,10.5-2.3,1.4-8.2,.7-10.8,.1-8.2-2-10.1-18.6-.1-30.1,15.7-17.8,4.2-20.6,17.8-40.9l8.4-12.5c3.2-4.8,6.4-6.6,12.2-6.5,5.7,.1,9.3,1,13,5.9,2.6,3.5,9.1,7.9,13.8,7.7,9.7-.3,18-.7,27.5,.8,10.2,11,6.4,16.6,6.3,27.5l-.3,46.2c0,1.4-1.6,4.3-2.4,5.4s-4,1-5.8,1.2c-17.8,1.9-13.5-27.8-11.8-39,.4-2.7-.2-4.9-2.4-7.7-2.7,4.1-4.8,7-6.7,11-3.1,6.6,1.2,22.4-.8,31.2-2.4,10.9-5.4,20.9-8.4,31.6-1.8,6.3-5.2,12.9-4.5,19.5,1.1,11.1,.7,21.5,1.2,32.5l1,21.8c.5,11.8-3.2,30.4-10.7,40Z","M459.1,270.8c-9.2-6.2-8.7-28.3-22-29.1-4.9-.3-8.3-3.6-8-8.7,.2-3.6-.8-8.5,.5-11.7l5.2-13.3c3.7-9.5,5.7-19.2,13-26.5,7.1-11.4,13.4-22.8,27.9-17.6,2,13.5-2.1,25.3-10.7,35.1-5.4,6.2-13.4,20.7-12.5,28.5,.2,2,4.4,5.4,6.3,5,3.9-.8,7.3-4.8,9.6-8l27.8-38.1c6.1-8.3,8.5-19,11.2-25.9l31.9-80,5.9-14.5c1.7-4.1,6-9.1,10.7-9.8s11.5-1.3,16,.1c13.4,4.2,23.6,13.1,33.2,22.5,4.5,4.4,5.4,9.2,5.5,15.2s-1.5,8-5.7,11.1l-22.3,16.5c-7,5.2-17,26.4-30.2,30.8-5.8,1.9-7.9,5.5-7.3,11.9,2.1,23.4-14,12.5-11.5,35,2,18.2,1.2,27.7-12.1,39.1l-18.9,16.2c-14,12-18.1,19.2-43.4,16.3Z","M115,577.3c-4.5,2.2-9,4.2-12.4,7.3-6.5,6-13,8-21.7,7.5-4.7-.3-7.9-1.1-9.9-6.1s-5.2-10.8-6.6-16.1-2.1-9.6-5.3-13.9c-4.2-5.8-12.9-23.6-.7-26.8,4.9-1.3,10.3-2.1,15-4,24.7-10,24.7-.8,56.1-25.7,4.5-3.6,10.5-4.4,16-6.3,9.1-3,16.2-14.5,27.7-10,1.9,.8,6.3,1.2,7.8-.1,11.2-9.8,7-12.8,21.4-20.5,7.5-4,18.1,1,21.3-5.7,4.2-8.9,11.6-6.5,21.8-6.3,.5,4.8,1,23.4,9.3,18,4.9-3.2,12-2.9,14.6-1.1,3.8,2.7,2,18.4,1.5,19.2-6.1,11.6-20.4,22.8-17.6,38.2-4.2,.5-8.1-.2-12.5-.9-3.1-.5-7.3-.5-10.4-.8-7.1-.6-10-5.9-9.8-12,.1-5.6,1.3-9.9,4.9-14.3-4.8-7.6-15,.8-19.4,5.2-17.8,18.1-9.1,15.4-29.8,30-9.2,6.5-17.2,13-25.6,20.8-2.6,2.4-6.7,4.5-9.8,7-8.2,6.3-16,12.7-25.7,17.5Z","M368.3,226.9c-1.6-.9-1.3-6-1.3-7.9-.2-5.5,1.3-10.1,2.3-15.3,1-4.8,0-10.6,.5-15.9,.3-3.3,3.7-7.7,3.7-10.9l.3-29.1c0-2.9,2-8,4.7-9.4,3.9-2.2,9-1.8,13.4-1,1.1,2,3.4,6.3,3.4,8.4l.4,41.7c23.5-28.5,13.1-26.9,18.5-47.1,1.8-6.7,1.2-13.3,1.6-20.3,1-16,3-32,0-47.8-.9-4.5-.9-8.1-.1-12.7,1.4-8.1,1.8-16.5,4.9-24.2,3-7.3,5.8-14.3,8.3-21.6,1.6-4.6,3.6-7.3,9.4-6.7,4.4,.5,10.6-.7,15.2,.6,13.4,3.7,25.7,8.8,38.4,14.2,1.7,13.6-2.9,25.6-10.9,36-9.4,12.2-17.7,25.5-19.8,41.1l-1.8,13c-1.5,10.9-4.3,21.5-7.7,31.8-5,15.6-11,20.1-16.2,34.6s-2.5,19.8-6,24.7l-13.8,19.6c-2.1,3-3.5,8.2-5.7,10.9-1.6,.8-6.3,.9-7.8,.2-5.2-2.5-.1-15.1-6.4-22.5-8.5,6.1-4.6,17.2-18.8,16.6-2.2-.1-6.5,.1-8.6-1.1Z","M227.3,300.1c4.1,.9,9,5,9.7,8.7,3.8,20.1-4.2,14.4-7.8,24.3-3.1,8.8-10.9,14.8-20.3,14.7l-38.9-.2c-5.9,0-12.1-3-18-2.9-10.8,.3-21-1.6-30.1-7.7-9.3,1.4-17.4-.9-26.2-2.5-7.8-1.4-16.3-.1-24.2-.8-10.3-1-20.5,0-30.5-2.8-12.3-3.5-30.2-12.2-34.1-25.6-2-6.9,1.6-14.2,5.9-19.4,8.3-9.9,6.3-17.2,8.5-29.1,1-5.5,5.5-5.5,9.5-5.8,7.4-.5,12.1,1.3,17.7,5.5l13.7,10.4c12.2,9.2,25.1,17.6,39.5,22.9,11,4.1,21.3,9.2,32.5,12.4s20.9,5.3,31.1,10.7c4.3,2.2,9.6,5,14.6,4,3.6-.7,6.9-4.2,9.5-7.1-7-10-21.8-9.6-28.4-17.2-1.6-1.9-.8-7.6-.7-10.1,8.2-2.8,14.4,.9,20.8,5.4,4.8,3.4,11.6,4.1,17.3,5.5l28.8,6.6Z","M256,296c-33.8,6-41-12.4-54.9-18.8l-26.5-12.2c-10.6-4.9-29.4-25.6-42.3-31.1-6-1.8-13.4,1.2-19.3-1.1s-10.6-7.8-16.1-10.6c-16.8-8.6-12.5-11.7-23.7-20.3-17.2-13.3-3.8-31,5.8-43.9,5-6.7,9.6-12.8,14.9-19.1,2.6-3.1,7.4-3.6,10.9-3.8,6.8-.4,10.2,2.7,13.7,7.5l24.5,33.4c15.7,9.9,27.9,22.6,38.9,37.2,4.4,5.9,8.7,12,13.8,17.3,15.6,16.4,43.2,27.9,48.6,34.1,4.6,5.1,8.3,10.2,12.2,16,2.5,3.7,1.8,11.8-.5,15.5Z","M184.4,694.1c-4.4-.5-10.9,1.1-14.1-1.2l-18.7-13.5c-4.7-3.4-11.1-6.8-13.1-12.9-1.6-5-1.4-12.7,0-17.8,1.7-6,6.9-9.8,10.3-14.7,1.3-1.9,4.2-2.8,5.6-4.2l18.1-17.3c6.9-6.5,12.1-14.3,18.1-21.6,8.1-10,17.7-15.2,28.5-24.7,3.4-3,5.2-8.4,7.8-12.2,3.6-5.2,9.7-7.7,14-11.9l7.7-7.4c3.2-3.1,4.8-8.5,8-12,3.5-3.8,9.6-5.9,12.8-10l16.8-21.4c4.1-1.4,10.6-1.3,14.9,.4,1,2.5,1.7,8.8,.1,10.9-3.3,4-8.4,7.1-13.4,9.5,2.6,9.9-2,15.7-7.8,21.9-5.3,5.7-6.7,15.1-10.2,21.8-2.4,4.6-5.5,7.7-9,11.2-5.6,5.7-7.7,13.8-11.1,21-2.3,4.8-6.8,8.2-10.6,11.4l-13.8,11.4c-4.4,3.6-5.1,12-4.6,17.1,1.6,15.5-9.3,7.7-17,39-.9,3.6-1.7,7.2-3,10.6l-3.3,8.8c-2.1,5.5-6.2,8.8-13,8Z","M488,722.8c-2.6-.2-6.5-3.7-7.7-6-16.3-31.6-4.4-31.9-12.8-53.4-2.9-7.4-5.3-15.7-9.3-22.5-3.6-6.2-6.6-10.2-6-18.1,.3-4.4,1.8-10.5,7.2-12.1,12.1-3.5,19.5,5.5,24.6,15.3,9,17.2,15,36.5,20.2,54.9,2.8,10.1,7.2,19.4,7.2,30.3,0,4.1-.3,10.9-5.8,11.5s-11.6,.5-17.7,.2Z","M630.1,639.9l-6.4,6.6c-16.1,.5-18.9,1.2-28.1-11.2-9-12.2-17.5-24.1-27.1-35.7-5.9-7.2-11.3-13.9-16.6-21.7-2.8-4.1-2.4-11.6-1.4-15.9,2.5-10.9,18.7-7.6,22.5-4.1l17.9,16.1c3.4,3,7,5.7,9.7,9.4,5.7,8,11.3,15.1,17.5,22.7,11.2,13.6,14,15,12,33.8Z","M548.7,192.5c-.9-18.1-1.8-14.3,6.1-22.5,8-8.4,16.1-11.1,25.3-18.4,3.9-8.2,9.1-13.2,16.3-18.2,12-8.3,11.8-27,41.2-22.7,4.9,24.7-8.6,30.9-18.4,43.4-5.7,7.3-10.3,15-16.7,21.7-4.8,5-11.4,8.6-16.9,12.9-7.1,5.5-14.8,7-23.7,6.4-4.2-.3-9.2,.7-13.2-2.5Z","M648,276.1c-11,7.7-17.5,9.1-32.1,10-2.9,.2-6.4-.7-8.2-2.3-4.5-3.9-4.7-14.8,1.3-21.8,8.3-9.6,26-12.7,34.1-16l42.8-17.4c7.2-6.6,31.3-9.5,31.4,2.5l.2,13.4c-25.8,22.6-24.6,14.1-46.1,19.2-8.8,2.1-16.1,7.3-23.3,12.4Z","M226.1,716.9c-8.9,.2-14.6-4.4-18.1-12.2-2.6-5.7-2.9-11.1,1.3-16.8l14.8-19.8c.5-7.5,5.6-12.3,8-18.9l4.2-11.7c4.7-5.2,9.4-9.3,13.2-15.1,1.5-2.2,1.6-7.1,2.3-9.7,2.1-8.4,17.3-6.2,19.6-3.7,3.7,4,4.2,14.9-1.7,21.5-8.7,9.5-12.2,21.9-10.8,34.9-4.6,13.2-11.3,33.3-18.8,44.3-3.5,5.2-8,7.1-13.9,7.2Z","M105.4,383.3c-5.2-.4-11.7,.8-16.2-.5-32-9.1-40.2-3.1-49.6-5.7-7.8-2.2-14.4-4.9-22.6-4.3-5.5,.4-10.3-2.7-13.8-7l.1-16.8c.1-8.1,30.4-1.3,33.3-1,19.1,1.6,37.9,.2,57.2,.7,8.4,5.1,18.7,12.8,18.3,23.3-.2,4.9-1.4,9.1-6.8,11.3Z","M124.9,636.7c-11.2,2.3-13.6-2-19.5-8.7,.2-4.5-.6-9.2,.7-13.4,.8-2.7,4.2-7.2,6.2-8.9l10.3-9.1,17.3-13.6,12.9-11.1c6.4-5.5,13.1-9.9,20-15.3,4.8-3.7,13.8-7.2,19-2.1,3.5,3.4,3.2,13,1.1,17.2-7.6,14.8-28.1,25.2-34.7,32.4-5.6,6.2-10.6,10.9-17.4,16.1-4.5,3.4-9.4,15.2-15.9,16.6Z","M372.2,746l-18.2,.1-6.1-10.3c-.4-13.4,.5-25.6,2.4-38.9,.4-2.8-1.6-6.5-1.9-9.3-2.9-30.6,3.6-26.2,7.1-41.9,.9-3.8,.6-9.1,3.1-12.1,3.4-1,9.9-1.7,13.1,.1s6.6,8.7,6.6,12.2l.1,55.5-1.5,7.7-.1,27.8c0,2.5-2.5,7.2-4.6,9.2Z","M491.7,138.3c-3.8,.2-8.4,.3-11.9,0-4.3-.3-5.5-5.8-5.7-9.2-.6-14.4,6-30.4,14.1-41.8,2.3-3.3,4.3-7.5,6.3-11.1,4.2-7.8,7.5-15.2,9-24.1,1.1-6.7,5.6-13.6,11.8-16.9,2.6-1.2,8.8-.7,11.7-.4,4.5,.5,2.9,19.3,2.5,20.9-1.6,8.2-5.5,15.6-8.4,23.3l-3.8,10.1-11.4,27.8c-3.3,8.1-7.1,15.2-14.3,21.4Z","M103,492.7c-19.2,1.6-26.8,16.9-40.6,20.3-6.3,1.6-14.1,.7-20.3,.2-7.7-.7-11.2-6.1-11.7-13.2-.6-8.8,4.9-16.2,14.4-16.4l23-.7c8.3-.2,13.9-4.6,19.5-9.8,3.8-3.5,8.1-6.6,12.6-9.6,4-2.7,20.7-3.7,24.9,.3,4.7,4.6,5.2,13.8,.2,20-5.4,6.7-12.4,8.1-21.9,8.9Z","M204.2,173.8c.6,2.8,1.4,13.7-1.6,16.5-1.8,1.7-14.6,3.9-20.4-3.5l-16.3-20.6-14.6-11.4c-4.7-3.7-36.2-39.8-21.6-53.2,6.4-2.1,14.8,2.5,17.6,6.2l21.3,27.8c2.6,3.4,5.8,7.6,6.9,11.5,5.1,17.5,25.6,12.9,28.8,26.6Z","M130.4,272.8c-10.9,5.2-31.1-8.1-40.6-13.4-5.8-3.3-12-6-18-8.8-9.2-.8-17.1-5.5-23.6-11.5-7.1-6.6-6.2-22.2-.7-23.5,10.8-2.5,21.7,1.7,29.5,9.6,6.6,6.7,13.1,10.9,23.2,10,5.7-.5,10.6,4.8,15.2,7.3l14,7.9c8.2,4.6,5.9,20.1,.9,22.4Z","M294.9,107.3c3.5,5.9,3.8,20.2-2.5,21.9-3.1,.8-8.6,.6-11.9,.2-7.7-6.5-11.3-15.7-12.2-25.5-1.1-12.4-5.9-22.4-11.8-33.1l-10.2-18.2c-3.4-6-3.4-17.9,.7-23.6,5.4-.1,9.4,.2,14.3,1.4,14.9,19.7,10.9,12.8,17.1,33.3,6.6,21.8,3.1,21.2,16.5,43.6Z","M216.4,384.7c-14.5,.2-27.4,.3-41-.2-5.8-.2-11.5-.5-17.4-.4-4.6,.1-8.2-.6-11-3.9-2-2.4-3.4-8.7-1.3-11.9,3.4-5.3,11.4-5.8,17.2-6.3l17.2-1.5c9.5-.8,39.6-2.4,45.3,6.3,1.7,2.6,1.5,8.7,.2,11.7-1.1,2.6-6,6.2-9.1,6.2Z","M443.7,544.2l-12.4-.1-12.6-15.9c-2.3-2.9-3.5-5.5-3.4-9.4,.1-7.1,2.6-13.3,10.7-13.4,12.8-.1,13.9,8.1,17.8,18.6l-.1,20.2Z","M463.1,594c-11.4,4-14.5-2-20.3-9.7-7.3-9.6-3.8-26.3,2-29.1s10.3,2,13.3,5.7c4.2,5,5.6,9.5,6.1,16,.4,5.3,1.1,11.4-1.1,17.1Z"]},"b":{"vb":[803.24,1105.58],"d":["M177.6,766.1c-4.8,1-8.4,6.4-11.3,9.7-11.4,12.8-5.5,15.8-13.8,26.2l-5.9,7.4c-14.2,9.4-28,1.2-36.1,22.7,3.1,17.3-7.4,33.1-25.8,36.4-3.6,.7-6.6,.4-10.5,.2-19.6-.8-33.7-19.7-29.3-38.5,.6-2.4,2.2-6.7,3.5-8.4,7.1-9,22.1-21.8,23-22.9l19.6-24.4c.6-2.8,1.5-6.7,2.6-9.1,6.1-12.7,9.4-17.3,19.1-26.3l5.7-5.3c2.2-2.1,6.5-5.1,9.3-6.3l13.5-6c7.5-3.3,15.7-4.1,24.1-4,5.6,.1,10.9,2,16.2,3.7l7.6,2.5c15.7,5.1,32.9-4,45.2-13.9,5.9-4.7,10-21.1,11.2-29.2,2.3-15.3,19.8-17,19.1-29.9,1.2-2.3,1.6-5.4,1.1-8.3l-1.2-8.7c2.6-5.2,.2-9.2-2.5-13.8s-4.9-9.6-7.9-14.2c-10.3-15.9-.7-7.3-14-21.1-4-4.1-6-11.7-12.7-13.3-5.3-1.3-11.7-2.7-17.4-3.2-25.6-2.5-12.5-2.9-34.4-8.2-11.3-2.7-23.3-5.4-33.9,1.3-4.6,2.9-8.8,5.8-10.9,11.3-10.3,26.6-44.7,3.7-48.1,34-2.1,3.3-6.2,7.2-7.8,10.7-2.8,6.1-5.2,10.9-10.6,14.8l-9.3,6.7c-3.2,2.3-4.7,4.2-9.1,4.3l-11.1,.4c-2.8,.1-5.8-1.2-8.6-2-12.8-3.6-21.9-12.2-25-25.5-4.2-18.2,.8-17.6,6.7-28.2,6.7-12.1,20.6-27,33.2-30.9,7.4-2.3,15.1-3.3,22.8-4.2l15.9-2-.3-4.8c-.1-1.1,3.1-3.1,3.8-2.2,.8,.9,2,2.5,3,3.9,10.9-4.5,19-14.1,25-24.5l4.1-7.1c1.9-3.3,3.4-6.4,4.5-10.4,1-3.7,6-20.4,2.3-22.4,1.8-10.5,.1-21.3-4.4-31.3-1.8-4-2.5-9.3-5.6-12.2-9.2-8.7-8.7-10.5-11.8-22.1-2.8-10.5-5.5-7-13.1-15.2-4.3-4.6-7.6-9.7-12.8-13.2-1.6-1.1-6.3-2-7.1-3.8-1.8-4.2-4.6-8.8-5.5-12.4-4.3-16.6-1.5-17.6-4.9-32.2-.7-2.9-.6-7.1-1.4-9.9-1.9-6.7-6.1-13.9-11-18.3l-11.3-10.3c-8.3-7.5-9.9-23.8-5.3-34.4s6.8-23.2,3.6-34.8c-.8-2.9-2.1-6.1-3.2-8.9-6.3-16.9-6.8-24-8.3-41-1.6-18.4-11.5-30.5,10.7-45.2,7.7-5.1,14.1-5.2,22.8-3.4,3.9,.8,6.1,2.2,9.6,5.1,4.1,3.4,9.1,6.3,10.3,12.6,1.6,8.7,7.8,11.6,2.1,28.5,2.9,11.7,2.2,17.4,9.1,26l4.9,6.2c4.5,5.7,3.6,20,2.5,26.9-.5,2.9-3,6.5-4,9-2.8,7.1,3.8,11.6,4.4,22.4l.6,9.8c.8,13.7-6.2,28.8,14,43.4,9.4,6.8,17.5,9.5,28.9,8.8,12.1-.8,18.6-7.3,23.1-18,1.7-4.2,.8-8.8,1.6-13.4,2.2-12.5,5.2-25.5-3.5-36.5-3.1-3.9-6.8-9-10.7-12.1-21.9-17.2-15.3-45.3-5-66.8l-.2-7c-.2-5.8-4.7-14.6-8.2-20l-12.1-18.7c-4.8-7.4-5.7-14.6-4.3-23.4,2.7-16.5-2.6-18.1-5.7-31.7-1.5-6.6,2.8-13.4,8.5-17.9,7.5-5.9,18.2-9.6,27.4-11.2,3.7-.6,27.8,8.1,27,26.9-.6,15.9-4.5,6.8-2.7,20.7,.9,6.6,1.9,11.9,6.1,17.1l5.8,7.5c-1.8,1.4-2.5,2,.1,1.5,6.2,8.1,8.2,17.2,9.1,27.2,.4,4.3,1.8,10.4,0,14.1l-4.8,9.6c-2.3,4.5-7,11.1-6.8,16l.6,17.4c.5,14.8-2.4,10.8,8.4,28.1,11.9,19.1,4.9,29.1,13.5,43.6,1.8,3,5.5,2,7.6,1.4,11.8-3.6,14.5-12.6,16.2-22.9s4.3-19.2-1.6-29.2l1.2-13.6c.2-2.6-.2-5.6-.2-8.4-.1-9.7-4-7-7.8-20.2-2.8-9.9-4.5-12.7-.4-23.7,1.8-4.8,2.7-8.7,3.4-13.7,4-29,0-19.6-2.2-38.9-.6-5.6-.9-12.2,2.2-17,6.2-9.7,13.9-12.7,25.9-14.2,4.8-.6,10.2,1.6,14.4,3.9l1.7,.9c.3,.1-.1,.4-.4,.7l-1.2,1.3,4.4-.7c.9-.1,1.9,2.1,2.8,2.7,4.8,3.6,6.6,9.1,6.5,15.4-.1,4.7,1.1,10.4-.3,14.9l-3.5,10.8c-2.8,8.7-5,17.3-3.5,26.7,.4,2.4,2.2,5.4,3.1,7.7l6.9,18.2c.8,2.1,1.6,5.9,2,8.3,2.5,17-2.8,13.6-3.1,24-.5,16-8,20.7-2.4,35.3,11,28.6-2.3,30.7,10.9,49.4,10.6,4.1,18.7,0,25-8.4-1.9-28.3,13.5-24.8,7-42.7l-4.6-12.7c-.6-1.6-4.2-3.9-4.5-5.5l-1.9-10.2c-.4-2.3,1.6-7,1.5-9.3-.8-14.9,4.8-5.9,6.2-27.1,.6-9,5.7-13.7,13-17.3s13.7-4.8,21.5-1.5c4.9,2.1,8.4,4.9,11.9,9.1,3.2,3.8,4,6.8,4.9,11.6l2.5,14.1c3,17,3.5,21.6-4.5,36.8-10.4,8.6-12,26.5-7.9,37.3,3.7,9.8,2.1,19.5,.6,29.5-4.8,30.4,17.9,27.9,11.7,48.9l-3,10.1c-3.8,12.9-8.2,6.6-.6,31,.8,2.6,1,6.3,2.4,8.7,2.6,4.5,5.1,8.2,7.4,12.9,.8,1.7,4.7,15.7,4.5,18.3-.9,11.4-4.3,23.6-10.7,32.7-5.5,7.8-7.5,15.4-6.9,25l.5,7.4,.7,15.6c.4,8.6,1.8,9.3,4.4,14.5l4.7,9.3c4.4,8.8,13.7,12.7,21.6,17.1,10.2,5.7,19.7,1.5,29.8-1.4,21.3-6.2,17.2-12.3,24.9-21.6,7.8-9.4,7.9-22.3,5.7-33.5-1.4-6.9-4.1-13.7-1.8-20.6,5.6-17,16.6-27.6,13.7-49.7-.8-5.7-2.7-9-6.4-12.9-5.9-6.2-16.3-21.9-16.8-31-.3-5-.3-10,.3-14.9,.5-3.6,6.4-12.1,6.9-24.1,.4-10.2-6.6-11.3-5.8-32.1,.2-4.1,.1-8.9,1.1-12.6l3.7-14.1c3-11.5-.6-21.4-4.4-31.6-2.4-6.4-5.1-11.4-9.8-16.9-17.9-20.9-14.1-7.7-24.2-33.6l-4.4-11.3c-.7-1.8-.6-5.5-.7-7.5-.9-10.2,3.6-16.2-5.9-27-1.6-1.9-3.4-6-4.4-8.4-5.5-13.4-5.2-5-5.2-13.2l0-17c0-5.8,2-10.7,3.9-16.4,4.3-12.2,2.2-23.7,18.1-32.2,8.1-4.4,20.3-7.6,28.6-4.6,.9,.3,1,2.9,1.9,3.3,.4,.2,2.4-.5,2.8-.7,.5-.3,.2,1.7,.1,2.7l5.3,.8,4.4,11.2c9.7,24.6-9.5,27.9-8,52.1,.4,6.3,2.7,11.3,6.3,16.4l5.4,7.7,5.3,7.6,3.1,23.9c.7,5.4,6.8,15.4,11,20.1,1.8,2,6.9,3.9,9.7,5.1,12.5-3.2,15-5.3,21.1-15.2,2.7-4.3-1.4-8.2-3.5-11.5l-5.1-7.5c-11.4-17,9.3-43.2,9.2-57.3-4.8-9.8-9.1-19.1-7.7-30.4,1.9-15.5,7.2-15.8,13.8-29.9,1.9-4.1,3.2-7.8,1.4-12.6-1.3-3.2-2.7-8.5-4.5-11.1-8.2-11.6-6.3-25.2,4.3-34.4,1.9-1.7,4-4.1,6.2-5.5,6.9-4.3,13.6-5.7,21.2-7,4.9-.8,7.2,.2,11.6,2,3.1,1.3,4.3-1.9,11.8,9.5,3.4,5.2,5.1,10.9,5.9,17,.5,3.7,1.6,6.8,.2,11-1.3,3.9-4.6,9.7-4,13.8,1.8,11.3,6.3,21.6,5.7,32.8l-.4,9.2c-.2,5.2-.2,9.4-2,14.1-4.9,13-10.1,20.9-13.5,33.5-.9,3.5-1.3,7.6-1.9,11.4-1.9,12.8,12.3,28.1,23.4,31.6,16.9,.8,22.4-4.5,27.9-19.3l4.1-11c3.6-9.8,.2-6.3,5.9-21.8,2.9-7.7,.4-22.1-2.4-30.4-6.5-19.1,3.4-32.8,5.4-38.7l4.2-12.8c.6-1.8,2.7-4.1,3.1-5.8,3.5-14.7,15.3-23.9,29.9-26.3,7.3-1.2,13.8,.5,20.9,2.9,2.6,.9,4.2,2.4,6.1,4,6.1,5.2,7.3,6,9.5,15.7,.7,2.9,2.7,6.7,1.4,9.3-4.1,8.9,.2,14.6-4.4,19.8-9.4,10.5-16.2,23.2-20.5,36.7l-3.9,12.2c-1.2,3.9-.2,6.6,.6,10.3,1.7,7,2.7,14.4,2.9,21.7,.2,6-4.6,12.3-6,18.1-.7,2.9-1,6.7-2.1,9-6.2,13.4-1.9,26.2,7.8,35.9,3,2.9,6.2,7.3,11,7.9,4.5,.5,12.3-1.7,15.1-5.6,12.1-16.9,9.1-34.9,13.1-41.8l15.2-25.7c4.4-7.5-1.2-19.4,12.7-40.7,3.4-5.2,12.8-12.5,19.1-14.4,4.5-1.3,10.5-1,14.9-.2,5.1,1,9.6,4.3,13.8,7.5,5,3.7,6.8,9.9,8.2,15.9,1.2,5.2,.3,9.7-.4,14.7-1.9,13.1-6.9,24.4-16.4,34-3.2,3.2-5.4,7.4-7.6,11.3-3.9,6.9-6.7,13.6-5.4,21.6,1.8,11.6,.2,25.1-3.8,36.3-1.2,3.4-3.7,7-5.6,10.4-1.6,2.7-5.5,4.8-7.5,7.3-9,11.1-18.4,21.7-23.6,35-1.8,4.6-2.3,11.1-3.3,16l-1.7,8.4c-1.7,8.2,.3,37.6-9.2,51.7l-7.8,11.5c-8.5,12.4-18.8,40.1-7.8,52.7,2.3,2.6,3.1,3.4,3.2,7.3,3.7,6.6,10.6,11.5,17.7,13.7,24.4,7.6,22.7,1.2,51.6,15.7,5.5,2.7,9.6,8,14.6,11.2,6.8,4.3,11.2,12.7,14.1,20.1l5.1,12.9c3,7.5,3.1,14.5,2.2,22.4-1.1,9.3-3.4,24.9-12.8,29.7-5.3,2.6-10.8,4.1-16.9,4.9-8.3,1.1-16-3.2-23.6-5.5-6-1.8-7.4-4.7-10.4-9.4s-6.3-8.8-8.8-14.1c-3.2-6.9-12.1-13.3-18.7-18.1-4-2.9-10.2-4.5-12-10-4-11.8-2.1-20.4-15.2-20.1l-21.7,.5c-1.8,0-4.6,.3-6.4,.4-7.3-3.8-14.8-3.7-22,.4-6.2,3.5-14.8,7.8-21.8,9.3-9.4,.9-18.5-.8-27.4,2.5-8.3,3-15.3,3.6-19.9,9.9-5.2,7-8.6,14.9-10.2,23.8-1.5,8.1,3,21.7-5.8,33.1l-5.4,6.9c-2.4,3.1-8.5,5.8-9.2,10.6-.9,7,0,14.8,2.1,21.7,2.4,7.9,21.4,24.5,32.6,23.7,3.5-.2,9-2.1,11.5-4,8.3-6.1,16.6-11.3,26.4-13.4l9,.6c8,5.4,16.5,3.7,25.1,3.9,7.9,.2,14.3-1.6,19.8-8.3,1.1-1.3,3.5-3.4,4.5-5.1,3.2-5,7.5-8.1,13-10.2,8.5-3.2,12.2-4.8,20.8-3.2,10.7,2,18.7,7.2,26,15.5,3.9,4.5,3.3,18.5,1.8,22.3-6.3,16.1-5,17.4-20.5,25.7l-7.2,3.8c-16.9,9-30.6,1.1-39.1,1.9-9.9,1-19.2,3.1-28.8,5.4-6.1,1.4-11.9,2.3-18.3,.6l-13.9-3.8c-11.2-3-20.4,10.6-20.7,21.5-.1,1.7-1.3,5.3-.9,7l2.8,13c4.4,3.4,9.2,5.6,14.2,7.9,4.6,2.1,9.5,5.6,14.5,6.2,18.9,2.5,28.6,10.6,38.4,26,1.4,2.2,2.9,4.4,3,7l.6,13.1c.3,7.1,4,15,8,21.1,1.7,2.6,4.9,4.9,6.7,7.2,8.4,11.2,11.2,6.2,24.4,17.7,3.4,3,9.2,9.8,11.4,13.6l4.7,7.8c1.9,3.1,6.8,9.9,5.6,12.4l-1.8,3.7c-.3,.7,1.9,3,1.8,4-.5,4.5-1.4,12.4,.1,17.3l5.2,17.1c4.2,13.9,1.7,14.7-2,28.9-1.5,5.7-7.7,15.7-12.3,17.9-14.8,7.2-29.4,9.3-43.6-1.1-3-4.2-6.7-10-8.4-14.3-.6-5.6-1.9-11.3-1.5-16.3l1.1-15c.9-13-.8-24.6-8.1-35.3-3.3-4.8-6.5-9.3-11.5-12.7l-7.7-5.3-8.7-6.1c-8.4-5.9-11.6-16.2-13-25.7-.7-4.4-1.9-8.8-1.9-13.1,.1-9.5-3.8-16.7-9.4-23.9-4.3-5.6-9.4-8.2-15.9-10.3-3.7-1.2-5.8-1.5-9.6-.6-5.7,1.4-9.6,3.8-13.8,7.5-6.2,5.5-7.9,12-8,20.6-.1,6-.2,11.8,2.6,17.7,3.2,6.7,8.4,13.7,7.3,21.7-1.5,10.8-6.7,14.6-5.9,30.3,.6,11.5,2.8,23.1,10.4,32,2.6,3.1,4.7,7.7,7.4,10.3l10.9,10.3c10.8,10.2,15.6,24.1,13.4,38.7l-4.6,30.6c-1.4,9.5-.8,19.5,4.7,27.5,1.3,1.9,2.7,3.8,3.9,6,5.1,9.5,8.7,10.6,9,23.7,.2,7.7-3.6,14.6-6.4,21.3-4.1,9.8-12,15.4-21.8,18.4-5.3,1.6-9.3,2.7-14.7,1.5-4.7-1-10.6-.5-15.2-3.1-2.4-1.4-4.9-5.1-7.1-6.6-6.2-4.2-9.6-9.6-11.8-16.5-5.7-18.2,6.2-36.1,1.4-51.8l-3.6-11.9-5.2-16.6c-.7-2.1-.8-13.3-.2-17.5l2.1-15.9c1.4-10.8,4.8-8.3-3.7-22.3-2.2-3.5-8.9-6.1-12.7-7.2-6-1.8,0-.7-8.1-7.5-8.9-7.5-12.4-22-11.6-33l1-13.3c.3-4-1.4-9.9-2-14.2-1.4-8.9-8.2-16.2-15.8-20.3-8.5-4.6-17.5-3.4-25.9,1.3-7.4,4.2-9.2,7.5-13.2,14.8-2.4,4.3-3.9,8-3,13,4.9,28.7-14.7,25.6-19.9,59.8-3,20.2,7.4,34.3,7.2,45.8-.3,22.4-11.1,43.3-11.1,52l.1,16.8c0,7.1,8.4,23.9,4.8,34.4-7,20.2-7.9,32.1-30.9,42.1l-16.8,7.3c-5.6,2.5-11.1,2-16.6,2-23.3,.1-34-17.3-42.1-36-9.8-22.5,3.8-29.2,11.8-46.5l6.4-13.8c1.6-3.4,3-7.1,4.4-10.7,7.5-19.6,14.7-22.2,20.1-47.1,1.1-5.3,1.3-10,1-15.4l-.4-7.8c-2.5-2.2-5.8-16.8-6-18.7-2.6-28.1,1.3-27,10.7-46.9,4-8.5,11.1-16,11.7-25.9,.7-10.9-6.7-17.6-13.9-24.2s-14.9-13.3-24.6-12.7c-1.8,.1-5.1,1.9-6.8,2.2-8,1.4-15.9,3.7-22.8,8.3-13.2,8.8-16.2,19.6-17.4,34.5-3.6,45-25.6,34.3-36.2,60-6.5,15.9,.3,30.8-6.1,45.9-3.7,8.7-8.1,18.4-15.1,24.8-8.4,7.7-25.7,11.8-37.8,10.1-3.8-.5-10.6-2.9-13.5-5.5-6.9-6.3-10.5-10.6-15.2-18-2.8-4.4-2.9-8.3-2.5-13.7,.4-6.6-3.2-14.9,.2-21.1l4.5-8.4c1.9-3.5,6.2-6,9.1-8.7,12.6-11.8,7.5-33,27.6-43.5,10.8-5.6,18-16.1,20.9-28.2,1.5-6.5,2.6-12.1,8.2-16.8,6.8-5.8,15.9-16.9,12.7-26.9,4.2-9,0-17.3-5.9-24.3l-8.7-10.3c-1.4-1.7-4.6-2.8-6.5-2.5-2.6,.3-4.5,2.8-5.6,4.5-2.3-.2-6-.4-8.3,.1l-17.5,3.7ZM596.9,393.9c12.6-2.9,25.7-3.8,36.9-10,2.1-1.1,3.3-2.9,6.4-3.8,8.6-2.5,22.7-33.6,14.4-39.8-1.8-7.2-5-13.5-9.7-19.5l-14-7.9c-1.9-2.8-5-4.6-8.6-5.3-8.8-1.7-16.8-3.8-25.6-6.3-12.9-3.7-44.1,.1-56.6,6.3-4.4,2.2-8.2,4.4-12.5,6.8-4.3,2.4-8.3,8.5-10.4,13-8.9,18.4-3.5,6.9-5,28.3-.1,1.5,.3,5.8,1.2,7.1l12,16.5c4.1,5.6,10.2,7.6,15.4,9.3,17.5,5.9,36.7,9.7,56,5.2ZM197,455.4c19.4,7.7,23.3,5,27,5.6,10.9,1.9,20.4,2.3,31.1-.3,7.2-1.8,15.2-2.5,21.3-6.5,7.7-5,13.2-10.8,18.3-18,2.7-3.9,7.5-8.7,6.2-14-4.2-16.9-16-29.9-31.2-38.1-.8-6.1-13.9-14.1-19-15.8-20.2-6.7-14.6-6.4-37.6-8.3-4.7-.4-19.8,3.2-25.2,5.6-11.9,5.3-21.2,15.9-25.7,28-1.2,3.3-2.9,9.1-2.1,11.9,4.6,16.3,6.8,21.4,19.1,34.3,1.6,1.7,2.1,3.9,1.5,5.5,1.4,0,3.7,.7,4.9,1.7l2.1,1.7c.4,.3,0,1.4-.2,2.6,3.3-.7,6,2.6,9.6,4ZM468,740.3c6.3-1.7,12-6.2,16.8-11.2,7.3-7.6,7.1-22.9,.8-30.8l-7.1-8.8c-1.9-2.4-4.4-4-7.2-5.8l-6.7-4.4-6.8-4.2c-20.6-12.8-22.7-13.2-48.2-15.1-2.4-.2-5.4-1.2-7.8-.9-9.8,1.3-18.6,2.9-28.1,5,0,5.4-5,2.5-7.3,4-7.2,4.9-12.9,12.9-15.9,20.8,.9,8.3,1.6,15.9,6.8,22.7,11.8,15.4,13.2,16.6,28.4,27.8,12.8,9.3,31.4,13.4,47.2,11.9,27.6-2.5,24.9-8.2,35.1-11Z","M598.4,366.4c-14.7,8.4-30.8,7.7-41.5-6-3.9-5-6.9-.7-6.3-15.7,.1-2.6,2.7-7.8,4.5-10,4.3-5.1,10-8.4,16.4-9.4,12.8-2.1,26.6,5.4,33.5,15.8,1.6,2.4,2.5,8.6,2.1,11.8-.6,5.2-4.7,11.3-8.8,13.7Z","M230.4,434c-8.8-1.1-18.2-3.5-24.1-10.3-5.5-6.4-6.3-10.4-6.7-18.8-.3-5.7,4.7-9.3,8.4-12.3,5.5-4.4,11.1-5.7,18.3-4.6,20.7,3,9.6-1.9,28.4,15.6,1.4,4.5,2.6,9.9,1,14.9-1,3.1-5.2,9-8.4,10.1l-16.9,5.4Z","M438.5,718c-8.8,8.2-22.9,7.2-31.4,2.6-2.6-1.4-6-5.2-8.1-7.4-6.8-6.9-7.6-17-1.1-23.7,1.8-5.4,6.8-8.1,12.4-8,5.7,.1,12.7-1.3,17.1,1.6,6.9,4.6,12.6,9.6,15.2,17.3,1.9,5.6,.4,13.4-4.1,17.5Z"]},"c":{"vb":[537.55,525.92],"d":["M322.2,430.5c-4.7-6.2-9.2-4.2-13.8-15.8-.1-10.5-1.7-19.2-6.2-28.6l-.5-15.4c-4.5-.6-20,.5-22.4,1.3-2.5,.9-1.3,10.7-1.6,17.3-.1,2.2,1.4,5.2,3.2,6,6,2.3,5.8,7.2,7.8,11.8,2.7,6.2,5,13,.1,19.1l-7.5,9.2c-3.3,1.7-3.9,3.1-5,6.4l-3.9,11.5c-1.6,4.7,.1,14.2,5.6,15.6,19.3,5,14.8,6.9,18.6,13.5l6.6,11.7,.8,14.5c.1,1-.8,3.4-1.7,4s-3.7-.3-4.5-1.1c-4.4-4.2-6.9-10.6-9.1-16.5-2.2-5.7-8-8.9-12.3-12.6-2.2-1.8-3.9-4.1-6.2-3.4-2.9,.8-4.5,2.8-4.8,5.5-.6,6.5,5,9,9.6,11.2,.5,3.7,2.1,7.7,3.5,11.2,2.4,5.9-9.2,18.2-18.5,18.5l-16.2,.7c-3,.1-6.1-5.8-6.3-8.6-.5-7.4-1.1-15.9,3-22.3,1-1.5,5-2.4,7-3.3,2.1-1,1.4-7.8-1-8.7-3.9-1.5-10.9-.4-14,1.6-1.2,5-2.5,8.3-5.5,11.9-1.4,1.7-2.9,4.9-4.2,7.1-1,1.7-6.1,1.3-7.8,.2-3.6-12.1,1.5-23.9,11.9-30.3,2.3-1.4,3.3-5.4,7.1-5.4,3,0,5.9-3.5,5.8-6.7-.7-17.2-4.9-10.9-3.8-19.9,.5-4.3-1.1-7.5-4.8-9.3s-5-5.1-6.4-8.5c-2.2-5.3-2-9.2-.1-14.5,1.5-3.9,2.2-8.5,7.3-9.9,.7-1.7,1.5-5,1.6-6.9l.4-15.6c0-1.2-.8-3.5-1.4-4.3s-2.9-.8-4.3-.6c-7.7,1-7.2-3.1-12.4-2.9-3.7,.2-1.2,9.9-2.7,14.7-1.5,4.9-6.4,9.1-6.6,14l-.9,16c-.2,4-3.9,9.8-6.9,12.3-6,5-12.4,9.2-16.6,15.5-2.6,3.9,0,7.3,1.8,10.1l6.1,9.1c2.5,3.7,1.5,8.6,1.3,13l-.5,16.9c-.1,3.7-2.6,6.6-4.3,9.4l-7.6,11.9c-.7,1.1-3.2,2.5-4.5,2.7s-4.2-1.6-4.5-3c-.5-2.6-.8-7.2,.1-9.2l4.9-11.1c4.5-10.2,5.9-9.2,4.6-24.7-1-2.2-6.8-2.2-9.3-1.4-2.4,.7-5.6,4.1-6.2,7.2,2.8,4,4.3,9.9,2.6,15.1-1.1,3.5-5.4,7.2-8.6,9.9-4.8,4-8.2,3.9-13,1.7-6.3-3-9.1-7.3-9.9-14.1-2-17.9,13.5-15,21.5-31.1-22.5-4.4-21.1,6.7-25.5,9.7-3,2.1-6,3.4-7.6,6.7-2.5,4.8-8.6,7.7-13.3,4.2-3.9-3,2.8-12.5,4-13.5,3.6-2.9,7.5-7.1,11.2-9.5,2.9-2,5.7-3.6,8.5-5.7l8.5-6.4c2-1.5,7.9-.7,9.8-2.4l6.2-5.3c3.1-2.7,4.2-9.8,7-13.1,3.8-4.3,2.9-8.3,.5-12.6-1.4-2.5-1.6-9-.2-11.4,1.3-2.2,3.8-4.9,5.4-6.7,5.3,.3,8-2.2,10.3-6.7,4-7.8,12.1-4.8,6.3-22.8-1.2-3.8-2.6-4.8-6.1-6.6-14.5-7.8-6.3-7.1-17-8.6l-6.8-12.5-4.1,4.8-1.7-8.8c-3.8-2-9.3,0-10.9,4.4l-10.8,2.1c-1.3,4.6-4.5,6.2-9.4,5.7l-7.2,8.7c-3,3.7-12.6-1.3-19.1,7.9l-10.8,1.7c-.6,.1-2.1,1.1-2.6,1.4-3.2,2.1,12.5,5.8,10.1,16.2-1.8,7.9-8.5,13.8-16.8,11-2-.7-3.2-5.5-3.9-7.6-3.7-11,4.3-13.1,2.9-17.4-.9-2.6-10.4-2.3-12.6-.2l-11.1,11.2c-1.2,1.2-4.8,2.9-6,4.2l-9.4,10.4c-3.9,4.3-10.5,8.3-15.9,3.9-2.5-2,1-6.5,2.2-8.5,6.5-10.7,7.4,.1,13.8-12.4,3.3-6.6,5.5-1.8,5.8-6.1,.1-.8-2.3-1.6-3-.9-2.6,2.3-6.9,4.1-10.4,5.6l-6.2,2.6-6.9-10.3c-3.5-5.2-6.5-8-5.7-14.9,.5-4.7,4.3-9.2,9.7-12l4-6.1c1.1-1.6,1.7-4.4,.8-6.3-2.3-5-12.3,2.8-17.7-1.8-.2-2,.5-5.9,2.1-7.6,1.2-1.3,5.8-1.3,7.1-.8,1.2,1.8,1.9,3.5,3.1,4,2,.9,18.8-1.8,24.2-1.3,5.7,4.7,9.3,10.4,12.8,16.6l4.8,2.3c12.3,6,9.7-3.5,21.9-10.8,9.4-5.7,4.5-7.7,20.1-10.2,12.3-1.9,12.7,4.7,27.8-11.5,1.2,2.2,3.3,5.3,5.4,4.9,1.3-.3,2.2-3.9,2.9-5.1,3.4-5.6,4.3-12.8-1.3-17.6-1-.9-4.1,2-5.4,2.4-3.8,.9-10.8,1.5-14.7,1.5l-8.6-7.9c-5.9,3.9-22.1,7.4-26.9,6.6-2.2-.4-3.7-4.2-5.2-6.4l-11.1-16.2c-1.4-2.1-6.4-.2-8,1.4-3.3,3.5-6.5,4.8-11,6.4-15.6,21-4.2,12.7-29.9,16.6-1,.1-2.7,.1-3.5-.1-1.8-.6-2.2-6.5-.5-9,2.2-3.4,12.7,3.6,19.7-13.1,1.4-3.3,.4-8.2-3.2-9-3.2,2.9-7,7.4-10,9.4-5.7,3.8-9.6,.2-12.5-3.2C1.4,256.8-.1,253.8,0,248.4s.8-9,4.1-13.1l2-2.7c1.3-1.7,2.3,1,9.4,4.8,2.7,1.5,5.3,5.2,8.2,7.6,1.8,1.5,6.6-2,6.2-4.4-.9-5.7-3.6-10.7-6.8-14.8l-10,.6c-3,.2-7-6-3.9-7.8,2.9-1.6,10.3-2.6,13.3-1.3,3.7,1.7,5.7,4.8,10.6,3.3,10.5,10.6,3.3,10,14.3,14.9,3.6,1.6,6,7.9,8.7,10.6,3.6,3.6,7.6-.1,9.9-2.7,3.8-4.4,7.9-8.7,12.4-12.2,3-2.5,8.6,1.4,11.3,2.4l8.8,3.2c10.1,3.6,17.8-3.5,24.5-1.9,4.4,1,8.7,8.3,7.5,11.5-2.5,6.8-10.1,3-14,6.7-5.2,4.9-3.5,15.4,3.3,17.1,2,.5,6.5-.8,7.5,.7,1.6,2.4,3.1,4.2,5.1,4.1,2.5-.1,4.7-2.6,4.6-5.3l-.1-13.3c-6-6.2-2.8-12.7-.1-18.6l3.6-15.4c.9-3.9,1-8.5,1.4-12.9,.5-5.5-5.8-10.2-9.6-12.5-1.1-.7-4.5,.9-4.9,2.2-.8,3.1,3.2,6.6,5.8,8.5l3.1,10.4c-.8,1-4,2.3-5.7,2.4-1.5,.1-3.7-2.6-5.2-2.9-4.4-.9-8.9-1.9-10.7-6.9-1.9-5.2-15.7,.6-20-2.8l-8.9-7.3c-4.1-3.4-8.4-7-12-11.1-1.1-1.3-1.5-5.7-3.5-6.1-5.4-1.2-8.6,1.7-12.3,4.4l-8.1,6c-3.8,2.8-10.3,1.5-15,1.9-5,.4-11.2,2.4-15.5,.3-2.9-1.4-4.5-4.1-7.9-2.8s-6.3,0-6.7-3c-1.6-10.3,11.4-3.5,18-10.2l-5.9-2.3c-3.4-1.4,1.7-5.5-4.2-15-2.3-3.7,.7-12.8,5.3-14.4,5-.9,10.4-1.1,15.6-1.6l7.3,8.9c2.6-2.5,3.2-11.3-.1-12.2s-6.5-1.3-9.3-3.1c-4.7-3-6.8-7.9-4.4-13.8,.9-2.2,3.1-5.6,4.5-7.9,3.5,4.7,7.6,8.2,11.6,11.2l1.3,5.6c.3,1.2,3.8,1.1,5.2,1.6,8.6,9.9,5.1,15.3,11.6,18.4l8.9,4.3c12.8,6.2,13.2,.3,16.6,4,2,2.2,5.2,4.5,8.6,2.9,4.4-2.2,8.1,0,12,1.2,5,1.6,7.3,2.6,10.3,7.5,2.3,3.6,13.7,9.6,18.9,12.2,2.6,1.3,6.1,7.7,9.2,11.1,.7,.8,11.6-6.3,11.8-11.5,.2-6.2-5.5-6.3-9.1-7-5.8-1.1-6.3-8.3-7.4-12.2-5.3-1-15.5-5.2-18.7-8.8s-8.9-7.3-10.3-12.2c-4.9-17.1-4.8-6-14-23.4l-8.1-1.3c-1.8-.3-4.4-4.5-6.2-4.2l-12,1.9c-8,1.3-7.4-5.8-10.9-7.8-1.2-.8-3.8-.3-6.4-.5-2.3-.1-3.2-5.2-4.3-7.4-1.3-2.7-3.2-5.7-2.8-8.7,.4-2.3,3.1-5,6-6.5,9.7,9.1,.3,4.7,13.3,13,2.3,1.5,4,2.9,7,3.3,6.3,.8,4.3,3.8,8.3,3.4,.9-.1,2.6-1.8,3-2.7,1-2.8,0-6.2-1.5-8.3-2-2.8-5.3-2-8.7-3.1-3.1-1-8-6.4-8.6-9.8-.9-4.8-1.8-19.5,2.5-21.7,1.1-.6,3.5-.6,5.2-.8l10.2-1.7c5.6-.9-.5-8.8,3-14.5,1.4-2.4,8.6-2.1,9.1,.3,2.6,12.3,3.5,5.9,10.4,18.6,.5,4.9,1.6,8.2,2.3,12.7l1.8,10.8c.7,4,2,6.8,2.9,11.2l12.2,7.1c-.1,13.9,14,13.3,18.4,17.3l6.4,5.8c3.7,1.6,6.1,2.9,8.3,6.2,6.7,10.1,1.6-5.2,12.1,15,1.7,3.2,3.4,7.2,2.2,10.6-.8,2.1-5.5,3.5-7.6,3.1-8.2-1.2-5.9-12.2-13-13.3-4.9,1.6-3.3,7.8-.7,10.7,3.3,3.8,5.9,8.1,8.9,12.2s10.1-1,12.2-4.1c2.9-4.2,5.2-7.4,8.6-11.1l7.4-2.2c2.3-3.8,.1-7.1-1-10.9-6.6-23.1-10.8-10.5-21.2-27.1-3.8-6.1-3.9-14.1-.2-20.7,1.6-3,1-6.1-1.5-8.5-7.2-7-2.2-12.7-4.8-15.8-.7-.8-2.4-.9-4.4-1.3-2.2-.4-5.1-2-7.2-2.8-6.5-2.2-21.5-7.6-25.5-12-5.2-5.6-11.1-14.6-11.8-21.8l2.5-4.8c.8-1.5,2.8-3.5,4.2-4,1.6-.6,5.1,.1,5.7,1.5,2.4,6.1,11.7,14.2,16.7,17.8,2,1.5,3.2,3.5,6.1,3.5,2,0,4.4-1.8,5-4-11.7-9.3-11.5-2.2-13.9-10.2l-2.2-7.7c5.5-11-.6-6.2,8.2-16.9,15.4-2.6,5.3,.7,19.4,2.9,8.7,1.4,6.1,15.8,6.2,22.3,0,3.1,3.8,5.4,6,5.1,4.4-.6,4.2-4.1,5-7.8,1.9-8.5-2.3-13.3-.3-25.7,.1-1,3.8-2.1,4.6-1.5,5,3.6,9.2,15.3,8.6,24.3-1.4,24.1-6.3,9.5-7.5,22.8-.4,5.1,.7,9,2.7,13.6,1.4,3.2,2.1,8.8,5.4,10.5,4.4,2.4,8.1,5,10.1,10,6.6,16.1,1,12.7,7.1,32.1,.6,2,.8,6.2,1.1,8.4,6.1,7.2,1.1,10.3,3,14.2,1.5,3,3.6-4.1,9.9-2.8,3.3,.7,8.4-.9,7.6-4.7-.9-4.5-1.1-9.1,2.3-12.6,1.2-9.2-9.2-10.1-11.1-18.3-1.1-5.1-2.6-13.4,.1-17.4l12.4-18.5c3.5-5.2,4.7-19.5,3.4-26.1l-7-2.1-5.5-5.5c-4.3-4.3-7.8-9.8-11.1-15-2.1-3.3-2.8-7.2-.3-9.5,3.1-2.8,6.7-1.5,9.4,1.8,2.2,2.7,5.2,4.6,8,6.8,2.7,2,3,7.2,8.1,7.2,2.3,0,6.6-.6,8.9-1.7,1.5-.7,1.1-5.7,.3-7.2-1-1.6-3.9-2.4-6.8-3.4-3.1-1.1-3.4-8-1.8-11.1,.8-1.5,4.8-2.3,6.6-2,1.6,.3,3.3,2.6,4.7,4.2,5.4,.6,12.5-1.2,17.6,.6,4.7,1.6-.1,7.2-1.8,9.2l-5.3,6.8,7.2,6.8,9.4-6.5,7.4-5.5c3.8-2.8,6.2-12.1,11.7-9.9s-5.9,27-9.4,29.4c-7.4,1-16,5.8-15.5,14.3,.4,6.2,3.7,12.8,5.8,18.6l7,3.7,3.3,9.1c1.5,4.3,.8,9.8,.9,14.3,.1,7.4-3.3,11.6-9.4,14.4-7,3.2-6.6,24.5,0,28.4l17.5-2,2.2-22.5c3.7-1.6,6.4-3.6,6.5-8.2,.2-18.8-2.1-13.6,8.9-25.9,4.6-5.2,8.1-9.9,11.7-15.6,2.1-3.3,6-7,6.1-11.4,.2-5.9-6.6-5.1-9.3-18.6l-1.8-8.8c2.5-4.7,3.2-9.9,3.9-15.3,.5-3.8,5.9-7.9,9-8.8,.9-.2,3.9,1.2,3.5,2.1l-1.4,3.8-5.3,15.8c6.4,8.8,1.2,16.6,11.3,17,4.4,.2,6.5-3.5,6.6-8.3l.1-14.5c13-5.8,9.8-9.4,20.1-5.9,6.4,2.2,11.3,6.8,10.8,13.9-.5,6.5-5.1,11.7-12.5,12.1l-5.7,8.3c.1,1.1,2.2,3.6,3.2,4,1.2,.5,3.1-1.2,5-1.8l6.6-2.4c2.6-.9,5.5-3.7,7.4-5.5l6.5-6c3.9-3.7,9.5-13,14.1-8.3,3.1,3.1,3.1,9.7,.9,13.4-3.2,5.3-7.2,8.9-11.5,12.7-2.9,2.6-4.2,5.3-9.2,5-2.5-.2-5.8,1.3-7.9,2.9l-9.1,6.9c-1.8,1.3-7.3,.2-8.6,2.2-3.4,5.2-6.3,9.6-9.8,14.2-6.6,8.8,5.7,10.9-1.3,29.9-1.6,4.4-5,5.1-9.1,6.2-3,2.2-6,7.3-9.1,9.3-3.6,2.3-3.6,3.6-5.2,7.4-2.9,6.8-4.8,15.4,.8,21.6,1.4,1.6,7,2.1,8.2,.3,1.6-2.4,3.4-5,4.6-7.4,2-3.8,2.7-9.8,6.3-12.5l6.4-4.7,8-6.1c5.8-4.3,5.5-6.6,12.6-12.5,17.1,6.2,16.7-20.4,31.6-22.6,2-2.2,1.5-7.9,2.6-10.5,2.1-5,4.2-9,3.5-14.6-.8-6.9,4.7-12.2,9.8-15.7,3.5-11.8,.8-5.4,11.2-12.8,1.3-.9,4.8-2.3,5.8-1,4.9,6.6-5.8,10.8-1.7,17.9,7.8,3,17.9-4.8,22,4.1,3,6.5,5.1,20.4-1.1,24.4l-7.1,4.5-9.4,1.4c-1.8,.3-4.6,1.7-5.2,3.1-.8,1.8-.1,5.7,1.7,6.5,5.9,2.9,11.2-2.7,15.6-4.9,7.4-3.8,14.2-6.7,20-12.8,1.4-1.4,6,1.1,6.3,3,1,6.8-13.4,22.4-21.6,23-3.5,.3-8.9,.2-11.4,2.1-3.2,2.4-5.5,5.2-9.5,1.9-7.4-6.1-11.8,3.2-17.1,7.4-3.7,2.9-6.5,5.2-9.1,9.2l-6.4,9.7c-3.4,5.2-7,10.2-11,15.1-3.5,4.3-9.8,4.2-14.8,6.1-3.7,1.4-5.7,7.1-8.3,9.3l-5.7,4.8c-1.9,1.6-4.6,2.1-6.9,.8-1.9-1.1-3-5-1.6-7.1l9.8-14.9c1-1.6-1.4-7.2-3.3-5.9-3.8,2.6-6.6,7-9.6,10.4-3.2,.7-7.6,1.3-10.7,2.4-1.6,2.2,1.1,6,1.9,8.1,2.8,6.5,6.4,12.1,11.6,16.6,1.2,1.5,2.6,5.7,4.2,6.7,1.9,1.1,7.3-.1,8.6-1.9,4.5-6,10.8-10.3,18.3-12.1,3.7-.9,7.1-5.5,10.3-7.2,4-2.1,7-4.4,10.3-6.6,7.7-5.1,29.8-2.8,35.9-6.3,2.6-1.5,4.5-3.8,7.3-3.8,4.6,0,6.8-2.5,9.1-6.1,1.7-2.7,4.1-4.5,6.6-6.5,5.6-4.8,6.4-9.6,18.1-19.6,1.6-1.3,6.6-1.2,7.7-2.9,1-1.5,2.5-3.4,3.6-3.4s3.2,1.5,4.2,2.4c3.4,3.3,4.5,7.8,1.1,11.6l-5.3,5.8c-5-.1-9.1,3.9-9.7,8.6,14.9,4,13.7-4.4,16.9-5.1,2.1-.5,15.4,10.6,16.1,16.8-7.5,16.1,.9,8.7-7.7,17.9l-5.1,5.4c-1,1.1-.1,4.4,.8,5.7,1.2,1.5,4,2.5,6.1,2.2l10.7-1.1c1.4,.9,2.2,5.4,1.7,7-.6,1.7-3.5,4.1-5.5,4.2-16.1,.2-14.6,2-28.1,1.3-3.1-3.8-5.9-4.7-11-3l-18.9-12.4c-2.2-1.4-8.6-.7-10.4,1.1-8.7,8.5-6.5,.8-14.2,7.8l-7.4,6.7c-2.1,1.9-5.9,3.5-8.8,5.1-4.1,2.3-11.9,3.2-16.4,2.6-5.8-.8-7.2,.5-10.9,4.3-.6,.6-9.8,8.3-10.1,8.1l-3.8-2.1c-6,1.8-8,11.5-3.3,16.4l25.7-1.9c4.8,5.8,19.4,5.8,22.4-1.2,2.5-1.9,9.8-2.5,12.6-1.6,6,9.5,5.5-.6,12.8,7.7l7.7,8.7c2.3,2.6,10.5,1.1,12.9-1.3,2.6-2.6,13.6-12.4,16.2-14,2.8-1.7,4.7-3.7,6.6-6.8,1.5-.5,29.6-4.3,26.9,.3l-4.1,7-13.3,6.4c-2,.9-4.3,1.5-5.2,2.6-1,1.3-.9,6.4,.7,6.9,2.5,.8,8.2,.3,10.2-1.3,4.3-3.4,8.2-4.8,13.6-5,4-.1,7.8-.1,8.9,4.7,.5,2,4,3.8,5.2,5.2,3.5,3.9-.6,9.5-2.4,13s-3.7,5.3-7,7.2l-7.4,4.3-7.3-4.3c-1.6-.9-3.1-3.5-4.7-3.7-2-.4-6.5,.1-7.3,1.8-1.8,4,1.7,7.7,4.9,9.3l5.6,2.9c3.3,1.7,7.1,3,10.9,4,1.8,.9,1.6,5.7,.4,7.3-5,6.7-22,.8-26.2-5l-6.6-2.3c-3.3-5.3-8.4-9-12.7-13.1s-6-6.9-12.5-6.3c-16.6,1.6-9.7,6-22.4,14.8-1.3,.9-3.7,2.9-5,2.6s-3.6-1.4-5.1-2.1l-10.9-5.1-8.3-3.5c-4.4-1.9-9.6,5.8-19.9,6l-4.5,4.6-10.2-8.5-3,9.6c-.4,1.4-.2,4.3,.3,5.6,2.6,6,11.6-1.7,17.1,8.6,1.4,2.7,4.5,4.4,7.8,3.5,5.7-1.4,10.3-.2,15.6,1.4,6,1.8,13.4,3.8,15.2,10.3l.8,2.8c.6,2,8.2-1.3,10.6,4.6,2,4.9,5.8,3.9,9.4,6,4.1,2.4,11.3,5.7,15.1,.6l3.3-8.8,21.2-2.4,13.9-1.7c5.1-.6,10.5-.3,15.8-.4l5.5,7.1-4.6,3.5c-9.2,7-14.8,3-15.7,7-.2,.9,1.9,2.1,3,2.3l5.2,1,1.8,10.6c.7,4,3.9,7.6,1.3,12-1.4,2.4-2.2,5.9-3.2,8.9-16.6,8.4-11.2-4.7-19.8-1.5-3.2,1.2-5.1,5.9-2.1,8.1l6.9,5c1.4,1,3.8,2.2,4.6,3.3,2.6,3.9-4.5,12.8-8.4,12.9-4.8,.1-7.3-4.5-9.2-8l-5-1.9-9.3-11.8c-2.1-2.6-4.2-7.3-6.9-8.6-5.7-2.9-8.4-4.3-13-9-1.9-1.9-7.8,.2-8.2,3.3-.7,5.3,2.9,9.3,5.9,13.9-1.4,2.4-3.2,5.5-5,7.2-2.5,2.5-7.6,.5-10.4-.7l-6.1,2.4c-2.6-1.7-5.2-5.3-5.7-7.8-.7-3.4,1.6-7.2,2.7-10.2,1.6-4.5,3-6.3,8.1-7.5,2.2-.5,3-6.7,1-8.3-5.1,0-10.6,.4-15.9,.9-3.4,.3-5.9-2.3-8.2-3-4.9-1.4-8-2.7-11.2-6.8-2.1-1.8-6.8-5-9.4-6.2-12.4,.8-3.1-11.2-19.3-8.5-2-2.6-3.7-5.5-6-9.5-2,2.1-4.1,5-6.1,8.1l-6.2,9c-.3,.5-.6,2.9-.1,3.2,2.6,2.2,12.7-1.8,18.4,.5,1.7,3.5,3.2,8.2,5.9,10.1,2.4,1.6,5.1,3.9,7,4.9,4.2,2.3,9,2.7,12.1,7.4,8,11.9,11,13,16.2,25.6l4.6,4.2c10.6,9.6,6.2-1.3,14.3,7.9,1.9-2.4,4.3-4.9,6.4-5.4,3.5-.8,5.7,3.1,8.1,3.8,4.3,1.3,9.3,2.1,11.5,6.7,.6,1.2,3.6,2.5,4.9,2,3.3-1.1,4.9,2,6.7,3.3,5.2,3.6,9.6,6.3,8.5,14-.2,1.6-.4,4.7-1.5,5.6s-5.3,1.4-6.5,.6c-3.7-2.5-5-7.3-7.5-11.7-.8-1.5-4.5-.1-7.3,1.4l-10.2-11c-.5-.5-3-.5-3.2,.1l-1.1,2.7c-1.4,3.4-1.7,6.8,1.9,9.9,2.3,2,8.2,1.3,11.7,.4l2.9,7.3c2.6,6.6,3.8,13.2,2.9,20.4-1.4,10.7-6.6,2.7-11.8,10.9l-7.6-5-6.1-5c-1.1-.7-3.8,1.4-3.9,2.6-.1,1.4,.5,4.2,1.7,4.3l5.5,.5c-.4,0,7,9.2,.6,18.5-.8,1.2-3.2,2.2-5.1,2.1-2.7-.1-10.2-9.5-10.9-12.2l-2.8-10.1-1.3-4.5c-.3-1.2-3.2-1.4-5-2-.1-14.8-4.2-13.7-3.6-23.3,.3-4.4-2-12.4-6.7-13.4-4.7-1-6.7-1.3-8.8-6.2-1.4-3.2-4.2-9.1-7.5-10.6l-10.4-4.6c-4-1.8-8.8,.2-10.4-6.3-.5-1.8-3.5-2.6-6.2-2.9-10-6.2-10.2-9-16.4-18.9-.2-5.7,4.2-9.5,9.3-11.3,.6-3.1,.8-7.4,.5-10.7-1.3-.6-3.6-.1-4.7,.6l-7.2,4.4c-3.1,1.9-6.2,7.1-9.6,8.6-3.9,1.7-6.6,2.1-7.6,7l-10.3,.7c-2.1,3.9-3.9,8.2-5,12.9,1.7,2.4,4.7,4.8,7.2,6.6l6.7-10.4c4.4,3.1,6.1,7.1,6.7,12.1l7.3,1.4c4.6,6.7,6.4,3.2,14.9,13.6,.3,5.6,.2,10.9-.3,16.7-1,10.9,3.5,22.6,12.3,29,1.8,.1,5.8,.3,7,.9,1.3,3.3,4,3.6,7.3,4.4,4.3,.9,8.6,5,12.9,6.5,1.6,.6,5.4,.5,6.6,1.5l12.5,17.7c1.8,2.6,1.6,9.3,.5,12.5-.5,1.5-4.5,2.4-6,2.2-1.7-.2-3.5-2.8-5.5-4-7.9-4.9-13.6-13.3-15-21.8-.2-1.1-3.2-1.9-3.9-1.1l-3,3.6c-2.2,2.6-1.9-3.4-6.4-3.6-1.3-.1-3.6,2.6-2.9,3.7,3.3,5.2,6.4,6.7,12.3,9.8,9.5,5,1.1,2.8,6.7,16.9,.6,1.4,.7,5.1-.4,6.4-.9,1.1-3.2,1.5-5.8,2.5-1.9,1-4.6,4.1-6.3,6.3-2.6,3.5-8.5,5.9-11.5,1.7-3.3-4.7-6.7-8.7-12-11.4-3.9-14,2.5-11.2,2-19.2-.3-4.5-7.3-8.3-10.3-7.6-1.4,.3-2.8,2.6-3.7,4-4,6.6-1.6,13.3-.4,20.2,1.1,6.3,2.6,12.3,9.6,14.9,1.4,2.8,2.4,8.4,1.3,11.4-.7,2-7.2,3.2-8.7,1.4-11.1-13.1-9.6-11.7-13.8-25-2.1-6.7-.5-14.1-.3-20.8,.2-5.9,.8-8.8,4.5-13.1,2.9-3.3,3-11.3,1.4-15.5-1.8-4.5-5.8-7.8-8.5-11.4ZM424.8,85l-.1-12.9c-3,2.1-4.9,4.7-4.7,6.6,.3,3,1,5.2,4.7,6.3ZM98.5,85.8c1.9-.1,1.8-7-.1-7-3.3,0-3.3,7.2,.1,7ZM265.8,133.1c.8-7.7-.3-23.7-5.2-29-2.2-2.4-7.9-3.1-9.9,0-1.3,2.7-2.9,8.2-3.1,11.2,2.7,9.3-4.7,18.5-1.1,20.1l4.9,2.1c5.7,2.4,14.3-3.3,14.4-4.3ZM45.5,176c-4.5-3.7-11.9,4.1-14.7,8.6,2.9,1.6,5.2,1.9,8,1.1,2.1-.6,8.4-8.2,6.7-9.6ZM273.6,307.9l-.8-10.2-9.3-6.9c-1.5-1.1-5.7,.6-7.6,.9-3.8,.6-8.1,.5-11.4,2-1.7,.8-1.6,6.3-.2,7,3.4,1,7,3.9,7.2,7.2,.2,2.6-3,8.1-5.3,7-3.5-2.5-6.1-2.9-9.4-1.2-2.2,1.1-2.7,7.9,.2,8,6,0,12.1-.6,17.3,0,1.3,2,4,4.6,6.1,3.6,1.4-.6,3.2-3,4.4-4.4l18.3-3.8c.1,0,16.1-11.7,18.4-13.6l7.7-6.4c2.7-2.2,4.2-4.3,5.5-7.8,1.5-3.9,6.5-8.7,6.5-12.9,.1-7.3,1.2-12.1,3.1-18.9,1.5-5,1.7-12.9,.7-18.4-1.1-6.6-7.8-11.3-11-16.5-3.1-4.9-16.5-23.7-20.2-25l-7.3-2.5c-1.4-2.1-3.2-4-4.9-4.1s-4.9,.7-5.6,2c-1.8,3.5,.6,7.9,1.4,11.3,.9,4.1,.5,8.4,.7,13,.2,5.3,8.2,1.4,12.3,3,1,4.2,4.3,3.6,7.7,4.4,3.7,.9,9.6,6.6,10.3,10.5l2.3,12.3c.8,4.1-2.5,9.8-2.9,14.2-.3,3.2-3,5.8-6.3,6l-13,.6c-3-4.6,.5-7.7,3.8-9.9,5.6-3.8,7.4-12.9,4-18.3-8.2-5.9-9.1-3.6-13.7-8.6-1.1-1.2-4.6-1.3-6-.3-4.7,3.3-1,10.1-3.5,12.9-5.1,5.8-4.8,12.9,.2,18.8,1,2.8,2.2,7.9,4.2,10.8l6.1,8.4-.4,25.6c-2.4,2-8.5,2-9.8-.1ZM383.4,192.9c-5.2,4.8-16.9,4.8-15.1,8l1.7,3c.8,1.5,3.2,3.7,4.7,3.7,4.8,.2,12.3-8.4,8.7-14.7ZM221.6,316.9c.8,1,3.6,2,4.7,1.6,.9-.4,1.5-2.6,1.6-3.9l.9-15.1c.4-6.5,.3-11.7,.1-18.8l-9.9,.6-11.5,.7c-5.4-3.4-6.4-9.2-5.8-15.4-3.7-10.8-4.3-7.5-2.1-21.1,.6-3.6,4.3-8.9,7.1-11,3.3-2.5,5.4-4.4,8.2-7.4,2-1.7,18.5,.9,18.6-4.1,.2-8.2,.2-16.6-.1-24.6-.2-1.7-5.7-2.4-7-1.2-1.1,1.1-2.5,2.9-4,4.7l-7.4,2.5-6.3,4.9c-1.5,1.1-3.9,4.1-5,5.7-1.7,11.6-8.5,7.8-12.1,20.3-3.9,13.3-9.1,19.8-6,32.7l3,12.4c4.5,18.7,6,7,9.3,18.3,1.1,3.9,4.4,5.8,7.3,7.8,3.2,2.2,5.1,5.2,10.3,3.4l6.2,7.1ZM267.6,228.3c.1-2.5-.3-4.4-1.1-5s-3.5-.8-4.1,.1c-.6,.7-1.1,2.5-1.5,4.2-.3,1.3,1.6,4.1,2.9,4.5s3.8-2.2,3.8-3.8ZM242.3,224.9c-1,.8-1.5,3.8-.3,4.1,1,.3,3.3,.2,4.1-.2s.8-2.5,.3-3.3-3.3-1.2-4-.6ZM391.9,263.3c2.4-2.9,4-4.5,6.7-5.7,4.9-2.3,4.5-12.1-.5-13.5-12.3-3.6-8.9-4.9-19.3-2.8-4.2,3-3.1,8.8-2.2,13.4,.4,2.3,.5,7.1,.7,9.2,.1,.8,2.4,1.8,2.9,1.3l1.7-2.1c1-1.2,4.1-3.9,5.3-3l4.6,3.2ZM240.1,249.2c-.2-1.5-1.8-4.5-3.5-4.4-2.1,.1-6.2,1.5-6.5,3.4-1.2,7,3.6,10.2,4.5,9.9,1.8-.6,6-4.7,5.5-8.8ZM239.4,271.5l-4.8-6.7-3.8,5.6c-1.2,1.7-1.3,5.5-.5,7.3l9-6.2ZM385.5,306.7c-2.6-5.9-6.9-4.8-11.5-11.8-.7-.1-2.9,.6-3.8,1.3s-1.5,4-1.2,5.2c2.1,6.5,9.9,10.1,16.4,5.3ZM126.8,323.3c5.9,1.3,7.6-3,11.5-5.9l4.4-3.2c1.1-.8,.5-4.9-.8-5.7-4.5-2.8-11.5-.8-13.5,5.2-2.8,8.2-9.8,1.6-11.3,10.2-.2,1.2-.1,3.1,.5,3.9,1.9,2.5,4.8-5.3,9.2-4.4ZM389.2,307.8c-1.9,.7-3.4,2.4-2.6,3.3,.9,1.1,2.9,2.8,3.7,2.3s1.9-2.1,2.4-3.3c.4-.9-2.4-2.6-3.5-2.3ZM490.6,330.1c.8-.9,.8-4.4,0-5.3-4.4-1.8-11.3,.7-11.4,6.9,2.2,1.5,9.2,1.2,11.4-1.6ZM40.5,329.8c-1.6-1.7-2.8-3-3.9-3.2-.9-.1-2.9,1.2-3.3,2.1-1.9,4.2,1.6,12.3,6.5,11.4,4.4-.8,2.9-7.8,.7-10.3ZM366.6,351.2l-4.3-8.2c-.9-1.7-3.6-3-5.6-2.5-3.9,1.1-4.7,15.2,3.4,18,1.6,.6,5.5,.1,6.5-1.1s.8-4.8,0-6.2ZM205.6,371.7c1-1.4,3.3-4.5,2-5.5-3.8-3-9.4-1.5-12.4,1.1l1.2,10.1c.1,1,1.4,2.8,2.3,3.1,3.3,.9,4-4.7,6.8-8.7ZM256.6,406.1c4.8-4.5,4,3.5,7.7,2,3.2-1.3,2.7-6.7,3.9-8.6,6.5-8.9-5.2-10.2,1.4-17.8,1-1.1,2.2-2.7,2.2-3.8,.1-2.4-2.7-5.8-5.2-7.2-.9-.5-2.9,2.1-3.9,2.5-11.2,4.1-23.6,0-21.1,6.5,5.2,13.3-.9,18.4,3.4,23.5,6.8,1.8,7.3,7,9.3,5.1l2.3-2.2ZM420.4,416.6c-3,6.1-4.1,12.8-1.4,19.3,.8,1.9,5.2,1.7,6.9,.7,5.2-3.3,2.4-16.9-5.4-19.9Z","M94.2,418.4c-5.6,7.6-5.1,15.6-5.1,24.7-12.9,.2-9.9,6-15.6,6.4-3.6,.3-13.1-3.6-12.6-10l1.4-16.9c14.3-4.8,5.2-4,19.1-8,1.1-.3,2.1-3.2,1.7-4.2-.5-1.2-2.6-3.4-3.6-3.6-2.3,1.4-6.2,.9-8,1.6l-9.7,4-5.1,3.7-6.4,4.8c-.9,.6-2.4,1.4-3.3,1.2-4.7-1.1,.1-11.9,4-12.8,4.8-1,7.5-1.4,9.3-6.6l11.5-.4c9.2-10.6,11.1-2.1,25.5-9.2,6.8-3.4,8.1-11.1,11.3-16.9,10.3-7.8,6.9-14.8,22.5-19,5.7-1.5,8.6-10.4,12.1-14.3l8.3-6.2c4.8,3.1,.6,13.5-1.5,16-2.6,3.2-6.3,6.5-7.1,10.9,11.5,4.4,9.5-1.6,17.7-5.2l4-1.7c1-.5,3.3,1.6,4.1,2.8,1.7,2.5,1.8,9.8-.8,11.6l-7.2,5.1c-3,2.1-5.3,4.3-8.2,7.1-2.7,1.5-7.7,2.4-10.8,3.9-2.5,1.2-5.1,3-7.5,3.5-3.5,.8-5.8,2.1-6.5,5.6s-3.4,4.7-6,7c-5.6,4.8-12.1,12.7-14.6,19.9-1.7,5-.8,10.8-1.5,16.2-.3,2-2.2,5.4-2.7,7.5-1.3,5.5-3.2,9.6-8.8,11.8-5.1,2-5.5,6.3-9.3,5.8-2.8-.3-5.7-4.4-6.1-7.3-.4-2.4,4.9-.5,9.7-10.2,1.3-2.6,2.1-3.4,5.1-4.1,5.4-4.8,6.5-8,6-16.2-.1-2.4-3.4-6-5.2-8Z","M214.9,75.8c-7.8,1.6-12.3-10.1-12.1-16.1,.3-7.5,4.8-13.1,10.2-17.9,6.2,2,12.1,5.8,13,12.5,1.1,7.8-1.6,19.5-11.1,21.5Z","M305.4,72.7c-5.2,1.4-4.5-3.1-13.7-5.4,.1-8.9-2.4-15.8,5.2-22,3.3-1.4,9.6-2.5,13.2-2.3s10.6,12.1,.3,24.9c-1.4,1.8-3.3,4.3-5.1,4.8Z","M153.5,89c2.7,6.8-8.1,18-11.1,18.5-2.3,.3-5.6-1.3-7.6-2.6-3.7-2.4-4.9-4-4.9-8.5,0-5.9,.6-12.2,5.9-16.4,2.3-1.9,9.4-2.2,11.5,.1,2.4,2.6,4.9,6,6.1,9Z","M392.3,88.1c-1,3-8,11.9-12.6,12.3-3.9,.3-5.4-1.2-8.3-3.1-2.2-1.4-4.9-3-6.3-4.5-3.7-3.9-1-6.5,.6-9.7,2.5-4.9,4.9-8.3,11.7-8,2.8,.1,4.9,1.6,7.6,3.3,3.3,2,9.2,3.9,7.2,9.8Z","M444.1,146.1c-4.6,4-12.2,2.3-17.8,2.2-3.4-5.5-4.1-12.4-1.6-18,2-4.4,5.1-6.5,9.1-6.9,4.5-.5,7.3,1.3,10.8,5.2s4.8,13.1-.4,17.6Z","M291.5,457c-.8-5.2-1.2-17.8,3.5-20.5,1-.6,3.3,.7,5.1,1.3,1.4,.5,3.8-1.6,5.8-3.7,4.9,4.5,10.3,11.6,7.8,19.2-.8,2.3-3.1,5.6-4.5,7.8-6.8,1.3-12.2-.1-17.6-4.1Z","M463.6,222.8l-11.6,1.4c-3.4-4.6-7.5-12.8-5.1-18.2,1.6-3.5,4.4-5.3,8.3-6.5,5.3-1.6,10-1.6,13.2,4.1s1.7,14.5-4.9,19.3Z","M454.3,307.3c-8.2-8-6.9-5.8-7-18,0-1.4,1.1-4.5,2.1-5.5,1.9-1.9,13-2.7,16.4-2,2.1,.5,3.2,5.4,3.9,7.3,1.3,3.7,0,5.8-1.4,9.2-2.4,5.8-6.1,10.3-14.1,8.9Z","M220.9,457.1c-2,5.8-14,4.9-15.2,3.3-2.5-3.5-5.4-15.8-2.1-21.5l7-4.4,9.6,2.7c1.9,1.3,4.9,7.6,4,10.3l-3.3,9.7Z","M88.8,156.7l-14.2,.6c-.4-5-.5-11.6-.3-16.5l5.1-4c4.4-3.4,9.6-6.3,15.4-2.5l.2,17.2c.1,3.8-3,5.2-6.3,5.3Z","M372.2,426.8c-1.8-2.2-4.1-4.9-5.4-6.9-3.3-4.8,1.8-16.6,7.7-17.9,4.2-.9,12.4,4.5,12.7,7.4,.5,5.7,.2,10.4-1.4,15.8-4.1,1.1-8.4,1.4-13.6,1.6Z","M70.9,307.7l-5.8,4.4c-8.9-2-12.5-10.2-11.4-18.7,.6-4.5,1.4-6.5,6.2-7.4,4.4-.9,10.3-.7,11.4,5.3,.9,4.8,.3,10.6-.5,16.5Z","M147.5,421.4c-2.4,5-6.2,9.1-12.5,6.5-3.2-1.3-7.2-7.4-6.7-10.8,.9-6.3,6.6-8.1,11.7-8.5,4.1-.3,7,.1,8.8,3.6,1.5,2.9,.5,5.4-1.4,9.2Z","M72.1,207.9s5.3,8.1,.3,13.8c-3.1,3.6-7.5,6.8-12,3.4-3.4-2.6-4.7-6.4-4.9-10.2s2.5-8.9,5.6-10.4c1.2-.6,10.5,3,11,3.4Z","M282.8,253.2c-3-.5-2-6.4,.3-6.4,1.1,0,2.4,2.2,2.3,3.1s-1.6,3.4-2.6,3.3Z"]}};
-  /* ---------- Écran d'entrée et logo · « les dessins qui s'enchaînent » ----------
-     Trois dessins vectoriels, animés élément par élément :
-     1 · le soleil : le cœur s'imprime en tournant, les rayons jaillissent un à un ;
-     2 · la créature : les rayons se rétractent, le cœur du soleil devient la pupille de l'œil du bas, le corps pousse depuis cet œil,
-         les doigts ondulent, les yeux s'ouvrent, clignent et regardent autour d'eux ;
-     3 · la ronde : les yeux se ferment, le corps se resserre en disque, la ronde des danseurs jaillit, les pupilles deviennent des pierres,
-         le visage du centre ouvre les yeux. Puis l'attente : la ronde tourne doucement, les danseurs ondulent comme une vague,
-         le visage regarde autour de lui et cligne, et de temps en temps toute la ronde saute. Cette attente devient le logo.
-     Rendu en canvas 2D : tracés vectoriels + trait qui bout + encre usée + seconde impression légère. render(t) dessine l'image exacte à l'instant t. */
-  const INKV = (() => {
-    const S = 1000, CX = 500, CY = 500, FIT = 820, TAU = Math.PI * 2;
-    const cl = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-    const eio = (x) => { x = cl(x); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
-    const eo = (x) => 1 - Math.pow(1 - cl(x), 3);
-    const ei = (x) => Math.pow(cl(x), 3);
-    const bk = (x) => { x = cl(x); const c = 1.9; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); };
-    const el = (x) => { x = cl(x); return x === 0 || x === 1 ? x : Math.pow(2, -10 * x) * Math.sin((x * 10 - 0.75) * TAU / 3) + 1; };
-    const win = (t, a, d) => cl((t - a) / d);
-
-    /* ----- lecture des tracés SVG → courbes de Bézier absolues, ramenées dans un carré de 1000 ----- */
-    function parse(d) {
-      const tk = d.match(/[a-zA-Z]|-?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?/g) || [], out = [];
-      let i = 0, cmd = '', x = 0, y = 0, sx = 0, sy = 0, lc = null, cur = null;
-      const n = () => parseFloat(tk[i++]);
-      const ln = (x1, y1) => { cur.push(x + (x1 - x) / 3, y + (y1 - y) / 3, x + 2 * (x1 - x) / 3, y + 2 * (y1 - y) / 3, x1, y1); x = x1; y = y1; lc = null; };
-      while (i < tk.length) {
-        if (/[a-zA-Z]/.test(tk[i])) cmd = tk[i++];
-        const rel = cmd >= 'a', C = cmd.toUpperCase();
-        if (C === 'Z') { if (cur && (x !== sx || y !== sy)) ln(sx, sy); x = sx; y = sy; lc = null; if (i < tk.length && !/[a-zA-Z]/.test(tk[i])) cmd = rel ? 'l' : 'L'; continue; }
-        if (C === 'M') { let a = n(), b = n(); if (rel) { a += x; b += y; } x = sx = a; y = sy = b; cur = [x, y]; out.push(cur); cmd = rel ? 'l' : 'L'; lc = null; continue; }
-        if (C === 'L') { let a = n(), b = n(); if (rel) { a += x; b += y; } ln(a, b); continue; }
-        if (C === 'H') { let a = n(); if (rel) a += x; ln(a, y); continue; }
-        if (C === 'V') { let b = n(); if (rel) b += y; ln(x, b); continue; }
-        if (C === 'C') { const a = [n(), n(), n(), n(), n(), n()]; if (rel) for (let k = 0; k < 6; k += 2) { a[k] += x; a[k + 1] += y; } cur.push(...a); lc = [a[2], a[3]]; x = a[4]; y = a[5]; continue; }
-        if (C === 'S') { const a = [n(), n(), n(), n()]; if (rel) for (let k = 0; k < 4; k += 2) { a[k] += x; a[k + 1] += y; } const c1 = lc ? [2 * x - lc[0], 2 * y - lc[1]] : [x, y]; cur.push(c1[0], c1[1], a[0], a[1], a[2], a[3]); lc = [a[0], a[1]]; x = a[2]; y = a[3]; continue; }
-        i++;
-      }
-      return out;
-    }
-    function build(key) {
-      const { vb, d } = INK_DATA[key], k = FIT / Math.max(vb[0], vb[1]), ox = CX - vb[0] * k / 2, oy = CY - vb[1] * k / 2;
-      return d.map((s) => parse(s).map((a) => { const f = new Float32Array(a.length); for (let j = 0; j < a.length; j += 2) { f[j] = ox + a[j] * k; f[j + 1] = oy + a[j + 1] * k; } return f; }));
-    }
-    function box(subs) {
-      let x0 = 1e9, y0 = 1e9, x1 = -1e9, y1 = -1e9;
-      subs.forEach((a) => { for (let j = 0; j < a.length; j += 2) { if (a[j] < x0) x0 = a[j]; if (a[j] > x1) x1 = a[j]; if (a[j + 1] < y0) y0 = a[j + 1]; if (a[j + 1] > y1) y1 = a[j + 1]; } });
-      return { x: (x0 + x1) / 2, y: (y0 + y1) / 2, w: x1 - x0, h: y1 - y0, r: Math.max(x1 - x0, y1 - y0) / 2 };
-    }
-    let M = null;
-    function model() {
-      if (M) return M;
-      /* 1 · le soleil */
-      const A = build('a'), gi = A.findIndex((s) => s.length > 1);
-      const gear = { s: A[gi], b: box(A[gi]) };
-      const rays = A.filter((_, i) => i !== gi).map((s) => {
-        const b = box(s); let best = 1e9, ix = 0, iy = 0;
-        s.forEach((a) => { for (let j = 0; j < a.length; j += 6) { const r = Math.hypot(a[j] - CX, a[j + 1] - CY); if (r < best) { best = r; ix = a[j]; iy = a[j + 1]; } } });
-        return { s, b, ang: Math.atan2(b.y - CY, b.x - CX), ix, iy };
-      }).sort((p, q) => ((p.ang + TAU + Math.PI / 2) % TAU) - ((q.ang + TAU + Math.PI / 2) % TAU));
-      /* 2 · la créature */
-      const B = build('b'), bsub = B[0].map((a) => ({ a, b: box([a]) })).sort((p, q) => q.b.w * q.b.h - p.b.w * p.b.h);
-      const body = { s: [bsub[0].a], b: bsub[0].b };
-      const eyes = bsub.slice(1).map((h) => {
-        const pu = B.slice(1).map((s) => ({ s, b: box(s) })).sort((p, q) => Math.hypot(p.b.x - h.b.x, p.b.y - h.b.y) - Math.hypot(q.b.x - h.b.x, q.b.y - h.b.y))[0];
-        return { hole: [h.a], hb: h.b, pupil: pu.s, pb: pu.b };
-      }).sort((p, q) => q.hb.y - p.hb.y); // l'œil du bas en premier
-      /* 3 · la ronde */
-      const Cc = build('c'), csub = Cc[0].map((a) => ({ a, b: box([a]) })).sort((p, q) => q.b.w * q.b.h - p.b.w * p.b.h);
-      const ring = { s: [csub[0].a], b: csub[0].b }, R = ring.b.r, R0 = 0.45 * R;
-      const inner = csub.slice(1).filter((h) => Math.hypot(h.b.x - CX, h.b.y - CY) < R0 * 0.85);
-      const face = inner.slice().sort((p, q) => q.b.w * q.b.h - p.b.w * p.b.h);
-      const faceEyes = face.slice(0, 2).map((h) => ({ s: [h.a], b: h.b })), faceDots = face.slice(2).map((h) => ({ s: [h.a], b: h.b }));
-      const dHoles = csub.slice(1).filter((h) => !inner.includes(h)).map((h) => ({ s: [h.a], b: h.b }));
-      const pieces = Cc.slice(1).map((s) => ({ s, b: box(s) })).sort((p, q) => q.b.w * q.b.h - p.b.w * p.b.h);
-      const figure = pieces[0], fpupil = pieces[pieces.length - 1];
-      const stones = pieces.slice(1, -1).map((p) => ({ ...p, ang: Math.atan2(p.b.y - CY, p.b.x - CX) }));
-      /* les trois pupilles de la créature deviennent trois pierres de la ronde (les plus proches) */
-      const used = new Set();
-      eyes.forEach((e) => { let bi = -1, bd = 1e9; stones.forEach((st, i) => { if (used.has(i)) return; const dd = Math.hypot(st.b.x - e.pb.x, st.b.y - e.pb.y); if (dd < bd) { bd = dd; bi = i; } }); used.add(bi); e.stone = bi; });
-      M = { gear, rays, body, eyes, ring, R, R0, faceEyes, faceDots, dHoles, figure, fpupil, stones };
-      return M;
-    }
-
-    /* ----- bruit doux, pour le trait qui bout ----- */
-    const hs = (i, j) => { const v = Math.sin(i * 127.1 + j * 311.7) * 43758.5453; return v - Math.floor(v); };
-    const nz = (x, y) => { const i = Math.floor(x), j = Math.floor(y), fx = x - i, fy = y - j, u = fx * fx * (3 - 2 * fx), v = fy * fy * (3 - 2 * fy); return (hs(i, j) * (1 - u) + hs(i + 1, j) * u) * (1 - v) + (hs(i, j + 1) * (1 - u) + hs(i + 1, j + 1) * u) * v; };
-
-    /* ----- tracé d'un élément : déformation (facultative) → transformation → trait qui bout ----- */
-    let X = 0, Y = 0, BA = 0, BS = 0, DEF = null, MT = null;
-    const aff = (px, py, a, sx, sy, tx, ty) => { const c = Math.cos(a), s = Math.sin(a), A = c * sx, B = s * sx, C = -s * sy, D = c * sy; return [A, B, C, D, px + tx - (A * px + C * py), py + ty - (B * px + D * py)]; };
-    const ID = [1, 0, 0, 1, 0, 0];
-    function pt(x, y) {
-      if (DEF) DEF(x, y); else { X = x; Y = y; }
-      const m = MT, x2 = m[0] * X + m[2] * Y + m[4], y2 = m[1] * X + m[3] * Y + m[5];
-      if (BA) { X = x2 + BA * (nz(x2 * 0.012 + BS, y2 * 0.012) - 0.5); Y = y2 + BA * (nz(x2 * 0.012 + 37 + BS, y2 * 0.012 + 11) - 0.5); }
-      else { X = x2; Y = y2; }
-    }
-    function trace(g, subs, m, def) {
-      MT = m || ID; DEF = def || null;
-      for (const a of subs) {
-        pt(a[0], a[1]); g.moveTo(X, Y);
-        for (let k = 2; k < a.length; k += 6) { pt(a[k], a[k + 1]); const c1x = X, c1y = Y; pt(a[k + 2], a[k + 3]); const c2x = X, c2y = Y; pt(a[k + 4], a[k + 5]); g.bezierCurveTo(c1x, c1y, c2x, c2y, X, Y); }
-        g.closePath();
-      }
-    }
-
-    /* ----- le récit ----- */
-    const T_A_OUT = 0.95, T_B_IN = 1.45, T_B_OUT = 2.6, T_C_IN = 2.77, T_FACE = 3.15, IDLE = 3.4, INTRO_END = 3.45;
-    const FINGER = (cx, cy, amp, t, R) => (x, y) => { const dx = x - cx, dy = y - cy, d = Math.hypot(dx, dy), a = amp * Math.pow(d / R, 2) * Math.sin(t * 5.2 + Math.atan2(dy, dx) * 2 + d * 0.012); const c = Math.cos(a), s = Math.sin(a); X = cx + dx * c - dy * s; Y = cy + dx * s + dy * c; };
-    function ringDef(t, grow, rot) {
-      const m = M, R = m.R, R0 = m.R0, idle = Math.max(0, t - IDLE), wave = cl(idle / 0.8) * 1, jump = jumpAt(t);
-      return (x, y) => {
-        const dx = x - CX, dy = y - CY, r = Math.hypot(dx, dy), th = Math.atan2(dy, dx);
-        let rr = r, tt = th + rot;
-        if (r > R0) {
-          const u = (r - R0) / (R - R0);
-          rr = R0 + (r - R0) * grow;
-          rr += wave * 9 * Math.pow(u, 1.4) * Math.sin(5 * th - 3.1 * t) + jump * 22 * u;
-          tt += wave * 0.022 * u * u * Math.sin(2.3 * t + 3 * th);
-        }
-        X = CX + Math.cos(tt) * rr; Y = CY + Math.sin(tt) * rr;
-      };
-    }
-    /* toutes les 6 s, la ronde saute ensemble */
-    const jumpAt = (t) => { if (t < IDLE + 2) return 0; const p = ((t - IDLE - 2) % 6) / 0.55; return p < 1 ? Math.sin(Math.PI * p) * (1 - p * 0.3) : 0; };
-
-    const ap = (q, x, y) => [q[0] * x + q[2] * y + q[4], q[1] * x + q[3] * y + q[5]];
-    const creatureS = (t) => el(win(t, T_B_IN, 0.75)) * (1 - 0.68 * eio(win(t, T_B_OUT, 0.42)));
-    const creatureM = (t) => { const e0 = M.eyes[0], sh = eio(win(t, T_B_OUT, 0.42)), g2 = creatureS(t); return aff(e0.hb.x, e0.hb.y, 0.9 * sh, g2, g2, (CX - e0.hb.x) * sh, (CY - e0.hb.y) * sh); };
-    function scene(g, t) {
-      const m = model();
-      g.fillStyle = '#252422';
-      /* ===== 1 · le soleil ===== */
-      if (t < T_B_IN + 0.3) {
-        const gi = bk(win(t, 0, 0.32)), out = win(t, T_A_OUT + 0.15, 0.4);
-        if (gi > 0 && out < 1) {
-          const tx = (m.eyes[0].pb.x - CX) * eio(out), ty = (m.eyes[0].pb.y - CY) * eio(out);
-          const sc = gi * (1 + 0.05 * Math.sin(t * 7) * (1 - out)) * (1 - (1 - m.eyes[0].pb.r / m.gear.b.r) * eio(out));
-          g.beginPath(); trace(g, m.gear.s, aff(CX, CY, -1.6 * (1 - eo(win(t, 0, 0.5))) + t * 0.5 + 6 * ei(out), sc, sc, tx, ty)); g.fill('evenodd');
-        }
-        const n = m.rays.length;
-        g.beginPath();
-        m.rays.forEach((r, i) => {
-          const a0 = 0.12 + 0.42 * (i / n), pin = bk(win(t, a0, 0.32));
-          const pout = eio(win(t, T_A_OUT + 0.2 * (i / n), 0.3));
-          let s = pin * (1 - pout);
-          if (s <= 0.001) return;
-          s *= 1 + 0.06 * Math.sin(r.ang * 3 - 7 * t) * cl((t - 0.7) * 3);
-          const a = 0.9 * pout, c = Math.cos(a), si = Math.sin(a);
-          trace(g, r.s, ID, (x, y) => { const dx = r.ix + (x - r.ix) * s - CX, dy = r.iy + (y - r.iy) * s - CY; X = CX + dx * c - dy * si; Y = CY + dx * si + dy * c; });
-        });
-        g.fill();
-      }
-      /* ===== 2 · la créature ===== */
-      if (t >= T_B_IN && t < T_C_IN + 0.3) {
-        const e0 = m.eyes[0], shrink = eio(win(t, T_B_OUT, 0.42)), g2 = creatureS(t), rot = 0.9 * shrink;
-        const fade = 1 - win(t, T_C_IN + 0.1, 0.12);
-        if (g2 > 0.002 && fade > 0) {
-          const wig = 0.09 * (1 - win(t, T_B_IN, 0.6)) + 0.045;
-          const mt = creatureM(t);
-          g.save(); g.globalAlpha = fade;
-          g.beginPath(); trace(g, m.body.s, mt, FINGER(m.body.b.x, m.body.b.y, wig, t, m.body.b.r)); g.fill();
-          /* les yeux : ouverture en cascade, clignement, regards */
-          m.eyes.forEach((e, i) => {
-            const open = bk(win(t, T_B_IN + 0.32 + i * 0.08, 0.2)) * (1 - eio(win(t, T_B_OUT - 0.05, 0.12)));
-            const blink = 1 - 0.9 * Math.max(0, Math.sin(Math.PI * win(t, T_B_IN + 0.75 + i * 0.04, 0.16)));
-            const sy = open * blink; if (sy < 0.02) return;
-            const [ex, ey] = [e.hb.x, e.hb.y];
-            const [hx, hy] = ap(mt, ex, ey);
-            g.globalCompositeOperation = 'destination-out';
-            g.beginPath(); trace(g, e.hole, aff(hx, hy, rot, g2, g2 * sy, hx - ex, hy - ey)); g.fill();
-            g.globalCompositeOperation = 'source-over';
-            const look = [[0, 0], [-0.22, 0.05], [0.24, -0.02], [0, -0.18], [0, 0]], tl = [T_B_IN + 0.25, T_B_IN + 0.55, T_B_IN + 0.75, T_B_IN + 0.95, T_B_IN + 1.1];
-            let lx = 0, ly = 0; for (let k = 1; k < tl.length; k++) { const q = eio(win(t, tl[k - 1] + 0.12, 0.12)); lx = look[k - 1][0] + (look[k][0] - look[k - 1][0]) * q; ly = look[k - 1][1] + (look[k][1] - look[k - 1][1]) * q; if (t < tl[k]) break; }
-            if (t > T_B_OUT + 0.1) return;
-            const px = (e.pb.x - ex) + lx * e.hb.w, py = (e.pb.y - ey) + ly * e.hb.h;
-            g.beginPath(); trace(g, e.pupil, aff(e.pb.x, e.pb.y, rot, g2 * Math.min(1, sy * 1.2), g2 * sy, hx - ex + px * g2 - (e.pb.x - ex), hy - ey + py * g2 - (e.pb.y - ey))); g.fill();
-          });
-          g.restore();
-        }
-        /* la pupille du bas, avant l'arrivée du corps, c'est le cœur du soleil qui s'y pose */
-      }
-      /* ===== 3 · la ronde ===== */
-      if (t >= T_C_IN) {
-        const disc = bk(win(t, T_C_IN, 0.22)), grow = el(win(t, T_C_IN + 0.12, 0.7)), rot = -0.7 * (1 - eo(win(t, T_C_IN, 0.9))) + 0.11 * Math.max(0, t - IDLE);
-        const jump = jumpAt(t), js = 1 + 0.025 * jump;
-        const def = ringDef(t, grow, rot), base = aff(CX, CY, 0, disc * js, disc * js, 0, 0);
-        g.beginPath(); trace(g, m.ring.s, base, def); g.fill();
-        g.globalCompositeOperation = 'destination-out';
-        g.beginPath(); trace(g, m.dHoles.flatMap((h) => h.s), base, def); g.fill();
-        /* le visage du centre : les yeux s'ouvrent, puis clignent de temps en temps */
-        const fo = bk(win(t, T_FACE - 0.15, 0.22));
-        const bl = (() => { if (t < IDLE + 1) return 1; const p = ((t - IDLE - 1) % 4.6) / 0.2; return p < 1 ? 1 - 0.9 * Math.sin(Math.PI * p) : 1; })();
-        if (fo > 0.01) {
-          g.beginPath(); m.faceEyes.forEach((h) => trace(g, h.s, aff(h.b.x, h.b.y, 0, disc * fo, disc * fo * bl, (h.b.x - CX) * (disc - 1), (h.b.y - CY) * (disc - 1)))); g.fill();
-          g.beginPath(); m.faceDots.forEach((h, i) => { const s = bk(win(t, T_FACE - 0.07 + i * 0.04, 0.18)) * disc; if (s > 0.01) trace(g, h.s, aff(h.b.x, h.b.y, 0, s, s, 0, 0)); }); g.fill();
-        }
-        g.globalCompositeOperation = 'source-over';
-        if (fo > 0.01) {
-          const pp = bk(win(t, T_FACE, 0.2)), w = m.faceEyes[0].b.w, lx = 0.25 * w * (nz(t * 0.45, 3) - 0.5) * 2, ly = 0.18 * w * (nz(t * 0.45, 9) - 0.5) * 2;
-          g.beginPath(); trace(g, m.fpupil.s, aff(m.fpupil.b.x, m.fpupil.b.y, 0, pp, pp * bl, lx * cl((t - IDLE) * 2), ly * cl((t - IDLE) * 2))); g.fill();
-        }
-        /* le danseur couché et les pierres, emportés par la ronde */
-        const at = (b) => { def(b.x, b.y); return [CX + (X - CX) * disc * js, CY + (Y - CY) * disc * js]; };
-        const ride = (b, s, extra = 0) => { const [x, y] = at(b), k = (1 + 0.04 * jump * extra) * disc; return aff(b.x, b.y, rot, s * k, s * k, x - b.x, y - b.y); };
-        const fg = bk(win(t, T_FACE - 0.15, 0.3)); if (fg > 0.01) { g.beginPath(); trace(g, m.figure.s, ride(m.figure.b, fg, 1)); g.fill(); }
-        g.beginPath();
-        m.stones.forEach((st, i) => {
-          const from = m.eyes.find((e) => e.stone === i);
-          if (from) {
-            /* la pupille de la créature vole jusqu'à sa pierre */
-            const q = eio(win(t, T_B_OUT + 0.1, 0.5));
-            if (q < 1) {
-              const [sx, sy] = ap(creatureM(t), from.pb.x, from.pb.y), [tx, ty] = at(st.b), k0 = (from.pb.r / st.b.r) * creatureS(t);
-              const sc = k0 + (disc - k0) * q;
-              trace(g, st.s, aff(st.b.x, st.b.y, rot * q, sc, sc, sx + (tx - sx) * q - st.b.x, sy + (ty - sy) * q - st.b.y));
-              return;
-            }
-            trace(g, st.s, ride(st.b, 1, 1.5)); return;
-          }
-          const ord = ((st.ang + TAU * 2 + Math.PI / 2) % TAU) / TAU, s = bk(win(t, T_C_IN + 0.3 + ord * 0.4, 0.22));
-          if (s > 0.01) trace(g, st.s, ride(st.b, s, 1.5));
-        });
-        g.fill();
-      }
-    }
-
-    /* ----- texture : encre usée (manques) ----- */
-    function speckles(px, seed) {
-      const c = document.createElement('canvas'); c.width = c.height = px; const g = c.getContext('2d');
-      let a = seed * 9301 + 49297; const r = () => { a = (a * 9301 + 49297) % 233280; return a / 233280; };
-      const k = px / 1000;
-      g.fillStyle = '#000';
-      for (let i = 0; i < 1700; i++) {
-        const x = r() * px, y = r() * px, w = nz(x / px * 5 + seed, y / px * 5);
-        if (r() > 0.35 + w * 0.6) continue;
-        g.globalAlpha = 0.35 + r() * 0.65; g.beginPath(); g.arc(x, y, (0.6 + r() * r() * 2.6) * k * 1.6, 0, TAU); g.fill();
-      }
-      g.globalAlpha = 0.5; g.lineWidth = 0.9 * k * 1.6;
-      for (let i = 0; i < 26; i++) { const x = r() * px, y = r() * px, l = (14 + r() * 40) * k, an = r() * TAU; g.beginPath(); g.moveTo(x, y); g.lineTo(x + Math.cos(an) * l, y + Math.sin(an) * l); g.stroke(); }
-      return c;
-    }
-
-    function create(canvas, opt = {}) {
-      model();
-      const ctx = canvas.getContext('2d'); if (!ctx) return null;
-      const layer = document.createElement('canvas'), lg = layer.getContext('2d');
-      let px = 0, spk = [];
-      const resize = (n) => { px = Math.max(16, Math.round(n)); canvas.width = canvas.height = layer.width = layer.height = px; spk = opt.texture === false || px < 160 ? [] : [speckles(px, 3), speckles(px, 7)]; };
-      resize(opt.size || 600);
-      function render(t, still) {
-        const k = px / S, seedStep = still ? 0 : Math.floor(t * (t < IDLE ? 9 : 6));
-        BA = (still ? 0 : 2.2) * (px < 160 ? 0.6 : 1); BS = (seedStep % 3) * 5.3;
-        lg.setTransform(1, 0, 0, 1, 0, 0); lg.globalCompositeOperation = 'source-over'; lg.globalAlpha = 1; lg.clearRect(0, 0, px, px);
-        lg.setTransform(k, 0, 0, k, 0, 0); scene(lg, t);
-        lg.setTransform(1, 0, 0, 1, 0, 0);
-        if (spk.length) { lg.globalCompositeOperation = 'destination-out'; lg.drawImage(spk[seedStep % 2], 0, 0); lg.globalCompositeOperation = 'source-over'; }
-        ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, px, px);
-        if (spk.length) { ctx.globalAlpha = 0.08; ctx.drawImage(layer, px * 0.006, -px * 0.004); }
-        ctx.globalAlpha = 1; ctx.drawImage(layer, 0, 0);
-      }
-      return { render, resize };
-    }
-    return { create, INTRO_END, IDLE };
-  })();
-  /* Écran d'entrée : en grand au centre pendant l'intro (≈ 3,5 s), puis le dessin rapetisse, le bouton apparaît dessous,
-     et la ronde continue en attente. Un clic passe l'intro. À l'entrée, la ronde s'envole et devient le logo en haut à gauche. */
-  let gateT = 0;
-  (() => {
-    const cv = gateOrb.querySelector('.seal__cv'); if (!cv) return;
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    let big = 0, fin = 0;
+  /* ---------- Écran d'entrée · « le montage dans les lettres » ----------
+     Le nom s'écrit en très grand, puis les images des projets défilent à l'intérieur des lettres, en coupes franches qui accélèrent
+     puis ralentissent, comme un générique. Le compteur en bas égrène le temps code. Le nom repasse à l'encre, se pose, le bouton apparaît.
+     Ensuite : survoler une lettre la fait passer en « fenêtre » sur les projets ; de temps en temps une lettre s'allume toute seule.
+     À l'entrée, toutes les lettres tombent sauf le A et le V, qui s'envolent en haut à gauche et deviennent le logo.
+     Une seule image par projet (les miniatures de la spirale, déjà chargées pour elle) ; rien ne tourne quand l'onglet est caché. */
+  const GX = (() => {
+    const box = $('#gxIn'), gx = $('#gx'), tc = $('#gxTc');
+    const split = (root) => { let i = 0; root.querySelectorAll('.gx__w').forEach((w) => { const t = w.textContent; w.textContent = ''; [...t].forEach((c) => { const l = document.createElement('span'); l.className = 'gx__l'; l.textContent = c; l.style.setProperty('--i', i++); w.appendChild(l); }); }); };
+    split(box);
+    const letters = [...box.querySelectorAll('.gx__l')];
+    const srcs = PJ_CARDS.map((c) => c.img).filter(Boolean), imgs = [];
+    srcs.forEach((u) => { const im = new Image(); im.decoding = 'async'; im.onload = () => imgs.push(im); im.src = u; });
+    /* place de chaque lettre dans le bloc (sans les transformations) : sert à caler la même image derrière toutes les lettres */
+    const place = (root, ls) => { ls.forEach((l) => { l.style.setProperty('--lx', `${l.offsetLeft}px`); l.style.setProperty('--ly', `${l.offsetTop}px`); }); };
+    let cur = -1;
+    const show = (root, k, jit) => {
+      if (!imgs.length) return false;
+      cur = k == null ? (cur + 1 + Math.floor(Math.random() * 2)) % imgs.length : k % imgs.length;
+      const im = imgs[cur], w = root.offsetWidth, h = root.offsetHeight, sc = Math.max(w / im.naturalWidth, h / im.naturalHeight) * (1 + (jit || 0));
+      const bw = im.naturalWidth * sc, bh = im.naturalHeight * sc, jx = (Math.random() - 0.5) * (jit || 0) * w, jy = (Math.random() - 0.5) * (jit || 0) * h;
+      root.style.setProperty('--img', `url("${im.src}")`); root.style.setProperty('--bw', `${bw.toFixed(1)}px`); root.style.setProperty('--bh', `${bh.toFixed(1)}px`);
+      root.style.setProperty('--bx', `${((w - bw) / 2 + jx).toFixed(1)}px`); root.style.setProperty('--by', `${((h - bh) / 2 + jy).toFixed(1)}px`);
+      return true;
+    };
+    /* pendant l'intro, le nom est agrandi au centre de l'écran ; ensuite il reprend sa place au-dessus du bouton */
     const layout = () => {
-      fin = gateOrb.offsetWidth; big = Math.max(fin, Math.round(Math.min(innerWidth * 0.84, innerHeight * 0.66, 640)));
-      const r = gateOrb.getBoundingClientRect(), dy = innerHeight / 2 - (r.top + r.height / 2);
-      cv.style.setProperty('--big', `${big}px`); cv.style.setProperty('--dy', `${dy.toFixed(1)}px`); cv.style.setProperty('--k', (fin / big).toFixed(4));
+      place(box, letters);
+      const r = box.getBoundingClientRect(), k0 = parseFloat(getComputedStyle(box).getPropertyValue('--k')) || 1;
+      const w = box.offsetWidth, h = box.offsetHeight, k = Math.max(1, Math.min(innerWidth * 0.9 / w, innerHeight * 0.74 / h));
+      const cx = r.left + r.width / 2, cy = r.top + r.height / 2, tx0 = parseFloat(box.style.getPropertyValue('--tx')) || 0, ty0 = parseFloat(box.style.getPropertyValue('--ty')) || 0;
+      if (gate.classList.contains('is-small')) return;
+      box.style.setProperty('--k', k.toFixed(4)); box.style.setProperty('--tx', `${(innerWidth / 2 - (cx - tx0)).toFixed(1)}px`); box.style.setProperty('--ty', `${(innerHeight / 2 - (cy - ty0)).toFixed(1)}px`);
+      void k0;
     };
-    layout(); window.addEventListener('resize', layout);
-    const R = INKV.create(cv, { size: big * dpr });
+    box.style.transition = 'none'; layout(); void box.offsetWidth; box.style.transition = '';
+    window.addEventListener('resize', layout);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (!gate.classList.contains('is-small')) { box.style.transition = 'none'; layout(); void box.offsetWidth; box.style.transition = ''; } else place(box, letters); });
+
+    let finished = false, timers = [], raf = 0, t0 = 0;
+    const later = (f, ms) => timers.push(setTimeout(f, ms));
     const done = () => {
-      if (!gate.classList.contains('is-intro')) return;
+      if (finished) return; finished = true;
+      timers.forEach(clearTimeout); timers = []; cancelAnimationFrame(raf);
+      gx.classList.add('is-ink'); gx.classList.remove('is-cut');
+      later(() => { gx.classList.remove('is-ink'); }, 900);
       gate.classList.remove('is-intro'); gate.classList.add('is-small');
-      if (R) setTimeout(() => { if (!(state.entered && gate.hidden)) R.resize(fin * dpr); }, 1100);
+      later(idle, 2600);
     };
-    setTimeout(done, 6000);
-    if (!R) { done(); return; }
-    if (reduce) { gateT = INKV.IDLE + 1; R.render(gateT, true); done(); return; }
-    let t0 = 0, raf = 0, last = 0, skip = 0;
-    const loop = (now) => {
-      raf = 0;
-      if (state.entered && gate.hidden) return;
+    /* le temps code : heures, minutes, secondes, images (25 par seconde) */
+    const tick = (now) => {
+      if (finished) return;
       if (!t0) t0 = now;
-      gateT = (now - t0) / 1000 + skip;
-      if (gateT >= INKV.INTRO_END) done();
-      if (now - last >= 32) { last = now; R.render(gateT, false); }
-      raf = requestAnimationFrame(loop);
+      const f = Math.floor((now - t0) / 40), p2 = (n) => String(n).padStart(2, '0');
+      tc.textContent = `00:00:${p2(Math.floor(f / 25))}:${p2(f % 25)}`;
+      raf = requestAnimationFrame(tick);
     };
-    raf = requestAnimationFrame(loop);
-    gate.addEventListener('click', () => { if (gate.classList.contains('is-intro') && t0 && gateT < INKV.IDLE) skip += INKV.IDLE - gateT; });
-    document.addEventListener('visibilitychange', () => { if (!document.hidden && !raf && !(state.entered && gate.hidden)) raf = requestAnimationFrame(loop); });
-  })();
-  /* Le logo en haut à gauche : la ronde en attente, en petit (peu d'images par seconde, rien quand l'onglet est caché) */
-  const LOGO = (() => {
-    const cv = logo.querySelector('.logo__cv'); if (!cv) return { start() {} };
-    const R = INKV.create(cv, { size: Math.round((logo.offsetWidth || 60) * Math.min(window.devicePixelRatio || 1, 2)), texture: false });
-    const lite = typeof LITE !== 'undefined' && LITE;
-    let base = INKV.IDLE + 1, t0 = 0, raf = 0, last = 0, on = false;
-    const loop = (now) => {
-      raf = 0; if (!on || document.hidden) return;
-      if (now - last >= (lite ? 90 : 45)) { last = now; R.render(base + (now - t0) / 1000, false); }
-      raf = requestAnimationFrame(loop);
+    /* la suite de coupes : lente, puis de plus en plus vite, puis on freine jusqu'à la dernière image */
+    const RHYTHM = [150, 130, 115, 100, 90, 80, 72, 66, 60, 56, 52, 50, 50, 52, 58, 70, 90, 120, 165, 230, 320];
+    const montage = () => {
+      if (finished) return;
+      if (!imgs.length) { later(montage, 120); return; }
+      gx.classList.add('is-cut');
+      let at = 0;
+      RHYTHM.forEach((d, k) => { later(() => show(box, null, k < RHYTHM.length - 4 ? 0.12 : 0.03), at); at += d; });
+      later(() => { gx.classList.remove('is-cut'); gx.classList.add('is-ink'); }, at + 260);
+      later(done, at + 760);
     };
-    document.addEventListener('visibilitychange', () => { if (!document.hidden && on && !raf && !reduce) raf = requestAnimationFrame(loop); });
-    if (R) R.render(base, true);
-    return { start(t) { if (!R) return; base = Math.max(INKV.IDLE + 0.5, t || 0); t0 = performance.now(); on = true; R.render(base, reduce); if (!reduce && !raf) raf = requestAnimationFrame(loop); } };
+    /* au repos : une lettre survolée devient une fenêtre sur les projets ; de temps en temps, une lettre s'allume seule */
+    let hot = null, hotT = 0, autoT = 0;
+    const cutLoop = () => { show(box, null, 0.05); };
+    const heat = (l) => {
+      if (state.entered) return;
+      l.classList.add('is-hot'); clearTimeout(l._off);
+      if (!hotT) { cutLoop(); hotT = setInterval(cutLoop, 120); }
+    };
+    const cool = (l, ms) => { l._off = setTimeout(() => { l.classList.remove('is-hot'); if (!box.querySelector('.is-hot')) { clearInterval(hotT); hotT = 0; } }, ms); };
+    letters.forEach((l) => {
+      l.addEventListener('pointerenter', () => { if (!finished) return; heat(l); });
+      l.addEventListener('pointerleave', () => cool(l, 260));
+    });
+    const idle = () => {
+      if (state.entered || reduce) return;
+      clearTimeout(autoT);
+      autoT = setTimeout(function glimpse() {
+        if (state.entered) return;
+        if (!document.hidden && !box.querySelector('.is-hot') && imgs.length) { const l = letters[Math.floor(Math.random() * letters.length)]; heat(l); cool(l, 420 + Math.random() * 300); }
+        autoT = setTimeout(glimpse, 2600 + Math.random() * 2600);
+      }, 1200);
+    };
+    gate.addEventListener('click', () => { if (gate.classList.contains('is-intro')) done(); });
+    setTimeout(done, 6000);
+    if (reduce) done();
+    else { raf = requestAnimationFrame(tick); later(montage, 650); }
+
+    /* à l'entrée : les lettres tombent, le A et le V s'envolent jusqu'au logo */
+    const lgL = [...logo.querySelectorAll('.gx__l')];
+    const leave = (cb) => {
+      clearTimeout(autoT); clearInterval(hotT); hotT = 0; letters.forEach((l) => l.classList.remove('is-hot'));
+      box.style.transition = 'none';
+      const keep = [letters[0], letters[7]];
+      letters.forEach((l, k) => {
+        if (keep.includes(l)) return;
+        l.animate([{ transform: 'none', opacity: 1 }, { transform: `translateY(${(0.5 + Math.random() * 0.6).toFixed(2)}em) rotate(${(Math.random() * 40 - 20).toFixed(1)}deg)`, opacity: 0 }],
+          { duration: reduce ? 1 : 560, delay: reduce ? 0 : k * 22, easing: 'cubic-bezier(.5,0,.75,0)', fill: 'forwards' });
+      });
+      let n = 0;
+      keep.forEach((l, k) => {
+        const a = l.getBoundingClientRect(), b = lgL[k].getBoundingClientRect(), sc = b.height / a.height;
+        l.style.transformOrigin = '0 0';
+        const fly = l.animate([{ transform: 'none' }, { transform: `translate(${(b.left - a.left).toFixed(1)}px, ${(b.top - a.top).toFixed(1)}px) scale(${sc.toFixed(4)})` }],
+          { duration: reduce ? 1 : 1050, delay: reduce ? 0 : 120 + k * 60, easing: 'cubic-bezier(.7,0,.2,1)', fill: 'forwards' });
+        fly.onfinish = () => { if (++n === 2) cb(); };
+      });
+    };
+    /* le logo : même jeu au survol, avec ses propres réglages d'image */
+    place(logo, lgL);
+    let lgT = 0;
+    logo.addEventListener('pointerenter', () => { place(logo, lgL); show(logo, null, 0.04); clearInterval(lgT); lgT = setInterval(() => show(logo, null, 0.04), 130); });
+    logo.addEventListener('pointerleave', () => { clearInterval(lgT); lgT = 0; });
+    return { leave };
   })();
-  /* Bouton « entrer avec le son » : les lettres roulent au survol, et le mot « son » ondule comme une onde sonore */
+  /* Bouton « entrer avec le son » : au survol, les lettres se tassent et se bousculent, sans cesse, comme écrasées dans le bouton */
   (() => {
     const lab = $('#enterLabel'), txt = lab.textContent; lab.setAttribute('aria-label', txt); lab.textContent = '';
-    const sonAt = txt.lastIndexOf('son');
-    [...txt].forEach((c, k) => {
-      const w = document.createElement('span'); w.className = 'ch' + (c === ' ' ? ' is-sp' : '') + (k >= sonAt && k < sonAt + 3 ? ' is-son' : ''); w.style.setProperty('--k', k); w.setAttribute('aria-hidden', 'true');
-      const i = document.createElement('span'); i.textContent = c === ' ' ? ' ' : c; i.dataset.c = c === ' ' ? ' ' : c; w.appendChild(i); lab.appendChild(w);
-    });
+    const chs = [...txt].map((c) => { const w = document.createElement('span'); w.className = 'ch' + (c === ' ' ? ' is-sp' : ''); w.textContent = c === ' ' ? ' ' : c; w.setAttribute('aria-hidden', 'true'); lab.appendChild(w); return w; });
+    let tm = 0;
+    const jolt = () => {
+      const n = chs.length;
+      chs.forEach((c, k) => {
+        if (c.classList.contains('is-sp')) return;
+        /* les lettres se rapprochent du centre du mot et se chevauchent un peu, chacune à sa façon */
+        const pull = ((n - 1) / 2 - k) * 0.022, dx = pull + (Math.random() - 0.5) * 0.2, dy = (Math.random() - 0.5) * 0.12, sx = 0.82 + Math.random() * 0.36;
+        c.style.transform = `translate(${dx.toFixed(3)}em, ${dy.toFixed(3)}em) scaleX(${sx.toFixed(3)})`;
+      });
+    };
+    const on = () => { if (reduce || tm) return; enterBtn.classList.add('is-crunch'); jolt(); tm = setInterval(jolt, 90); };
+    const off = () => { clearInterval(tm); tm = 0; enterBtn.classList.remove('is-crunch'); chs.forEach((c) => { c.style.transform = ''; }); };
+    enterBtn.addEventListener('pointerenter', on); enterBtn.addEventListener('pointerleave', off);
+    enterBtn.addEventListener('focus', on); enterBtn.addEventListener('blur', off); enterBtn.addEventListener('click', off);
   })();
 
   window.claude?.hot?.snapshot?.(() => ({ entered: state.entered, sound: state.sound, mode: state.mode, scroll: scrollT, fx: { ...fx }, view: state.view, slug: pjCur }));
