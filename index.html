@@ -79,29 +79,38 @@ a{color:inherit;text-decoration:none}
   box-shadow:inset -6px -10px 18px rgba(0,0,0,.55),inset 4px 6px 12px rgba(255,255,255,.22),0 12px 30px var(--shadow)}
 .orb__body::after{content:"";position:absolute;inset:-35%;background:conic-gradient(from 0deg,rgba(255,80,160,0),rgba(255,80,160,.4),rgba(80,200,255,.4),rgba(170,255,120,.35),rgba(255,80,160,0));mix-blend-mode:overlay;filter:blur(8px);animation:spin 7s linear infinite}
 .orb--gate .orb__body{animation:float 5s ease-in-out infinite}
-/* Écran d'entrée · « le montage dans les lettres » : le nom en très grand, des images de projets qui défilent à l'intérieur des lettres,
-   puis le nom se pose et le bouton apparaît. À l'entrée, le A et le V s'envolent et deviennent le logo. */
-.gx{margin:0;font-size:clamp(64px,min(13vw,17vh),200px);font-weight:700;line-height:.84;letter-spacing:-.065em;color:var(--fg);user-select:none;-webkit-user-select:none}
-.gx__in{position:relative;display:flex;flex-direction:column;align-items:center;transform:translate3d(var(--tx,0px),var(--ty,0px),0) scale(var(--k,1));transform-origin:50% 50%;transition:transform 1.15s var(--ease-io)}
-.gate.is-small .gx__in{transform:none}
-.gx__w{display:flex;white-space:nowrap}
-.gx__l{display:inline-block;padding:.14em .1em .1em;margin:-.14em -.1em -.1em;color:var(--fg);background-image:var(--img,none);background-repeat:no-repeat;background-size:var(--bw,100%) var(--bh,100%);background-position:calc(var(--bx,0px) - var(--lx,0px)) calc(var(--by,0px) - var(--ly,0px));-webkit-background-clip:text;background-clip:text;transition:color .28s;animation:gxIn .8s var(--ease-out) backwards;animation-delay:calc(.08s + var(--i) * 42ms)}
-@keyframes gxIn{from{opacity:0;transform:translateY(.35em) scaleY(1.25);filter:blur(10px)}}
-.gx.is-cut .gx__l,.gx__l.is-hot{color:transparent;transition:none}
-.gx.is-ink .gx__l{transition:color .32s calc(var(--i) * 34ms)}
-.gate.is-small .gx__l{cursor:crosshair}
-.gx__tc{position:absolute;left:50%;bottom:calc(30px + env(safe-area-inset-bottom,0px));translate:-50% 0;margin:0;display:flex;gap:14px;font-size:12px;font-weight:500;letter-spacing:.04em;font-variant-numeric:tabular-nums;color:var(--dim);transition:opacity .5s}
-.gx__tc i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#e2402b;align-self:center;animation:recBlink 1s steps(2) infinite}
-@keyframes recBlink{50%{opacity:0}}
-.gate.is-small .gx__tc{opacity:0}
-.gate.is-intro > :not(.gx):not(.gx__tc){visibility:hidden;animation:none}
+/* Écran d'entrée · le zootrope : une bande de 12 images glisse, s'enroule en tambour, tourne de plus en plus vite,
+   puis l'animation se met à jouer (effet stroboscopique). Le tambour se pose au-dessus du nom ; à l'entrée il devient le logo. */
+.zo{position:relative;width:calc(var(--zr,200px) * 2.3);height:calc(var(--zh,160px) * 1.9);perspective:1300px;perspective-origin:50% 22%;pointer-events:none;transform:translate3d(0,var(--zy,0px),0) scale(var(--zk,1));transition:transform 1.1s var(--ease-io)}
+.gate.is-small .zo{--zk:.8}
+.zo__d{position:absolute;left:50%;top:46%;width:0;height:0;transform-style:preserve-3d}
+.zo__p{position:absolute;left:0;top:0;width:var(--zw);height:var(--zh);transform-style:preserve-3d}
+.zo__f,.zo__b{position:absolute;top:0;bottom:0;left:3.5%;right:3.5%;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.zo__f{background-color:#f8f3e3;background-image:var(--zs);background-repeat:no-repeat;background-size:1200% 100%;background-position:calc(var(--i) * 100% / 11) 0}
+.zo__b{background:linear-gradient(#141312,#2b2a28 18% 82%,#141312);transform:rotateY(180deg)}
+.zo__fl{position:absolute;left:0;top:0;border-radius:50%;background:radial-gradient(circle,#3a3836,#1c1b1a 70%);opacity:var(--zf,0)}
+.zo__sh{position:absolute;left:50%;bottom:4%;width:calc(var(--zr,200px) * 2.1);height:calc(var(--zr,200px) * .34);translate:-50% 0;border-radius:50%;background:radial-gradient(closest-side,rgba(37,36,34,.28),rgba(37,36,34,0));opacity:var(--zf,0)}
+.gate__name{margin:-6px 0 0;font-size:clamp(34px,min(6vw,8vh),68px);font-weight:700;line-height:.9;letter-spacing:-.055em}
+.gate.is-intro > :not(.zo){visibility:hidden;animation:none}
 .gate.is-intro{cursor:pointer}
-.gate > .gx{animation:none}
-/* Le logo : le A et le V, qui montrent eux aussi des images au survol */
-.lg{position:fixed;top:calc(var(--top) + 2px);left:var(--left);z-index:5;display:flex;align-items:flex-end;height:52px;font-size:46px;font-weight:700;line-height:.84;letter-spacing:-.065em;color:var(--fg);opacity:0;pointer-events:none;text-decoration:none}
+.gate > .zo{animation:none}
+/* Le logo : un petit zootrope, qui tourne quand on fait défiler, partout sur le site */
+.lg{position:fixed;top:calc(var(--top) - 4px);left:calc(var(--left) - 8px);z-index:5;display:block;width:72px;height:58px;opacity:0;pointer-events:none}
 .lg.is-on{opacity:1;pointer-events:auto}
-.lg .gx__l{animation:none}
-.lg:hover .gx__l{color:transparent;transition:none}
+.lg .zo{position:absolute;inset:0;width:auto;height:auto;perspective:420px;perspective-origin:50% 10%;transform:none;transition:none}
+/* Indication de défilement sur la spirale (disparaît dès qu'on a fait défiler une fois) */
+.hint{position:fixed;left:50%;bottom:calc(var(--bottom) + 6px);z-index:5;translate:-50% 8px;display:flex;align-items:center;gap:10px;margin:0;font-size:13px;font-weight:500;letter-spacing:-.005em;opacity:0;pointer-events:none;transition:opacity .6s var(--ease-out),translate .6s var(--ease-out)}
+.hint.is-on{opacity:1;translate:-50% 0}
+.hint__m{position:relative;width:18px;height:28px;border:1.6px solid currentColor;border-radius:10px}
+.hint__m::after{content:"";position:absolute;left:50%;top:5px;width:3px;height:6px;margin-left:-1.5px;border-radius:2px;background:currentColor;animation:hintWheel 1.6s var(--ease-io) infinite}
+@keyframes hintWheel{0%{translate:0 0;opacity:1}70%{translate:0 9px;opacity:0}100%{translate:0 0;opacity:0}}
+.hint__s{display:none;width:34px;height:20px;position:relative}
+.hint__s::before{content:"";position:absolute;left:0;right:0;top:50%;height:1.6px;background:currentColor;opacity:.35}
+.hint__s::after{content:"";position:absolute;left:0;top:50%;width:12px;height:12px;margin-top:-6px;border-radius:50%;background:currentColor;animation:hintSwipe 1.6s var(--ease-io) infinite}
+@keyframes hintSwipe{0%{translate:0 0}60%{translate:22px 0}100%{translate:22px 0;opacity:0}}
+@media (pointer:coarse){.hint__m{display:none}.hint__s{display:block}}
+@media (max-width:640px){.hint{bottom:calc(var(--bottom) + 62px);font-size:12.5px}}
+@media (prefers-reduced-motion:reduce){.hint__m::after,.hint__s::after{animation:none}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
@@ -1431,7 +1440,7 @@ a.vc__th{display:grid}
 
 @media (max-width:640px){
   :root{--edge:16px}
-  .lg{height:44px;font-size:38px}
+  .lg{width:66px;height:54px}
   .modes{top:calc(var(--top) + 22px);font-size:14px}
   .menu-btn{top:var(--top);height:40px;padding:0 14px 0 16px;font-size:14px}
   .panel{top:var(--top);padding:74px 22px 22px}
@@ -1454,8 +1463,8 @@ a.vc__th{display:grid}
 
 <!-- Écran d'entrée -->
 <div class="gate is-intro" id="gate">
-  <h1 class="gx" id="gx" aria-label="Achille Valleur"><span class="gx__in" id="gxIn"><span class="gx__w">Achille</span><span class="gx__w">Valleur</span></span></h1>
-  <p class="gx__tc" aria-hidden="true"><i></i><span id="gxTc">00:00:00:00</span><span>générique</span></p>
+  <div class="zo" id="zo" aria-hidden="true"><div class="zo__sh"></div><div class="zo__d" id="zoD"></div></div>
+  <h1 class="gate__name gate__fade">Achille Valleur</h1>
   <p class="gate__line gate__fade">graphisme, direction artistique<br>&amp; montage vidéo — paris</p>
   <button class="enter gate__fade" id="enterBtn" type="button">
     <span class="enter__fill" aria-hidden="true"></span>
@@ -1466,7 +1475,8 @@ a.vc__th{display:grid}
 </div>
 
 <!-- Interface fixe -->
-<a class="lg" id="logo" href="#" aria-label="Achille Valleur, retour à la spirale"><span class="gx__l" aria-hidden="true">A</span><span class="gx__l" aria-hidden="true">V</span></a>
+<a class="lg" id="logo" href="#" aria-label="Achille Valleur, retour à la spirale"><span class="zo" aria-hidden="true"><span class="zo__d" id="lgD"></span></span></a>
+<p class="hint" id="scrollHint" aria-hidden="true"><span class="hint__m"></span><span class="hint__s"></span><span class="hint__t">faites défiler</span></p>
 
 <div class="modes ui ui--top" id="modes" data-mode="spiral" role="tablist" aria-label="affichage des projets" style="--d:150ms">
   <button type="button" role="tab" aria-selected="true" data-mode="spiral">spirale</button>
@@ -1736,6 +1746,8 @@ a.vc__th{display:grid}
   const damp = (f, dt) => 1 - Math.pow(1 - f, dt * 60);
 
   const state = { entered: false, sound: true, mode: 'spiral', menu: false, view: 'home' };
+  /* le logo-zootrope tourne avec le défilement : la spirale lui envoie son mouvement (défini plus bas) */
+  let zoeFeed = () => {};
 
   /* Son du site : tout est généré en direct (Web Audio), aucun fichier à charger.
      · une ambiance : une nappe lente sur quatre accords (ré, si mineur, sol, la), un souffle léger et quelques notes au hasard ;
@@ -2215,6 +2227,7 @@ a.vc__th{display:grid}
 
       const prevC = scrollC;
       scrollC += (scrollT - scrollC) * damp(0.085, dt);
+      if (state.entered && state.view === 'home' && state.mode === 'spiral') zoeFeed((scrollC - prevC) * 6);
       const vRaw = dt > 0 ? (scrollC - prevC) / dt : 0;
       velS += (vRaw - velS) * damp(0.15, dt);
       const warp = reduce ? 0 : clamp(velS * 0.09 * fxC.warp, -0.7, 0.7);
@@ -2293,7 +2306,7 @@ a.vc__th{display:grid}
     let d = horiz ? -e.deltaX : e.deltaY;
     if (e.deltaMode === 1) d *= 33;
     scrollT += clamp(d, -120, 120) * 0.0042 * (0.35 + 0.65 * fx.speed);
-    lastInput = performance.now(); idleV = 0;
+    lastInput = performance.now(); idleV = 0; hintOff();
     scheduleSnap();
   }, { passive: false });
 
@@ -2315,7 +2328,7 @@ a.vc__th{display:grid}
       /* Mobile : glisser le doigt vers la droite fait descendre la spirale */
       const dx = e.clientX - drag.x; drag.x = e.clientX; drag.moved += Math.abs(dx);
       scrollT += dx * 0.012; scheduleSnap();
-      lastInput = performance.now(); idleV = 0;
+      lastInput = performance.now(); idleV = 0; if (drag.moved > 30) hintOff();
     }
   });
   canvas.addEventListener('pointerup', (e) => { if (drag && drag.moved < 8) { px = e.clientX; py = e.clientY; inside = true; } drag = null; });
@@ -2376,7 +2389,8 @@ a.vc__th{display:grid}
     sfx.play('enter');
     document.body.classList.add('is-leaving');
 
-    GX.leave(() => { logo.classList.add('is-on'); gate.hidden = true; });
+    ZOE.leave(() => { logo.classList.add('is-on'); gate.hidden = true; });
+    hintOn(1900);
 
     setTimeout(() => document.body.classList.add('is-entered'), reduce ? 0 : 500);
 
@@ -2447,6 +2461,7 @@ a.vc__th{display:grid}
   function setMode(m) {
     if (m === state.mode && !(m === 'list' && list.hidden)) return;
     state.mode = m;
+    if (m !== 'spiral') document.getElementById('scrollHint').classList.remove('is-on');
     modes.dataset.mode = m;
     modes.querySelectorAll('[data-mode]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.mode === m)));
     clearTimeout(listHideTimer);
@@ -2532,7 +2547,7 @@ a.vc__th{display:grid}
     state.entered = true;
     setSound(data.sound !== false);
     gate.hidden = true;
-    logo.classList.add('is-on');
+    logo.classList.add('is-on'); ZOE.skip(); hintOn(600);
     document.body.classList.add('is-entered');
     if (webgl) {
       scrollT = scrollC = typeof data.scroll === 'number' ? data.scroll : 0;
@@ -2973,6 +2988,7 @@ a.vc__th{display:grid}
     if (v === state.view && (v !== 'project' || slug === pjCur)) return;
     const prev = state.view;
     state.view = v;
+    document.getElementById('scrollHint').classList.remove('is-on');
     setFx(false); setHovered(null);
     if (prev === 'about' && v !== 'about') closeAbout();
     if (prev === 'project' && v !== 'project') closeProject();
@@ -4969,128 +4985,187 @@ a.vc__th{display:grid}
     send.disabled = false;
   });
 
-  /* ---------- Écran d'entrée · « le montage dans les lettres » ----------
-     Le nom s'écrit en très grand, puis les images des projets défilent à l'intérieur des lettres, en coupes franches qui accélèrent
-     puis ralentissent, comme un générique. Le compteur en bas égrène le temps code. Le nom repasse à l'encre, se pose, le bouton apparaît.
-     Ensuite : survoler une lettre la fait passer en « fenêtre » sur les projets ; de temps en temps une lettre s'allume toute seule.
-     À l'entrée, toutes les lettres tombent sauf le A et le V, qui s'envolent en haut à gauche et deviennent le logo.
-     Une seule image par projet (les miniatures de la spirale, déjà chargées pour elle) ; rien ne tourne quand l'onglet est caché. */
-  const GX = (() => {
-    const box = $('#gxIn'), gx = $('#gx'), tc = $('#gxTc');
-    const split = (root) => { let i = 0; root.querySelectorAll('.gx__w').forEach((w) => { const t = w.textContent; w.textContent = ''; [...t].forEach((c) => { const l = document.createElement('span'); l.className = 'gx__l'; l.textContent = c; l.style.setProperty('--i', i++); w.appendChild(l); }); }); };
-    split(box);
-    const letters = [...box.querySelectorAll('.gx__l')];
-    const srcs = PJ_CARDS.map((c) => c.img).filter(Boolean), imgs = [];
-    srcs.forEach((u) => { const im = new Image(); im.decoding = 'async'; im.onload = () => imgs.push(im); im.src = u; });
-    /* place de chaque lettre dans le bloc (sans les transformations) : sert à caler la même image derrière toutes les lettres */
-    const place = (root, ls) => { ls.forEach((l) => { l.style.setProperty('--lx', `${l.offsetLeft}px`); l.style.setProperty('--ly', `${l.offsetTop}px`); }); };
-    let cur = -1;
-    const show = (root, k, jit) => {
-      if (!imgs.length) return false;
-      cur = k == null ? (cur + 1 + Math.floor(Math.random() * 2)) % imgs.length : k % imgs.length;
-      const im = imgs[cur], w = root.offsetWidth, h = root.offsetHeight, sc = Math.max(w / im.naturalWidth, h / im.naturalHeight) * (1 + (jit || 0));
-      const bw = im.naturalWidth * sc, bh = im.naturalHeight * sc, jx = (Math.random() - 0.5) * (jit || 0) * w, jy = (Math.random() - 0.5) * (jit || 0) * h;
-      root.style.setProperty('--img', `url("${im.src}")`); root.style.setProperty('--bw', `${bw.toFixed(1)}px`); root.style.setProperty('--bh', `${bh.toFixed(1)}px`);
-      root.style.setProperty('--bx', `${((w - bw) / 2 + jx).toFixed(1)}px`); root.style.setProperty('--by', `${((h - bh) / 2 + jy).toFixed(1)}px`);
-      return true;
-    };
-    /* pendant l'intro, le nom est agrandi au centre de l'écran ; ensuite il reprend sa place au-dessus du bouton */
-    const layout = () => {
-      place(box, letters);
-      const r = box.getBoundingClientRect(), k0 = parseFloat(getComputedStyle(box).getPropertyValue('--k')) || 1;
-      const w = box.offsetWidth, h = box.offsetHeight, k = Math.max(1, Math.min(innerWidth * 0.9 / w, innerHeight * 0.74 / h));
-      const cx = r.left + r.width / 2, cy = r.top + r.height / 2, tx0 = parseFloat(box.style.getPropertyValue('--tx')) || 0, ty0 = parseFloat(box.style.getPropertyValue('--ty')) || 0;
-      if (gate.classList.contains('is-small')) return;
-      box.style.setProperty('--k', k.toFixed(4)); box.style.setProperty('--tx', `${(innerWidth / 2 - (cx - tx0)).toFixed(1)}px`); box.style.setProperty('--ty', `${(innerHeight / 2 - (cy - ty0)).toFixed(1)}px`);
-      void k0;
-    };
-    box.style.transition = 'none'; layout(); void box.offsetWidth; box.style.transition = '';
-    window.addEventListener('resize', layout);
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (!gate.classList.contains('is-small')) { box.style.transition = 'none'; layout(); void box.offsetWidth; box.style.transition = ''; } else place(box, letters); });
+  /* ---------- Écran d'entrée · le zootrope ----------
+     Douze images, dessinées une fois dans une seule planche (canvas) : une balle qui rebondit, la première animation qu'on apprend,
+     remplie à chaque image par un projet différent. La bande glisse, s'enroule en tambour, tourne de plus en plus vite, puis
+     l'effet stroboscopique s'installe : le tambour avance d'une case à chaque image et l'animation se met à jouer.
+     Le même tambour, en petit, sert de logo : il tourne quand on fait défiler, sur toutes les pages. */
+  const ZOE = (() => {
+    const N = 12, FW = 240, FH = 320, STEP = (Math.PI * 2) / N;
+    const sheet = document.createElement('canvas'); sheet.width = FW * N; sheet.height = FH;
+    const g = sheet.getContext('2d'), pics = [];
+    let url = '';
+    const drums = [];
+    function paint() {
+      const C = '#252422', P = '#f8f3e3';
+      for (let f = 0; f < N; f++) {
+        const x0 = f * FW, ph = f / N, h = 1 - Math.pow(2 * ph - 1, 2);
+        g.save(); g.beginPath(); g.rect(x0, 0, FW, FH); g.clip();
+        g.fillStyle = P; g.fillRect(x0, 0, FW, FH);
+        /* bandes perforées, comme une pellicule */
+        g.fillStyle = C; g.fillRect(x0, 0, FW, 26); g.fillRect(x0, FH - 26, FW, 26);
+        g.fillStyle = P; [30, 105, 180].forEach((hx) => { [7, FH - 19].forEach((hy) => { g.beginPath(); g.roundRect ? g.roundRect(x0 + hx, hy, 30, 12, 3) : g.rect(x0 + hx, hy, 30, 12); g.fill(); }); });
+        g.fillStyle = 'rgba(37,36,34,.55)'; g.font = '600 15px "Instrument Sans", Arial, sans-serif'; g.fillText(String(f + 1).padStart(2, '0'), x0 + 16, 50);
+        /* le sol et l'ombre */
+        const GY = 262, R = 46;
+        g.fillStyle = C; g.fillRect(x0 + 18, GY, FW - 36, 2);
+        g.fillStyle = `rgba(37,36,34,${(0.3 * (1 - 0.7 * h)).toFixed(3)})`; g.beginPath(); g.ellipse(x0 + FW / 2, GY + 5, R * (1.15 - 0.6 * h), 6 * (1 - 0.45 * h), 0, 0, Math.PI * 2); g.fill();
+        /* écrasement au sol, étirement dans la vitesse */
+        const SQ = { 0: [1.32, 0.7], 1: [0.88, 1.18], 11: [0.88, 1.18], 2: [0.95, 1.07], 10: [0.95, 1.07] }[f] || [1, 1];
+        const cx = x0 + FW / 2, cy = GY - R * SQ[1] - h * 150;
+        /* traits de vitesse, derrière la balle */
+        if (f === 1 || f === 2 || f === 10 || f === 11) {
+          const up = f <= 2, y1 = up ? cy + R * SQ[1] + 8 : cy - R * SQ[1] - 30;
+          g.fillStyle = 'rgba(37,36,34,.5)'; [-16, 0, 16].forEach((dx, k) => g.fillRect(cx + dx - 1, y1 + (k === 1 ? 0 : 6), 2, 22 - (k === 1 ? 0 : 8)));
+        }
+        g.save(); g.translate(cx, cy); g.scale(SQ[0], SQ[1]);
+        g.beginPath(); g.arc(0, 0, R, 0, Math.PI * 2); g.closePath();
+        const im = pics.length ? pics[f % pics.length] : null;
+        if (im) { g.save(); g.clip(); const s = Math.max((2 * R) / im.naturalWidth, (2 * R) / im.naturalHeight); g.drawImage(im, -im.naturalWidth * s / 2, -im.naturalHeight * s / 2, im.naturalWidth * s, im.naturalHeight * s); g.restore(); }
+        else { g.fillStyle = C; g.fill(); }
+        g.lineWidth = 3 / Math.max(SQ[0], SQ[1]); g.strokeStyle = C; g.stroke();
+        g.restore(); g.restore();
+      }
+      try {
+        sheet.toBlob((b) => {
+          if (!b) return; const u = URL.createObjectURL(b);
+          drums.forEach((d) => d.root.style.setProperty('--zs', `url("${u}")`));
+          if (url) setTimeout(((o) => () => URL.revokeObjectURL(o))(url), 2000); url = u;
+        }, 'image/webp', 0.86);
+      } catch (e) { /* images d'une autre origine (fichier ouvert en local) : on garde des balles unies */ if (pics.length) { pics.length = 0; paint(); } }
+    }
+    paint();
+    const srcs = PJ_CARDS.map((c) => c.img).filter(Boolean);
+    let left = srcs.length;
+    srcs.forEach((u) => { const im = new Image(); im.decoding = 'async'; im.onload = () => { pics.push(im); if (!--left) paint(); }; im.onerror = () => { if (!--left) paint(); }; im.src = u; });
 
-    let finished = false, timers = [], raf = 0, t0 = 0;
-    const later = (f, ms) => timers.push(setTimeout(f, ms));
-    const done = () => {
+    /* un tambour : 12 cases (recto : l'image, verso : l'intérieur sombre), un fond, posés en 3D */
+    function drum(root, floor) {
+      const ps = [];
+      for (let i = 0; i < N; i++) { const p = document.createElement('div'); p.className = 'zo__p'; p.style.setProperty('--i', i); p.innerHTML = '<i class="zo__f"></i><i class="zo__b"></i>'; root.appendChild(p); ps.push(p); }
+      const fl = floor ? root.insertBefore(Object.assign(document.createElement('div'), { className: 'zo__fl' }), root.firstChild) : null;
+      const d = {
+        root, ps, W: 0, H: 0, R: 0,
+        size(W, H) {
+          d.W = W; d.H = H; d.R = (N * W) / (2 * Math.PI);
+          const host = root.parentElement; host.style.setProperty('--zw', `${W}px`); host.style.setProperty('--zh', `${H}px`); host.style.setProperty('--zr', `${d.R.toFixed(1)}px`);
+          root.style.transformOrigin = `0px 0px ${(-d.R).toFixed(1)}px`;
+          if (fl) { fl.style.width = fl.style.height = `${(2 * d.R).toFixed(1)}px`; fl.style.transform = `translate3d(${(-d.R).toFixed(1)}px, ${(H / 2 - d.R).toFixed(1)}px, ${(-d.R).toFixed(1)}px) rotateX(90deg)`; }
+        },
+        /* th : rotation du tambour ; k : 0 = bande à plat, 1 = anneau fermé ; slide : glissement de la bande ; tilt : vue de dessus */
+        set(th, k, slide, tilt) {
+          const { W, H, R } = d;
+          for (let i = 0; i < N; i++) {
+            const sArc = (i - (N - 1) / 2) * W; let X, Z, a;
+            if (k < 0.002) { X = sArc + slide; Z = 0; a = 0; }
+            else { const r = R / k; a = sArc / r + th * k; X = r * Math.sin(a) + slide * (1 - k); Z = r * (Math.cos(a) - 1); }
+            ps[i].style.transform = `translate3d(${(X - W / 2).toFixed(2)}px, ${(-H / 2).toFixed(2)}px, ${Z.toFixed(2)}px) rotateY(${a.toFixed(4)}rad)`;
+          }
+          root.style.transform = `rotateX(${(tilt || 0).toFixed(2)}deg)`;
+          root.parentElement.style.setProperty('--zf', Math.max(0, (k - 0.75) * 4).toFixed(3));
+        }
+      };
+      drums.push(d); if (url) root.style.setProperty('--zs', `url("${url}")`);
+      return d;
+    }
+
+    /* ---- le grand tambour de l'écran d'entrée ---- */
+    const stage = $('#zo'), big = drum($('#zoD'), true);
+    const TILT = -17;
+    const fit = () => {
+      const W = innerWidth < 640 ? Math.round(innerWidth * 0.17) : Math.round(Math.min(150, Math.max(100, innerWidth * 0.092, (innerHeight - 380) / 3.2)));
+      big.size(W, Math.round(W * 4 / 3));
+      if (gate.classList.contains('is-intro')) { const r = stage.getBoundingClientRect(); stage.style.setProperty('--zy', `${(innerHeight / 2 - (r.top + r.height / 2) + parseFloat(stage.style.getPropertyValue('--zy') || 0)).toFixed(1)}px`); }
+    };
+    fit(); window.addEventListener('resize', () => { fit(); if (phase >= 2) big.set(th, 1, 0, TILT); });
+
+    let phase = 0, th = 0, t0 = 0, last = 0, raf = 0, tick = 0, lastTick = 0, finished = false;
+    const eio = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2), eo = (x) => 1 - Math.pow(1 - x, 3);
+    const SLIDE = 950, CURL = 1150, SPIN = 1000, OMEGA = STEP * 12; /* 12 images par seconde */
+    const strobe = (now) => {
+      /* le tambour avance d'une case à chaque image : les cases semblent immobiles et l'animation joue */
+      if (now - lastTick < 83) return false;
+      lastTick = now; tick++;
+      th = -tick * STEP + Math.sin(now / 900) * 0.035;
+      big.set(th, 1, 0, TILT); return true;
+    };
+    const loop = (now) => {
+      raf = 0; if (state.entered) return;
+      if (document.hidden) return;
+      if (!t0) { t0 = now; last = now; }
+      const t = now - t0, dt = Math.min(50, now - last); last = now;
+      if (phase === 0) {
+        if (t < SLIDE) big.set(0, 0, (1 - eo(t / SLIDE)) * innerWidth * 0.95, 0);
+        else phase = 1;
+      }
+      if (phase === 1) {
+        const u = Math.min(1, (t - SLIDE) / CURL), e = eio(u);
+        big.set(0, Math.max(0.002, e), 0, TILT * e);
+        if (u >= 1) phase = 2;
+      }
+      if (phase === 2) {
+        const u = Math.min(1, (t - SLIDE - CURL) / SPIN);
+        th -= OMEGA * u * u * (dt / 1000);
+        big.set(th, 1, 0, TILT);
+        if (u >= 1) { phase = 3; tick = Math.round(-th / STEP); lastTick = 0; done(); }
+      }
+      if (phase === 3) strobe(now);
+      raf = requestAnimationFrame(loop);
+    };
+    const run = () => { if (!raf && !state.entered) raf = requestAnimationFrame(loop); };
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) { last = performance.now(); run(); } });
+    function done() {
       if (finished) return; finished = true;
-      timers.forEach(clearTimeout); timers = []; cancelAnimationFrame(raf);
-      gx.classList.add('is-ink'); gx.classList.remove('is-cut');
-      later(() => { gx.classList.remove('is-ink'); }, 900);
+      stage.style.removeProperty('--zy');
       gate.classList.remove('is-intro'); gate.classList.add('is-small');
-      later(idle, 2600);
-    };
-    /* le temps code : heures, minutes, secondes, images (25 par seconde) */
-    const tick = (now) => {
-      if (finished) return;
-      if (!t0) t0 = now;
-      const f = Math.floor((now - t0) / 40), p2 = (n) => String(n).padStart(2, '0');
-      tc.textContent = `00:00:${p2(Math.floor(f / 25))}:${p2(f % 25)}`;
-      raf = requestAnimationFrame(tick);
-    };
-    /* la suite de coupes : lente, puis de plus en plus vite, puis on freine jusqu'à la dernière image */
-    const RHYTHM = [150, 130, 115, 100, 90, 80, 72, 66, 60, 56, 52, 50, 50, 52, 58, 70, 90, 120, 165, 230, 320];
-    const montage = () => {
-      if (finished) return;
-      if (!imgs.length) { later(montage, 120); return; }
-      gx.classList.add('is-cut');
-      let at = 0;
-      RHYTHM.forEach((d, k) => { later(() => show(box, null, k < RHYTHM.length - 4 ? 0.12 : 0.03), at); at += d; });
-      later(() => { gx.classList.remove('is-cut'); gx.classList.add('is-ink'); }, at + 260);
-      later(done, at + 760);
-    };
-    /* au repos : une lettre survolée devient une fenêtre sur les projets ; de temps en temps, une lettre s'allume seule */
-    let hot = null, hotT = 0, autoT = 0;
-    const cutLoop = () => { show(box, null, 0.05); };
-    const heat = (l) => {
-      if (state.entered) return;
-      l.classList.add('is-hot'); clearTimeout(l._off);
-      if (!hotT) { cutLoop(); hotT = setInterval(cutLoop, 120); }
-    };
-    const cool = (l, ms) => { l._off = setTimeout(() => { l.classList.remove('is-hot'); if (!box.querySelector('.is-hot')) { clearInterval(hotT); hotT = 0; } }, ms); };
-    letters.forEach((l) => {
-      l.addEventListener('pointerenter', () => { if (!finished) return; heat(l); });
-      l.addEventListener('pointerleave', () => cool(l, 260));
-    });
-    const idle = () => {
-      if (state.entered || reduce) return;
-      clearTimeout(autoT);
-      autoT = setTimeout(function glimpse() {
-        if (state.entered) return;
-        if (!document.hidden && !box.querySelector('.is-hot') && imgs.length) { const l = letters[Math.floor(Math.random() * letters.length)]; heat(l); cool(l, 420 + Math.random() * 300); }
-        autoT = setTimeout(glimpse, 2600 + Math.random() * 2600);
-      }, 1200);
-    };
-    gate.addEventListener('click', () => { if (gate.classList.contains('is-intro')) done(); });
-    setTimeout(done, 6000);
-    if (reduce) done();
-    else { raf = requestAnimationFrame(tick); later(montage, 650); }
+    }
+    function finish() { phase = 3; tick = Math.round(-th / STEP); big.set(-tick * STEP, 1, 0, TILT); done(); }
+    gate.addEventListener('click', () => { if (gate.classList.contains('is-intro')) finish(); });
+    setTimeout(() => { if (!finished) finish(); }, 6000);
+    if (reduce) { big.set(0, 1, 0, TILT); phase = 4; done(); } else run();
 
-    /* à l'entrée : les lettres tombent, le A et le V s'envolent jusqu'au logo */
-    const lgL = [...logo.querySelectorAll('.gx__l')];
-    const leave = (cb) => {
-      clearTimeout(autoT); clearInterval(hotT); hotT = 0; letters.forEach((l) => l.classList.remove('is-hot'));
-      box.style.transition = 'none';
-      const keep = [letters[0], letters[7]];
-      letters.forEach((l, k) => {
-        if (keep.includes(l)) return;
-        l.animate([{ transform: 'none', opacity: 1 }, { transform: `translateY(${(0.5 + Math.random() * 0.6).toFixed(2)}em) rotate(${(Math.random() * 40 - 20).toFixed(1)}deg)`, opacity: 0 }],
-          { duration: reduce ? 1 : 560, delay: reduce ? 0 : k * 22, easing: 'cubic-bezier(.5,0,.75,0)', fill: 'forwards' });
-      });
-      let n = 0;
-      keep.forEach((l, k) => {
-        const a = l.getBoundingClientRect(), b = lgL[k].getBoundingClientRect(), sc = b.height / a.height;
-        l.style.transformOrigin = '0 0';
-        const fly = l.animate([{ transform: 'none' }, { transform: `translate(${(b.left - a.left).toFixed(1)}px, ${(b.top - a.top).toFixed(1)}px) scale(${sc.toFixed(4)})` }],
-          { duration: reduce ? 1 : 1050, delay: reduce ? 0 : 120 + k * 60, easing: 'cubic-bezier(.7,0,.2,1)', fill: 'forwards' });
-        fly.onfinish = () => { if (++n === 2) cb(); };
-      });
+    /* ---- le logo ---- */
+    const lg = drum($('#lgD'), true);
+    lg.size(14, 19); lg.set(0, 1, 0, -20);
+    let la = 0, lt = 0, lraf = 0;
+    const lstep = () => {
+      lraf = 0; la += (lt - la) * 0.16;
+      const q = Math.round(la), rest = la - q;
+      lg.set(-(q * STEP) + rest * STEP * 0.3, 1, 0, -20);
+      if (Math.abs(lt - la) > 0.01) lraf = requestAnimationFrame(lstep); else { la = lt; }
     };
-    /* le logo : même jeu au survol, avec ses propres réglages d'image */
-    place(logo, lgL);
-    let lgT = 0;
-    logo.addEventListener('pointerenter', () => { place(logo, lgL); show(logo, null, 0.04); clearInterval(lgT); lgT = setInterval(() => show(logo, null, 0.04), 130); });
-    logo.addEventListener('pointerleave', () => { clearInterval(lgT); lgT = 0; });
-    return { leave };
+    /* v : nombre d'images à faire défiler */
+    const feed = (v) => { if (!v || reduce) return; lt += v; if (!lraf) lraf = requestAnimationFrame(lstep); };
+    zoeFeed = feed;
+    /* ailleurs que sur la spirale (pages projet, à propos, liste) : la molette et le doigt font tourner le logo */
+    let ty = null;
+    window.addEventListener('wheel', (e) => { if (!state.entered || (state.view === 'home' && state.mode === 'spiral')) return; feed(clamp((e.deltaY || e.deltaX) * (e.deltaMode === 1 ? 33 : 1), -120, 120) / 40); }, { passive: true, capture: true });
+    window.addEventListener('touchstart', (e) => { ty = e.touches[0].clientY; }, { passive: true });
+    window.addEventListener('touchmove', (e) => { if (ty == null || !state.entered || (state.view === 'home' && state.mode === 'spiral')) return; const y = e.touches[0].clientY; feed((ty - y) / 30); ty = y; }, { passive: true });
+    logo.addEventListener('pointerenter', () => feed(N));
+
+    /* à l'entrée : le grand tambour file en haut à gauche et devient le logo */
+    const leave = (cb) => {
+      cancelAnimationFrame(raf); raf = 0;
+      const a = stage.getBoundingClientRect(), b = logo.getBoundingClientRect();
+      const k = b.width / a.width;
+      lt = la = tick; lg.set(-(tick * STEP), 1, 0, -20);
+      const fly = stage.animate([{ transform: getComputedStyle(stage).transform }, { transform: `translate(${(b.left + b.width / 2 - (a.left + a.width / 2)).toFixed(1)}px, ${(b.top + b.height / 2 - (a.top + a.height / 2)).toFixed(1)}px) scale(${k.toFixed(4)})`, opacity: 0.9 }],
+        { duration: reduce ? 1 : 950, easing: 'cubic-bezier(.7,0,.2,1)', fill: 'forwards' });
+      fly.onfinish = cb;
+    };
+    const skip = () => { finished = true; cancelAnimationFrame(raf); raf = 0; };
+    return { leave, skip, feed };
   })();
+
+  /* Indication « faites défiler » : montrée sur la spirale tant qu'on n'a jamais fait défiler */
+  const hintEl = $('#scrollHint');
+  let hinted = false;
+  try { hinted = localStorage.getItem('av-defile') === '1'; } catch (e) {}
+  if (matchMedia('(pointer:coarse)').matches) hintEl.querySelector('.hint__t').textContent = 'glissez sur le côté pour défiler';
+  function hintOn(ms) { if (hinted) return; setTimeout(() => { if (!hinted && state.view === 'home' && state.mode === 'spiral' && !state.menu) hintEl.classList.add('is-on'); }, ms); }
+  function hintOff() { if (hinted) return; hinted = true; hintEl.classList.remove('is-on'); try { localStorage.setItem('av-defile', '1'); } catch (e) {} }
+
   /* Bouton « entrer avec le son » : au survol, les lettres se tassent et se bousculent, sans cesse, comme écrasées dans le bouton */
   (() => {
     const lab = $('#enterLabel'), txt = lab.textContent; lab.setAttribute('aria-label', txt); lab.textContent = '';
