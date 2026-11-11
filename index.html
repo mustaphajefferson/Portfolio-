@@ -237,7 +237,7 @@ body.view-about .reel__ring,body.view-project .reel__ring,body.view-about .reel_
 /* Menu */
 .backdrop{position:fixed;inset:0;z-index:8;background:var(--veil);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity .6s var(--ease-io)}
 .menu-open .backdrop{opacity:1;pointer-events:auto}
-.panel{position:fixed;top:calc(var(--top) + 4px);right:var(--right);z-index:11;width:min(390px,calc(100vw - 2 * var(--edge)));max-height:calc(100% - var(--top) - var(--bottom));overflow:auto;background:var(--pill);color:var(--ink);border-radius:24px;padding:84px 28px 24px;display:flex;flex-direction:column;gap:30px;
+.panel{position:fixed;top:calc(var(--top) + 4px);right:var(--right);z-index:11;box-sizing:border-box;width:min(446px,calc(100vw - 2 * var(--edge)));max-height:calc(100% - var(--top) - var(--bottom));overflow:auto;background:var(--pill);color:var(--ink);border-radius:24px;padding:84px 28px 24px;display:flex;flex-direction:column;gap:30px;
   clip-path:inset(0 0 calc(100% - var(--bh,44px)) calc(100% - var(--bw,92px)) round 22px);visibility:hidden;transition:clip-path .75s var(--ease-io),visibility 0s .75s}
 .menu-open .panel{clip-path:inset(0 0 0 0 round 24px);visibility:visible;transition:clip-path .75s var(--ease-io),visibility 0s}
 .panel :focus-visible{outline-color:var(--ink)}
@@ -752,6 +752,26 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .lb__t{margin:14px 0 0;color:var(--bg);font-size:14px;line-height:1.45}
 .lb__t b{font-weight:600}
 .lb.is-video .lb__stage{width:min(90vw,calc(76vh * 16 / 9))}
+.lb.is-reel .lb__stage{width:min(92vw,calc((100svh - 150px) * 9 / 16))}
+.lb.is-reel .lb__vid{aspect-ratio:9/16}
+.lb__fs{position:fixed;top:calc(var(--top) + 4px);left:var(--left);display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 16px;border-radius:999px;background:var(--bg);color:var(--fg);font-size:15px;font-weight:500}
+.lb__fs[hidden]{display:none}
+.lb__fs svg,.ph__fs svg{width:15px;height:15px}
+.lb.is-one .lb__p,.lb.is-one .lb__n,.lb.is-one .lb__c{display:none}
+.lb:fullscreen{background:#000}
+/* sur téléphone : flèches en bas, de part et d'autre du compteur, pour ne pas masquer l'image ni la vidéo */
+@media (max-width:640px){
+  .lb .cr__btn{top:auto;bottom:calc(var(--bottom) - 12px);translate:0 0}
+  .lb__p{left:calc(50% - 100px)}
+  .lb__n{right:calc(50% - 100px)}
+  .lb__stage{width:min(92vw,calc((100svh - 230px) * var(--lar,.8)))}
+  .lb.is-reel .lb__stage{width:min(92vw,calc((100svh - 220px) * 9 / 16))}
+  .lb__fs{font-size:14px;padding:0 14px}
+}
+.ph__fs{position:absolute;top:8px;right:8px;z-index:2;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(37,36,34,.62);color:#f8f3e3;opacity:.85;transition:opacity .25s,scale .25s var(--ease-out);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.ph__fs:hover{opacity:1;scale:1.08}
+.vm__item .ph__fs{top:6px;right:6px;width:28px;height:28px}
+.vm__item .ph__fs svg{width:12px;height:12px}
 .lb__vid{aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
 .lb__vid iframe{display:block;width:100%;height:100%;border:0}
 /* ParisianVibe · couverture : un banc de montage façon logiciel, sur lequel on remet un épisode dans l'ordre */
@@ -879,32 +899,90 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .ant__cells b{font-size:17px;font-weight:600;letter-spacing:-.02em;line-height:1.2}
 .ant__cells span{font-size:12.5px;line-height:1.35}
 .ant__cells li.is-big b{font-size:clamp(20px,1.8vw,26px);letter-spacing:-.03em}
-.ant__list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(24px,3vw,48px);border-top:1px solid var(--line-strong)}
-.ant__row{position:relative;display:grid;grid-template-columns:64px minmax(0,1fr) auto;align-items:baseline;gap:6px 14px;padding:14px 0;border-bottom:1px solid var(--line-strong)}
-.ant__h{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
-.ant__who b{display:block;font-size:clamp(18px,1.6vw,22px);font-weight:600;letter-spacing:-.025em;line-height:1.1}
-.ant__who span{display:block;margin-top:3px;font-size:13px;line-height:1.35}
-.ant__tg{font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-align:right;white-space:nowrap}
-.ant__live{position:absolute;right:0;top:-9px;font-style:normal;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px 3px 18px;border-radius:999px;background:var(--fg);color:var(--bg)}
-.ant__live::before{content:"";position:absolute;left:7px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--bg);animation:antBlink 1.4s steps(2,jump-none) infinite}
-@keyframes antBlink{50%{opacity:.2}}
+/* Les voix : la fiche « en direct » (sombre) et la journée, lue de haut en bas */
+.oa{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(20px,3vw,48px);align-items:start}
+.oa__now{position:sticky;top:96px;display:flex;flex-direction:column;gap:10px;padding:clamp(20px,2.2vw,30px);border-radius:18px;background:var(--fg);color:var(--bg);min-height:clamp(250px,24vw,320px);overflow:hidden}
+.oa__k{margin:0;display:flex;align-items:center;gap:10px;font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.oa__clk{margin-left:auto;font-variant-numeric:tabular-nums;opacity:.7;letter-spacing:.02em}
+.oa__eq{display:flex;align-items:flex-end;gap:2px;height:13px}
+.oa__eq i{width:3px;height:100%;background:currentColor;transform-origin:50% 100%;transform:scaleY(.25)}
+.oa__now.is-live .oa__eq i{animation:oaEq .9s ease-in-out infinite alternate}
+.oa__now.is-live .oa__eq i:nth-child(2){animation-duration:.7s;animation-delay:-.3s}.oa__now.is-live .oa__eq i:nth-child(3){animation-duration:1.1s;animation-delay:-.6s}.oa__now.is-live .oa__eq i:nth-child(4){animation-duration:.8s;animation-delay:-.1s}
+@keyframes oaEq{to{transform:scaleY(1)}}
+.oa__nm{margin-top:auto;overflow:hidden;padding-bottom:.08em}
+.oa__nm b{display:block;font-size:clamp(30px,3.3vw,52px);font-weight:500;letter-spacing:-.045em;line-height:1}
+.oa__nm b.is-flip{animation:oaFlip .6s var(--ease-out)}
+@keyframes oaFlip{from{transform:translateY(105%);opacity:0}}
+.oa__sh{margin:0;font-size:15px;line-height:1.35;opacity:.8;min-height:1.35em}
+.oa__bar{position:relative;height:3px;margin-top:8px;border-radius:2px;overflow:hidden}
+.oa__bar::before{content:"";position:absolute;inset:0;background:var(--bg);opacity:.22}
+.oa__bar i{position:absolute;inset:0;background:var(--bg);transform-origin:0 50%;transform:scaleX(0);transition:transform 1.2s var(--ease-out)}
+.oa__tm{margin:0;display:flex;justify-content:space-between;gap:10px;font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;opacity:.75}
+.oa__now.is-peek .oa__eq{opacity:.35}
+.oa__day{list-style:none;margin:10px 0 0;padding:0;border-top:1px solid var(--line-strong)}
+.oa__row{position:relative;display:grid;grid-template-columns:64px minmax(0,1fr) auto;align-items:baseline;gap:4px 14px;padding:13px 10px 13px 0;border-bottom:1px solid var(--line-strong);cursor:default;outline:none;opacity:0;translate:0 8px;transition:opacity .45s,translate .55s var(--ease-out),padding .35s var(--ease-out)}
+.oa__row.is-on{opacity:1;translate:0 0}
+.oa__row.is-on.is-past{opacity:.38}
+.oa__row:hover,.oa__row:focus-visible{padding-left:10px;opacity:1}
+.oa__h{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.oa__who b{display:block;font-size:clamp(18px,1.6vw,22px);font-weight:600;letter-spacing:-.025em;line-height:1.1}
+.oa__who span{display:block;margin-top:3px;font-size:13px;line-height:1.35}
+.oa__tg{font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-align:right;white-space:nowrap}
+.oa__fill{position:absolute;left:0;right:0;bottom:-1px;height:3px;background:var(--fg);transform-origin:0 50%;transform:scaleX(0);transition:transform 1.4s var(--ease-out) .2s}
+.oa__row.is-live .oa__fill{transform:scaleX(var(--p,0))}
+.oa__row.is-live .oa__who b::after{content:"en direct";display:inline-block;margin-left:10px;padding:3px 8px 3px 17px;border-radius:999px;background:var(--fg) radial-gradient(circle at 8px 50%,var(--bg) 2.5px,transparent 3px);color:var(--bg);font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;vertical-align:3px;animation:oaPop .5s var(--ease-out)}
+@keyframes oaPop{from{opacity:0;scale:.6}}
+@keyframes antBlink{50%{opacity:.35}}
+.oa__chr{display:flex;flex-direction:column;gap:12px}
+.oa__cg{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 clamp(16px,2vw,28px)}
+.oa__cg li{display:flex;flex-direction:column;gap:3px;padding:12px 0 14px;border-top:1px solid var(--line-strong);min-width:0}
+.oa__cg b{font-size:17px;font-weight:600;letter-spacing:-.02em;line-height:1.2}
+.oa__cg span{font-size:12.5px;line-height:1.35}
+.oa__cg em{margin-top:4px;font-style:normal;font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;opacity:.6}
+.ant__panel.is-in .oa__cg li{animation:antIn .5s var(--ease-out) backwards;animation-delay:calc(.25s + var(--k) * 35ms)}
+/* Les lieux : une ligne par lieu ; au survol, une fiche avec photo suit la souris */
 .ant__places{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,3vw,48px)}
 .ant__places ul{list-style:none;margin:10px 0 0;padding:0;border-top:1px solid var(--line-strong)}
-.ant__places li{padding:12px 0;border-bottom:1px solid var(--line-strong);font-size:clamp(17px,1.5vw,21px);font-weight:500;letter-spacing:-.02em}
-.ant__lbl{display:block;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
-@media (max-width:1100px){ .ant__cells{grid-template-columns:repeat(3,minmax(0,1fr))} }
-@media (max-width:900px){ .ant__grp{grid-template-columns:1fr} .ant__list{grid-template-columns:1fr} .ant__places{grid-template-columns:1fr} }
+.pl__row{position:relative;display:flex;flex-direction:column;gap:2px;padding:12px 0;border-bottom:1px solid var(--line-strong);outline:none;cursor:default;transition:padding .35s var(--ease-out)}
+.pl__n{font-size:clamp(17px,1.5vw,21px);font-weight:500;letter-spacing:-.02em;line-height:1.2}
+.pl__d{font-size:12.5px;line-height:1.35;opacity:.62;transition:opacity .3s}
+.pl__th{display:none}
+@media (hover:hover) and (pointer:fine){
+  .pl__row::before{content:"";position:absolute;left:0;top:50%;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;background:var(--fg);scale:0;transition:scale .35s var(--ease-out)}
+  .pl__row:hover,.pl__row:focus-visible{padding-left:18px}
+  .pl__row:hover::before,.pl__row:focus-visible::before{scale:1}
+  .pl__row:hover .pl__d{opacity:1}
+}
+@media not ((hover:hover) and (pointer:fine)){
+  .pl__row:has(.pl__th){padding-right:70px;min-height:68px;justify-content:center}
+  .pl__th{display:block;position:absolute;right:0;top:50%;translate:0 -50%;width:58px;height:44px;border-radius:6px;object-fit:cover;background:var(--tint)}
+}
+.pl__cred{margin:0;font-size:11px;line-height:1.5;opacity:.55}
+.pl__cred a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.plc{position:fixed;left:0;top:0;z-index:40;width:230px;padding:8px 8px 12px;border-radius:12px;background:var(--bg);color:var(--fg);box-shadow:0 18px 44px var(--shadow),0 0 0 1px var(--line);pointer-events:none;opacity:0;scale:.92;transform-origin:0 0;transition:opacity .25s,scale .35s var(--ease-out);will-change:transform}
+.plc.is-on{opacity:1;scale:1}
+.plc__ph{display:none;aspect-ratio:3/2;margin-bottom:9px;border-radius:7px;overflow:hidden;background:var(--tint)}
+.plc.has-ph .plc__ph{display:block}
+.plc__ph img{display:block;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .3s}
+.plc.is-ld .plc__ph img{opacity:1}
+.plc__n{display:block;padding:0 4px;font-size:15px;font-weight:600;letter-spacing:-.02em;line-height:1.2}
+.plc__d{display:block;padding:2px 4px 0;font-size:12px;opacity:.62}
+.ant__lbl{display:block;margin:0;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+@media (max-width:1100px){ .ant__cells{grid-template-columns:repeat(3,minmax(0,1fr))} .oa__cg{grid-template-columns:repeat(3,minmax(0,1fr))} }
+@media (max-width:900px){ .ant__grp{grid-template-columns:1fr} .ant__places{grid-template-columns:1fr} .oa{grid-template-columns:1fr} .oa__now{position:relative;top:auto;min-height:0} .oa__nm{margin-top:14px} }
 @media (max-width:760px){
   .ant__nums{grid-template-columns:repeat(2,minmax(0,1fr))}
   .ant__cells{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .ant__row{grid-template-columns:52px minmax(0,1fr)}
-  .ant__tg{grid-column:2;text-align:left}
+  .oa__row{grid-template-columns:56px minmax(0,1fr)}
+  .oa__tg{grid-column:2;text-align:left}
+  .oa__cg{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+@media (prefers-reduced-motion:reduce){ .oa__row{transition:none} .oa__nm b.is-flip{animation:none} }
 
 /* AFP · couverture : mini-jeu « les déclinaisons » */
 .ags{display:flex;flex-direction:column;gap:clamp(36px,4.6vh,52px)}
 .ag__lbl{display:flex;align-items:baseline;gap:12px;margin:0 0 12px}
-.ag__lbl b{font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:var(--pill);color:var(--ink)}
+.ag__lbl b{flex:none;white-space:nowrap;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:var(--pill);color:var(--ink)}
 .ag__lbl span{font-size:14px;font-weight:500}
 .ag{position:relative;box-sizing:border-box;display:flex;flex-direction:column;gap:14px;padding:clamp(12px,1.4vw,18px);border-radius:16px;background:var(--tint);color:var(--fg);user-select:none;-webkit-user-select:none}
 .ag__bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;min-height:38px}
@@ -954,8 +1032,11 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 @media (max-width:760px){
   .dc__top{grid-template-columns:1fr}
   .dc__src{max-width:200px}
-  .dc__frames{justify-content:flex-start}
   .dc{--wh:220px}
+  /* sur téléphone, les trois formats l'un sous l'autre (rien n'est caché hors de l'écran) */
+  .dc__frames{flex-direction:column;align-items:center;overflow:visible;gap:22px}
+  .dc__f{--whf:min(var(--wh),calc((100vw - 84px) / var(--ar)));width:max(200px,calc(var(--whf) * var(--ar)))}
+  .dc__win{height:var(--whf);width:calc(var(--whf) * var(--ar))}
 }
 
 /* Neuf-seizièmes : la machine à formats courts, en aperçu comme une story */
@@ -986,12 +1067,14 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .vm__slot.is-act .vm__bar i{animation:vmBar var(--t,2.6s) linear forwards}
 .vm__slot.is-act .vm__tag b{background:var(--coal)}
 @keyframes vmBar{to{transform:scaleX(1)}}
-@media (max-width:760px){.vm__row{grid-template-columns:repeat(var(--n,5),148px);overflow-x:auto;scrollbar-width:none}}
+/* sur téléphone : les reels rangés sur plusieurs étagères, comme dans un vrai distributeur (tout est visible, rien à faire défiler) */
+@media (max-width:760px){.vm__row{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:16px}.vm__item .ph__play{width:40px;height:40px}.vm__tag{font-size:11px}.vm__head{flex-direction:column;gap:4px}}
 @media (prefers-reduced-motion:reduce){.vm *{animation:none!important;transition:none!important}}
 
 /* Défense d'afficher · le mur de colle : la pile à arracher, ou tout voir d'un coup */
 .wl-hd{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 12px}
 .wl-hd .ab-pv-switch{font-size:14px}
+@media (max-width:640px){.wl-hd{flex-direction:column;align-items:flex-start;gap:6px}}
 .wl{position:relative;aspect-ratio:2/1;border-radius:14px;overflow:hidden;background-color:rgba(0,0,0,.06);background-image:linear-gradient(rgba(0,0,0,.05) 1px,transparent 1px);background-size:100% 44px;user-select:none;-webkit-user-select:none}
 .wl__sign{position:absolute;right:clamp(14px,3%,40px);top:clamp(14px,8%,40px);z-index:0;padding:6px 10px;border:2px solid rgba(37,36,34,.35);color:rgba(37,36,34,.4);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-align:center;line-height:1.3;rotate:-2deg}
 .wl__sign small{display:block;font-size:8.5px;font-weight:600;letter-spacing:.06em}
@@ -1158,30 +1241,29 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 @media (max-width:640px){.mo__body{min-width:0}.mo__gs span{font-size:9.5px;padding:2px 5px}}
 
 /* Le filtre riso */
-.bk.is-riso .bk__stage{display:none}
 .rz{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:clamp(18px,3vw,40px);align-items:center;padding:clamp(18px,3vw,36px) 0}
 .rz[hidden]{display:none}
-.rz__view{perspective:1700px;display:flex;justify-content:center}
+.rz__view{perspective:1900px;display:flex;align-items:center;justify-content:center;min-height:min(620px,calc(100svh - 230px))}
 .rz__spread{display:flex;width:min(100%,calc((100svh - 320px) * .7048 * var(--n,2)));transition:transform 1.1s var(--ease-io);transform-origin:50% 55%}
-.rz__spread[data-step="1"]{transform-style:preserve-3d;transform:translateY(-4%) rotateX(56deg) rotateZ(-24deg) scale(.66)}
+.rz__spread[data-step="1"]{transform-style:preserve-3d;transform:translateY(4%) rotateX(55deg) rotateZ(-28deg) scale(.7)}
 .rz__pg{position:relative;flex:1;aspect-ratio:900/1277}
 .rz__spread[data-step="1"] .rz__pg{transform-style:preserve-3d}
 .rz__paper{position:absolute;inset:0;background:#fcfcfa;box-shadow:0 14px 30px -12px rgba(37,36,34,.45)}
 .rz__pg + .rz__pg .rz__paper{box-shadow:0 14px 30px -12px rgba(37,36,34,.45),inset 8px 0 10px -8px rgba(0,0,0,.18)}
 .rz__b,.rz__p{position:absolute;inset:0;width:100%;height:100%;display:block;transition:transform 1.1s var(--ease-io),opacity .45s,filter .45s}
-.rz__spread[data-step="1"] .rz__b{transform:translateZ(80px)}
-.rz__spread[data-step="1"] .rz__p{transform:translateZ(160px)}
+.rz__spread[data-step="1"] .rz__b{transform:translateZ(120px)}
+.rz__spread[data-step="1"] .rz__p{transform:translateZ(240px)}
 .rz__spread[data-step="2"] .rz__b{filter:brightness(0)}
 .rz__spread[data-step="2"] .rz__p,.rz__spread[data-step="3"] .rz__b,.rz__spread[data-step="4"] .rz__p{opacity:0}
 .rz__spread[data-step="3"] .rz__p{filter:brightness(0)}
 .rz__spread[data-step="4"] .rz__b{animation:rzPass 1.1s cubic-bezier(.5,0,.3,1) backwards}
 .rz__spread[data-step="5"] .rz__p{mix-blend-mode:multiply;animation:rzPass 1.1s cubic-bezier(.5,0,.3,1) backwards}
 @keyframes rzPass{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
-.rz__tag{position:absolute;right:-6px;top:6%;z-index:2;font-size:11px;font-weight:600;letter-spacing:.04em;padding:3px 8px;border-radius:999px;background:var(--coal);color:var(--cream);white-space:nowrap;opacity:0;transition:opacity .4s,transform 1.1s var(--ease-io);pointer-events:none;translate:100% 0}
+.rz__tag{position:absolute;right:-6px;top:6%;z-index:2;font-size:15px;font-weight:600;letter-spacing:.04em;padding:3px 8px;border-radius:999px;background:var(--coal);color:var(--cream);white-space:nowrap;opacity:0;transition:opacity .4s,transform 1.1s var(--ease-io);pointer-events:none;translate:100% 0}
 .rz__spread[data-step="1"] .rz__tag{opacity:1}
 .rz__spread[data-step="1"] .rz__tag--paper{transform:translateZ(0)}
-.rz__spread[data-step="1"] .rz__tag--b{transform:translateZ(80px);background:#047cbc}
-.rz__spread[data-step="1"] .rz__tag--p{transform:translateZ(160px);background:#fc4cb4}
+.rz__spread[data-step="1"] .rz__tag--b{transform:translateZ(120px);background:#047cbc}
+.rz__spread[data-step="1"] .rz__tag--p{transform:translateZ(240px);background:#fc4cb4}
 .rz__side{display:flex;flex-direction:column;gap:14px}
 .rz__steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;counter-reset:none}
 .rz__steps button{display:flex;align-items:baseline;gap:12px;width:100%;padding:8px 10px;border-radius:8px;font:inherit;font-size:14.5px;font-weight:500;color:var(--dim);text-align:left;transition:color .25s,background .25s}
@@ -1192,7 +1274,8 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .rz__play{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;background:var(--coal);color:var(--cream);font:inherit;font-size:13.5px;font-weight:600;transition:scale .25s var(--ease-out)}
 .rz__play:hover{scale:1.04}
 .rz.is-playing .rz__play{opacity:.5;pointer-events:none}
-@media (max-width:760px){.rz{grid-template-columns:1fr}.rz__spread{width:100%}.rz__txt{min-height:0}.rz__tag{translate:0 -120%;right:auto;left:4px;top:0}}
+@media (max-width:1100px){.rz{grid-template-columns:1fr;gap:8px}.rz__view{min-height:min(560px,70vw)}.rz__side{max-width:62ch}}
+@media (max-width:760px){.rz{grid-template-columns:1fr}.rz__view{min-height:400px}.rz__spread{width:100%}.rz__spread[data-step="1"]{transform:translateY(2%) rotateX(55deg) rotateZ(-28deg) scale(.6)}.rz__txt{min-height:0}.rz__tag{translate:0 -120%;right:auto;left:4px;top:0}}
 @media (prefers-reduced-motion:reduce){.rz__spread,.rz__b,.rz__p{transition-duration:.01s;animation:none!important}}
 /* Le carnet à feuilleter */
 .bk{outline:none}
@@ -1213,12 +1296,24 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .bk__front::after,.bk__back::after{content:"";position:absolute;inset:0;pointer-events:none}
 .bk__front::after{background:linear-gradient(90deg,rgba(0,0,0,.22),rgba(0,0,0,.06) 4%,rgba(0,0,0,0) 10%)}
 .bk__back::after{background:linear-gradient(270deg,rgba(0,0,0,.22),rgba(0,0,0,.06) 4%,rgba(0,0,0,0) 10%)}
-.bk__foot{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap}
-.bk__count{min-width:15em;text-align:center;font-size:14px;font-weight:500;font-variant-numeric:tabular-nums}
-.bk__zoom{align-self:center}
+.bk__foot{display:flex;align-items:center;justify-content:center;gap:14px 22px;flex-wrap:wrap}
+.bk__nav{display:flex;align-items:center;gap:10px}
+.bk__count{min-width:14em;text-align:center;font-size:14px;font-weight:500;font-variant-numeric:tabular-nums}
+.bk__open{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px;border-radius:999px;background:var(--coal);color:var(--cream);font:inherit;font-size:14px;font-weight:600;transition:scale .25s var(--ease-out)}
+.bk__open:hover{scale:1.04}
+/* le carnet en grand */
+.bko{position:fixed;inset:0;z-index:35;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(10px,2vh,22px);padding:calc(var(--top,20px) + 64px) 24px 28px;background:var(--bg);opacity:0;transition:opacity .3s}
+.bko.is-on{opacity:1}
+.bko[hidden]{display:none}
+.bko__top{position:fixed;top:var(--top,20px);left:var(--left,24px);right:var(--right,24px);display:flex;align-items:center;justify-content:space-between;gap:16px;height:48px}
+.bko__t{display:flex;flex-direction:column;font-size:15px;font-weight:600;letter-spacing:-.01em}
+.bko__t small{font-size:12.5px;font-weight:500;opacity:.6}
+.bko__x{height:44px;padding:0 18px;border-radius:999px;background:var(--fg);color:var(--bg);font:inherit;font-size:15px;font-weight:500}
+.bko .bk__stage{padding:0;flex:none}
+.bko .bk__book{--pw:min(calc((100svh - 220px) * .705),calc((100vw - 64px) / 2),620px)}
 @media (max-width:640px){
-  .bk__book{--pw:calc((100vw - 40px) / 2)}
-  .bk__count{min-width:0;flex:1 1 100%;order:-1}
+  .bk__count{min-width:0;flex:1 1 auto}
+  .bk__foot{gap:12px}
 }
 @media (prefers-reduced-motion:reduce){.bk__leaf,.bk__book{transition-duration:.01s}}
 
@@ -1541,14 +1636,14 @@ a.vc__th{display:grid}
 <div class="backdrop" id="backdrop"></div>
 <nav class="panel" id="panel" aria-label="menu principal">
   <ul class="panel__nav" style="--i:0">
-    <li><button class="pl" type="button" data-go="works"><span>projets</span><sup>11</sup></button></li>
+    <li><button class="pl" type="button" data-go="works"><span>projets</span><sup id="pjCount">10</sup></button></li>
     <li><button class="pl" type="button" data-go="about"><span>à propos</span></button></li>
     <li><button class="pl" type="button" data-go="contact"><span>contact</span></button></li>
   </ul>
   <div id="contactBlock" style="--i:1">
-    <p class="panel__label">écrire</p>
+    <p class="panel__label">mon adresse mail</p>
     <div class="mail"><span id="mailText">valleur.a@gmail.com</span><button type="button" id="copyBtn">copier</button></div>
-    <button type="button" class="ct-open" id="ctOpen" aria-expanded="false" aria-controls="ctForm">écrire un message <span aria-hidden="true">+</span></button>
+    <button type="button" class="ct-open" id="ctOpen" aria-expanded="false" aria-controls="ctForm">m’écrire un message <span aria-hidden="true">+</span></button>
     <form class="ct" id="ctForm" hidden novalidate>
       <input class="ct__hp" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
       <label class="ct__f"><span>votre e-mail</span><input type="email" name="email" required autocomplete="email" placeholder="vous@exemple.fr"></label>
@@ -1734,7 +1829,7 @@ a.vc__th{display:grid}
       <p class="ab-foot__t ab-reveal">On fait bouger<br>quelque chose ?</p>
       <div class="ab-foot__row ab-reveal">
         <span class="ab-mail">valleur.a@gmail.com</span>
-        <button class="ab-write" type="button" id="abWrite">écrire un message</button>
+        <button class="ab-write" type="button" id="abWrite">m’écrire un message</button>
         <button class="ab-back" type="button" id="abBack">voir les projets</button>
       </div>
     </footer>
@@ -2877,7 +2972,7 @@ a.vc__th{display:grid}
 
   /* Apparitions au scroll */
   const io = 'IntersectionObserver' in window
-    ? new IntersectionObserver((ents) => ents.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); if (en.target.classList.contains('ab-h')) reveal(); } }), { root: about, threshold: 0.15 })
+    ? new IntersectionObserver((ents) => ents.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('is-in'); io.unobserve(en.target); if (en.target.classList.contains('ab-h')) reveal(); } }), { root: about, threshold: 0, rootMargin: '0px 0px -10% 0px' })
     : null;
   about.querySelectorAll('.ab-reveal').forEach((el) => { if (io) io.observe(el); else el.classList.add('is-in'); });
 
@@ -3033,34 +3128,38 @@ a.vc__th{display:grid}
       title: 'Radio Classique', kicker: 'motion design & montage', coverFx: 'radio',
       /* Petite introduction affichée au-dessus du tuner */
       lead: [
-        "**Radio Classique**, c’est la musique classique et l’actualité, en direct sur le 101.1 à Paris. Je suis le créatif de la station : je transforme ce qui passe à l’antenne en contenus pour les réseaux sociaux.",
-        "**Pour commencer, cherchez la fréquence** : l’aiguille suit la souris, et sur 101.1, vous tombez sur le direct."
+        "Dans le cadre de mes deux années de **master à LISAA**, je poursuis en parallèle une alternance chez **Radio Classique**. Créée en 1983, la station diffuse de la **musique classique** toute la journée, et décrypte chaque matin l’**actualité politique et économique**, en direct sur le 101.1 à Paris.",
+        "Ma mission principale : **mettre en valeur sur les réseaux sociaux ce qui passe à l’antenne**. L’actualité, la musique, l’histoire, les histoires en musique pour enfants, la nature : tout y passe. **Chaque matin**, je monte **l’invité de la Matinale** : anciens Premiers ministres, prix Nobel, écrivains, comédiens, grands noms de la musique.",
+        "**Pour commencer, cherchez la fréquence** : l’aiguille suit la souris (ou le doigt), et sur 101.1, vous tombez sur le direct."
       ],
-      meta: [['rôle', 'Motion designer & monteur vidéo'], ['équipe', 'Service communication'], ['dates', "Depuis août 2025"], ['lieu', 'Paris']],
+      meta: [['rôle', 'Motion designer & monteur vidéo'], ['mission', 'Mettre l’antenne en valeur sur les réseaux'], ['équipe', 'Service communication'], ['dates', "Depuis août 2025"], ['lieu', 'Paris']],
       cols: [
         ['Un média de référence', "En rejoignant **Radio Classique** en tant que Motion Designer et Monteur Vidéo, j'ai intégré l'univers exigeant d'un média de **référence** pour y insuffler une dynamique visuelle **contemporaine**. Cette mission m'a permis de traduire **l'élégance** et la **profondeur** de la programmation classique en contenus **animés**, tout en respectant l'identité **forte** et la rigueur **institutionnelle** qui définissent la marque."],
         ['Monteur vidéo & motion designer', "Mon travail s'est concentré sur la création de contenus **engageants** destinés aux **réseaux sociaux**, où l'enjeu était de **capter** l'attention tout en préservant la **justesse** du ton. J'ai mis **à profit** ma **maîtrise** du motion design et du montage pour **donner vie** aux formats courts, en veillant à ce que chaque mouvement et chaque coupe rythmique soient en parfaite **harmonie** avec l'exigence sonore du média. C'est un exercice de **précision** où le visuel vient **magnifier** l'écoute."],
         ['Service communication', "Au-delà de l'aspect purement **technique**, cette **immersion** m'a permis **d'affiner** mon **adaptabilité** au sein d'une équipe de communication **dynamique**. J'ai pu démontrer ma capacité à **produire** des contenus **fluides** et **cohérents** dans des délais **serrés**, tout en apportant une touche de **modernité graphique**. Cette expérience a **renforcé** ma conviction : le design est le pont **essentiel** pour rendre la **culture** et l'information **accessibles** et **vibrantes** à l'ère du **numérique**."]
       ],
       stats: [
-        /* chiffres de la station (source : LVMH, groupe propriétaire de Radio Classique) */
-        { to: 1000000, lbl: "d'auditeurs chaque jour : le public que je fais passer de l'antenne aux réseaux sociaux" },
-        { to: 3700000, lbl: 'podcasts écoutés chaque mois' },
-        { to: 2, suf: 'h', lbl: "d'écoute par jour en moyenne : un public fidèle, qui a l'oreille exigeante" }
+        /* la variété de la programmation (sources : grilles 2025-2026 et 2026-2027 présentées par la station) */
+        { to: 11, lbl: "thèmes à l'antenne, de l'économie à la nature, de l'histoire aux contes pour enfants : autant de sujets à mettre en images" },
+        { to: 70, pre: '+', lbl: 'concerts captés cette saison, dans les grandes salles et les festivals' },
+        { to: 4, lbl: 'webradios en plus du direct : Classique Zen, Classique Junior, Classique Films et Classique Gaming' }
       ],
       media: [
+        /* slot : 'stats' ou 'cols' place les chiffres ou les trois colonnes de texte à cet endroit de la page */
+        { slot: 'stats' },
         /* Chaque vidéo est un exemple tiré d'une série */
-        { row: true, title: 'Reels', kind: 'vidéo', ar: '9/16', intro: "Texte de présentation des reels, à remplacer. Deux ou trois phrases pour expliquer le principe des séries et ce que vous y avez fait.", items: [
+        { row: true, title: 'Reels', kind: 'vidéo', ar: '9/16', intro: "Je travaille principalement sur des **reels Instagram**, aux sujets très variés : l’**histoire**, la **culture**, la **musique**, la **politique**…", items: [
           { t: 'Esther Abrami', s: 'Showreel motion design', yt: 'oVOW2Zvv_Mc', d: "Série de reels qui mettent en image sa chronique à l’antenne. Ici, les passages en motion design." },
           { t: 'Conférence de rentrée', s: 'Les voix de l’antenne · montage', yt: 'hEKcs2P4vIc', poster: 'img/posters/rc-rentree.webp', d: "Les voix de la station présentent la nouvelle saison, lors de la conférence de rentrée." },
           { t: 'Le Journal imprévisible', s: 'Marc Bourreau · motion design', yt: 'RscZqnI5XrE', d: "Un reel en motion design qui illustre la chronique." },
           { t: 'David Kadouch', s: 'Chronique · montage', yt: 'CEoesl_IX-Q', d: "La chronique du pianiste David Kadouch, montée pour les réseaux sociaux." },
           { t: 'L’invité de la Matinale', s: 'Gad Elmaleh · montage', yt: 'uUt3h4AtlSE', d: "Extrait de la série d’interviews de la Matinale, le plus souvent avec des personnalités politiques." }
         ] },
+        { slot: 'cols' },
         /* Carrousels : une bande qui glisse doucement vers la gauche, en boucle.
            Pour chaque slide : img = petite image (bande), big = grande image (agrandie au clic), ar = format largeur/hauteur, t = titre, d = petit texte.
            Chaque slide garde son format d'origine (4:5, 3:4, carré…) : rien n'est recadré. */
-        { carousel: true, title: 'Carrousels', intro: "Texte de présentation des carrousels, à remplacer. Deux ou trois phrases pour expliquer le principe et ce que vous y avez fait.", items: [
+        { carousel: true, title: 'Carrousels', intro: "La radio produit tout un tas de sujets écrits, en **articles** ou sous d’autres formes, que je **mets en page** et **en avant** sur le compte Instagram de la station. Ça me demande beaucoup de réflexion, à la fois **éditoriale** et **graphique**, pour respecter et **stimuler l’intérêt du public**.", items: [
           { img: 'img/rc/c01-mozart-portrait-s.webp', big: 'img/rc/c01-mozart-portrait-l.webp', ar: '1079/1350', t: 'Wolfgang Amadeus Mozart, portrait d’un enfant prodige', d: 'Article' },
           { img: 'img/rc/c02-rubinstein-s.webp', big: 'img/rc/c02-rubinstein-l.webp', ar: '1080/1440', t: 'Rubinstein, l’éternel', d: 'Carrousel' },
           { img: 'img/rc/c03-henri-rousseau-s.webp', big: 'img/rc/c03-henri-rousseau-l.webp', ar: '1080/1350', t: 'Henri Rousseau : 6 secrets sur la vie du peintre', d: 'Article' },
@@ -3082,11 +3181,14 @@ a.vc__th{display:grid}
           { img: 'img/rc/c18-merimee-s.webp', big: 'img/rc/c18-merimee-l.webp', ar: '1080/1350', t: 'Prosper Mérimée et les cathédrales', d: 'Article' }
         ] },
         { kind: 'vidéo', ar: '16/9', cls: 'mid', yt: 'ZgFPbRaUAU4', cap: 'Le Journal du Classique : une compilation des interviews de Laure Mézan' },
+        { text: true, cls: 'lft', paras: [
+          "J’accompagne aussi **Laure Mézan** sur le terrain, pour ses sujets : elle y interviewe les **grands noms du classique**, au sein des plus **grandes maisons** et institutions."
+        ] },
         /* Vue d'ensemble, en trois onglets. guests : invités classés par thème (big = mis en avant) ;
            voices : slot = [premier jour, dernier jour (1 = lundi), début, fin en minutes], pour le badge « à l'antenne ». */
         { antenna: true, title: 'Sur l’antenne',
-          intro: "Depuis septembre 2025, je mets en images ce qui passe **à l’antenne** : l’actualité **politique et économique**, la **musique classique**, l’histoire, les histoires en musique pour enfants, la nature. **Chaque matin**, je monte **l’invité de la Matinale** : anciens Premiers ministres, prix Nobel, écrivains, comédiens, grands noms de la musique. Voici une sélection des **invités** les plus connus, les **voix de l’antenne** et les **lieux et partenaires** de la station.",
-          nums: [[13, 'voix de l’antenne'], [290, 'émissions de l’invité de la Matinale', '+'], [6, 'scènes et salles'], [5, 'partenaires et institutions']],
+          intro: "Voici les **invités**, les **voix de l’antenne**, les **lieux** et les **partenaires** de la station.",
+          nums: [['voix', 'voix de l’antenne'], [290, 'émissions de l’invité de la Matinale', '+'], [6, 'scènes et salles'], [5, 'partenaires et institutions']],
           guests: [
             { t: 'Politique et international', d: 'à l’invité de la Matinale', items: [
               { n: 'Alain Juppé', r: 'ancien Premier ministre', big: 1 },
@@ -3154,20 +3256,30 @@ a.vc__th{display:grid}
               { n: 'Raphaël Pichon', r: 'chef d’orchestre' }
             ] }
           ],
+          /* Les émissions du jour : slot = [premier jour, dernier jour (1 = lundi), début, fin en minutes] ; la voix en direct s'allume (heure de Paris) */
           voices: [
             { h: '6 h', n: 'Stéphane Pedrazzi', s: 'La Matinale économique', th: ['Économie'], slot: [1, 5, 360, 420] },
-            { h: '7 h', n: 'David Abiker', s: 'La Matinale et l’invité de la Matinale', th: ['Actualité'], slot: [1, 5, 420, 540] },
+            { h: '7 h', n: 'David Abiker', s: 'La Matinale et l’invité de la Matinale', th: ['Actualité', 'Politique'], slot: [1, 5, 420, 540] },
             { h: '9 h', n: 'Franck Ferrand', s: 'Les Grands dossiers de l’Histoire', th: ['Histoire'], slot: [1, 5, 540, 570] },
             { h: '9 h 30', n: 'Pauline Lambert', s: 'Changez d’air', th: ['Musique'], slot: [1, 5, 570, 720] },
             { h: '12 h', n: 'Jean-Michel Dhuez', s: 'Harmoniques', th: ['Musique'], slot: [1, 5, 720, 840] },
             { h: '14 h 30', n: 'Élodie Fondacci', s: 'Les Heures légères · Des histoires en musique', th: ['Musique', 'Jeunesse'], slot: [1, 5, 870, 1080] },
-            { h: '19 h', n: 'Allain Bougrain-Dubourg', s: 'Le Chant de la Terre, le vendredi', th: ['Nature'], slot: [5, 5, 1140, 1200] },
-            { h: '20 h', n: 'Laure Mézan', s: 'Le Journal du classique', th: ['Musique'], slot: [1, 5, 1200, 1230] },
-            { h: 'chronique', n: 'Guy Boyer', s: 'les arts et les expositions', th: ['Arts'] },
-            { h: 'chronique', n: 'Karine Dijoud', s: 'Et si on parlait français ?', th: ['Langue'] },
-            { h: 'chronique', n: 'Marc Bourreau', s: 'Le Journal imprévisible', th: ['Société'] },
-            { h: 'chronique', n: 'David Kadouch', s: 'pianiste', th: ['Musique'] },
-            { h: 'chronique', n: 'Esther Abrami', s: 'violoniste', th: ['Musique'] }
+            { h: '20 h', n: 'Laure Mézan', s: 'Le Journal du classique', th: ['Musique'], slot: [1, 5, 1200, 1230] }
+          ],
+          /* Les chroniques : de courts rendez-vous, dans les émissions */
+          chron: [
+            { n: 'Emmanuel Combe', s: 'Les Coulisses de l’économie', th: 'Économie' },
+            { n: 'Olivier Beaumont', s: 'Les Coulisses de la politique', th: 'Politique' },
+            { n: 'Nicolas Bouzou', s: 'Un monde de progrès', th: 'Économie' },
+            { n: 'Nathalie Janson', s: 'Les Classiques de l’économie', th: 'Économie' },
+            { n: 'Nicolas Beytout', s: 'Les Esprits libres', th: 'Idées' },
+            { n: 'Jean-François Colosimo', s: 'Les Esprits libres', th: 'Idées' },
+            { n: 'Allain Bougrain-Dubourg', s: 'Le Chant de la Terre', th: 'Nature' },
+            { n: 'Guy Boyer', s: 'Les arts et les expositions', th: 'Arts' },
+            { n: 'Karine Dijoud', s: 'Et si on parlait français ?', th: 'Langue' },
+            { n: 'Marc Bourreau', s: 'Le Journal imprévisible', th: 'Société' },
+            { n: 'David Kadouch', s: 'pianiste', th: 'Musique' },
+            { n: 'Esther Abrami', s: 'violoniste', th: 'Musique' }
           ],
           places: [
             { t: 'scènes et salles', items: ['Opéra Garnier', 'Opéra Bastille', 'Théâtre des Champs-Élysées', 'Philharmonie de Paris', 'Théâtre du Châtelet', 'Opéra Royal de Versailles'] },
@@ -3181,7 +3293,7 @@ a.vc__th{display:grid}
       /* Petite introduction affichée au-dessus de l'animation */
       lead: [
         "**ParisianVibe** est un média lifestyle sur YouTube qui raconte l’art de vivre parisien : mode, intérieurs, voyages, avec des séries comme In the Bag ou At Home in Paris. Pendant mon alternance, j’ai travaillé avec l’équipe de production sur tout le processus : la préparation des tournages, parfois la prise de vue, et surtout le **montage vidéo**, du dérushage à l’export.",
-        "**Le mini-jeu ci-dessous** vous met à ma place : un épisode d’In the Bag vient d’être dérushé et ses plans sont mélangés. Glissez-les sur la timeline dans l’ordre du récit, lisez la séquence, puis exportez. Le bouton « solution » est là si besoin."
+        "**Le mini-jeu ci-dessous** vous met à ma place : un épisode d’In the Bag vient d’être dérushé et ses plans sont mélangés. Glissez-les sur la timeline (ou touchez-les un par un) dans l’ordre du récit, lisez la séquence, puis exportez. Le bouton « solution » est là si besoin."
       ],
       meta: [['rôle', 'Monteur vidéo'], ['contrat', 'Alternance — 1 an'], ['équipe', 'Équipe de production'], ['dates', 'Déc. 2024 — juil. 2025'], ['lieu', 'Paris']],
       cols: [
@@ -3195,8 +3307,10 @@ a.vc__th{display:grid}
         { to: 823000, lbl: 'vues pour « At Home in France », l’épisode le plus vu de la période' }
       ],
       media: [
+        { slot: 'stats' },
         /* Vidéo à la une : l'épisode le plus vu de la période (la vidéo ne se charge qu'au clic) */
         { kind: 'vidéo', ar: '16/9', cls: 'mid', yt: 'jM8aRBI34ys', cap: 'At Home in France : Extraordinary French Countryside Family House · 823 k vues · 30 min, l’épisode le plus vu de la période' },
+        { slot: 'cols' },
         /* Bibliothèque YouTube. Pour chaque vidéo : yt = identifiant YouTube (la miniature s'affiche toute seule),
            t = titre, s = thème (un de la liste themes), dur = durée, v = vues (null = réservée aux membres), h = heures de montage (facultatif) */
         { library: true, title: 'Vidéos YouTube', intro: "De décembre 2024 à juillet 2025, j’ai travaillé sur tous les épisodes publiés sur la chaîne : les voici, c’est l’essentiel de mon travail chez ParisianVibe. Tout est cliquable : filtrez par série, réglez les curseurs, triez, et lancez une vidéo pour la regarder.",
@@ -3240,7 +3354,7 @@ a.vc__th{display:grid}
             { yt: 'fce7CClNj_M', t: 'Bag Girl’s Guide: A Conversation With Christie’s', s: 'Guides mode', dur: '13:15', v: 23000 }
           ] },
         /* Carrousel de l'habillage : titres, cartons et mises en page à l'écran (img = petite, big = agrandie au clic) */
-        { carousel: true, title: 'L’habillage', intro: "Titres, génériques, cartons et citations : l’habillage graphique que je créais pour chaque série de la chaîne, dans l’univers élégant de ParisianVibe.", items: [
+        { carousel: true, title: 'L’habillage', intro: "**Titres**, **génériques**, **cartons** et **citations** : l’**habillage graphique** que je créais pour **chaque série** de la chaîne, dans l’**univers élégant** de ParisianVibe.", items: [
           { img: 'img/pv/pv-24h-madrid-s.webp', big: 'img/pv/pv-24h-madrid-l.webp', ar: '3024/1638', t: '24 Hours in Madrid', d: 'Spain Edition · titre d’ouverture' },
           { img: 'img/pv/pv-at-home-paris-s.webp', big: 'img/pv/pv-at-home-paris-l.webp', ar: '3024/1644', t: 'At Home in Paris', d: 'PV Series · générique de la série' },
           { img: 'img/pv/pv-bonjour-provence-s.webp', big: 'img/pv/pv-bonjour-provence-l.webp', ar: '3024/1640', t: 'Bonjour Provence', d: 'titre en surimpression' },
@@ -3275,8 +3389,10 @@ a.vc__th{display:grid}
         { to: 100, lbl: "nationalités dans les équipes de l'agence" }
       ],
       media: [
+        { slot: 'stats' },
         /* La vidéo (16:9) */
         { kind: 'vidéo', ar: '16/9', cls: 'mid', yt: '5PJTNqlyBs4', cap: 'Jeux olympiques 2024 : Paris, capitale des sports vue par trois photographes de l’AFP' },
+        { slot: 'cols' },
         { text: true, cls: 'lft', paras: [
           "Ma pratique s'est **appuyée** sur un socle technique **robuste**, alliant la maîtrise **avancée** des outils de **post-production** — du **motion design** au **sound design**, en passant par **l'étalonnage** et les **effets visuels** — à une rigueur d'exécution **constante**. Au-delà de la simple **technicité**, j'ai développé une approche **pragmatique** de la **résolution créative** de problèmes : j'ai **systématiquement** anticipé les **contraintes techniques** dès la phase de **conception** pour garantir une **fluidité optimale** dans la chaîne de production.",
           "Cette **agilité** m'a permis de **naviguer** avec **aisance** entre la création de contenus **dynamiques** pour les réseaux sociaux et la gestion de **projets complexes**, tout en assurant une qualité de **finition exemplaire** sur l'ensemble des supports de diffusion."
@@ -3312,7 +3428,7 @@ a.vc__th{display:grid}
           { img: 'img/uma/uma-affiche-night-en-main-s.webp', big: 'img/uma/uma-affiche-night-en-main-l.webp', t: 'La Night en Main', s: '100 % plaisir · 100 % contrôle · 0 % alcool' },
           { img: 'img/uma/uma-affiche-souvenirs-s.webp', big: 'img/uma/uma-affiche-souvenirs-l.webp', t: 'Les Souvenirs de la Night', s: '100 % partage · 100 % amis · 0 % alcool' }
         ] },
-        { text: true, cls: 'mid', paras: [
+        { text: true, cls: 'lft', paras: [
           "Pour ancrer la marque dans la vie nocturne, j’ai imaginé une **double page sponsorisée** dans **Le Bonbon**, le média des sorties à Paris. Elle prend la forme d’une sélection d’**adresses** où sortir, en France et surtout à Paris, toutes choisies parmi les lieux où l’on trouve UMA.",
           "La marque n’est pas une publicité posée à côté du contenu : elle fait partie du **bon plan**. Le lecteur découvre un endroit où passer la soirée, et la boisson qu’il pourra y commander."
         ] },
@@ -3363,14 +3479,13 @@ a.vc__th{display:grid}
           "Celle qui fut blessée devint celle que le monde craignait.",
           "L’Histoire retiendra la gloire du vainqueur, mais ses sœurs de silence n’ont jamais oublié celle qui fut brisée."
         ], turn: 2 },
-        /* Styleframes (16:9), dans l'ordre du film ; clic = agrandir */
+        /* Styleframes (16:9) : quatre images du film ; clic = agrandir */
         { row: true, cols: 2, title: 'Styleframes', intro: 'Des images clés du film : du rouge de la légende officielle aux couleurs de la céramique grecque pour raconter la vraie histoire.', kind: 'image', ar: '16/9', items: [
           { img: 'img/meduse/meduse-01-persee-s.webp', big: 'img/meduse/meduse-01-persee-l.webp', t: 'Persée triomphant', s: 'plan 1' },
-          { img: 'img/meduse/meduse-02-tete-s.webp', big: 'img/meduse/meduse-02-tete-l.webp', t: 'La tête de Méduse', s: 'plan 1' },
+          { img: 'img/meduse/meduse-05-temple-s.webp', big: 'img/meduse/meduse-05-temple-l.webp', t: 'Le temple d’Athéna', s: 'plan 5' },
           { img: 'img/meduse/meduse-03-verite-s.webp', big: 'img/meduse/meduse-03-verite-l.webp', t: 'Une vérité effacée', s: 'plan 2' },
           { img: 'img/meduse/meduse-04-mortelle-s.webp', big: 'img/meduse/meduse-04-mortelle-l.webp', t: 'Avant les serpents', s: 'plan 3' }
         ] },
-        { kind: 'image', ar: '16/9', cls: 'mid', img: 'img/meduse/meduse-05-temple-s.webp', big: 'img/meduse/meduse-05-temple-l.webp', cap: 'Le temple d’Athéna · plan 5' },
         /* Teaser vertical (YouTube Shorts) */
         { kind: 'vidéo', ar: '9/16', cls: 's4', yt: 'MHIjZM4DdIs', poster: 'img/posters/meduse-teaser.webp', cap: 'Teaser vertical' },
         { text: true, cls: 's8', paras: [
@@ -3385,9 +3500,9 @@ a.vc__th{display:grid}
       coverMedia: { kind: 'image', ar: '3508/4961', pair: [{ img: 'img/ss/ss-affiche-texte-s.webp', big: 'img/ss/ss-affiche-texte-l.webp' }, { img: 'img/ss/ss-affiche-navire-s.webp', big: 'img/ss/ss-affiche-navire-l.webp' }], cap: 'Le duo d’affiches : le message à gauche, le navire à droite' },
       lead: [
         "**Sea Shepherd** est une ONG de défense des océans fondée en 1977 par Paul Watson. Elle vit uniquement de dons et revendique une **mentalité pirate** : s’interposer entre les baleiniers et les baleines, bloquer les navires, agir directement en mer.",
-        "Pour l’**Opération Antarctique**, nous avons imaginé une **campagne de recrutement** de bénévoles pensée en **low impact design** : du papier à l’encre jusqu’au mode d’affichage, chaque choix réduit l’impact de la campagne sur l’environnement."
+        "Pour l’**Opération Antarctique**, j’ai imaginé une **campagne de recrutement** de bénévoles pensée en **low impact design** : du papier à l’encre jusqu’au mode d’affichage, chaque choix réduit l’impact de la campagne sur l’environnement."
       ],
-      meta: [['rôle', 'Direction artistique et design graphique'], ['démarche', 'Low impact design'], ['supports', 'Affichage sauvage · print'], ['avec', 'Blanche Pillet, Jean Vandame, Carla Ragache']],
+      meta: [['rôle', 'Direction artistique et design graphique'], ['démarche', 'Low impact design'], ['supports', 'Affichage sauvage · print']],
       cols: [
         ['Une affiche, un message', "Tout part d’un **duo d’affiches**. À gauche, le texte frappe comme un tract : « Pendant que vous lisez ça, une baleine vient d’être **harponnée** ». À droite, le navire de Sea Shepherd fend la houle. L’appel est direct : bénévole, **pas de salaire, pas d’excuses**. Tout le reste de la campagne en découle."],
         ['Un affichage pirate', "Pas de panneaux publicitaires qui consomment de l’**électricité** : les affiches sont collées en **affichage sauvage**, avec une **colle écologique**, dans l’esprit pirate de Sea Shepherd. Autour, des **objets du quotidien détournés** s’infiltrent partout, sans jamais ressembler à de la pub, pour provoquer une **prise de conscience** et donner envie de s’engager."],
@@ -3408,6 +3523,8 @@ a.vc__th{display:grid}
           { img: 'img/ss/ss-ticket-verso-s.webp', big: 'img/ss/ss-ticket-verso-l.webp', t: 'Le verso', s: 'le drapeau pirate, sur un champ d’étoiles' },
           { img: 'img/ss/ss-ticket-main-s.webp', big: 'img/ss/ss-ticket-main-l.webp', ar: '3/2', t: 'En main', s: 'distribué devant les bars-tabac' }
         ] },
+        /* Marque-page : rangé dans un carnet ; on ouvre, on le sort, on le retourne et l'ambiance bascule */
+        { bookmark: true, title: 'Le marque-page', intro: 'Au recto, le Cercle des Pêcheurs de l’Austral du Grand Large, un club de pêche chic qui vante la tradition et « l’amour de la mer et de ses richesses ». Au verso, le ton bascule : « La mer ne donne plus rien. » Les codes des boys clubs de pêche, retournés contre eux.', recto: 'img/ss/ss-mp-recto.webp', verso: 'img/ss/ss-mp-verso.webp', ar: '400/1210' },
         /* Fausse publicité de médicament, à languettes : on peut cueillir les languettes ; top = début des languettes,
            cuts = découpes (fractions de la largeur), taken = languettes déjà parties */
         { tear: true, cls: 'c3', ar: '1000/2259', img: 'img/ss/ss-medicament-s.webp', big: 'img/ss/ss-medicament-l.webp', top: 0.4914, cuts: [0, 0.197, 0.402, 0.609, 0.82, 1], taken: [0, 1, 3], cap: 'L’affiche à languettes : servez-vous' },
@@ -3417,10 +3534,8 @@ a.vc__th{display:grid}
           "Sur chaque languette, le numéro de recrutement : « Si vous lisez encore, vous êtes peut-être le profil qu’on cherche. »",
           "Comme dans la rue, certaines languettes sont déjà parties. **Cueillez** celles qui restent : cliquez, ou tirez-les vers le bas."
         ] },
-        /* Marque-page : rangé dans un carnet ; on ouvre, on le sort, on le retourne et l'ambiance bascule */
-        { bookmark: true, title: 'Le marque-page', intro: 'Au recto, le Cercle des Pêcheurs de l’Austral du Grand Large, un club de pêche chic qui vante la tradition et « l’amour de la mer et de ses richesses ». Au verso, le ton bascule : « La mer ne donne plus rien. » Les codes des boys clubs de pêche, retournés contre eux.', recto: 'img/ss/ss-mp-recto.webp', verso: 'img/ss/ss-mp-verso.webp', ar: '400/1210' },
         /* Le reste de la campagne, en plus petit (vignettes recadrées, image entière au clic) */
-        { row: true, cols: 3, cls: 'mid', title: 'Toute la campagne', intro: 'Autour de l’affiche, la campagne se décline sur des supports du quotidien : petits formats monochromes, imprimés en série sur papier recyclé et distribués à la main.', kind: 'image', ar: '3/2', items: [
+        { row: true, cols: 3, cls: 'lft', title: 'Toute la campagne', intro: 'Autour de l’affiche, la campagne se décline sur des supports du quotidien : petits formats monochromes, imprimés en série sur papier recyclé et distribués à la main.', kind: 'image', ar: '3/2', items: [
           { img: 'img/ss/dec-carte-fidelite-s.webp', big: 'img/ss/dec-carte-fidelite-l.webp', zar: '2400/1600', t: 'Carte de fidélité', s: 'commerces', d: 'Les codes d’une carte de fidélité, avec des indices visuels du massacre.' },
           { img: 'img/ss/dec-cartel-porte-s.webp', big: 'img/ss/dec-cartel-porte-l.webp', zar: '2304/1296', t: 'Cartel de porte', s: 'poignées de porte', d: '« Ne pas déranger : extinction en cours. » Réutilisable, compris en deux temps.' },
           { img: 'img/ss/dec-sticker-fragile-s.webp', big: 'img/ss/dec-sticker-fragile-l.webp', zar: '1854/1777', t: 'Stickers fragile', s: 'poissonneries, animaleries, restaurants', d: 'Repositionnables, collés sur les aquariums avec les codes de la signalétique.' },
@@ -3513,8 +3628,8 @@ a.vc__th{display:grid}
     },
     'le-corbusier': {
       title: 'Pierre figée', kicker: 'édition · risographie', coverFx: 'book',
-      /* Le carnet à feuilleter : pages img/livre/livre-01 … 16, dans l'ordre de lecture (désimposées) ; mine = mes pages ;
-         riso = les deux couches d'encre de chaque page (séparées à partir des pages), pour le filtre riso */
+      /* Le carnet : pages img/livre/livre-01 … 16, dans l'ordre de lecture (désimposées) ; mine = mes pages ;
+         riso = les deux couches d'encre de chaque page (séparées à partir des pages), montrées d'emblée sur la page */
       book: { n: 16, ar: '900/1277', src: (k) => `img/livre/livre-${String(k).padStart(2, '0')}.webp`, riso: (k, c) => `img/riso/riso-${String(k).padStart(2, '0')}-${c}.webp`, mine: [13, 16] },
       lead: [
         "**Pierre figée** est un carnet de seize pages imprimé en **risographie**, avec deux encres seulement : le **bleu** et le **rose fluo**. Il réunit quatre récits, chacun sur quatre pages : une ouverture, une **double page** et une page de fin.",
@@ -3524,13 +3639,14 @@ a.vc__th{display:grid}
       cols: [
         ['Deux encres, un carnet', "Quatre récits très différents, tenus ensemble par la **contrainte** : deux encres, un même format, le même rythme de quatre pages. Les **superpositions** du bleu et du rose créent toutes les autres teintes."],
         ['Mes pages : Le Corbusier', "Le **plan libre**, puis les **cinq points** de l’architecture moderne en double page. J’ai appliqué à la **mise en page** les règles de l’architecte : une grille tirée du **Modulor**, des lignes qui structurent la page comme des murs porteurs."],
-        ['La risographie', "Une impression couche par couche, avec son **grain**, ses aplats vibrants et ses petits **décalages**. Activez le **filtre riso** sur le carnet pour voir comment chaque page se construit, encre après encre."]
+        ['La risographie', "Une impression couche par couche, avec son **grain**, ses aplats vibrants et ses petits **décalages**. Sur le carnet, chaque page est séparée en **couches** : lancez l’**impression** pour voir comment elle se construit, encre après encre."]
       ],
       stats: [],
       media: []
     }
   };
   const PJ_ORDER = PJ_CARDS.map((c) => c.slug);
+  { const pc = document.getElementById('pjCount'); if (pc) pc.textContent = String(PJ_ORDER.length); }
   function routeOf(hash) {
     const h = (hash || '').replace('#', '');
     if (h === 'a-propos') return { v: 'about' };
@@ -3569,7 +3685,7 @@ a.vc__th{display:grid}
     if (en.target.classList.contains('ab-h')) reveal();
     if (en.target.classList.contains('pj-stat')) countUp(en.target);
     pjIO.unobserve(en.target);
-  }), { root: pj, threshold: 0.2 }) : null;
+  }), { root: pj, threshold: 0, rootMargin: '0px 0px -12% 0px' }) : null; /* seuil 0 : même un bloc plus haut que l'écran (sur téléphone) apparaît */
 
   /* Chiffres : comptent de 0 à leur valeur quand ils entrent dans l'écran */
   /* chiffres qui défilent : un cliquetis qui monte avec le compteur, puis une note quand le chiffre est atteint (partagé entre compteurs) */
@@ -3601,7 +3717,8 @@ a.vc__th{display:grid}
       const im = pic ? `<img class="ph__img" src="${esc(pic)}" alt="${esc(m.t || m.cap || '')}" loading="lazy" decoding="async" draggable="false"${fb}>` : '';
       const label = (m.yt || m.mp4 || pic) ? '' : `<span class="ph__l">${esc(m.kind)} · ${esc(m.ar.replace('/', ':'))} — à remplacer</span>`;
       const zoom = m.img ? ` data-big="${esc(m.big || m.img)}" data-ar="${arNum(m.zar || m.ar).toFixed(4)}"` : '';
-      return `<div class="ph${m.kind === 'vidéo' ? ' ph--video' : ''}${m.img ? ' is-zoom' : ''}" style="--ar:${m.ar}${bg}"${src}${zoom}>${im}${label}${m.kind === 'vidéo' ? '<button type="button" class="ph__play" aria-label="lire la vidéo"></button>' : ''}</div>`;
+      const vert = m.kind === 'vidéo' && m.ar === '9/16';
+      return `<div class="ph${m.kind === 'vidéo' ? ' ph--video' : ''}${vert ? ' ph--v' : ''}${m.img ? ' is-zoom' : ''}" style="--ar:${m.ar}${bg}"${src}${zoom}>${im}${label}${m.kind === 'vidéo' ? '<button type="button" class="ph__play" aria-label="lire la vidéo"></button>' : ''}${vert && src ? FS_BTN : ''}</div>`;
     };
     let h = '';
     h += `<header class="pj-hero"><p class="ab-eyebrow pj-kicker"><b>${String(idx + 1).padStart(2, '0')}</b>${esc(P.kicker)}</p>`;
@@ -3626,34 +3743,43 @@ a.vc__th{display:grid}
       : P.coverMedia
       ? `<figure class="pj-media pj-cover is-in" style="margin:var(--tgap) 0 0">${P.coverMedia.pair ? `<div class="pj-pair">${(Array.isArray(P.coverMedia.pair) ? P.coverMedia.pair : [{}, {}]).map((q) => ph({ ...P.coverMedia, ...q })).join('')}</div>` : ph(P.coverMedia)}<figcaption>${esc(P.coverMedia.cap)}</figcaption></figure>`
       : `<figure class="pj-media pj-cover is-in" style="margin:var(--tgap) 0 0">${ph({ kind: 'image', ar: '16/9' }, true)}<figcaption>Image de couverture — à remplacer</figcaption></figure>`;
-    if (P.cols.length) h += `<section class="pj-cols">${P.cols.map(([t, x]) => `<div class="pj-col ab-reveal"><h3>${esc(t)}</h3><p>${md(x)}</p></div>`).join('')}</section>`;
-    if (P.stats.length) h += `<section class="pj-stats" style="--n:${P.stats.length}">${P.stats.map((st) => st.ph
+    /* les colonnes de texte et les chiffres se placent après la couverture, sauf si la galerie leur réserve une place ({ slot: 'cols' } / { slot: 'stats' }) */
+    const colsHTML = P.cols.length ? `<section class="pj-cols">${P.cols.map(([t, x]) => `<div class="pj-col ab-reveal"><h3>${esc(t)}</h3><p>${md(x)}</p></div>`).join('')}</section>` : '';
+    const slotted = (k) => P.media.some((m) => m.slot === k);
+    if (!slotted('cols')) h += colsHTML;
+    const statsHTML = !P.stats.length ? '' : `<section class="pj-stats" style="--n:${P.stats.length}">${P.stats.map((st) => st.ph
       ? `<div class="pj-stat is-ph ab-reveal"><span class="pj-big">00</span><p>${esc(st.lbl)}</p></div>`
       : `<div class="pj-stat ab-reveal"><span class="pj-big">${st.pre ? esc(st.pre) : ''}<span class="pj-n" data-to="${st.to}">0</span>${st.suf ? `<small>${esc(st.suf)}</small>` : ''}</span><p>${esc(st.lbl)}</p></div>`).join('')}</section>`;
+    if (!slotted('stats')) h += statsHTML;
     const item = (m) => {
       if (m.library) return vlHTML(m);
       if (m.antenna) return antHTML(m);
-      if (m.scratch) return `<section class="sx ab-reveal" data-z="${esc(JSON.stringify(m.zones)).replace(/"/g, '&quot;')}"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div>
+      if (m.scratch) return `<section class="sx ab-reveal" data-z="${esc(JSON.stringify(m.zones)).replace(/"/g, '&quot;')}"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${md(m.intro)}</p>` : ''}</div>
         <div class="sx__body"><div class="sx__tk" style="aspect-ratio:${m.ar}"><img class="sx__base" src="${esc(m.base)}" alt="Le ticket « Le Rêve Américain », gratté" loading="lazy" decoding="async" draggable="false">${m.zones.map((z, i) => `<canvas class="sx__z${z.k === 'box' ? ' is-box' : ''}" data-i="${i}" style="left:${(z.x * 100).toFixed(3)}%;top:${(z.y * 100).toFixed(3)}%;width:${(z.w * 100).toFixed(3)}%;height:${(z.h * 100).toFixed(3)}%"></canvas>`).join('')}</div>
         <div class="sx__side"><ol class="sx__steps"><li class="is-on"><b>1</b><span>Grattez les 3 étoiles</span></li><li><b>2</b><span>3 symboles identiques ? Grattez la case</span></li><li><b>3</b><span>Découvrez votre lot</span></li></ol>
         <p class="sx__msg" aria-live="polite">Grattez avec la souris, ou le doigt.</p>
         <div class="sx__btns"><button type="button" data-a="all">tout gratter</button><button type="button" data-a="new">nouveau ticket</button></div></div></div></section>`;
-      if (m.script) return `<section class="sc ab-reveal"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div><ol class="sc__list">${m.lines.map((l, k) => `${k === m.turn - 1 ? '<li class="sc__turn" aria-hidden="true"><span>la version qu’on ne raconte pas</span></li>' : ''}<li class="sc__l${k < m.turn - 1 ? ' is-legend' : ''}" style="--k:${k}"><span class="sc__n">${pad2(k + 1)}</span><p>${esc(l)}</p></li>`).join('')}</ol></section>`;
+      if (m.script) return `<section class="sc ab-reveal"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${md(m.intro)}</p>` : ''}</div><ol class="sc__list">${m.lines.map((l, k) => `${k === m.turn - 1 ? '<li class="sc__turn" aria-hidden="true"><span>la version qu’on ne raconte pas</span></li>' : ''}<li class="sc__l${k < m.turn - 1 ? ' is-legend' : ''}" style="--k:${k}"><span class="sc__n">${pad2(k + 1)}</span><p>${esc(l)}</p></li>`).join('')}</ol></section>`;
       if (m.tear) return TEAR_HTML(m);
       if (m.bookmark) return BM_HTML(m);
       if (m.monitor) return MO_HTML(m);
       if (m.text) return `<div class="pj-text ab-reveal ${m.cls}">${m.title ? `<h3 class="cr__h">${esc(m.title)}</h3>` : ''}${m.paras.map((x) => `<p>${md(x)}</p>`).join('')}</div>`;
       if (m.carousel) {
         const sl = (it, i, dup) => `<figure class="cr__slide" data-i="${i}" style="--ar:${arNum(it.ar).toFixed(4)}"${dup ? ' aria-hidden="true"' : ''}><div class="cr__img">${crMedia(it, i)}</div><figcaption class="rl"><b>${esc(it.t)}</b>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`;
-        return `<div class="cr ab-reveal" data-cr><div class="cr__bar"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div><div class="cr__nav"><span class="cr__count" aria-live="polite"></span><button type="button" class="cr__btn" data-dir="-1" aria-label="slide précédente">←</button><button type="button" class="cr__btn" data-dir="1" aria-label="slide suivante">→</button></div></div><div class="cr__view" tabindex="0" aria-label="carrousels : glisser, ou flèches du clavier"><div class="cr__track">${m.items.map((it, i) => sl(it, i)).join('')}${m.items.map((it, i) => sl(it, i, true)).join('')}</div></div><div class="cr__prog" aria-hidden="true"><i></i></div></div>`;
+        return `<div class="cr ab-reveal" data-cr><div class="cr__bar"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${md(m.intro)}</p>` : ''}</div><div class="cr__nav"><span class="cr__count" aria-live="polite"></span><button type="button" class="cr__btn" data-dir="-1" aria-label="slide précédente">←</button><button type="button" class="cr__btn" data-dir="1" aria-label="slide suivante">→</button></div></div><div class="cr__view" tabindex="0" aria-label="carrousels : glisser, ou flèches du clavier"><div class="cr__track">${m.items.map((it, i) => sl(it, i)).join('')}${m.items.map((it, i) => sl(it, i, true)).join('')}</div></div><div class="cr__prog" aria-hidden="true"><i></i></div></div>`;
       }
       if (m.row) {
         const its = m.items || Array.from({ length: m.n }, (_, i) => ({ t: `${m.cap} ${String(i + 1).padStart(2, '0')}`, s: 'à remplacer' }));
-        return `<div class="pj-row-wrap ${m.cls || ''}">${m.title ? `<div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div>` : ''}<div class="pj-row${m.cols ? ' is-grid' : ''}${m.cls === 'is-stagger' ? ' is-stagger' : ''}" style="--n:${m.cols || its.length}${its.some((it) => it.ar) ? `;grid-template-columns:${its.map((it) => { const [a, b] = (it.ar || m.ar).split('/').map(Number); return `minmax(0,${(a / b).toFixed(3)}fr)`; }).join(' ')}` : ''}">${its.map((it) => `<figure class="pj-media">${ph({ ...m, ...it, kind: m.kind, ar: it.ar || m.ar })}<figcaption class="rl"><b>${esc(it.t)}</b><span class="rl__s">${esc(it.s)}</span>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`).join('')}</div></div>`;
+        return `<div class="pj-row-wrap ${m.cls || ''}">${m.title ? `<div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${md(m.intro)}</p>` : ''}</div>` : ''}<div class="pj-row${m.cols ? ' is-grid' : ''}${m.cls === 'is-stagger' ? ' is-stagger' : ''}" style="--n:${m.cols || its.length}${its.some((it) => it.ar) ? `;grid-template-columns:${its.map((it) => { const [a, b] = (it.ar || m.ar).split('/').map(Number); return `minmax(0,${(a / b).toFixed(3)}fr)`; }).join(' ')}` : ''}">${its.map((it) => `<figure class="pj-media">${ph({ ...m, ...it, kind: m.kind, ar: it.ar || m.ar })}<figcaption class="rl"><b>${esc(it.t)}</b><span class="rl__s">${esc(it.s)}</span>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`).join('')}</div></div>`;
       }
       return `<figure class="pj-media ${m.cls}">${ph(m)}<figcaption>${esc(m.cap)}</figcaption></figure>`;
     };
-    if (P.media.length) h += `<section class="pj-gallery">${P.media.map(item).join('')}</section>`;
+    if (P.media.length) {
+      let buf = [];
+      const flush = () => { if (buf.length) h += `<section class="pj-gallery">${buf.join('')}</section>`; buf = []; };
+      P.media.forEach((m) => { if (m.slot) { flush(); h += m.slot === 'cols' ? colsHTML : statsHTML; } else buf.push(item(m)); });
+      flush();
+    }
     h += `<button type="button" class="pj-next" data-next="${nextSlug}"><span class="ab-eyebrow">projet suivant</span><span class="pj-next__t">${esc(N.title)}<i>→</i></span></button>`;
     pjInner.innerHTML = h;
     pjInner.querySelectorAll('.ab-h').forEach((el) => {
@@ -3667,7 +3793,11 @@ a.vc__th{display:grid}
     pjInner.querySelectorAll('.ab-reveal, .ab-h, .pj-media:not(.pj-cover), .pj-stat').forEach((el) => { if (pjIO) pjIO.observe(el); else { el.classList.add('is-in'); if (el.classList.contains('pj-stat')) countUp(el); } });
     pjInner.querySelector('.pj-next').addEventListener('click', () => setView('project', nextSlug));
     pjInner.querySelectorAll('[data-cr]').forEach((el) => initCarousel(el, P.media.find((m) => m.carousel)));
-    pjInner.querySelectorAll('.ph--video').forEach((el) => el.addEventListener('click', () => playFacade(el)));
+    const coarse = matchMedia('(hover:none), (pointer:coarse)').matches;
+    pjInner.querySelectorAll('.ph--video').forEach((el) => el.addEventListener('click', (e) => {
+      if (el.classList.contains('ph--v') && el.dataset.yt && (e.target.closest('.ph__fs') || coarse)) { e.stopPropagation(); openReels(el); return; }
+      playFacade(el);
+    }));
     const fxr = pjInner.querySelector('.pj-cover.fx-radio .rd');
     if (fxr) initRadio(fxr);
     const fxd = pjInner.querySelector('.pj-cover.fx-afp .dc');
@@ -3699,6 +3829,18 @@ a.vc__th{display:grid}
     el.classList.add('is-playing');
     el.insertAdjacentHTML('beforeend', media);
     audio.duck(true);
+  }
+
+  /* Reels en grand : la vidéo verticale à toute la hauteur de l'écran, avec les autres reels de la même rangée (flèches, glisser) */
+  const FS_BTN = '<button type="button" class="ph__fs" aria-label="voir en plein écran"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></button>';
+  function openReels(el) {
+    const g = el.closest('.pj-row, .vm__row') || el.parentElement;
+    const all = [...g.querySelectorAll('.ph--v[data-yt]')], i = Math.max(0, all.indexOf(el));
+    if (el.classList.contains('is-playing')) { const v = el.querySelector('iframe, video'); if (v) v.remove(); el.classList.remove('is-playing'); }
+    openLightbox(all.map((q) => {
+      const sl = q.closest('.vm__slot'), f = q.closest('figure'), tt = sl ? sl.querySelector('.vm__tag span') : f ? f.querySelector('figcaption b') : null;
+      return `<div class="lb__vid" data-yt="${qa(q.dataset.yt)}"></div>${tt ? `<p class="lb__t"><b>${esc(tt.textContent)}</b></p>` : ''}`;
+    }), i, 'reel');
   }
 
   /* Couverture Radio Classique : un tuner FM.
@@ -3836,13 +3978,26 @@ a.vc__th{display:grid}
     if (!lb) {
       lb = document.createElement('div');
       lb.className = 'lb'; lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-label', 'slide agrandie');
-      lb.innerHTML = '<div class="lb__stage"></div><button type="button" class="lb__x" aria-label="fermer">fermer</button><button type="button" class="cr__btn lb__p" aria-label="précédente">←</button><button type="button" class="cr__btn lb__n" aria-label="suivante">→</button><span class="lb__c"></span>';
+      lb.innerHTML = '<div class="lb__stage"></div><button type="button" class="lb__x" aria-label="fermer">fermer</button><button type="button" class="lb__fs" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>plein écran</button><button type="button" class="cr__btn lb__p" aria-label="précédente">←</button><button type="button" class="cr__btn lb__n" aria-label="suivante">→</button><span class="lb__c"></span>';
       document.body.appendChild(lb);
-      lb.addEventListener('click', (e) => { if (e.target === lb || e.target.classList.contains('lb__x')) closeLightbox(); });
+      let sw = null, swiped = false;
+      lb.addEventListener('pointerdown', (e) => { sw = e.target.closest('button') ? null : { x: e.clientX, y: e.clientY }; swiped = false; });
+      lb.addEventListener('pointerup', (e) => {
+        if (!sw) return; const dx = e.clientX - sw.x, dy = e.clientY - sw.y; sw = null;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.3 && lb._items.length > 1) { swiped = true; showLb(lb._i + (dx < 0 ? 1 : -1)); sfx.play('swipe', dx < 0 ? 1 : -1); }
+      });
+      lb.addEventListener('click', (e) => { if (swiped) { swiped = false; return; } if (e.target === lb || e.target.classList.contains('lb__x')) closeLightbox(); });
+      const fsb = lb.querySelector('.lb__fs');
+      if (document.fullscreenEnabled) {
+        fsb.addEventListener('click', () => { if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); else lb.requestFullscreen().catch(() => {}); });
+        document.addEventListener('fullscreenchange', () => { fsb.lastChild.textContent = document.fullscreenElement === lb ? 'quitter le plein écran' : 'plein écran'; });
+      }
       lb.querySelector('.lb__p').addEventListener('click', () => { showLb(lb._i - 1); sfx.play('swipe', -1); });
       lb.querySelector('.lb__n').addEventListener('click', () => { showLb(lb._i + 1); sfx.play('swipe', 1); });
     }
-    lb._items = items; lb.hidden = false; lb.classList.toggle('is-video', mode === 'video'); sfx.play('open'); if (mode === 'video') audio.duck(true);
+    lb._items = items; lb.hidden = false; lb.classList.toggle('is-video', mode === 'video' || mode === 'reel'); lb.classList.toggle('is-reel', mode === 'reel'); lb.classList.toggle('is-one', items.length < 2);
+    lb.querySelector('.lb__fs').hidden = !(mode === 'reel' && document.fullscreenEnabled);
+    sfx.play('open'); if (mode === 'video' || mode === 'reel') audio.duck(true);
     requestAnimationFrame(() => lb.classList.add('is-on'));
     showLb(i);
   }
@@ -3855,7 +4010,7 @@ a.vc__th{display:grid}
     if (v) v.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.dataset.yt)}?autoplay=1&rel=0&modestbranding=1" title="vidéo" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
     lb.querySelector('.lb__c').textContent = `${String(i + 1).padStart(2, '0')} / ${String(n).padStart(2, '0')}`;
   }
-  function closeLightbox() { if (!lb || lb.hidden) return false; lb.classList.remove('is-on'); sfx.play('close'); audio.duck(radio.on); setTimeout(() => { lb.hidden = true; if (lb.classList.contains('is-video')) lb.querySelector('.lb__stage').innerHTML = ''; }, 300); return true; }
+  function closeLightbox() { if (!lb || lb.hidden) return false; if (document.fullscreenElement === lb) document.exitFullscreen().catch(() => {}); lb.classList.remove('is-on'); sfx.play('close'); audio.duck(radio.on); setTimeout(() => { lb.hidden = true; if (lb.classList.contains('is-video')) lb.querySelector('.lb__stage').innerHTML = ''; }, 300); return true; }
   window.addEventListener('keydown', (e) => {
     if (!lb || lb.hidden) return;
     if (e.key === 'Escape') { e.stopImmediatePropagation(); closeLightbox(); }
@@ -4197,43 +4352,183 @@ a.vc__th{display:grid}
   }
 
   /* Radio Classique · vue d'ensemble, rangée en trois onglets :
-     les invités (classés par thème), les voix de l'antenne (façon grille des programmes), les lieux et partenaires.
-     « à l'antenne » s'allume sur la voix en direct (heure de Paris). */
+     les invités (classés par thème), les voix de l'antenne (la journée de la station, avec la voix en direct mise en avant, et les chroniques),
+     les lieux et partenaires (au survol, une petite fiche avec photo apparaît sous la souris). */
+  /* Photos des lieux : Wikimedia Commons (vignette chargée seulement au survol). wm = nom du fichier, by = auteur et licence */
+  const PLACE_INFO = {
+    'Opéra Garnier': { d: 'Paris 9e · inauguré en 1875', wm: 'Paris_Opera_full_frontal_architecture,_May_2009.jpg', by: 'Peter Rivera, CC BY 2.0' },
+    'Opéra Bastille': { d: 'Paris 12e · inauguré en 1989' },
+    'Théâtre des Champs-Élysées': { d: 'Paris 8e · inauguré en 1913' },
+    'Philharmonie de Paris': { d: 'Paris 19e · inaugurée en 2015' },
+    'Théâtre du Châtelet': { d: 'Paris 1er · inauguré en 1862', wm: 'Théâtre_du_Châtelet,_October_2008.jpg', by: 'Pline, domaine public' },
+    'Opéra Royal de Versailles': { d: 'château de Versailles · inauguré en 1770' },
+    'Festival d’Aix-en-Provence': { d: 'Aix-en-Provence · depuis 1948' },
+    'Grand Concert d’été Radio Classique': { d: 'le concert de la station, l’été' },
+    'Journée Radio Classique à l’Opéra Royal': { d: 'château de Versailles · une journée d’antenne' },
+    'Fondation Louis Vuitton': { d: 'Paris 16e · ouverte en 2014' },
+    'Fondation Orange': { d: 'mécénat' },
+    'Château de Versailles Spectacles': { d: 'Versailles · les spectacles du château', wm: 'Versailles_Palace.jpg', by: 'Eric Pouhier, CC BY-SA 2.5' },
+    'Bibliothèque nationale de France': { d: 'Paris 13e · site François-Mitterrand', wm: 'Bibliothèque_Mitterrand_Mai_2022.jpg', by: 'Arthur Weidmann, CC BY-SA 4.0' },
+    'Orchestre national d’Île-de-France': { d: 'Île-de-France · depuis 1974' }
+  };
+  /* adresse d'une vignette Wikimedia : le dossier dépend du md5 du nom de fichier (calculé ici, une fois) */
+  const wmThumb = (() => {
+    const md5 = (str) => { /* md5 compact (RFC 1321) sur la chaîne UTF-8 */
+      const b = unescape(encodeURIComponent(str)), n = b.length, w = []; for (let i = 0; i < n; i++) w[i >> 2] |= b.charCodeAt(i) << ((i % 4) * 8);
+      w[n >> 2] |= 0x80 << ((n % 4) * 8); const L = (((n + 8) >> 6) + 1) * 16; w[L - 2] = n * 8; for (let i = 0; i < L; i++) w[i] |= 0;
+      const K = [], S = [7, 12, 17, 22, 5, 9, 14, 20, 4, 11, 16, 23, 6, 10, 15, 21]; for (let i = 0; i < 64; i++) K[i] = (Math.abs(Math.sin(i + 1)) * 4294967296) | 0;
+      let h0 = 0x67452301, h1 = 0xefcdab89, h2 = 0x98badcfe, h3 = 0x10325476;
+      for (let o = 0; o < L; o += 16) {
+        let A = h0, B = h1, C = h2, D = h3;
+        for (let i = 0; i < 64; i++) {
+          const r = i >> 4; let F, g;
+          if (r === 0) { F = (B & C) | (~B & D); g = i; } else if (r === 1) { F = (D & B) | (~D & C); g = (5 * i + 1) % 16; } else if (r === 2) { F = B ^ C ^ D; g = (3 * i + 5) % 16; } else { F = C ^ (B | ~D); g = (7 * i) % 16; }
+          const t = D; D = C; C = B; const x = (A + F + K[i] + (w[o + g] | 0)) | 0, sh = S[r * 4 + (i % 4)]; B = (B + ((x << sh) | (x >>> (32 - sh)))) | 0; A = t;
+        }
+        h0 = (h0 + A) | 0; h1 = (h1 + B) | 0; h2 = (h2 + C) | 0; h3 = (h3 + D) | 0;
+      }
+      return [h0, h1, h2, h3].map((v) => Array.from({ length: 4 }, (_, k) => ((v >>> (k * 8)) & 255).toString(16).padStart(2, '0')).join('')).join('');
+    };
+    return (f, px = 500) => { const h = md5(f), e = encodeURIComponent(f).replace(/%2C/g, ','); return `https://upload.wikimedia.org/wikipedia/commons/thumb/${h[0]}/${h.slice(0, 2)}/${e}/${px}px-${e}`; };
+  })();
+  const parisDay = () => {
+    try {
+      const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Paris', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date()).map((p) => [p.type, p.value]));
+      return { day: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].indexOf(parts.weekday) + 1, min: Number(parts.hour) % 24 * 60 + Number(parts.minute) };
+    } catch (e) { const d = new Date(); return { day: (d.getDay() + 6) % 7 + 1, min: d.getHours() * 60 + d.getMinutes() }; }
+  };
+  const hm = (m) => { const h = Math.floor(m / 60) % 24, mm = m % 60; return mm ? `${h} h ${String(mm).padStart(2, '0')}` : `${h} h`; };
   function antHTML(m) {
-    const nG = m.guests.reduce((a, g) => a + g.items.length, 0), nP = m.places.reduce((a, g) => a + g.items.length, 0);
-    const nums = m.nums.map(([n, l, suf]) => `<div><b><span class="ant__cnt" data-to="${n}">0</span>${suf || ''}</b><p>${esc(l)}</p></div>`).join('');
-    const tabs = [['inv', 'Les invités', nG], ['voix', 'Les voix de l’antenne', m.voices.length], ['lieux', 'Lieux et partenaires', nP]];
+    const nG = m.guests.reduce((a, g) => a + g.items.length, 0), nP = m.places.reduce((a, g) => a + g.items.length, 0), nV = m.voices.length + (m.chron || []).length;
+    const nums = m.nums.map(([n, l, suf]) => `<div><b><span class="ant__cnt" data-to="${n === 'voix' ? nV : n}">0</span>${suf || ''}</b><p>${esc(l)}</p></div>`).join('');
+    const tabs = [['inv', 'Les invités', nG], ['voix', 'Les voix de l’antenne', nV], ['lieux', 'Lieux et partenaires', nP]];
     const guests = m.guests.map((g) => `<div class="ant__grp"><div class="ant__gh"><b>${esc(g.t)}</b>${g.d ? `<span>${esc(g.d)}</span>` : ''}</div><div class="ant__cg">${[g.items.filter((it) => it.big), g.items.filter((it) => !it.big)].filter((l) => l.length).map((l) => `<ul class="ant__cells">${l.map((it) => `<li${it.big ? ' class="is-big"' : ''}><b>${esc(it.n)}</b><span>${esc(it.r)}</span></li>`).join('')}</ul>`).join('')}</div></div>`).join('');
-    const row = (v) => `<li class="ant__row"${v.slot ? ` data-slot="${v.slot.join(',')}"` : ''}><span class="ant__h">${esc(v.h)}</span><div class="ant__who"><b>${esc(v.n)}</b><span>${esc(v.s)}</span></div><span class="ant__tg">${v.th.map(esc).join(' · ')}</span></li>`;
-    const places = `<div class="ant__places">${m.places.map((g) => `<div><span class="ant__lbl">${esc(g.t)}</span><ul>${g.items.map((n) => `<li>${esc(n)}</li>`).join('')}</ul></div>`).join('')}</div>`;
+    const row = (v, k) => `<li class="oa__row" data-k="${k}" data-slot="${v.slot.join(',')}" tabindex="0"><span class="oa__h">${esc(v.h)}</span><div class="oa__who"><b>${esc(v.n)}</b><span>${esc(v.s)}</span></div><span class="oa__tg">${v.th.map(esc).join(' · ')}</span><i class="oa__fill" aria-hidden="true"></i></li>`;
+    const voices = `<div class="oa">
+        <div class="oa__now"><p class="oa__k"><span class="oa__eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="oa__st">en direct</span><span class="oa__clk"></span></p>
+          <div class="oa__nm" aria-live="polite"><b></b></div><p class="oa__sh"></p>
+          <div class="oa__bar" aria-hidden="true"><i></i></div><p class="oa__tm"><span class="oa__a"></span><span class="oa__left"></span><span class="oa__b"></span></p></div>
+        <div class="oa__dayw"><p class="ant__lbl">la journée, du lundi au vendredi</p><ol class="oa__day">${m.voices.map(row).join('')}</ol></div>
+      </div>
+      ${m.chron ? `<div class="oa__chr"><p class="ant__lbl">les chroniques</p><ul class="oa__cg">${m.chron.map((c, k) => `<li style="--k:${k}"><b>${esc(c.n)}</b><span>${esc(c.s)}</span><em>${esc(c.th)}</em></li>`).join('')}</ul></div>` : ''}`;
+    const credits = Object.entries(PLACE_INFO).filter(([, v]) => v.wm).map(([k, v]) => `<a href="https://commons.wikimedia.org/wiki/File:${encodeURIComponent(v.wm)}" target="_blank" rel="noopener">${esc(k)}</a> (${esc(v.by)})`).join(' · ');
+    const places = `<div class="ant__places">${m.places.map((g) => `<div><span class="ant__lbl">${esc(g.t)}</span><ul>${g.items.map((n) => { const inf = PLACE_INFO[n] || {}; return `<li class="pl__row" tabindex="0" data-n="${qa(n)}"><span class="pl__n">${esc(n)}</span>${inf.d ? `<span class="pl__d">${esc(inf.d)}</span>` : ''}${inf.wm ? `<img class="pl__th" data-src="${qa(wmThumb(inf.wm, 330))}" alt="" aria-hidden="true">` : ''}</li>`; }).join('')}</ul></div>`).join('')}</div>${credits ? `<p class="pl__cred">Photos : Wikimedia Commons — ${credits}</p>` : ''}`;
     return `<section class="ant ab-reveal" data-ant><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3><p class="sec-intro">${md(m.intro)}</p></div>
       <div class="ant__nums">${nums}</div>
       <div class="ant__tabs" role="tablist" aria-label="sur l’antenne">${tabs.map(([k, l, n], i) => `<button type="button" role="tab" id="antT-${k}" aria-controls="antP-${k}" aria-selected="${i === 0}">${esc(l)}<sup>${n}</sup></button>`).join('')}</div>
       <div class="ant__panel" role="tabpanel" id="antP-inv" aria-labelledby="antT-inv">${guests}</div>
-      <div class="ant__panel" role="tabpanel" id="antP-voix" aria-labelledby="antT-voix" hidden><ol class="ant__list">${m.voices.map(row).join('')}</ol></div>
+      <div class="ant__panel" role="tabpanel" id="antP-voix" aria-labelledby="antT-voix" hidden>${voices}</div>
       <div class="ant__panel" role="tabpanel" id="antP-lieux" aria-labelledby="antT-lieux" hidden>${places}</div></section>`;
+  }
+  /* Petite fiche qui suit la souris au-dessus des lieux (une seule pour tout le site, créée au premier survol) */
+  let plCard = null;
+  function placeCard() {
+    if (plCard) return plCard;
+    const el = document.createElement('div'); el.className = 'plc'; el.setAttribute('aria-hidden', 'true');
+    el.innerHTML = '<div class="plc__ph"><img alt=""></div><b class="plc__n"></b><span class="plc__d"></span>';
+    document.body.appendChild(el);
+    let x = 0, y = 0, tx = 0, ty = 0, raf = 0, on = false;
+    const tick = () => { x += (tx - x) * 0.2; y += (ty - y) * 0.2; const rot = clamp((tx - x) * 0.05, -7, 7); el.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) rotate(${rot.toFixed(2)}deg)`; raf = (on || Math.abs(tx - x) + Math.abs(ty - y) > 0.5) ? requestAnimationFrame(tick) : 0; };
+    plCard = {
+      move(cx, cy, snap) { tx = cx + 22; ty = cy - 30; if (tx + 250 > innerWidth) tx = cx - 272; if (snap) { x = tx; y = ty; } if (!raf) raf = requestAnimationFrame(tick); },
+      show(n) {
+        const inf = PLACE_INFO[n] || {}, im = el.querySelector('img');
+        el.classList.toggle('has-ph', !!inf.wm);
+        if (inf.wm) { const u = wmThumb(inf.wm, 500); if (im.dataset.u !== u) { im.dataset.u = u; el.classList.remove('is-ld'); im.onload = () => el.classList.add('is-ld'); im.onerror = () => el.classList.remove('has-ph'); im.src = u; } }
+        el.querySelector('.plc__n').textContent = n; el.querySelector('.plc__d').textContent = inf.d || '';
+        on = true; el.classList.add('is-on'); if (!raf) raf = requestAnimationFrame(tick);
+      },
+      hide() { on = false; el.classList.remove('is-on'); }
+    };
+    return plCard;
   }
   function initAnt(root) {
     const tabs = [...root.querySelectorAll('[role="tab"]')];
+    let onVoix = null;
     const pick = (t) => {
       tabs.forEach((x) => { const on = x === t; x.setAttribute('aria-selected', String(on)); const p = root.querySelector(`#${x.getAttribute('aria-controls')}`); p.hidden = !on; if (on && !reduce) { p.classList.remove('is-in'); void p.offsetWidth; p.classList.add('is-in'); } });
+      if (t.id === 'antT-voix' && onVoix) onVoix();
     };
     tabs.forEach((t, i) => {
       t.addEventListener('click', () => { pick(t); sfx.play('tab'); });
       t.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length]; n.focus(); pick(n); } });
     });
     if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver((en) => { if (!en[0].isIntersecting) return; io.disconnect(); root.querySelectorAll('.ant__cnt').forEach((n) => { const to = Number(n.dataset.to), t0 = performance.now(); const step = (now) => { const k = reduce ? 1 : Math.min(1, (now - t0) / 1200), txt = String(Math.round(to * easeOutExpo(k))); if (txt !== n.textContent) { n.textContent = txt; countTick(k); } if (k < 1) requestAnimationFrame(step); else countEnd(); }; requestAnimationFrame(step); }); }, { root: pj, threshold: 0.3 });
-      io.observe(root);
+      const io = new IntersectionObserver((en) => { if (!en[0].isIntersecting) return; io.disconnect(); root.querySelectorAll('.ant__cnt').forEach((n) => { const to = Number(n.dataset.to), t0 = performance.now(); const step = (now) => { const k = reduce ? 1 : Math.min(1, (now - t0) / 1200), txt = String(Math.round(to * easeOutExpo(k))); if (txt !== n.textContent) { n.textContent = txt; countTick(k); } if (k < 1) requestAnimationFrame(step); else countEnd(); }; requestAnimationFrame(step); }); }, { root: pj, threshold: 0.6 });
+      io.observe(root.querySelector('.ant__nums'));
     } else root.querySelectorAll('.ant__cnt').forEach((n) => { n.textContent = n.dataset.to; });
-    try {
-      const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Paris', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date()).map((p) => [p.type, p.value]));
-      const day = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].indexOf(parts.weekday) + 1, min = Number(parts.hour) % 24 * 60 + Number(parts.minute);
-      root.querySelectorAll('[data-slot]').forEach((r) => {
-        const [d0, d1, a, b] = r.dataset.slot.split(',').map(Number);
-        if (day >= d0 && day <= d1 && min >= a && min < b) r.insertAdjacentHTML('beforeend', '<i class="ant__live">à l’antenne</i>');
+
+    /* ---- Les voix : la journée défile jusqu'à l'heure de Paris, puis la voix en direct s'allume ---- */
+    const oa = root.querySelector('.oa');
+    if (oa) {
+      const rows = [...oa.querySelectorAll('.oa__row')], card = oa.querySelector('.oa__now');
+      const nm = card.querySelector('.oa__nm b'), sh = card.querySelector('.oa__sh'), st = card.querySelector('.oa__st'), clk = card.querySelector('.oa__clk');
+      const bar = card.querySelector('.oa__bar i'), ta = card.querySelector('.oa__a'), tb = card.querySelector('.oa__b'), left = card.querySelector('.oa__left');
+      const slot = (r) => r.dataset.slot.split(',').map(Number);
+      const DAYS = ['', 'lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
+      let timers = [], tick = 0, focusK = -1, liveK = -1, lastName = '';
+      const setName = (txt) => { if (txt === lastName) return; lastName = txt; nm.textContent = txt; if (!reduce) { nm.classList.remove('is-flip'); void nm.offsetWidth; nm.classList.add('is-flip'); } };
+      /* la fiche : la voix en direct, ou celle qu'on survole */
+      const paint = () => {
+        const { day, min } = parisDay(), wk = day <= 5;
+        clk.textContent = hm(min);
+        liveK = -1; rows.forEach((r, k) => { const [d0, d1, a, b] = slot(r); if (day >= d0 && day <= d1 && min >= a && min < b) liveK = k; });
+        const k = focusK >= 0 ? focusK : liveK;
+        card.classList.toggle('is-live', k >= 0 && k === liveK); card.classList.toggle('is-peek', focusK >= 0 && focusK !== liveK);
+        if (k >= 0) {
+          const r = rows[k], [, , a, b] = slot(r);
+          setName(r.querySelector('.oa__who b').textContent); sh.textContent = r.querySelector('.oa__who span').textContent;
+          ta.textContent = hm(a); tb.textContent = hm(b);
+          if (k === liveK) { const p = (min - a) / (b - a); bar.style.transform = `scaleX(${p.toFixed(3)})`; left.textContent = `encore ${b - min} min`; st.textContent = 'en direct'; }
+          else { bar.style.transform = 'scaleX(0)'; st.textContent = wk && min >= b ? 'plus tôt dans la journée' : 'à venir'; left.textContent = r.querySelector('.oa__tg').textContent; }
+        } else {
+          /* hors direct : la nuit, le soir ou le week-end, on annonce le prochain rendez-vous */
+          const next = rows.find((r) => { const [d0, d1, a] = slot(r); return day >= d0 && day <= d1 && a > min; });
+          const r = next || rows[0], [, , a, b] = slot(r), when = next ? `aujourd’hui, ${hm(a)}` : `${DAYS[day >= 5 ? 1 : day + 1]}, ${hm(a)}`;
+          st.textContent = 'hors direct · musique classique'; setName(r.querySelector('.oa__who b').textContent);
+          sh.textContent = `prochain direct ${when} · ${r.querySelector('.oa__who span').textContent}`;
+          bar.style.transform = 'scaleX(0)'; ta.textContent = hm(a); tb.textContent = hm(b); left.textContent = '';
+        }
+      };
+      /* l'aiguille du jour : les émissions passées s'éteignent une à une, jusqu'à celle en direct */
+      const sweep = () => {
+        timers.forEach(clearTimeout); timers = [];
+        const { day, min } = parisDay();
+        rows.forEach((r) => r.classList.remove('is-past', 'is-live', 'is-on'));
+        rows.forEach((r, k) => {
+          const [d0, d1, a, b] = slot(r), today = day >= d0 && day <= d1;
+          const apply = () => {
+            r.classList.add('is-on');
+            if (today && min >= b) r.classList.add('is-past');
+            if (today && min >= a && min < b) { r.classList.add('is-live'); r.style.setProperty('--p', ((min - a) / (b - a)).toFixed(3)); sfx.play('tick'); }
+          };
+          if (reduce) apply(); else timers.push(setTimeout(apply, 260 + k * 110));
+        });
+        paint();
+      };
+      onVoix = () => { sweep(); clearInterval(tick); tick = setInterval(() => { if (!oa.isConnected) { clearInterval(tick); return; } if (!oa.closest('[hidden]')) { paint(); const { day, min } = parisDay(); rows.forEach((r) => { const [d0, d1, a, b] = slot(r), today = day >= d0 && day <= d1; r.classList.toggle('is-past', today && min >= b); const lv = today && min >= a && min < b; r.classList.toggle('is-live', lv); if (lv) r.style.setProperty('--p', ((min - a) / (b - a)).toFixed(3)); }); } }, 30000); };
+      rows.forEach((r, k) => {
+        const on = () => { focusK = k; paint(); };
+        const off = () => { focusK = -1; paint(); };
+        r.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') { on(); sfx.play('hover'); } });
+        r.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') off(); });
+        r.addEventListener('focus', on); r.addEventListener('blur', off);
+        r.addEventListener('click', (e) => { if (e.pointerType !== 'mouse') { focusK = focusK === k ? -1 : k; paint(); if (focusK >= 0 && innerWidth < 900) card.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' }); } });
       });
-    } catch (e) {}
+      paint();
+    }
+
+    /* ---- Les lieux : une petite fiche avec photo suit la souris ; au doigt, la vignette s'affiche dans la ligne ---- */
+    const fine = matchMedia('(hover:hover) and (pointer:fine)').matches;
+    root.querySelectorAll('.pl__row').forEach((r) => {
+      if (!fine) { const th = r.querySelector('.pl__th'); if (th) { th.src = th.dataset.src; th.onerror = () => th.remove(); } return; }
+      r.addEventListener('pointerenter', (e) => { const c = placeCard(); c.move(e.clientX, e.clientY, !c._seen); c._seen = true; c.show(r.dataset.n); sfx.play('hover'); });
+      r.addEventListener('pointermove', (e) => placeCard().move(e.clientX, e.clientY));
+      r.addEventListener('pointerleave', () => placeCard().hide());
+      r.addEventListener('focus', () => { const b = r.getBoundingClientRect(), c = placeCard(); c.move(b.left + Math.min(b.width, 260), b.top + b.height / 2, true); c.show(r.dataset.n); });
+      r.addEventListener('blur', () => placeCard().hide());
+    });
+    const lp = root.querySelector('#antP-lieux'); if (lp && fine) lp.addEventListener('pointerleave', () => placeCard().hide());
   }
 
   /* Couverture AFP · mini-jeu « Les déclinaisons » : un même visuel à recadrer en story 9:16, post 4:5 et bannière 16:9 ;
@@ -4338,7 +4633,7 @@ a.vc__th{display:grid}
         const fb = !r.poster && r.yt ? ` data-fb="https://i.ytimg.com/vi/${encodeURIComponent(r.yt)}/hqdefault.jpg" onload="ytFb(this)" onerror="ytFb(this,1)"` : '';
         const im = pic ? `<img class="ph__img" src="${esc(pic)}" alt="" loading="lazy" decoding="async" draggable="false"${fb}>` : '';
         const extra = '<span class="vm__bar"><i></i></span>';
-        return `<div class="vm__slot" style="--i:${k}"><div class="ph ph--video vm__item" style="--ar:9/16"${src}>${im}${src || pic ? '' : `<span class="ph__l">${esc(r.c)} · à remplacer</span>`}<button type="button" class="ph__play" aria-label="lire ${esc(r.t)}"></button>${extra}</div>${VM_COIL}<span class="vm__tag"><b>${esc(r.c)}</b><span>${esc(r.t)}</span>${r.d ? `<i>${esc(r.d)}</i>` : ''}</span></div>`;
+        return `<div class="vm__slot" style="--i:${k}"><div class="ph ph--video ph--v vm__item" style="--ar:9/16"${src}>${im}${src || pic ? '' : `<span class="ph__l">${esc(r.c)} · à remplacer</span>`}<button type="button" class="ph__play" aria-label="lire ${esc(r.t)}"></button>${src ? FS_BTN : ''}${extra}</div>${VM_COIL}<span class="vm__tag"><b>${esc(r.c)}</b><span>${esc(r.t)}</span>${r.d ? `<i>${esc(r.d)}</i>` : ''}</span></div>`;
       }).join('')}</div></div>
       <p class="vm__hint">Les formats défilent en aperçu. Cliquez sur celui qui vous tente : il se lance.</p>
     </div>`;
@@ -4362,7 +4657,7 @@ a.vc__th{display:grid}
      data-st : 0 fermé · 1 ouvert · 2 sorti, recto · 3 sorti, verso (sombre). */
   const BM_CORD = '<svg class="bm__cord" viewBox="0 0 100 120" aria-hidden="true"><path d="M50 112 C 30 80, 18 40, 38 14 C 48 2, 62 4, 66 18 C 72 40, 64 80, 52 110" fill="none" stroke="#8e3438" stroke-width="7" stroke-linecap="round"/><path d="M50 112 C 30 80, 18 40, 38 14 C 48 2, 62 4, 66 18 C 72 40, 64 80, 52 110" fill="none" stroke="#c0565b" stroke-width="3" stroke-linecap="round" stroke-dasharray="3 5"/></svg>';
   const BM_HTML = (m) => `<section class="bm ab-reveal" data-bm>
-      <div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div>
+      <div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${md(m.intro)}</p>` : ''}</div>
       <div class="bm__stage" data-st="0" tabindex="0" role="button" aria-label="le carnet : ouvrez-le pour trouver le marque-page" style="--mar:${m.ar}">
         <div class="bm__pages" aria-hidden="true"><span class="bm__ln"></span></div>
         <div class="bm__mk"><div class="bm__face bm__face--r"><img src="${qa(m.recto)}" alt="le marque-page, recto : le Cercle des Pêcheurs de l’Austral du Grand Large" draggable="false" loading="lazy"></div><div class="bm__face bm__face--v"><img src="${qa(m.verso)}" alt="le marque-page, verso : « La mer ne donne plus rien »" draggable="false" loading="lazy"></div>${BM_CORD}</div>
@@ -4426,7 +4721,7 @@ a.vc__th{display:grid}
   const MO_HTML = (m) => {
     const groups = []; m.items.forEach((it) => { const g = groups[groups.length - 1]; if (g && g.g === it.g) g.n++; else groups.push({ g: it.g, n: 1 }); });
     return `<section class="mo ab-reveal" data-mo>
-      <div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div>
+      <div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${md(m.intro)}</p>` : ''}</div>
       <div class="mo__body">
         <div class="mo__screen ph is-zoom" data-big="${qa(m.items[0].big)}" data-ar="1.7778">
           <img class="mo__img" src="${qa(m.items[0].img)}" alt="${qa(m.items[0].t)}" loading="lazy" decoding="async" draggable="false">
@@ -4494,49 +4789,49 @@ a.vc__th{display:grid}
       const face = (pg, cls) => `<div class="bk__f ${cls}${B.mine && pg >= B.mine[0] && pg <= B.mine[1] ? ' is-mine' : ''}"><img data-src="${qa(B.src(pg))}" alt="page ${pg}" decoding="async" draggable="false"></div>`;
       leaves += `<div class="bk__leaf" data-k="${k}" style="z-index:${L - k}">${face(f, 'bk__front')}${face(b, 'bk__back')}</div>`;
     }
-    return `<div class="bk" data-bk tabindex="0" aria-label="le carnet : cliquez sur une page, glissez, ou utilisez les flèches du clavier pour feuilleter">
-      <div class="wl-hd"><p class="ag__lbl" style="margin:0"><b>le carnet</b><span>Feuilletez : cliquez sur une page, ou faites-la glisser</span></p>
+    const nav = (cls) => `<div class="bk__nav ${cls}"><button type="button" class="cr__btn" data-d="-1" aria-label="page précédente">←</button><span class="bk__count" aria-live="polite">couverture</span><button type="button" class="cr__btn" data-d="1" aria-label="page suivante">→</button></div>`;
+    /* sur la page : chaque page décomposée en couches d'encre ; « feuilleter » ouvre le carnet en grand */
+    return `<div class="bk" data-bk tabindex="0" aria-label="le carnet : flèches du clavier pour changer de page">
+      <div class="wl-hd"><p class="ag__lbl" style="margin:0"><b>le carnet</b><span>Chaque page, séparée en couches d’encre</span></p>
         <div class="ab-pv-switch bk__go"><button type="button" data-go="0">couverture</button>${mine ? `<span aria-hidden="true">•</span>${mine}` : ''}</div></div>
-      <div class="bk__stage"><div class="bk__book is-closed" style="--par:${B.ar}"><span class="bk__sh bk__sh--l"></span><span class="bk__sh bk__sh--r"></span>${leaves}</div></div>
-      ${B.riso ? `<div class="rz" hidden><div class="rz__view"><div class="rz__spread" data-step="1"></div></div>
-        <div class="rz__side"><p class="ag__lbl" style="margin:0"><b>filtre riso</b><span>Comment la page s’imprime, encre par encre</span></p>
+      <div class="rz"><div class="rz__view"><div class="rz__spread" data-step="1"></div></div>
+        <div class="rz__side">
           <ol class="rz__steps">${RZ_STEPS.map(([t], k) => `<li><button type="button" data-s="${k + 1}" aria-pressed="${k === 0}"><b>0${k + 1}</b><span>${esc(t)}</span></button></li>`).join('')}</ol>
           <p class="rz__txt" aria-live="polite"></p>
-          <button type="button" class="rz__play"><span aria-hidden="true">▶</span> imprimer la page</button></div></div>` : ''}
-      <div class="bk__foot"><button type="button" class="cr__btn" data-d="-1" aria-label="page précédente">←</button><span class="bk__count" aria-live="polite">couverture</span><button type="button" class="cr__btn" data-d="1" aria-label="page suivante">→</button><button type="button" class="wl__zoom bk__zoom">voir en grand</button>${B.riso ? '<button type="button" class="wl__zoom bk__riso" aria-pressed="false">filtre riso</button>' : ''}</div>
+          <button type="button" class="rz__play"><span aria-hidden="true">▶</span> imprimer la page</button></div></div>
+      <div class="bk__foot">${nav('')}<button type="button" class="bk__open"><span aria-hidden="true">↗</span> feuilleter le carnet en grand</button></div>
+      <div class="bko" role="dialog" aria-label="le carnet, en grand" hidden>
+        <div class="bko__top"><span class="bko__t">${esc(P.title)}<small>cliquez sur une page, ou faites-la glisser</small></span><button type="button" class="bko__x">fermer</button></div>
+        <div class="bk__stage"><div class="bk__book is-closed" style="--par:${B.ar}"><span class="bk__sh bk__sh--l"></span><span class="bk__sh bk__sh--r"></span>${leaves}</div></div>
+        ${nav('bko__nav')}
+      </div>
     </div>`;
   };
   function initBook(el, B) {
-    const book = el.querySelector('.bk__book'), leaves = [...el.querySelectorAll('.bk__leaf')], L = leaves.length, count = el.querySelector('.bk__count');
+    const ov = el.querySelector('.bko'), book = el.querySelector('.bk__book'), leaves = [...el.querySelectorAll('.bk__leaf')], L = leaves.length, counts = [...el.querySelectorAll('.bk__count')];
     let t = 0, queue = null, zc = 0;
-    /* filtre riso */
-    const rz = el.querySelector('.rz'), rzSp = rz && rz.querySelector('.rz__spread'), rzTxt = rz && rz.querySelector('.rz__txt'), rzBtn = el.querySelector('.bk__riso');
-    let rzStep = 1, rzPlay = 0;
+    /* les couches d'encre de la page courante */
+    const rz = el.querySelector('.rz'), rzSp = rz.querySelector('.rz__spread'), rzTxt = rz.querySelector('.rz__txt');
+    let rzPlay = 0, rzKey = '';
     const rzPages = () => (t === 0 ? [1] : t === L ? [B.n] : [2 * t, 2 * t + 1]);
     function rzBuild() {
-      const pg = rzPages(); rzSp.style.setProperty('--n', pg.length);
+      const pg = rzPages(), key = pg.join(','); if (key === rzKey) return; rzKey = key;
+      rzSp.style.setProperty('--n', pg.length);
       rzSp.innerHTML = pg.map((q, i) => `<div class="rz__pg"><i class="rz__paper"></i><img class="rz__b" src="${qa(B.riso(q, 'b'))}" alt="" draggable="false"><img class="rz__p" src="${qa(B.riso(q, 'p'))}" alt="" draggable="false">${i === pg.length - 1 ? '<span class="rz__tag rz__tag--paper">papier</span><span class="rz__tag rz__tag--b">encre bleue</span><span class="rz__tag rz__tag--p">rose fluo</span>' : ''}</div>`).join('');
     }
     function rzSet(n, quiet) {
-      rzStep = n; rzSp.dataset.step = String(n);
+      rzSp.dataset.step = String(n);
       rz.querySelectorAll('[data-s]').forEach((b) => b.setAttribute('aria-pressed', String(+b.dataset.s === n)));
       rzTxt.innerHTML = md(RZ_STEPS[n - 1][1]);
       if (!quiet) sfx.play(n >= 4 ? 'scratch' : 'layer');
     }
     const rzStop = () => { clearTimeout(rzPlay); rzPlay = 0; rz.classList.remove('is-playing'); };
-    if (rz) {
-      rz.querySelectorAll('[data-s]').forEach((b) => b.addEventListener('click', () => { rzStop(); rzSet(+b.dataset.s); }));
-      rz.querySelector('.rz__play').addEventListener('click', () => {
-        rzStop(); rz.classList.add('is-playing'); const D = [1900, 1900, 1900, 1700, 2200]; let i = 0;
-        const stepOn = () => { rzSet(i + 1); const d = D[i]; i++; rzPlay = i < 5 ? setTimeout(stepOn, d) : setTimeout(rzStop, d); };
-        stepOn();
-      });
-      rzBtn.addEventListener('click', () => {
-        const on = !el.classList.contains('is-riso'); el.classList.toggle('is-riso', on); rz.hidden = !on; rzBtn.setAttribute('aria-pressed', String(on));
-        rzBtn.textContent = on ? 'revenir au carnet' : 'filtre riso';
-        if (on) { rzBuild(); rzSet(1, true); sfx.play('filter'); } else { rzStop(); sfx.play('filter'); }
-      });
-    }
+    rz.querySelectorAll('[data-s]').forEach((b) => b.addEventListener('click', () => { rzStop(); rzSet(+b.dataset.s); }));
+    rz.querySelector('.rz__play').addEventListener('click', () => {
+      rzStop(); rz.classList.add('is-playing'); const D = [1900, 1900, 1900, 1700, 2200]; let i = 0;
+      const stepOn = () => { rzSet(i + 1); const d = D[i]; i++; rzPlay = i < 5 ? setTimeout(stepOn, d) : setTimeout(() => { rzStop(); rzSet(1, true); }, d + 600); };
+      stepOn();
+    });
     const isMine = (pg) => B.mine && pg >= B.mine[0] && pg <= B.mine[1];
     const load = () => {
       for (let k = Math.max(0, t - 2); k <= Math.min(L - 1, t + 1); k++) leaves[k].querySelectorAll('img[data-src]').forEach((im) => { im.src = im.dataset.src; im.removeAttribute('data-src'); });
@@ -4550,8 +4845,9 @@ a.vc__th{display:grid}
     const paint = () => {
       leaves.forEach((lf, k) => { lf.classList.toggle('is-turned', k < t); });
       book.classList.toggle('is-closed', t === 0); book.classList.toggle('is-end', t === L);
-      count.textContent = label(); load();
-      if (rz && el.classList.contains('is-riso')) rzBuild();
+      counts.forEach((c) => { c.textContent = label(); });
+      if (!ov.hidden) load();
+      rzStop(); rzBuild(); rzSet(1, true);
     };
     const turn = (d) => {
       const nt = Math.max(0, Math.min(L, t + d)); if (nt === t) { sfx.play('error'); return false; }
@@ -4559,19 +4855,20 @@ a.vc__th{display:grid}
       /* le feuillet qui tourne passe au-dessus de tout, puis reprend sa place dans sa pile */
       lf.style.zIndex = String(L + 2 + (++zc)); clearTimeout(lf._z);
       lf._z = setTimeout(() => { lf.style.zIndex = String(lf.classList.contains('is-turned') ? +lf.dataset.k + 1 : L - lf.dataset.k); }, 950);
-      t = nt; paint(); sfx.play('flap'); return true;
+      t = nt; paint(); sfx.play(ov.hidden ? 'layer' : 'flap'); return true;
     };
     const go = (to) => {
       clearInterval(queue); if (to === t) return;
       const d = to > t ? 1 : -1;
       turn(d); if (t === to) return;
-      queue = setInterval(() => { turn(d); if (t === to) clearInterval(queue); }, 170);
+      queue = setInterval(() => { turn(d); if (t === to) clearInterval(queue); }, ov.hidden ? 60 : 170);
     };
-    /* clic sur la page de droite : on avance ; sur celle de gauche : on recule. Glisser fonctionne aussi (souris, doigt). */
+    /* le carnet en grand : clic sur la page de droite = on avance ; sur celle de gauche = on recule ; glisser marche aussi */
+    const stage = ov.querySelector('.bk__stage');
     let x0 = null, moved = false;
-    el.querySelector('.bk__stage').addEventListener('pointerdown', (e) => { x0 = e.clientX; moved = false; });
-    el.querySelector('.bk__stage').addEventListener('pointermove', (e) => { if (x0 != null && Math.abs(e.clientX - x0) > 8) moved = true; });
-    el.querySelector('.bk__stage').addEventListener('pointerup', (e) => {
+    stage.addEventListener('pointerdown', (e) => { x0 = e.clientX; moved = false; });
+    stage.addEventListener('pointermove', (e) => { if (x0 != null && Math.abs(e.clientX - x0) > 8) moved = true; });
+    stage.addEventListener('pointerup', (e) => {
       if (x0 == null) return; const dx = e.clientX - x0; x0 = null;
       if (moved && Math.abs(dx) > 40) { clearInterval(queue); turn(dx < 0 ? 1 : -1); return; }
       if (moved) return;
@@ -4580,11 +4877,24 @@ a.vc__th{display:grid}
     });
     el.querySelectorAll('[data-d]').forEach((b) => b.addEventListener('click', () => { clearInterval(queue); turn(+b.dataset.d); }));
     el.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => { go(b.dataset.go === 'mine' ? Math.floor((B.mine[0] - 1) / 2) + (B.mine[0] % 2 ? 0 : 1) : +b.dataset.go); }));
-    el.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') { e.preventDefault(); clearInterval(queue); turn(1); } else if (e.key === 'ArrowLeft') { e.preventDefault(); clearInterval(queue); turn(-1); } });
-    el.querySelector('.bk__zoom').addEventListener('click', () => {
-      const ar = arNum(B.ar).toFixed(4);
-      openLightbox(Array.from({ length: B.n }, (_, k) => `<img src="${qa(B.src(k + 1))}" alt="" data-ar="${ar}" style="aspect-ratio:${ar}"><p class="lb__t">page ${k + 1}${isMine(k + 1) ? '<small>mes pages</small>' : ''}</p>`), t === 0 ? 0 : t === L ? B.n - 1 : 2 * t - 1);
+    const keys = (e) => { if (e.key === 'ArrowRight') { e.preventDefault(); clearInterval(queue); turn(1); } else if (e.key === 'ArrowLeft') { e.preventDefault(); clearInterval(queue); turn(-1); } };
+    el.addEventListener('keydown', (e) => { if (ov.hidden) keys(e); });
+    /* ouvrir en grand : sur grand écran, le carnet à tourner ; sur téléphone, les pages une à une, à faire glisser */
+    const close = () => { if (ov.hidden) return; ov.classList.remove('is-on'); sfx.play('close'); document.removeEventListener('keydown', okey, true); window.removeEventListener('hashchange', close); setTimeout(() => { ov.hidden = true; el.appendChild(ov); el.focus({ preventScroll: true }); }, 320); };
+    const okey = (e) => { if (e.key === 'Escape') { e.stopImmediatePropagation(); close(); } else keys(e); };
+    el.querySelector('.bk__open').addEventListener('click', () => {
+      if (innerWidth < 760) {
+        const ar = arNum(B.ar).toFixed(4);
+        openLightbox(Array.from({ length: B.n }, (_, k) => `<img src="${qa(B.src(k + 1))}" alt="" data-ar="${ar}" style="aspect-ratio:${ar}"><p class="lb__t">page ${k + 1}${isMine(k + 1) ? '<small>mes pages</small>' : ''}</p>`), t === 0 ? 0 : t === L ? B.n - 1 : 2 * t - 1);
+        return;
+      }
+      document.body.appendChild(ov); ov.hidden = false; load(); sfx.play('open');
+      requestAnimationFrame(() => ov.classList.add('is-on'));
+      document.addEventListener('keydown', okey, true); window.addEventListener('hashchange', close, { once: true });
+      ov.querySelector('.bko__x').focus({ preventScroll: true });
     });
+    ov.querySelector('.bko__x').addEventListener('click', close);
+    ov.addEventListener('click', (e) => { if (e.target === ov) close(); });
     paint();
   }
 
@@ -4835,7 +5145,7 @@ a.vc__th{display:grid}
       const th = `${img}<span class="ph__play" aria-hidden="true"></span><span class="vc__dur">${esc(it.dur)}</span>`;
       return `<figure class="vc" data-i="${i}">${url ? `<a class="ph vc__th" style="--ar:16/9" href="${url}" target="_blank" rel="noopener" aria-label="voir sur YouTube : ${esc(it.t)}">${th}</a>` : `<button type="button" class="ph vc__th" style="--ar:16/9" aria-label="${esc(it.t)}">${th}</button>`}<figcaption><span class="vc__s">${esc(it.s)}</span>${url ? `<a class="vc__lnk" href="${url}" target="_blank" rel="noopener"><b>${esc(it.t)}</b></a>` : `<b>${esc(it.t)}</b>`}<span class="vc__m">${it.v ? `${fmtK(it.v)} vues` : 'réservée aux membres'} · ${fmtDur(toSec(it.dur))}${it.h ? ` · ${it.h} h` : ''}</span><span class="vc__bar" aria-hidden="true"><i style="--w:${(toSec(it.dur) / maxD).toFixed(3)}"></i></span></figcaption></figure>`;
     };
-    return `<section class="vl ab-reveal" data-vl><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${esc(m.intro)}</p>` : ''}</div>
+    return `<section class="vl ab-reveal" data-vl><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${md(m.intro)}</p>` : ''}</div>
       <div class="vl__ctl"><div class="vl__tags" role="group" aria-label="thèmes"><button type="button" aria-pressed="true" data-th="">Tout<sup>${items.length}</sup></button>${themes.map((t) => `<button type="button" aria-pressed="false" data-th="${esc(t)}">${esc(t)}<sup>${items.filter((it) => it.s === t).length}</sup></button>`).join('')}</div>
       <div class="vl__sort" role="group" aria-label="trier"><span>trier</span><button type="button" aria-pressed="true" data-sort="">récentes</button><button type="button" aria-pressed="false" data-sort="v">vues</button><button type="button" aria-pressed="false" data-sort="d">durée</button></div>
       <div class="vl__sl"><label><span>vues minimum</span><output data-o="v">toutes</output><input type="range" data-k="v" min="0" max="${Math.floor(Math.max(...items.map((it) => it.v || 0)) / 1000) * 1000}" step="1000" value="0"></label><label><span>durée minimum</span><output data-o="d">toutes</output><input type="range" data-k="d" min="0" max="${Math.ceil(maxD / 60)}" step="1" value="0"></label></div></div>
