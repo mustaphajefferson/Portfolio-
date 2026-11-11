@@ -201,17 +201,12 @@ a{color:inherit;text-decoration:none}
 @keyframes eq{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
 .sound.is-muted .bars i{animation:none;transform:scaleY(.16)}
 
-/* Le showreel dépasse à peine du coin, à moitié caché sous le bord de l'écran ; il sort au survol */
-.reel{position:fixed;left:calc(var(--left) - 34px);bottom:-50px;z-index:5;width:150px;aspect-ratio:1;rotate:14deg;transition:transform .7s var(--ease-out),rotate .7s var(--ease-out)}
-.reel:hover,.reel:focus-visible{transform:translate(30px,-52px);rotate:0deg}
-.reel__ring{position:absolute;inset:0;width:100%;height:100%;animation:spin 18s linear infinite;overflow:visible}
-/* hors de l'accueil, le showreel est caché : ses rotations s'arrêtent */
-body.view-about .reel__ring,body.view-project .reel__ring,body.view-about .reel__thumb::before,body.view-project .reel__thumb::before{animation-play-state:paused}
-.reel__ring text{fill:var(--fg);font-family:var(--sans);font-size:12.5px;font-weight:500;letter-spacing:.02em}
-.reel__thumb{position:absolute;inset:29px;border-radius:14px;overflow:hidden;rotate:-12deg;transition:scale .6s var(--ease-out),rotate .6s var(--ease-out);box-shadow:0 10px 26px var(--shadow)}
-.reel__thumb::before{content:"";position:absolute;inset:-45%;background:conic-gradient(from 0deg,#ffe14a,#ff4fa3,#5b3bff,#18e0c2,#ffe14a);animation:spin 6s linear infinite}
-.reel__play{position:absolute;left:50%;top:50%;width:0;height:0;translate:-35% -50%;border-style:solid;border-width:8px 0 8px 13px;border-color:transparent transparent transparent var(--cream);filter:drop-shadow(0 1px 4px rgba(0,0,0,.4))}
-.reel:hover .reel__thumb{scale:1.08;rotate:-3deg}
+/* Le showreel : une simple pastille en bas à gauche ; au survol, le bouton lecture grossit */
+.reel{position:fixed;left:var(--left);bottom:var(--bottom);z-index:5;display:inline-flex;align-items:center;gap:9px;height:44px;padding:0 16px 0 6px;border-radius:999px;background:var(--pill);color:var(--ink);font-size:15px;font-weight:500;letter-spacing:-.01em;transition:opacity .5s,translate .5s var(--ease-out),visibility .5s}
+.reel__ic{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--ink);color:var(--pill);transition:scale .35s var(--ease-out),rotate .5s var(--ease-out)}
+.reel__ic svg{width:11px;height:11px;fill:currentColor;translate:1px 0}
+.reel__y{opacity:.5;font-variant-numeric:tabular-nums}
+.reel:hover .reel__ic,.reel:focus-visible .reel__ic{scale:1.12;rotate:120deg}
 
 /* Étiquette de survol */
 .tag{position:fixed;left:50%;bottom:calc(30px + env(safe-area-inset-bottom,0px));z-index:6;display:flex;align-items:center;gap:11px;padding:6px 16px 6px 6px;border-radius:999px;background:var(--pill);color:var(--ink);opacity:0;transform:translate(-50%,12px) scale(.96);transition:opacity .3s,transform .5s var(--ease-out);pointer-events:none;max-width:calc(100vw - 2 * var(--edge) - 220px)}
@@ -222,6 +217,39 @@ body.view-about .reel__ring,body.view-project .reel__ring,body.view-about .reel_
 .tag__cat{font-size:11.5px;color:var(--ink-dim);line-height:1.1;white-space:nowrap}
 
 /* Mode liste */
+/* Accueil sur téléphone */
+.mh{display:none}
+body.is-mob .mh{display:block;position:fixed;inset:0;z-index:3;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;background:var(--bg);opacity:0;visibility:hidden;transition:opacity .5s var(--ease-out),visibility 0s .5s}
+body.is-mob.is-entered:not(.view-about):not(.view-project) .mh{opacity:1;visibility:visible;transition:opacity .7s var(--ease-out) .15s,visibility 0s}
+body.is-mob #scene,body.is-mob .modes,body.is-mob .fx-btn,body.is-mob .fx,body.is-mob .hint,body.is-mob .tag,body.is-mob .list,body.is-mob .preview{display:none!important}
+.mh__in{padding:calc(var(--top) + 78px) var(--left) calc(var(--bottom) + 84px)}
+.mh__hd{display:flex;flex-direction:column;gap:14px;padding-bottom:22px}
+.mh__eb{margin:0;font-size:13.5px;font-weight:500;line-height:1.35;opacity:.62}
+.mh__h{margin:0;font-size:clamp(56px,18vw,96px);font-weight:500;letter-spacing:-.06em;line-height:.88}
+.mh__h sup{position:relative;top:-.15em;margin-left:.12em;font-size:.26em;letter-spacing:0;vertical-align:top;font-variant-numeric:tabular-nums}
+.mh__list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line-strong)}
+.mh__it{border-bottom:1px solid var(--line-strong);opacity:0;translate:0 26px;transition:opacity .6s var(--ease-out),translate .8s var(--ease-out)}
+.mh__it.is-in{opacity:1;translate:0 0}
+.mh__a{display:grid;gap:14px;padding:18px 0 20px;color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+.mh__ph{position:relative;display:block;overflow:hidden;border-radius:12px;aspect-ratio:1.603;background:var(--tint);transition:scale .35s var(--ease-out)}
+.mh__ph img{display:block;width:100%;height:100%;object-fit:cover;scale:1.1;transition:scale 1.4s var(--ease-out)}
+.mh__it.is-in .mh__ph img{scale:1}
+.mh__a:active .mh__ph{scale:.975}
+.mh__tx{display:grid;grid-template-columns:28px minmax(0,1fr) auto;align-items:baseline;column-gap:8px;row-gap:3px}
+.mh__n{font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;opacity:.5}
+.mh__t{font-size:clamp(27px,8.2vw,36px);font-weight:500;letter-spacing:-.045em;line-height:1}
+.mh__c{grid-column:2;font-size:13px;opacity:.62}
+.mh__go{grid-column:3;grid-row:1;font-size:22px;line-height:1;transition:translate .3s var(--ease-out)}
+.mh__a:active .mh__go{translate:5px 0}
+/* les projets en portrait : l'image à gauche, le titre à droite, en bas */
+.mh__it.is-p .mh__a{grid-template-columns:58% minmax(0,1fr);align-items:end;column-gap:14px}
+.mh__it.is-p .mh__ph{aspect-ratio:.758}
+.mh__it.is-p .mh__tx{grid-template-columns:minmax(0,1fr);row-gap:6px;padding-bottom:2px}
+.mh__it.is-p .mh__c,.mh__it.is-p .mh__go{grid-column:1;grid-row:auto}
+.mh__it.is-p .mh__t{font-size:clamp(24px,7vw,30px)}
+.mh__ft{display:flex;flex-direction:column;padding-top:8px}
+.mh__ft a,.mh__ft button{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid var(--line-strong);color:inherit;text-decoration:none;font:inherit;font-size:22px;font-weight:500;letter-spacing:-.03em;text-align:left}
+@media (prefers-reduced-motion:reduce){.mh__it,.mh__ph img{transition:none;opacity:1;translate:none;scale:none}}
 .list{position:fixed;inset:0;z-index:3;overflow-y:auto;scrollbar-width:none;padding-block:20vh 34vh;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));opacity:0;transition:opacity .5s var(--ease-out)}
 .list::-webkit-scrollbar{display:none}
 .list.is-on{opacity:1}
@@ -241,6 +269,7 @@ body.view-about .reel__ring,body.view-project .reel__ring,body.view-about .reel_
   clip-path:inset(0 0 calc(100% - var(--bh,44px)) calc(100% - var(--bw,92px)) round 22px);visibility:hidden;transition:clip-path .75s var(--ease-io),visibility 0s .75s}
 .menu-open .panel{clip-path:inset(0 0 0 0 round 24px);visibility:visible;transition:clip-path .75s var(--ease-io),visibility 0s}
 .panel :focus-visible{outline-color:var(--ink)}
+.panel:focus,.panel:focus-visible{outline:none}
 .panel > *{opacity:0;translate:0 16px;transition:opacity .3s,translate .3s}
 .menu-open .panel > *{opacity:1;translate:0 0;transition:opacity .6s var(--ease-out),translate .8s var(--ease-out);transition-delay:calc(220ms + var(--i) * 55ms)}
 .panel__nav{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
@@ -374,6 +403,7 @@ body.view-about .reel__ring,body.view-project .reel__ring,body.view-about .reel_
 .sk--brand .kf-ph{animation:none;left:8%;transition:left .9s var(--ease-io)}
 .sk--brand:hover .kf-ph,.sk--brand.is-on .kf-ph{left:92%}
 .ab-sk.is-paused *{animation-play-state:paused!important}
+.sk.sk-reset *{transition:none!important}
 
 .sk-tools{display:flex;flex-direction:column;gap:var(--tgap);padding-top:calc(var(--sec) - var(--tgap))}
 .chips{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
@@ -442,6 +472,31 @@ body.view-about .reel__ring,body.view-project .reel__ring,body.view-about .reel_
 .layers__cap{margin:0;min-height:3em;font-size:16px;line-height:1.5}
 .layers__cap b{font-weight:600}
 @media (max-width:760px){ .layers{grid-template-columns:1fr} .comp{max-width:340px} }
+/* Soft skills sur téléphone : la composition d'abord, collée en haut de l'écran pendant qu'on allume les calques en dessous */
+body.is-mob .layers{display:flex;flex-direction:column;gap:12px}
+body.is-mob .layers__view{order:-1;position:sticky;top:calc(var(--top) + 56px);z-index:2;padding:6px 0 10px;background:var(--bg)}
+body.is-mob .comp{flex:none;min-height:0;max-width:none;width:100%;aspect-ratio:1.5}
+body.is-mob .layers__cap{display:none}
+/* Parcours sur téléphone : frise verticale à la place de la timeline */
+.tlm{display:none}
+body.is-mob .tlm{display:block;padding-top:var(--tgap)}
+body.is-mob #tl,body.is-mob #cv,body.is-mob #pvHead .ab-pv-switch{display:none!important}
+.tlm__list{list-style:none;margin:0;padding:0;position:relative}
+.tlm__list::before{content:"";position:absolute;left:5px;top:8px;bottom:8px;width:1px;background:var(--line-strong)}
+.tlm__it{position:relative;padding:0 0 26px 28px}
+.tlm__it::before{content:"";position:absolute;left:0;top:6px;width:11px;height:11px;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 0 1.5px var(--fg)}
+.tlm__it.is-cur::before,.tlm__now::before{background:var(--fg)}
+.tlm__now::before{animation:antBlink 1.6s steps(2,jump-none) infinite}
+.tlm__y{display:block;margin:0 0 10px;font-size:13px;font-weight:600;letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.tlm__c{display:flex;flex-direction:column;gap:4px;padding:14px 16px 16px;border-radius:14px;background:var(--tint)}
+.tlm__tr{display:flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;opacity:.7}
+.tlm__tr b{padding:2px 6px;border-radius:5px;background:var(--fg);color:var(--bg);font-size:10px;letter-spacing:.04em}
+.tlm__t{margin:4px 0 0;font-size:24px;font-weight:500;letter-spacing:-.035em;line-height:1.05}
+.tlm__p{margin:0;font-size:14px;font-weight:500;line-height:1.35}
+.tlm__d{margin:0;font-size:13px;opacity:.6;font-variant-numeric:tabular-nums}
+.tlm__x{margin:6px 0 0;font-size:15px;line-height:1.5}
+.tlm__now .tlm__c{background:none;padding:0 0 4px}
+.tlm__now .tlm__t{margin:0}
 .soft{list-style:none;margin:0;padding:0;border-top:1px solid var(--line-strong)}
 .soft li{font-size:clamp(18px,1.6vw,24px);letter-spacing:-.02em;padding-block:12px;border-bottom:1px solid var(--line-strong)}
 .ab-reco{padding-top:var(--sec);display:flex;flex-direction:column;gap:var(--tgap)}
@@ -645,6 +700,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .pj-gallery .mid{grid-column:3 / span 8}
 .pj-gallery .lft{grid-column:1 / span 8}
 .pj-gallery .c3{grid-column:3 / span 3}
+body.is-mob .pj-desk{display:none}
 .pj-gallery .c5{grid-column:6 / span 5}
 .pj-text{display:flex;flex-direction:column;gap:16px;align-self:center}
 .pj-next{display:flex;flex-direction:column;gap:12px;align-items:flex-start;padding-block:var(--sec) calc(var(--bottom) + var(--sec));margin-top:var(--sec);border-top:1px solid var(--line-strong);text-align:left;width:100%}
@@ -1317,6 +1373,57 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 }
 @media (prefers-reduced-motion:reduce){.bk__leaf,.bk__book{transition-duration:.01s}}
 
+/* Neuf-seizièmes sur téléphone : le fil façon Reels */
+body.is-mob #pj.has-feed{scroll-snap-type:y proximity}
+.fd{width:100vw;margin-left:calc(50% - 50vw)}
+.fd__hd{display:flex;justify-content:space-between;align-items:baseline;margin:0;padding:0 max(16px,6vw) 10px;font-size:13px;font-weight:500}
+.fd__hd b{font-size:22px;font-weight:600;letter-spacing:-.03em}
+.fd__hd span{opacity:.6}
+.fd__hd i{display:inline-block;font-style:normal;animation:fdDown 1.4s ease-in-out infinite}
+@keyframes fdDown{50%{translate:0 4px}}
+.fd__it{height:100svh;display:flex;align-items:center;justify-content:center;padding:calc(var(--top) + 58px) 0 calc(var(--bottom) + 58px);box-sizing:border-box;scroll-snap-align:center;scroll-snap-stop:always}
+.fd__v{position:relative;height:100%;max-width:100%;aspect-ratio:9/16;border-radius:14px;overflow:hidden;background:#111;color:#f8f3e3}
+.fd__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.fd__v::after{content:"";position:absolute;inset:auto 0 0;height:46%;background:linear-gradient(transparent,rgba(17,17,17,.78));pointer-events:none}
+.fd__play{position:absolute;left:50%;top:50%;z-index:2;translate:-50% -50%;width:68px;height:68px;border-radius:50%;display:grid;place-items:center;background:rgba(248,243,227,.92);color:#252422;transition:scale .3s var(--ease-out)}
+.fd__play svg{width:22px;height:22px;fill:currentColor;translate:2px 0}
+.fd__v:active .fd__play{scale:.92}
+.fd__nb{position:absolute;right:12px;top:12px;z-index:2;padding:4px 9px;border-radius:999px;background:rgba(17,17,17,.5);font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+.fd__side{position:absolute;right:10px;bottom:84px;z-index:2;display:flex;flex-direction:column;gap:16px}
+.fd__side button{display:flex;flex-direction:column;align-items:center;gap:3px;color:inherit;font-size:10.5px;font-weight:600;letter-spacing:.02em}
+.fd__side svg{width:28px;height:28px;filter:drop-shadow(0 1px 4px rgba(0,0,0,.5))}
+.fd__like path{fill:none;stroke:currentColor;stroke-width:1.8;transition:fill .2s}
+.fd__like[aria-pressed="true"] path{fill:currentColor}
+.fd__like.is-pop svg{animation:fdPop .45s var(--ease-out)}
+@keyframes fdPop{40%{scale:1.35}}
+.fd__fs svg{width:22px;height:22px;margin:3px 0}
+.fd__cap{position:absolute;left:14px;right:70px;bottom:16px;z-index:2;display:flex;flex-direction:column;gap:5px}
+.fd__who{display:flex;align-items:center;gap:8px;font-size:14px}
+.fd__av{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#f8f3e3;color:#252422;font-style:normal;font-size:12px;font-weight:700;letter-spacing:-.04em}
+.fd__t{margin:0;font-size:20px;font-weight:600;letter-spacing:-.03em;line-height:1.1}
+.fd__tag{font-size:12px;opacity:.75}
+.fd__v.is-playing .fd__play,.fd__v.is-playing .fd__side,.fd__v.is-playing .fd__cap,.fd__v.is-playing .fd__nb,.fd__v.is-playing::after{display:none}
+.fd__v iframe{position:absolute;inset:0;width:100%;height:100%;border:0;z-index:3}
+
+/* Showreel en construction */
+.sr{display:flex;flex-direction:column;gap:12px;padding:12px;border-radius:18px;background:var(--fg);color:var(--bg)}
+.sr__scr{position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;display:grid;place-items:center;background:repeating-linear-gradient(-45deg,transparent 0 22px,rgba(248,243,227,.05) 22px 44px)}
+.sr__scr::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(248,243,227,.08),transparent);translate:-100% 0;animation:srSweep 3.2s ease-in-out infinite}
+@keyframes srSweep{to{translate:100% 0}}
+.sr__big{margin:0;text-align:center;font-size:clamp(44px,8vw,120px);font-weight:500;letter-spacing:-.06em;line-height:.88}
+.sr__k{position:absolute;left:16px;top:14px;display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.sr__k i{width:8px;height:8px;border-radius:50%;background:currentColor;animation:antBlink 1.4s steps(2,jump-none) infinite}
+.sr__tc{position:absolute;right:16px;bottom:14px;font-size:12px;font-weight:500;font-variant-numeric:tabular-nums;opacity:.7}
+.sr__tl{display:flex;gap:3px;height:22px}
+.sr__tl i{flex:var(--w) 1 0;border-radius:4px;background:var(--bg);opacity:.2;animation:srClip 2.8s ease-in-out infinite;animation-delay:calc(var(--k) * .12s)}
+@keyframes srClip{40%{opacity:.6}}
+.sr__rd{display:flex;align-items:center;gap:14px;font-size:12.5px;font-weight:500;letter-spacing:.02em}
+.sr__bar{position:relative;flex:1;height:4px;border-radius:2px;overflow:hidden}
+.sr__bar::before{content:"";position:absolute;inset:0;background:var(--bg);opacity:.2}
+.sr__bar i{position:absolute;inset:0;background:var(--bg);transform-origin:0 50%;animation:srBar 9s cubic-bezier(.2,.7,.3,1) infinite}
+@keyframes srBar{0%{transform:scaleX(.05)}80%,100%{transform:scaleX(.72)}}
+@media (prefers-reduced-motion:reduce){.sr *,.sr *::after,.sr__scr::after{animation:none!important}}
+
 /* L'affiche à languettes */
 .tr__p{position:relative;aspect-ratio:var(--ar);width:100%;filter:drop-shadow(0 10px 18px rgba(37,36,34,.16))}
 .tr__top,.tr__s,.tr__stub{position:absolute;display:block;padding:0;border:0;margin:0;background-color:transparent;background-image:var(--src);background-repeat:no-repeat}
@@ -1325,6 +1432,7 @@ body.view-project .pj-back{opacity:1;pointer-events:auto;transition-delay:.5s,0s
 .tr__s{z-index:2;cursor:grab;touch-action:none;transform-origin:50% 0;transition:transform .3s cubic-bezier(.3,1.4,.5,1);clip-path:inset(0 1.5px)}
 .tr__s:not(:disabled):hover{transform:translateY(3px) rotate(calc(var(--fr) * 1.2deg))}
 .tr__s.is-pull{transition:none;cursor:grabbing}
+body.is-mob .tr__s{touch-action:pan-y}
 .tr__s:focus-visible{outline:2px solid var(--coal);outline-offset:2px}
 .tr__s.is-torn{clip-path:var(--clip);pointer-events:none;animation:trTake .95s cubic-bezier(.4,0,.7,.4) forwards}
 .tr__s.is-gone{visibility:hidden}
@@ -1493,6 +1601,7 @@ a.vc__th{display:grid}
   .pj-stats{grid-template-columns:1fr}
   .pj-gallery .s8,.pj-gallery .s6,.pj-gallery .s4,.pj-gallery .mid,.pj-gallery .lft,.pj-gallery .c3,.pj-gallery .c5{grid-column:span 12}
   .pj-gallery .c3{justify-self:center;width:62%}
+  .pj-gallery .c3.tr-full{width:100%}
   .pj-back{top:auto;bottom:var(--bottom);height:42px}
   .pj-big{font-size:clamp(44px,13vw,72px)}
 }
@@ -1557,16 +1666,13 @@ a.vc__th{display:grid}
   .menu-btn{top:var(--top);height:40px;padding:0 14px 0 16px;font-size:14px}
   .panel{top:var(--top);padding:74px 22px 22px}
   .pl{font-size:40px}
-  .reel{width:118px;bottom:-52px;left:-30px}
-  .reel__thumb{inset:23px;border-radius:11px}
-  .reel__ring text{font-size:11.5px}
   .sound{width:42px;height:42px}
   .fx-btn{right:calc(var(--right) + 52px);bottom:var(--bottom);height:42px;padding:0 14px 0 16px;font-size:14px}
   .fx{bottom:calc(var(--bottom) + 54px)}
   .tag{bottom:calc(92px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 2 * var(--edge))}
 }
 @media (prefers-reduced-motion:reduce){
-  .grain,.orb__body,.orb__body::after,.reel__ring,.reel__thumb::before,.enter__dot::after,.bars i{animation:none!important}
+  .grain,.orb__body,.orb__body::after,.enter__dot::after,.bars i{animation:none!important}
 }
 </style>
 
@@ -1599,12 +1705,8 @@ a.vc__th{display:grid}
   <span class="menu-btn__labels" id="menuLabels"><span class="mb-l mb-l--menu">menu</span><span class="mb-l mb-l--close" aria-hidden="true">fermer</span></span><span class="menu-btn__dot" aria-hidden="true"></span>
 </button>
 
-<button class="reel ui ui--bottom" id="reel" type="button" aria-label="showreel (bientôt)" style="--d:350ms">
-  <svg class="reel__ring" viewBox="0 0 160 160" aria-hidden="true">
-    <defs><path id="circ" d="M80,80 m-64,0 a64,64 0 1,1 128,0 a64,64 0 1,1 -128,0"/></defs>
-    <text><textPath href="#circ" textLength="400" lengthAdjust="spacing">showreel • 2026 • showreel • 2026 • showreel • 2026 •</textPath></text>
-  </svg>
-  <span class="reel__thumb"><span class="reel__play"></span></span>
+<button class="reel ui ui--bottom" id="reel" type="button" aria-label="showreel 2026 (bientôt)" style="--d:350ms">
+  <span class="reel__ic" aria-hidden="true"><svg viewBox="0 0 12 12"><path d="M3.5 2.2v7.6L10 6z"/></svg></span><span class="reel__t">showreel</span><span class="reel__y">2026</span>
 </button>
 
 <button class="fx-btn ui ui--bottom" id="fxBtn" type="button" aria-expanded="false" aria-controls="fx" style="--d:400ms">
@@ -1630,11 +1732,12 @@ a.vc__th{display:grid}
 
 <!-- Mode liste -->
 <section class="list" id="list" hidden aria-label="liste des projets"><ol class="list__items" id="listItems"></ol></section>
+<section class="mh" id="mh" aria-label="projets"></section>
 <img class="preview" id="preview" alt="" aria-hidden="true">
 
 <!-- Menu -->
 <div class="backdrop" id="backdrop"></div>
-<nav class="panel" id="panel" aria-label="menu principal">
+<nav class="panel" id="panel" aria-label="menu principal" tabindex="-1">
   <ul class="panel__nav" style="--i:0">
     <li><button class="pl" type="button" data-go="works"><span>projets</span><sup id="pjCount">10</sup></button></li>
     <li><button class="pl" type="button" data-go="about"><span>à propos</span></button></li>
@@ -1730,6 +1833,8 @@ a.vc__th{display:grid}
       </div>
       <div id="cvGroups"></div>
     </section>
+
+    <section class="tlm" id="tlm" aria-label="parcours"><ol class="tlm__list" id="tlmList"></ol></section>
 
     <section class="ab-sk" id="abSk" aria-label="compétences">
       <div><h2 class="ab-h">Compétences</h2><p class="ab-note sk-hint">Survolez une ligne pour lancer son animation.</p></div>
@@ -1850,6 +1955,10 @@ a.vc__th{display:grid}
 (() => {
   'use strict';
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* Téléphone : accueil, parcours et certaines pages ont leur propre mise en page (la spirale WebGL n'est alors plus calculée) */
+  const MOB = matchMedia('(max-width: 760px), (max-height: 500px) and (pointer: coarse)');
+  let mobOn = MOB.matches;
+  document.body.classList.toggle('is-mob', mobOn);
   const $ = (s) => document.querySelector(s);
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   const smooth = (a, b, v) => { const t = clamp((v - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
@@ -2334,7 +2443,7 @@ a.vc__th{display:grid}
     }
 
     /* Sur la page à propos, la spirale cesse d'être calculée une fois sortie de l'écran */
-    const asleep = (!state.entered && !warmNow) || (state.view !== 'home' && modeT === 0 && modeA < 0.01);
+    const asleep = mobOn || (!state.entered && !warmNow) || (state.view !== 'home' && modeT === 0 && modeA < 0.01);
     if (webgl && !asleep) {
       const idleOn = !reduce && state.entered && state.view === 'home' && state.mode === 'spiral' && !state.menu && !hovered && !drag && (now - lastInput > IDLE_DELAY);
       for (const k in fx) fxC[k] += (fx[k] - fxC[k]) * damp(0.06, dt);
@@ -2450,7 +2559,8 @@ a.vc__th{display:grid}
   });
   canvas.addEventListener('pointerup', (e) => { if (drag && drag.moved < 8) { px = e.clientX; py = e.clientY; inside = true; } drag = null; });
   canvas.addEventListener('pointerleave', () => { inside = false; if (!drag) setHovered(null); });
-  canvas.addEventListener('click', () => { if (!hovered) return; if (hovered.project.slug) setView('project', hovered.project.slug); else sfx.play('click'); });
+  /* au doigt (tablette), le survol n'existe pas : on cherche la carte touchée au moment du clic */
+  canvas.addEventListener('click', (e) => { const c = hovered || (state.entered && state.view === 'home' && state.mode === 'spiral' && !state.menu ? pick(e.clientX, e.clientY) : null); if (!c) return; if (c.project.slug) setView('project', c.project.slug); else sfx.play('click'); });
 
   window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && state.menu) { setMenu(false); return; }
@@ -2574,6 +2684,31 @@ a.vc__th{display:grid}
     li.appendChild(b); listItems.appendChild(li);
   });
 
+  /* ---------- Accueil sur téléphone : les projets en cartes, l'une sous l'autre ----------
+     Une vraie liste de liens (chaque image se touche), à la place de la spirale. */
+  const mh = $('#mh'), mhEsc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+  mh.innerHTML = `<div class="mh__in"><header class="mh__hd"><p class="mh__eb">graphisme, direction artistique<br>& montage vidéo — Paris</p><h1 class="mh__h">Projets<sup>${PJ_CARDS.length}</sup></h1></header>
+    <ol class="mh__list">${PJ_CARDS.map((p, i) => `<li class="mh__it${p.portrait ? ' is-p' : ''}"><a class="mh__a" href="#${p.slug}" data-slug="${p.slug}">
+      <span class="mh__ph"><img src="${p.img}" alt="" loading="${i < 2 ? 'eager' : 'lazy'}" decoding="async" draggable="false"></span>
+      <span class="mh__tx"><span class="mh__n">${String(i + 1).padStart(2, '0')}</span><span class="mh__t">${mhEsc(p.title)}</span><span class="mh__c">${mhEsc(p.cat)}</span><span class="mh__go" aria-hidden="true">→</span></span></a></li>`).join('')}</ol>
+    <nav class="mh__ft"><a href="#a-propos" data-go="about">À propos <span aria-hidden="true">→</span></a><button type="button" data-go="reel">Showreel 2026 <span aria-hidden="true">→</span></button></nav></div>`;
+  {
+    const its = [...mh.querySelectorAll('.mh__it')];
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((en) => en.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }), { root: mh, threshold: 0, rootMargin: '0px 0px -6% 0px' });
+      its.forEach((li) => io.observe(li));
+    } else its.forEach((li) => li.classList.add('is-in'));
+    mh.addEventListener('click', (e) => {
+      const a = e.target.closest('[data-slug], [data-go]'); if (!a) return;
+      e.preventDefault(); sfx.play('click');
+      if (a.dataset.slug) setView('project', a.dataset.slug); else if (a.dataset.go === 'about') setView('about'); else setView('project', 'showreel');
+    });
+    /* le trait du logo s'étire quand on fait défiler la liste, comme avec la spirale */
+    let y0 = 0; mh.addEventListener('scroll', () => { const y = mh.scrollTop; if (state.view === 'home') logoFeed((y - y0) / 150); y0 = y; }, { passive: true });
+    const sync = () => { mobOn = MOB.matches; document.body.classList.toggle('is-mob', mobOn); if (mobOn && state.mode === 'list') setMode('spiral'); };
+    if (MOB.addEventListener) MOB.addEventListener('change', sync); else MOB.addListener(sync);
+  }
+
   let listHideTimer = 0;
   function setMode(m) {
     if (m === state.mode && !(m === 'list' && list.hidden)) return;
@@ -2616,7 +2751,7 @@ a.vc__th{display:grid}
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(measureMenu);
   window.addEventListener('resize', measureMenu);
 
-  function setMenu(open) {
+  function setMenu(open, kb) {
     if (open === state.menu) return;
     state.menu = open;
     document.body.classList.toggle('menu-open', open);
@@ -2624,10 +2759,11 @@ a.vc__th{display:grid}
     menuBtn.setAttribute('aria-label', open ? 'fermer le menu' : 'ouvrir le menu');
     measureMenu();
     if (open) setTimeout(() => menuClock.open(), 380);
-    if (open) { setFx(false); setHovered(null); setTimeout(() => panel.querySelector('.pl').focus({ preventScroll: true }), 350); }
+    if (open) { setFx(false); setHovered(null); setTimeout(() => (kb ? panel.querySelector('.pl') : panel).focus({ preventScroll: true }), 350); }
     sfx.play(open ? 'open' : 'close');
   }
-  menuBtn.addEventListener('click', () => setMenu(!state.menu));
+  menuBtn.addEventListener('click', (e) => setMenu(!state.menu, e.detail === 0));
+  $('#reel').addEventListener('click', () => { sfx.play('click'); setView('project', 'showreel'); });
   backdrop.addEventListener('click', () => setMenu(false));
 
   panel.querySelectorAll('.pl').forEach((b, i) => {
@@ -2896,6 +3032,21 @@ a.vc__th{display:grid}
     g.append(h, ol); cvGroups.appendChild(g);
   });
 
+  /* Parcours sur téléphone : une frise verticale, du plus récent au plus ancien (les trois pistes deviennent des étiquettes) */
+  {
+    const tEsc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+    const TR = { v2: ['V2', 'pro'], v1: ['V1', 'études'], a1: ['A1', 'lieux'] }, ORD = { v2: 0, v1: 1, a1: 2 };
+    const yr = (m) => 2003 + Math.floor(m / 12);
+    let lastY = null, h = `<li class="tlm__it tlm__now ab-reveal"><span class="tlm__y">aujourd’hui</span><div class="tlm__c"><p class="tlm__t">Affaire à suivre…</p><p class="tlm__x">La suite s’écrit en ce moment.</p></div></li>`;
+    CLIPS.slice().sort((a, b) => b.s - a.s || ORD[a.tr] - ORD[b.tr]).forEach((c, i) => {
+      const y = yr(c.s), showY = y !== lastY; lastY = y;
+      h += `<li class="tlm__it ab-reveal${c.next ? ' is-cur' : ''}" style="--i:${i}">${showY ? `<span class="tlm__y">${y}</span>` : ''}<div class="tlm__c">
+        <span class="tlm__tr"><b>${TR[c.tr][0]}</b>${TR[c.tr][1]}${c.next ? ' · en cours' : ''}</span>
+        <h3 class="tlm__t">${tEsc(c.t)}</h3><p class="tlm__p">${tEsc(c.p)}</p><p class="tlm__d">${tEsc(c.d)}</p>${c.x ? `<p class="tlm__x">${tEsc(c.x)}</p>` : ''}</div></li>`;
+    });
+    $('#tlmList').innerHTML = h;
+  }
+
   /* Bascule animée : les clips se replient vers la gauche, puis les lignes de la liste montent (et l'inverse) */
   let pvMode = 'timeline', pvBusy = false;
   function setPv(m) {
@@ -2939,7 +3090,7 @@ a.vc__th{display:grid}
       }
     }
 
-    if (tl.hidden) return;
+    if (tl.hidden || mobOn) return;
     const stk = tl.firstElementChild, stickyH = stk.offsetHeight, stTop = parseFloat(getComputedStyle(stk).top) || 0;
     const start = tl.offsetTop - stTop, span = tl.offsetHeight - stickyH;
     const prog = clamp((y - start) / Math.max(1, span), 0, 1);
@@ -2980,11 +3131,18 @@ a.vc__th{display:grid}
   if ('IntersectionObserver' in window) {
     new IntersectionObserver((ents) => ents.forEach((en) => skSec.classList.toggle('is-paused', !en.isIntersecting)), { root: about }).observe(skSec);
   }
-  /* Sur écran tactile : toucher une compétence lance son animation */
+  /* Sur écran tactile : chaque animation se lance d'elle-même quand sa ligne passe au milieu de l'écran ; la toucher la rejoue depuis le début */
+  const skTouch = () => mobOn || matchMedia('(hover: none), (pointer: coarse)').matches;
+  const skPlay = (li) => { li.classList.add('sk-reset'); li.classList.remove('is-on'); void li.offsetWidth; li.classList.remove('sk-reset'); requestAnimationFrame(() => requestAnimationFrame(() => li.classList.add('is-on'))); };
   about.querySelectorAll('.sk').forEach((li) => {
-    li.addEventListener('click', () => { if (matchMedia('(hover: none)').matches) li.classList.toggle('is-on'); });
-    li.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); li.classList.toggle('is-on'); } });
+    li.addEventListener('click', () => { if (skTouch()) skPlay(li); });
+    li.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (li.classList.contains('is-on')) li.classList.remove('is-on'); else skPlay(li); } });
   });
+  if (skTouch()) { const hn = skSec.querySelector('.sk-hint'); if (hn) hn.textContent = 'Chaque animation se lance quand sa ligne arrive au milieu de l’écran. Touchez-la pour la rejouer.'; }
+  if ('IntersectionObserver' in window) {
+    const sio = new IntersectionObserver((en) => en.forEach((e) => { if (!skTouch()) return; if (e.isIntersecting) skPlay(e.target); else e.target.classList.remove('is-on'); }), { root: about, rootMargin: '-28% 0px -28% 0px', threshold: 0 });
+    about.querySelectorAll('.sk').forEach((li) => sio.observe(li));
+  }
 
   /* Soft skills : cliquer une ligne affiche son explication ; l'œil masque ou affiche sa forme */
   const SOFT = [
@@ -3293,7 +3451,7 @@ a.vc__th{display:grid}
       /* Petite introduction affichée au-dessus de l'animation */
       lead: [
         "**ParisianVibe** est un média lifestyle sur YouTube qui raconte l’art de vivre parisien : mode, intérieurs, voyages, avec des séries comme In the Bag ou At Home in Paris. Pendant mon alternance, j’ai travaillé avec l’équipe de production sur tout le processus : la préparation des tournages, parfois la prise de vue, et surtout le **montage vidéo**, du dérushage à l’export.",
-        "**Le mini-jeu ci-dessous** vous met à ma place : un épisode d’In the Bag vient d’être dérushé et ses plans sont mélangés. Glissez-les sur la timeline (ou touchez-les un par un) dans l’ordre du récit, lisez la séquence, puis exportez. Le bouton « solution » est là si besoin."
+        { desk: true, t: "**Le mini-jeu ci-dessous** vous met à ma place : un épisode d’In the Bag vient d’être dérushé et ses plans sont mélangés. Glissez-les sur la timeline dans l’ordre du récit, lisez la séquence, puis exportez. Le bouton « solution » est là si besoin." }
       ],
       meta: [['rôle', 'Monteur vidéo'], ['contrat', 'Alternance — 1 an'], ['équipe', 'Équipe de production'], ['dates', 'Déc. 2024 — juil. 2025'], ['lieu', 'Paris']],
       cols: [
@@ -3374,7 +3532,7 @@ a.vc__th{display:grid}
       /* Petite introduction affichée au-dessus des mini-jeux */
       lead: [
         "L’**AFP** (Agence France-Presse) est l’une des trois grandes agences de presse mondiales : ses dépêches, photos et vidéos sont reprises par les médias du monde entier. Pendant mon stage de 4 mois au **service communication**, j’ai conçu des visuels, des affiches et des vidéos pour la communication de l’agence, dont une série sur les Jeux olympiques de Paris 2024.",
-        "**Un mini-jeu pour s’y mettre** : déclinez une photo des Jeux dans les trois formats de l’agence, comme je le faisais pour chaque campagne."
+        { desk: true, t: "**Un mini-jeu pour s’y mettre** : déclinez une photo des Jeux dans les trois formats de l’agence, comme je le faisais pour chaque campagne." }
       ],
       meta: [['rôle', 'Designer graphique'], ['contrat', 'Stage — 4 mois'], ['équipe', 'Service communication'], ['dates', 'Avr. — juil. 2024'], ['lieu', 'Paris']],
       cols: [
@@ -3527,7 +3685,7 @@ a.vc__th{display:grid}
         { bookmark: true, title: 'Le marque-page', intro: 'Au recto, le Cercle des Pêcheurs de l’Austral du Grand Large, un club de pêche chic qui vante la tradition et « l’amour de la mer et de ses richesses ». Au verso, le ton bascule : « La mer ne donne plus rien. » Les codes des boys clubs de pêche, retournés contre eux.', recto: 'img/ss/ss-mp-recto.webp', verso: 'img/ss/ss-mp-verso.webp', ar: '400/1210' },
         /* Fausse publicité de médicament, à languettes : on peut cueillir les languettes ; top = début des languettes,
            cuts = découpes (fractions de la largeur), taken = languettes déjà parties */
-        { tear: true, cls: 'c3', ar: '1000/2259', img: 'img/ss/ss-medicament-s.webp', big: 'img/ss/ss-medicament-l.webp', top: 0.4914, cuts: [0, 0.197, 0.402, 0.609, 0.82, 1], taken: [0, 1, 3], cap: 'L’affiche à languettes : servez-vous' },
+        { tear: true, cls: 'c3 tr-full', ar: '1000/2259', img: 'img/ss/ss-medicament-s.webp', big: 'img/ss/ss-medicament-l.webp', top: 0.4914, cuts: [0, 0.197, 0.402, 0.609, 0.82, 1], taken: [0, 1, 3], cap: 'L’affiche à languettes : servez-vous' },
         { text: true, cls: 'c5', title: 'La fausse pub de médicament', paras: [
           "Une affiche à **languettes**, comme celles qu’on croise sur les poteaux. « Vous en avez assez de ne rien faire ? »",
           "L’**Antarcticine Sea Shepherd 2026** promet le remède parfait contre l’indifférence, avec ses effets secondaires : « incapacité totale à regarder ailleurs ».",
@@ -3628,21 +3786,28 @@ a.vc__th{display:grid}
     },
     'le-corbusier': {
       title: 'Pierre figée', kicker: 'édition · risographie', coverFx: 'book',
-      /* Le carnet : pages img/livre/livre-01 … 16, dans l'ordre de lecture (désimposées) ; mine = mes pages ;
+      /* Le carnet : pages img/livre/livre-01 … 16, dans l'ordre de lecture (désimposées) ;
          riso = les deux couches d'encre de chaque page (séparées à partir des pages), montrées d'emblée sur la page */
-      book: { n: 16, ar: '900/1277', src: (k) => `img/livre/livre-${String(k).padStart(2, '0')}.webp`, riso: (k, c) => `img/riso/riso-${String(k).padStart(2, '0')}-${c}.webp`, mine: [13, 16] },
+      book: { n: 16, ar: '900/1277', src: (k) => `img/livre/livre-${String(k).padStart(2, '0')}.webp`, riso: (k, c) => `img/riso/riso-${String(k).padStart(2, '0')}-${c}.webp` },
       lead: [
         "**Pierre figée** est un carnet de seize pages imprimé en **risographie**, avec deux encres seulement : le **bleu** et le **rose fluo**. Il réunit quatre récits, chacun sur quatre pages : une ouverture, une **double page** et une page de fin.",
-        "La **légende de la Gargouille** de Rouen, la **porcelaine de Sèvres** sous Louis XV, l’épave du **Lancastria** devenue refuge pour la vie marine, et l’architecture de **Le Corbusier**. Un carnet à plusieurs mains : j’ai conçu le dernier récit, sur Le Corbusier."
+        "La **légende de la Gargouille** de Rouen, la **porcelaine de Sèvres** sous Louis XV, l’épave du **Lancastria** devenue refuge pour la vie marine, et l’architecture de **Le Corbusier**."
       ],
-      meta: [['projet', 'Carnet collectif · 16 pages'], ['technique', 'Risographie · bleu et rose fluo'], ['mes pages', 'Le Corbusier · pages 13 à 16'], ['rôle', 'Mise en page et design éditorial']],
+      meta: [['projet', 'Carnet · 16 pages'], ['technique', 'Risographie · bleu et rose fluo'], ['rôle', 'Mise en page et design éditorial']],
       cols: [
         ['Deux encres, un carnet', "Quatre récits très différents, tenus ensemble par la **contrainte** : deux encres, un même format, le même rythme de quatre pages. Les **superpositions** du bleu et du rose créent toutes les autres teintes."],
-        ['Mes pages : Le Corbusier', "Le **plan libre**, puis les **cinq points** de l’architecture moderne en double page. J’ai appliqué à la **mise en page** les règles de l’architecte : une grille tirée du **Modulor**, des lignes qui structurent la page comme des murs porteurs."],
+        ['Une grille d’architecte', "Pour le récit sur **Le Corbusier**, le **plan libre**, puis les **cinq points** de l’architecture moderne en double page : la **mise en page** suit les règles de l’architecte, avec une grille tirée du **Modulor** et des lignes qui structurent la page comme des murs porteurs."],
         ['La risographie', "Une impression couche par couche, avec son **grain**, ses aplats vibrants et ses petits **décalages**. Sur le carnet, chaque page est séparée en **couches** : lancez l’**impression** pour voir comment elle se construit, encre après encre."]
       ],
       stats: [],
       media: []
+    },
+    /* Le showreel : pas encore prêt, la page l'annonce (le bouton « showreel » mène ici) */
+    'showreel': {
+      title: 'Showreel 2026', kicker: 'bientôt', coverFx: 'soon',
+      lead: ["Le **showreel 2026** est **en cours de construction** : je le monte en ce moment, il arrivera **bientôt**. En attendant, les projets sont juste en dessous."],
+      meta: [['statut', 'En cours de montage'], ['sortie', 'Bientôt']],
+      cols: [], stats: [], media: []
     }
   };
   const PJ_ORDER = PJ_CARDS.map((c) => c.slug);
@@ -3721,15 +3886,24 @@ a.vc__th{display:grid}
       return `<div class="ph${m.kind === 'vidéo' ? ' ph--video' : ''}${vert ? ' ph--v' : ''}${m.img ? ' is-zoom' : ''}" style="--ar:${m.ar}${bg}"${src}${zoom}>${im}${label}${m.kind === 'vidéo' ? '<button type="button" class="ph__play" aria-label="lire la vidéo"></button>' : ''}${vert && src ? FS_BTN : ''}</div>`;
     };
     let h = '';
-    h += `<header class="pj-hero"><p class="ab-eyebrow pj-kicker"><b>${String(idx + 1).padStart(2, '0')}</b>${esc(P.kicker)}</p>`;
+    h += `<header class="pj-hero"><p class="ab-eyebrow pj-kicker">${idx >= 0 ? `<b>${String(idx + 1).padStart(2, '0')}</b>` : ''}${esc(P.kicker)}</p>`;
     h += `<h1 class="ab-h">${esc(P.title)}</h1>`;
     h += `<dl class="pj-meta ab-reveal">${P.meta.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`;
-    if (P.lead) [].concat(P.lead).forEach((t) => { h += `<p class="pj-lead ab-reveal">${md(t)}</p>`; });
+    /* un paragraphe { t, desk: true } ne s'affiche que sur ordinateur (il présente un mini-jeu absent du téléphone) */
+    if (P.lead) [].concat(P.lead).forEach((t) => { h += `<p class="pj-lead ab-reveal${t.desk ? ' pj-desk' : ''}">${md(t.t || t)}</p>`; });
     h += `</header>`;
-    h += P.coverFx === 'radio'
+    /* sur téléphone, les mini-jeux (AFP, ParisianVibe) laissent place à une simple image */
+    const noGame = mobOn && (P.coverFx === 'afp' || P.coverFx === 'edit') && card;
+    h += noGame
+      ? `<figure class="pj-media pj-cover is-in" style="margin:var(--tgap) 0 0"><div class="ph" style="--ar:${card.portrait ? '560/739' : '880/549'}"><img class="ph__img" src="${esc(card.img)}" alt="${esc(P.title)}" decoding="async" draggable="false"></div></figure>`
+      : P.coverFx === 'soon'
+      ? `<figure class="pj-media pj-cover is-in fx-soon" style="margin:var(--tgap) 0 0">${SOON_HTML}</figure>`
+      : P.coverFx === 'radio'
       ? `<figure class="pj-media pj-cover is-in fx-radio" style="margin:var(--tgap) 0 0">${RADIO_HTML}</figure>`
       : P.coverFx === 'afp'
       ? `<figure class="pj-media pj-cover is-in fx-afp" style="margin:var(--tgap) 0 0">${AF_HTML()}</figure>`
+      : P.coverFx === 'vend' && mobOn
+      ? `<figure class="pj-media pj-cover is-in fx-feed" style="margin:var(--tgap) 0 0">${FEED_HTML(P)}</figure>`
       : P.coverFx === 'vend'
       ? `<figure class="pj-media pj-cover is-in fx-vend" style="margin:var(--tgap) 0 0">${REELS_HTML(P)}</figure>`
       : P.coverFx === 'wall'
@@ -3809,6 +3983,8 @@ a.vc__th{display:grid}
     pjInner.querySelectorAll('[data-bk]').forEach((el) => initBook(el, P.book));
     pjInner.querySelectorAll('.pj-cover [data-bw]').forEach((el) => initBw(el, P));
     pjInner.querySelectorAll('.pj-cover .vm').forEach(initVm);
+    pjInner.querySelectorAll('.pj-cover [data-fd]').forEach(initFeed);
+    pj.classList.toggle('has-feed', !!pjInner.querySelector('[data-fd]'));
     pjInner.querySelectorAll('.pj-cover .wl-box').forEach(initWall);
     const fxe = pjInner.querySelector('.pj-cover.fx-edit .pr');
     if (fxe) initPr(fxe);
@@ -3830,6 +4006,13 @@ a.vc__th{display:grid}
     el.insertAdjacentHTML('beforeend', media);
     audio.duck(true);
   }
+
+  /* Showreel en construction : un écran de montage, avec un rendu qui avance sans jamais finir */
+  const SOON_HTML = `<div class="sr" role="img" aria-label="Showreel 2026 : en cours de montage">
+      <div class="sr__scr"><span class="sr__k"><i></i>en cours de montage</span><p class="sr__big">Showreel<br>2026</p><span class="sr__tc">durée · à venir</span></div>
+      <div class="sr__tl" aria-hidden="true">${Array.from({ length: 14 }, (_, k) => `<i style="--k:${k};--w:${[3, 5, 2, 4, 6, 3, 2, 5, 4, 3, 6, 2, 4, 3][k]}"></i>`).join('')}</div>
+      <div class="sr__rd"><span>rendu en cours</span><span class="sr__bar"><i></i></span><span>bientôt</span></div>
+    </div>`;
 
   /* Reels en grand : la vidéo verticale à toute la hauteur de l'écran, avec les autres reels de la même rangée (flèches, glisser) */
   const FS_BTN = '<button type="button" class="ph__fs" aria-label="voir en plein écran"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></button>';
@@ -4638,6 +4821,47 @@ a.vc__th{display:grid}
       <p class="vm__hint">Les formats défilent en aperçu. Cliquez sur celui qui vous tente : il se lance.</p>
     </div>`;
   const REELS_HTML = (P) => VM_HTML(P, 1);
+  /* Sur téléphone : un fil façon Reels. Chaque vidéo prend tout l'écran, on passe à la suivante en faisant défiler ;
+     toucher la vidéo la lance (elle s'arrête quand elle sort de l'écran) */
+  const HEART = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-7.5-10.4A4.3 4.3 0 0 1 12 7.4a4.3 4.3 0 0 1 7.5 2.7c0 5.8-7.5 10.4-7.5 10.4Z"/></svg>';
+  const FEED_HTML = (P) => `<div class="fd" data-fd>
+      <p class="fd__hd"><b>Reels</b><span>faites défiler <i aria-hidden="true">↓</i></span></p>
+      ${P.reels.map((r, k) => {
+        const pic = r.poster || (r.yt ? `https://i.ytimg.com/vi/${encodeURIComponent(r.yt)}/oardefault.jpg` : '');
+        const fb = !r.poster && r.yt ? ` data-fb="https://i.ytimg.com/vi/${encodeURIComponent(r.yt)}/hqdefault.jpg" onload="ytFb(this)" onerror="ytFb(this,1)"` : '';
+        return `<section class="fd__it" aria-label="${qa(r.t)}"><div class="fd__v"${r.yt ? ` data-yt="${qa(r.yt)}"` : ''}>
+          ${pic ? `<img class="fd__img" src="${qa(pic)}" alt="" loading="${k ? 'lazy' : 'eager'}" decoding="async" draggable="false"${fb}>` : ''}
+          <button type="button" class="fd__play" aria-label="lire ${qa(r.t)}"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 2.2v7.6L10 6z"/></svg></button>
+          <span class="fd__nb">${k + 1} / ${P.reels.length}</span>
+          <div class="fd__side"><button type="button" class="fd__like" aria-pressed="false" aria-label="j’aime">${HEART}<span>j’aime</span></button>
+            <button type="button" class="fd__fs" aria-label="plein écran"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4" fill="none" stroke="currentColor" stroke-width="1.7"/></svg><span>écran</span></button></div>
+          <div class="fd__cap"><span class="fd__who"><i class="fd__av">av</i><b>Achille Valleur</b></span><p class="fd__t">${esc(r.t)}</p><span class="fd__tag">reel · 9:16${r.d ? ` · ${esc(r.d)}` : ''}</span></div>
+        </div></section>`;
+      }).join('')}
+    </div>`;
+  function initFeed(el) {
+    const stop = (v) => { const f = v.querySelector('iframe'); if (f) { f.remove(); v.classList.remove('is-playing'); audio.duck(false); } };
+    el.querySelectorAll('.fd__v').forEach((v) => {
+      v.addEventListener('click', (e) => {
+        if (e.target.closest('.fd__like')) {
+          const b = e.target.closest('.fd__like'), on = b.getAttribute('aria-pressed') !== 'true';
+          b.setAttribute('aria-pressed', String(on)); b.classList.remove('is-pop'); void b.offsetWidth; if (on) b.classList.add('is-pop');
+          sfx.play(on ? 'complete' : 'off'); return;
+        }
+        if (e.target.closest('.fd__fs')) { stop(v); const all = [...el.querySelectorAll('.fd__v[data-yt]')]; openLightbox(all.map((q) => `<div class="lb__vid" data-yt="${qa(q.dataset.yt)}"></div><p class="lb__t"><b>${esc(q.querySelector('.fd__t').textContent)}</b></p>`), Math.max(0, all.indexOf(v)), 'reel'); return; }
+        if (v.classList.contains('is-playing') || !v.dataset.yt) return;
+        el.querySelectorAll('.fd__v.is-playing').forEach(stop);
+        sfx.play('click'); v.classList.add('is-playing');
+        v.insertAdjacentHTML('beforeend', `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.dataset.yt)}?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="vidéo" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`);
+        audio.duck(true);
+      });
+    });
+    /* une vidéo qui sort de l'écran s'arrête (et libère la mémoire) */
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((en) => en.forEach((e) => { if (!e.isIntersecting) stop(e.target); }), { root: pj, threshold: 0.25 });
+      el.querySelectorAll('.fd__v').forEach((v) => io.observe(v));
+    }
+  }
   function initVm(el) {
     if (el.dataset.vm !== '1' || reduce) return;
     const slots = [...el.querySelectorAll('.vm__slot')];
@@ -4782,18 +5006,18 @@ a.vc__th{display:grid}
     ['2e passage : le rose', 'Puis la feuille repasse avec le rose. Les encres sont **translucides** : là où elles se superposent, le bleu et le rose donnent un **violet profond**. Le grain et les légers décalages entre les passages font le charme de la riso.']
   ];
   const BOOK_HTML = (P) => {
-    const B = P.book, L = B.n / 2, mine = B.mine ? ` <button type="button" data-go="mine">mes pages</button>` : '';
+    const B = P.book, L = B.n / 2;
     let leaves = '';
     for (let k = 0; k < L; k++) {
       const f = 2 * k + 1, b = 2 * k + 2;
-      const face = (pg, cls) => `<div class="bk__f ${cls}${B.mine && pg >= B.mine[0] && pg <= B.mine[1] ? ' is-mine' : ''}"><img data-src="${qa(B.src(pg))}" alt="page ${pg}" decoding="async" draggable="false"></div>`;
+      const face = (pg, cls) => `<div class="bk__f ${cls}"><img data-src="${qa(B.src(pg))}" alt="page ${pg}" decoding="async" draggable="false"></div>`;
       leaves += `<div class="bk__leaf" data-k="${k}" style="z-index:${L - k}">${face(f, 'bk__front')}${face(b, 'bk__back')}</div>`;
     }
     const nav = (cls) => `<div class="bk__nav ${cls}"><button type="button" class="cr__btn" data-d="-1" aria-label="page précédente">←</button><span class="bk__count" aria-live="polite">couverture</span><button type="button" class="cr__btn" data-d="1" aria-label="page suivante">→</button></div>`;
     /* sur la page : chaque page décomposée en couches d'encre ; « feuilleter » ouvre le carnet en grand */
     return `<div class="bk" data-bk tabindex="0" aria-label="le carnet : flèches du clavier pour changer de page">
       <div class="wl-hd"><p class="ag__lbl" style="margin:0"><b>le carnet</b><span>Chaque page, séparée en couches d’encre</span></p>
-        <div class="ab-pv-switch bk__go"><button type="button" data-go="0">couverture</button>${mine ? `<span aria-hidden="true">•</span>${mine}` : ''}</div></div>
+        <div class="ab-pv-switch bk__go"><button type="button" data-go="0">couverture</button><span aria-hidden="true">•</span><button type="button" data-go="end">dernière page</button></div></div>
       <div class="rz"><div class="rz__view"><div class="rz__spread" data-step="1"></div></div>
         <div class="rz__side">
           <ol class="rz__steps">${RZ_STEPS.map(([t], k) => `<li><button type="button" data-s="${k + 1}" aria-pressed="${k === 0}"><b>0${k + 1}</b><span>${esc(t)}</span></button></li>`).join('')}</ol>
@@ -4832,15 +5056,14 @@ a.vc__th{display:grid}
       const stepOn = () => { rzSet(i + 1); const d = D[i]; i++; rzPlay = i < 5 ? setTimeout(stepOn, d) : setTimeout(() => { rzStop(); rzSet(1, true); }, d + 600); };
       stepOn();
     });
-    const isMine = (pg) => B.mine && pg >= B.mine[0] && pg <= B.mine[1];
     const load = () => {
       for (let k = Math.max(0, t - 2); k <= Math.min(L - 1, t + 1); k++) leaves[k].querySelectorAll('img[data-src]').forEach((im) => { im.src = im.dataset.src; im.removeAttribute('data-src'); });
     };
     const label = () => {
       if (t === 0) return 'couverture';
-      if (t === L) return `page ${B.n} · la fin du carnet${isMine(B.n) ? ' · mes pages' : ''}`;
+      if (t === L) return `page ${B.n} · la fin du carnet`;
       const a = 2 * t, b = a + 1;
-      return `pages ${a} – ${b}${isMine(a) || isMine(b) ? ' · mes pages' : ''}`;
+      return `pages ${a} – ${b}`;
     };
     const paint = () => {
       leaves.forEach((lf, k) => { lf.classList.toggle('is-turned', k < t); });
@@ -4876,7 +5099,7 @@ a.vc__th{display:grid}
       clearInterval(queue); turn(lf.classList.contains('is-turned') ? -1 : 1);
     });
     el.querySelectorAll('[data-d]').forEach((b) => b.addEventListener('click', () => { clearInterval(queue); turn(+b.dataset.d); }));
-    el.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => { go(b.dataset.go === 'mine' ? Math.floor((B.mine[0] - 1) / 2) + (B.mine[0] % 2 ? 0 : 1) : +b.dataset.go); }));
+    el.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => { go(b.dataset.go === 'end' ? L : +b.dataset.go); }));
     const keys = (e) => { if (e.key === 'ArrowRight') { e.preventDefault(); clearInterval(queue); turn(1); } else if (e.key === 'ArrowLeft') { e.preventDefault(); clearInterval(queue); turn(-1); } };
     el.addEventListener('keydown', (e) => { if (ov.hidden) keys(e); });
     /* ouvrir en grand : sur grand écran, le carnet à tourner ; sur téléphone, les pages une à une, à faire glisser */
@@ -4885,7 +5108,7 @@ a.vc__th{display:grid}
     el.querySelector('.bk__open').addEventListener('click', () => {
       if (innerWidth < 760) {
         const ar = arNum(B.ar).toFixed(4);
-        openLightbox(Array.from({ length: B.n }, (_, k) => `<img src="${qa(B.src(k + 1))}" alt="" data-ar="${ar}" style="aspect-ratio:${ar}"><p class="lb__t">page ${k + 1}${isMine(k + 1) ? '<small>mes pages</small>' : ''}</p>`), t === 0 ? 0 : t === L ? B.n - 1 : 2 * t - 1);
+        openLightbox(Array.from({ length: B.n }, (_, k) => `<img src="${qa(B.src(k + 1))}" alt="" data-ar="${ar}" style="aspect-ratio:${ar}"><p class="lb__t">page ${k + 1}</p>`), t === 0 ? 0 : t === L ? B.n - 1 : 2 * t - 1);
         return;
       }
       document.body.appendChild(ov); ov.hidden = false; load(); sfx.play('open');
