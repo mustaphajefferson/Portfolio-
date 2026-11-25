@@ -1542,21 +1542,18 @@ body.is-mob .tr__s{touch-action:pan-y}
 .sc__turn::before,.sc__turn::after{content:"";flex:1;height:1px;background:var(--fg)}
 @media (max-width:760px){.sc{grid-column:span 12}.sc__list{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.sc__l{opacity:1;translate:none;transition:none}.sc__turn{opacity:1}}
-/* UMA · la night : la page en charbon, des lumières de club derrière le contenu, le titre en néon */
-.pj.is-night{--bg:var(--coal);--fg:var(--cream);--dim:rgba(248,243,227,.42);--line:rgba(248,243,227,.06);--line-strong:rgba(248,243,227,.16);--tint:rgba(248,243,227,.06);--uma:#e6ff3d;color:var(--fg);background-color:var(--coal)}
-:root.pj-night{--pill:var(--cream);--ink:var(--coal);--ink-dim:rgba(37,36,34,.55);--veil:rgba(37,36,34,.5);--soft:rgba(37,36,34,.07);--soft-strong:rgba(37,36,34,.2);--rule:rgba(37,36,34,.14)}
-.nt{position:sticky;top:0;z-index:-1;height:100vh;height:100dvh;margin-bottom:-100vh;margin-bottom:-100dvh;margin-inline:calc(-1 * max(16px,6vw));pointer-events:none;overflow:hidden;opacity:0;transition:opacity 1.6s .6s}
-.pj.is-night.is-open .nt{opacity:1}
-.nt__l{position:absolute;border-radius:50%;filter:blur(70px);mix-blend-mode:screen;will-change:opacity,transform}
-.nt__l--a{width:46vmax;height:46vmax;right:-14vmax;top:-16vmax;background:radial-gradient(circle,var(--uma) 0,transparent 66%);opacity:.16;animation:ntBeat .5s ease-out infinite,ntDrift 23s ease-in-out infinite alternate}
-.nt__l--b{width:38vmax;height:38vmax;left:-16vmax;bottom:-12vmax;background:radial-gradient(circle,#f8f3e3 0,transparent 66%);opacity:.07;animation:ntBeat 1s ease-out .25s infinite,ntDrift 31s ease-in-out infinite alternate-reverse}
-.nt__l--c{width:22vmax;height:22vmax;left:38%;top:44%;background:radial-gradient(circle,var(--uma) 0,transparent 66%);opacity:0;animation:ntNeon 7.3s steps(1) infinite}
-@keyframes ntBeat{0%{opacity:.3}55%{opacity:.13}100%{opacity:.13}}
-@keyframes ntDrift{to{transform:translate(-9vmax,7vmax) scale(1.12)}}
-@keyframes ntNeon{0%,61%,100%{opacity:0}62%{opacity:.18}63%{opacity:.03}64%{opacity:.2}66%{opacity:.06}67%{opacity:.16}74%{opacity:.16}75%{opacity:0}}
-.pj.is-night .pj-hero .ab-h{text-shadow:0 0 18px color-mix(in srgb,var(--uma) 35%,transparent),0 0 2px rgba(248,243,227,.6);animation:ntSign 9s steps(1) 1.3s infinite}
-@keyframes ntSign{0%{opacity:.25}2%{opacity:1}3%{opacity:.4}4%,88%{opacity:1}89%{opacity:.55}90%,100%{opacity:1}}
-@media (prefers-reduced-motion:reduce){.nt__l,.pj.is-night .pj-hero .ab-h{animation:none}}
+/* UMA · la night : l'horloge de la soirée, et l'heure inscrite sur chaque partie comme sur une photo datée */
+.nt-clock{position:fixed;left:var(--left);bottom:var(--bottom);z-index:12;display:flex;flex-direction:column;gap:6px;min-width:92px;padding:10px 14px 11px;border-radius:14px;background:color-mix(in srgb,var(--nb,#2e2b63) 82%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--cream);pointer-events:none;opacity:0;translate:0 10px;transition:opacity .4s,translate .6s var(--ease-out),color .4s}
+.nt-clock.is-on{opacity:1;translate:0 0;transition-delay:.7s,.7s,0s}
+.nt-clock.is-light{color:var(--coal)}
+.nt-clock__t{font-size:clamp(28px,2.8vw,40px);font-weight:500;letter-spacing:-.04em;line-height:.9;font-variant-numeric:tabular-nums}
+.nt-clock__l{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;opacity:.6}
+.nt-clock__bar{display:block;height:2px;background:color-mix(in srgb,currentColor 22%,transparent)}
+.nt-clock__bar b{display:block;height:100%;background:currentColor;transform-origin:0 50%;transform:scaleX(0)}
+.pj.is-night{color:var(--fg);transition:color .4s}
+.pj-at{align-self:flex-start;font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:13px;font-weight:700;letter-spacing:.08em;color:#ff9a3c;text-shadow:0 0 6px rgba(255,138,40,.55)}
+.pj-at::before{content:"’26  "}
+@media (max-width:760px){.nt-clock{min-width:70px}.nt-clock__t{font-size:24px}.nt-clock__l{display:none}}
 
 /* La Calle m'a dit · le magnétoscope */
 .vh{--vb:#161514;max-width:calc((100svh - 300px) * 1.7778 + 32px);min-width:min(100%,560px);margin-inline:auto;display:flex;flex-direction:column;gap:clamp(10px,1.2vw,16px);padding:clamp(10px,1.2vw,16px);border-radius:18px;background:var(--vb);color:#f8f3e3;user-select:none;-webkit-user-select:none}
@@ -3431,7 +3428,6 @@ a.vc__th{display:grid}
     if (v === state.view && (v !== 'project' || slug === pjCur)) return;
     const prev = state.view;
     state.view = v;
-    document.documentElement.classList.toggle('pj-night', v === 'project' && !!PROJECTS[slug].night);
     document.getElementById('scrollHint').classList.remove('is-on');
     setFx(false); setHovered(null);
     if (prev === 'about' && v !== 'about') closeAbout();
@@ -3737,7 +3733,7 @@ a.vc__th{display:grid}
     },
     'uma': {
       title: 'UMA', kicker: 'campagne de communication', night: true,
-      /* night : la page passe en ambiance de soirée (fond charbon, lumières de club qui battent doucement, titre en néon) */
+      /* night : la page suit une soirée, de 22 h à l'aube ; at: true = la partie porte l'heure, comme une photo datée */
       coverMedia: { kind: 'image', ar: '5318/3545', img: 'img/uma/uma-mockup-affiche-s.webp', big: 'img/uma/uma-mockup-affiche-l.webp', cap: 'L’affiche en situation' },
       /* Petite introduction affichée sous le titre */
       lead: [
@@ -3753,7 +3749,7 @@ a.vc__th{display:grid}
       stats: [],
       media: [
         /* Les 3 affiches (clic = agrandir) */
-        { row: true, title: 'Les affiches', intro: 'Trois affiches, chacune avec son slogan : le message se retient en un coup d’œil, la promesse et la recette se lisent en s’approchant.', kind: 'image', ar: '4/3', items: [
+        { row: true, at: true, title: 'Les affiches', intro: 'Trois affiches, chacune avec son slogan : le message se retient en un coup d’œil, la promesse et la recette se lisent en s’approchant.', kind: 'image', ar: '4/3', items: [
           { img: 'img/uma/uma-affiche-toute-la-night-s.webp', big: 'img/uma/uma-affiche-toute-la-night-l.webp', t: 'Toute la Night.', s: '100 % sensations · 100 % plaisir · 0 % alcool' },
           { img: 'img/uma/uma-affiche-night-en-main-s.webp', big: 'img/uma/uma-affiche-night-en-main-l.webp', t: 'La Night en Main', s: '100 % plaisir · 100 % contrôle · 0 % alcool' },
           { img: 'img/uma/uma-affiche-souvenirs-s.webp', big: 'img/uma/uma-affiche-souvenirs-l.webp', t: 'Les Souvenirs de la Night', s: '100 % partage · 100 % amis · 0 % alcool' }
@@ -3763,12 +3759,12 @@ a.vc__th{display:grid}
           "La marque n’est pas une publicité posée à côté du contenu : elle fait partie du **bon plan**. Le lecteur découvre un endroit où passer la soirée, et la boisson qu’il pourra y commander."
         ] },
         /* La double page Le Bonbon : à plat et en situation */
-        { row: true, title: 'La double page', kind: 'image', ar: '3/2', items: [
+        { row: true, at: true, title: 'La double page', kind: 'image', ar: '3/2', items: [
           { img: 'img/uma/uma-double-page-s.webp', big: 'img/uma/uma-double-page-l.webp', ar: '3180/2249', t: 'Le AfterLife, vu par Thibz', s: 'double page à plat' },
           { img: 'img/uma/uma-mockup-double-page-s.webp', big: 'img/uma/uma-mockup-double-page-l.webp', ar: '5000/3333', t: 'Dans Le Bonbon', s: 'double page en situation' }
         ] },
         /* Carrousel Instagram : une case par slide */
-        { row: true, title: 'Carrousel Instagram', intro: 'Le même univers, slide après slide : des photos de soirée prises sur le vif, et la parole des habitués des bars où l’on trouve UMA.', kind: 'image', ar: '4/5', items: [
+        { row: true, at: true, title: 'Carrousel Instagram', intro: 'Le même univers, slide après slide : des photos de soirée prises sur le vif, et la parole des habitués des bars où l’on trouve UMA.', kind: 'image', ar: '4/5', items: [
           { img: 'img/uma/uma-carrousel-01-s.webp', big: 'img/uma/uma-carrousel-01-l.webp', t: 'Good Times', s: 'slide 1 · couverture' },
           { img: 'img/uma/uma-carrousel-02-s.webp', big: 'img/uma/uma-carrousel-02-l.webp', t: '« Un bon bar… »', s: 'slide 2 · la parole des clients' },
           { img: 'img/uma/uma-carrousel-03-s.webp', big: 'img/uma/uma-carrousel-03-l.webp', t: 'Au cœur du 11ᵉ', s: 'slide 3 · le lieu' },
@@ -3776,7 +3772,7 @@ a.vc__th{display:grid}
         ] },
         /* Motion design (9:16) */
         { kind: 'vidéo', ar: '9/16', cls: 's4', yt: 'q-t60k43hL8', poster: 'img/posters/uma-motion.webp', cap: 'Motion design UMA' },
-        { text: true, cls: 's8', paras: [
+        { text: true, at: true, cls: 's8', paras: [
           "En motion, les **formes** de la marque prennent vie : l’étoile, la vague et le carré s’animent au rythme d’une soirée, et les slogans s’enchaînent comme sur un **beat**.",
           "Un format court et vertical, fait pour les **stories** et les **reels**."
         ] }
@@ -4059,7 +4055,6 @@ a.vc__th{display:grid}
       return `<div class="ph${m.kind === 'vidéo' ? ' ph--video' : ''}${vert ? ' ph--v' : ''}${m.img ? ' is-zoom' : ''}" style="--ar:${m.ar}${bg}"${src}${zoom}>${im}${label}${m.kind === 'vidéo' ? '<button type="button" class="ph__play" aria-label="lire la vidéo"></button>' : ''}${vert && src ? FS_BTN : ''}</div>`;
     };
     let h = '';
-    if (P.night) h += NIGHT_HTML;
     h += `<header class="pj-hero"><p class="ab-eyebrow pj-kicker">${idx >= 0 ? `<b>${String(idx + 1).padStart(2, '0')}</b>` : ''}${esc(P.kicker)}</p>`;
     h += `<h1 class="ab-h">${esc(P.title)}</h1>`;
     h += `<dl class="pj-meta ab-reveal">${P.meta.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`;
@@ -4113,14 +4108,14 @@ a.vc__th{display:grid}
       if (m.tear) return TEAR_HTML(m);
       if (m.bookmark) return BM_HTML(m);
       if (m.monitor) return MO_HTML(m);
-      if (m.text) return `<div class="pj-text ab-reveal ${m.cls}">${m.title ? `<h3 class="cr__h">${esc(m.title)}</h3>` : ''}${m.paras.map((x) => `<p>${md(x)}</p>`).join('')}</div>`;
+      if (m.text) return `<div class="pj-text ab-reveal ${m.cls}">${m.at ? '<span class="pj-at" data-at></span>' : ''}${m.title ? `<h3 class="cr__h">${esc(m.title)}</h3>` : ''}${m.paras.map((x) => `<p>${md(x)}</p>`).join('')}</div>`;
       if (m.carousel) {
         const sl = (it, i, dup) => `<figure class="cr__slide" data-i="${i}" style="--ar:${arNum(it.ar).toFixed(4)}"${dup ? ' aria-hidden="true"' : ''}><div class="cr__img">${crMedia(it, i)}</div><figcaption class="rl"><b>${esc(it.t)}</b>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`;
         return `<div class="cr ab-reveal" data-cr><div class="cr__bar"><div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${md(m.intro)}</p>` : ''}</div><div class="cr__nav"><span class="cr__count" aria-live="polite"></span><button type="button" class="cr__btn" data-dir="-1" aria-label="slide précédente">←</button><button type="button" class="cr__btn" data-dir="1" aria-label="slide suivante">→</button></div></div><div class="cr__view" tabindex="0" aria-label="carrousels : glisser, ou flèches du clavier"><div class="cr__track">${m.items.map((it, i) => sl(it, i)).join('')}${m.items.map((it, i) => sl(it, i, true)).join('')}</div></div><div class="cr__prog" aria-hidden="true"><i></i></div></div>`;
       }
       if (m.row) {
         const its = m.items || Array.from({ length: m.n }, (_, i) => ({ t: `${m.cap} ${String(i + 1).padStart(2, '0')}`, s: 'à remplacer' }));
-        return `<div class="pj-row-wrap ${m.cls || ''}">${m.title ? `<div class="sec-hd"><h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${md(m.intro)}</p>` : ''}</div>` : ''}<div class="pj-row${m.cols ? ' is-grid' : ''}${m.cls === 'is-stagger' ? ' is-stagger' : ''}" style="--n:${m.cols || its.length}${its.some((it) => it.ar) ? `;grid-template-columns:${its.map((it) => { const [a, b] = (it.ar || m.ar).split('/').map(Number); return `minmax(0,${(a / b).toFixed(3)}fr)`; }).join(' ')}` : ''}">${its.map((it) => `<figure class="pj-media">${ph({ ...m, ...it, kind: m.kind, ar: it.ar || m.ar })}<figcaption class="rl"><b>${esc(it.t)}</b><span class="rl__s">${esc(it.s)}</span>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`).join('')}</div></div>`;
+        return `<div class="pj-row-wrap ${m.cls || ''}">${m.title ? `<div class="sec-hd">${m.at ? '<span class="pj-at" data-at></span>' : ''}<h3 class="cr__h">${esc(m.title)}</h3>${m.intro ? `<p class="sec-intro">${md(m.intro)}</p>` : ''}</div>` : ''}<div class="pj-row${m.cols ? ' is-grid' : ''}${m.cls === 'is-stagger' ? ' is-stagger' : ''}" style="--n:${m.cols || its.length}${its.some((it) => it.ar) ? `;grid-template-columns:${its.map((it) => { const [a, b] = (it.ar || m.ar).split('/').map(Number); return `minmax(0,${(a / b).toFixed(3)}fr)`; }).join(' ')}` : ''}">${its.map((it) => `<figure class="pj-media">${ph({ ...m, ...it, kind: m.kind, ar: it.ar || m.ar })}<figcaption class="rl"><b>${esc(it.t)}</b><span class="rl__s">${esc(it.s)}</span>${it.d ? `<span class="rl__d">${esc(it.d)}</span>` : ''}</figcaption></figure>`).join('')}</div></div>`;
       }
       return `<figure class="pj-media ${m.cls}">${ph(m)}<figcaption>${esc(m.cap)}</figcaption></figure>`;
     };
@@ -4168,7 +4163,7 @@ a.vc__th{display:grid}
     pjInner.querySelectorAll('[data-vl]').forEach((el) => initLibrary(el, P.media.find((m) => m.library)));
     pjInner.querySelectorAll('[data-ant]').forEach((el) => initAnt(el));
     pjCur = slug;
-    pj.classList.toggle('is-night', !!P.night);
+    if (P.night) initNight(slug);
   }
 
   /* Carrousel : glisser (souris, doigt ou pavé), flèches, clavier ; onglets pour changer de carrousel.
@@ -4186,9 +4181,57 @@ a.vc__th{display:grid}
   }
 
   /* ---------- La night (UMA) ----------
-     La page passe en mode nuit (les couleurs du site, inversées) ; derrière le contenu, trois lumières de club floues
-     battent au tempo (120 BPM), avec de temps en temps un néon qui grésille. Le titre s'allume comme une enseigne. */
-  const NIGHT_HTML = `<div class="nt" aria-hidden="true"><i class="nt__l nt__l--a"></i><i class="nt__l nt__l--b"></i><i class="nt__l nt__l--c"></i></div>`;
+     Plus on descend dans la page, plus la soirée avance : le fond passe du bleu de 22 h au noir de 2 h, puis aux couleurs de l'aube (6 h 15).
+     Une horloge, en bas à gauche, donne l'heure. Les parties marquées at: true portent, comme une photo datée, l'heure à laquelle on y arrive.
+     Pour activer l'effet sur un projet : night: true ; les couleurs de la nuit sont dans NT_STOPS (0 = 22 h, 1 = 6 h 15). */
+  const NT_STOPS = [[0, '#2e2b63'], [0.22, '#1a1838'], [0.5, '#0c0c16'], [0.72, '#1f1a3d'], [0.84, '#5a3466'], [0.92, '#c46d6a'], [1, '#f6d6b0']];
+  const NT_START = 22 * 60, NT_LEN = 8.25 * 60;
+  let ntRaf = 0, ntEl = null;
+  function initNight(slug) {
+    if (!ntEl) {
+      ntEl = document.createElement('div'); ntEl.className = 'nt-clock'; ntEl.setAttribute('aria-hidden', 'true');
+      ntEl.innerHTML = '<span class="nt-clock__t">22:00</span><span class="nt-clock__l">toute la night</span><i class="nt-clock__bar"><b></b></i>';
+      document.body.appendChild(ntEl);
+    }
+    const tEl = ntEl.querySelector('.nt-clock__t'), bar = ntEl.querySelector('b'), stamps = [...pjInner.querySelectorAll('[data-at]')];
+    const S = NT_STOPS.map(([q, c]) => [q, [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16))]);
+    const col = (q) => { let k = 1; while (k < S.length - 1 && S[k][0] < q) k++; const [q0, a] = S[k - 1], [q1, b] = S[k], f = Math.min(1, Math.max(0, (q - q0) / (q1 - q0))); return a.map((v, i) => Math.round(v + (b[i] - v) * f)); };
+    const lum = (c) => { const [r, g, b] = c.map((v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
+    const hhmm = (q) => { const m = Math.round(NT_START + q * NT_LEN) % 1440; return `${pad2(Math.floor(m / 60))}:${pad2(m % 60)}`; };
+    const KEYS = ['--bg', '--fg', '--dim', '--line', '--line-strong', '--tint'];
+    let p = -1, light = null, lastMax = -1;
+    const off = () => { KEYS.forEach((k) => pj.style.removeProperty(k)); pj.classList.remove('is-night'); ntEl.classList.remove('is-on', 'is-light'); };
+    /* l'heure inscrite sur chaque partie : celle de l'horloge quand la partie arrive aux deux tiers de l'écran */
+    const stampAll = (max) => {
+      const top0 = pj.getBoundingClientRect().top - pj.scrollTop;
+      stamps.forEach((el) => { const y = el.getBoundingClientRect().top - top0 - pj.clientHeight * 0.66; el.textContent = hhmm(max > 0 ? Math.min(1, Math.max(0, y / max)) : 0); });
+    };
+    const frame = () => {
+      if (state.view !== 'project' || pjCur !== slug) { off(); return; }
+      const max = pj.scrollHeight - pj.clientHeight;
+      if (max !== lastMax) { lastMax = max; stampAll(max); }
+      const target = max > 0 ? Math.min(1, Math.max(0, pj.scrollTop / max)) : 0;
+      const np = p < 0 || reduce ? target : p + (target - p) * 0.12;
+      if (Math.abs(np - p) > 0.0003) {
+        p = np;
+        const c = col(p), isLight = lum(c) > 0.2;
+        pj.style.setProperty('--bg', `rgb(${c.join(',')})`); ntEl.style.setProperty('--nb', `rgb(${c.join(',')})`);
+        if (isLight !== light) {
+          light = isLight;
+          const f = isLight ? '37,36,34' : '248,243,227';
+          pj.style.setProperty('--fg', `rgb(${f})`); pj.style.setProperty('--dim', `rgba(${f},${isLight ? 0.42 : 0.5})`);
+          pj.style.setProperty('--line', `rgba(${f},.07)`); pj.style.setProperty('--line-strong', `rgba(${f},.16)`); pj.style.setProperty('--tint', `rgba(${f},.06)`);
+          ntEl.classList.toggle('is-light', isLight);
+        }
+        tEl.textContent = hhmm(p);
+        bar.style.transform = `scaleX(${p.toFixed(4)})`;
+      }
+      ntRaf = requestAnimationFrame(frame);
+    };
+    cancelAnimationFrame(ntRaf);
+    pj.classList.add('is-night'); ntEl.classList.add('is-on');
+    frame();
+  }
 
   /* ---------- Le magnétoscope (La Calle m'a dit) ----------
      La vidéo se regarde comme une VHS : on glisse la cassette dans la fente (clic, ou glisser-déposer) et la lecture démarre.
